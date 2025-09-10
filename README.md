@@ -11,7 +11,7 @@ experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](h
 status](https://www.r-pkg.org/badges/version/abslife)](https://CRAN.R-project.org/package=abslife)
 <!-- badges: end -->
 
-> Under constructon!
+> Under construction!
 
 The goal of abslife is to …
 
