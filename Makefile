@@ -18,7 +18,6 @@ check_cran:
 
 render_readme:
 	Rscript -e "devtools::build_readme()"
-	@rm README.html
 
 build_site:
 	Rscript -e "pkgdown::build_site()"

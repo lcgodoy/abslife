@@ -2,7 +2,7 @@
 ##'
 ##' We should have a brief description here
 ##'
-##' @format #### `aloans`
+##' @format ## `aloans`
 ##' A data frame with 58,118 rows and 7 columns:
 ##' \describe{
 ##'   \item{risk_cat}{Risk category}
