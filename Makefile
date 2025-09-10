@@ -16,8 +16,8 @@ check_cran:
 	R CMD check --as-cran $(PKG_NAME)_*.tar.gz
 	rm -f .$(PKG_NAME)_*.tar.gz
 
-render_md:
-	Rscript -e "rmarkdown::render('README.Rmd', output_format = 'github_document')"
+render_readme:
+	Rscript -e "devtools::build_readme()"
 	@rm README.html
 
 build_site:
@@ -39,15 +39,9 @@ install: docs build
 clean:
 	rm -f ./$(PKG_NAME)_*.tar.gz
 	rm -rf ./$(PKG_NAME).Rcheck
-	# rm -rf man/*.Rd
-	# rm -rf NAMESPACE
 	rm -f *~ R/*~ src/*~
 	rm -f R/*~ src/*~
 	rm -f src/*~
 
 docs:
 	Rscript -e "devtools::document()"
-
-# revdep:
-# 	Rscript -e "revdepcheck::revdep_check(num_workers=3)"
-
