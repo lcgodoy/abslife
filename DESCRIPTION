@@ -11,7 +11,8 @@ Authors@R:
     person(given = "Jackson",
            family = "Lautier",
            email = "jlautier@bentley.edu",
-           role = c("aut"))
+           role = c("aut"),
+           comment = c(ORCID = "0000-0003-0294-0314"))
   )
 Description: What the package does (one paragraph).
 License: <TBD>
