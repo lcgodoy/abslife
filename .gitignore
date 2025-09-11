@@ -16,3 +16,5 @@ auto-save-list
 tramp
 .\#*
 docs
+
+*.tar.gz
