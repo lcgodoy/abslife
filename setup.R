@@ -10,3 +10,9 @@ devtools::build_readme()
 ## website?
 usethis::use_pkgdown()
 usethis::use_pkgdown_github_pages()
+
+## testthat
+usethis::use_test("class_check")
+
+## news
+usethis::use_news_md()

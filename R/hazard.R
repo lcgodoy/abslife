@@ -46,6 +46,8 @@ estimate_hazard <- function(time,
   if (!is.null(censoring)) {
     stopifnot(!is.null(trunc_time))
   }
+  ## avoiding NOTE (look for best practices here)
+  hazard <- se_log_hazard <- NULL
   ## taking censoring into account
   status <- ifelse(status == 1 & censoring == 0, 1, 0)
   ## evaluation points based on the paper
@@ -81,5 +83,6 @@ estimate_hazard <- function(time,
               upper_ci = exp(log(hazard) + 1.96 * se_log_hazard))
   if (return_cdf)
     out <- transform(out, cdf = 1 - cumprod(1 - hazard))
+  out <- new_alife(out)
   return(out)
 }
