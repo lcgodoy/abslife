@@ -10,6 +10,7 @@
 ##' @importFrom graphics polygon lines
 ##' @seealso [estimate_hazard()]
 ##' @return A plot of the hazard rate.
+##' @export
 ##'
 plot.alife <- function(x, col_ci = "skyblue", col_line = "navy", ...) {
   args <- list(...)
