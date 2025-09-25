@@ -1,4 +1,4 @@
 url: http://lcgodoy.me/abslife/
 template:
   bootstrap: 5
-
+  math-rendering: mathjax
