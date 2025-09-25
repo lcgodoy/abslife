@@ -34,6 +34,7 @@
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.0.91" id="abslife-0091">abslife 0.0.91<a class="anchor" aria-label="anchor" href="#abslife-0091"></a></h2>
 <ul><li><p>First draft for the <code>estimate_hazard</code> function. So far, we do not have competing risks implemented.</p></li>
+<li><p><code>calc_tp</code> helper calculates <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>δ</mi><annotation encoding="application/x-tex">\delta</annotation></semantics></math> and <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>m</mi><annotation encoding="application/x-tex">m</annotation></semantics></math> based on left-truncation and time-to-event variables and outputs a sequence ranging from <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>δ</mi><mo>+</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\delta + 1</annotation></semantics></math> to <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>δ</mi><mo>+</mo><mi>m</mi></mrow><annotation encoding="application/x-tex">\delta + m</annotation></semantics></math>.</p></li>
 <li><p>Create a class <code>alife</code> to enable a <code>plot</code> method for the <code>estimate_hazard</code> function output.</p></li>
 </ul></div>
     <div class="section level2">
