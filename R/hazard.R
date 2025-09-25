@@ -1,3 +1,23 @@
+##' Calculate Default Time Points
+##'
+##' This helper function generates a default sequence of evaluation points based
+##' on the study's overall time range (PUT REFERENCE HERE). In particular, it
+##' calculates \eqn{\delta} and \eqn{m} based on left-truncation and
+##' time-to-event variables and outputs a sequence ranging from \eqn{\delta + 1}
+##' to \eqn{\delta + m}.
+##'
+##' @param time The vector of event or censoring times.
+##' @param trunc_time The vector of left-truncation times.
+##'
+##' @return A numeric vector of default time points to evaluate the hazard at.
+##' @export
+calc_tp <- function(time, trunc_time) {
+  delta <- min(c(time, trunc_time), na.rm = TRUE)
+  m <- max(trunc_time, na.rm = TRUE)
+  eval_points <- seq(from = delta + 1, to = delta + m)
+  return(eval_points)
+}
+
 ##' @title Hazard rate
 ##'
 ##' @description Estimate the non-parametric hazard rate for truncated and
@@ -56,7 +76,7 @@ estimate_hazard <- function(time,
   if (is.null(eval_points)) {
     delta <- min(c(time, trunc_time), na.rm = TRUE)
     m <- max(trunc_time, na.rm = TRUE)
-    eval_points <- seq(from = delta + 1, to = delta + m)
+    eval_points <- calc_tp(time, trunc_time)
   }
   results <- sapply(eval_points, function(t) {
     at_risk_idx <- (trunc_time <= t) & (time >= t)
