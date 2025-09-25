@@ -22,7 +22,7 @@ plot.alife <- function(x, col_ci = "skyblue", col_line = "navy", ...) {
       xlim = range(x$time, na.rm = TRUE)
   )
   ## avoiding NOTE (look for best practices here)
-  lower_ci <- upper_ci <- NULL
+  lower_ci <- upper_ci <- time <- hazard <- NULL
   plot_args <- utils::modifyList(defaults, args)
   do.call("plot", c(list(x = x$time, y = x$hazard, type = "n"), plot_args))
   ci_data <- subset(x, !is.na(lower_ci) & !is.na(upper_ci))
@@ -32,5 +32,5 @@ plot.alife <- function(x, col_ci = "skyblue", col_line = "navy", ...) {
       col = col_ci,
       border = NA
   )
-  lines(x$time, x$hazard, col = col_line, lwd = 2)
+  lines(ci_data$time, ci_data$hazard, col = col_line, lwd = 2)
 }
