@@ -21,6 +21,8 @@
 ##' @param return_cdf A `boolean` indicator on whether to return the estimated
 ##'   CDF associated to the hazard rate or not. Default is `TRUE`
 ##'
+##' @export
+##' 
 ##' @return A `data.frame` with the hazard estimate their standard errors and
 ##'   asymptotic confidence intervals.
 ##'
