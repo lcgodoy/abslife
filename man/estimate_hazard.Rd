@@ -5,30 +5,31 @@
 \title{Hazard rate}
 \usage{
 estimate_hazard(
-  time,
+  time_to_event,
   trunc_time = NULL,
-  status = NULL,
+  event_type = NULL,
   censoring = NULL,
-  eval_points = NULL,
+  support_event = NULL,
   return_cdf = TRUE
 )
 }
 \arguments{
-\item{time}{The vector of event or censoring times.}
+\item{time_to_event}{The vector of event or censoring times.}
 
 \item{trunc_time}{The vector of left-truncation times. Defaults to NULL (no
 truncation), which is equivalent to a vector of zeros.}
 
-\item{status}{The event indicator vector (1=event, 0=censored). Defaults to
-NULL (no censoring), which is equivalent to a vector of ones.}
+\item{event_type}{The event indicator vector (1=default,
+0=censored). Defaults to NULL (no censoring), which is equivalent to a
+vector of ones.}
 
 \item{censoring}{An indicator for censoring (1=censored, 0=not). Defaults to
 a vector of 0s if \code{NULL}. An observation is only treated as an event if
 status=1 AND censoring=0.}
 
-\item{eval_points}{A \code{vector} of time points at which to evaluate the
+\item{support_event}{A \code{vector} of time points at which to evaluate the
 hazard.  If \code{NULL} (the default), it is calculated for a sequence from
-\code{delta + 1} to \code{delta + m}.}
+\code{delta + 1} to \verb{??}.}
 
 \item{return_cdf}{A \code{boolean} indicator on whether to return the estimated
 CDF associated to the hazard rate or not. Default is \code{TRUE}}

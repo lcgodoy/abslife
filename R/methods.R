@@ -22,15 +22,17 @@ plot.alife <- function(x, col_ci = "skyblue", col_line = "navy", ...) {
       xlim = range(x$time, na.rm = TRUE)
   )
   ## avoiding NOTE (look for best practices here)
-  lower_ci <- upper_ci <- time <- hazard <- NULL
+  lower_ci <- upper_ci <- time_to_event <- hazard <- NULL
   plot_args <- utils::modifyList(defaults, args)
-  do.call("plot", c(list(x = x$time, y = x$hazard, type = "n"), plot_args))
+  do.call("plot",
+          c(list(x = x$time_to_event, y = x$hazard, type = "n"),
+            plot_args))
   ci_data <- subset(x, !is.na(lower_ci) & !is.na(upper_ci))
   polygon(
-      x = c(ci_data$time, rev(ci_data$time)),
+      x = c(ci_data$time_to_event, rev(ci_data$time_to_event)),
       y = c(ci_data$lower_ci, rev(ci_data$upper_ci)),
       col = col_ci,
       border = NA
   )
-  lines(ci_data$time, ci_data$hazard, col = col_line, lwd = 2)
+  lines(ci_data$time_to_event, ci_data$hazard, col = col_line, lwd = 2)
 }

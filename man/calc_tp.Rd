@@ -4,10 +4,10 @@
 \alias{calc_tp}
 \title{Calculate Default Time Points}
 \usage{
-calc_tp(time, trunc_time)
+calc_tp(time_to_event, trunc_time)
 }
 \arguments{
-\item{time}{The vector of event or censoring times.}
+\item{time_to_event}{The vector of event or censoring times.}
 
 \item{trunc_time}{The vector of left-truncation times.}
 }
@@ -19,5 +19,5 @@ This helper function generates a default sequence of evaluation points based
 on the study's overall time range (PUT REFERENCE HERE). In particular, it
 calculates \eqn{\delta} and \eqn{m} based on left-truncation and
 time-to-event variables and outputs a sequence ranging from \eqn{\delta + 1}
-to \eqn{\delta + m}.
+to ??.
 }

@@ -52,7 +52,6 @@ estimate_hazard <- function(time_to_event,
                             event_type = NULL,
                             censoring = NULL,
                             support_event = NULL,
-                            support_cens = NULL,
                             return_cdf = TRUE) {
   n_obs <- length(time_to_event)
   if (is.null(trunc_time)) {
@@ -83,7 +82,7 @@ estimate_hazard <- function(time_to_event,
     support_event <- calc_tp(time_to_event, trunc_time)
   }
   results <- sapply(support_event, function(t) {
-    at_risk_idx <- (trunc_time <= t) & (time >= t)
+    at_risk_idx <- (trunc_time <= t) & (time_to_event >= t)
     n_at_risk   <- sum(at_risk_idx)
     events_idx  <- (time_to_event == t) & (event_type == 1)
     n_events    <- sum(events_idx)
