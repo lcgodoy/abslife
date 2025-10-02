@@ -41,6 +41,8 @@ calc_tp <- function(time_to_event, trunc_time) {
 ##'   `delta + 1` to `??`.
 ##' @param return_cdf A `boolean` indicator on whether to return the estimated
 ##'   CDF associated to the hazard rate or not. Default is `TRUE`
+##' @param carry_hazard A `boolean` indicator on whether 0 hazard estimates
+##'   should be replaced by the last non-zero estimate. Defaults to `FALSE`
 ##'
 ##' @export
 ##' 
@@ -52,7 +54,8 @@ estimate_hazard <- function(time_to_event,
                             event_type = NULL,
                             censoring = NULL,
                             support_event = NULL,
-                            return_cdf = TRUE) {
+                            return_cdf = TRUE,
+                            carry_hazard = FALSE) {
   n_obs <- length(time_to_event)
   if (is.null(trunc_time)) {
     trunc_time <- rep(0, n_obs)
@@ -102,6 +105,8 @@ estimate_hazard <- function(time_to_event,
     )
   })
   out <- as.data.frame(t(results))
+  if (carry_hazard)
+    out <- fix_0haz(out)
   out <- 
     transform(out,
               lower_ci = exp(log(hazard) - 1.96 * se_log_hazard),

@@ -10,7 +10,8 @@ estimate_hazard(
   event_type = NULL,
   censoring = NULL,
   support_event = NULL,
-  return_cdf = TRUE
+  return_cdf = TRUE,
+  carry_hazard = FALSE
 )
 }
 \arguments{
@@ -33,6 +34,9 @@ hazard.  If \code{NULL} (the default), it is calculated for a sequence from
 
 \item{return_cdf}{A \code{boolean} indicator on whether to return the estimated
 CDF associated to the hazard rate or not. Default is \code{TRUE}}
+
+\item{carry_hazard}{A \code{boolean} indicator on whether 0 hazard estimates
+should be replaced by the last non-zero estimate. Defaults to \code{FALSE}}
 }
 \value{
 A \code{data.frame} with the hazard estimate their standard errors and
