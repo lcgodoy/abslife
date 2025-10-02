@@ -2,8 +2,8 @@
 ##'
 ##' This helper function generates a default sequence of evaluation points based
 ##' on the study's overall time range (PUT REFERENCE HERE). In particular, it
-##' calculates \eqn{\delta} and \eqn{m} based on left-truncation and
-##' time-to-event variables and outputs a sequence ranging from \eqn{\delta + 1}
+##' calculates \eqn{\Delta} and \eqn{m} based on left-truncation and
+##' time-to-event variables and outputs a sequence ranging from \eqn{\Delta + 1}
 ##' to ??.
 ##'
 ##' @param time_to_event The vector of event or censoring times.
@@ -27,18 +27,19 @@ calc_tp <- function(time_to_event, trunc_time) {
 ##'   based on <REFERENCES> (We can also include some brief notation/definitions
 ##'   here)
 ##' 
-##' @param time_to_event The vector of event or censoring times.
-##' @param trunc_time The vector of left-truncation times. Defaults to NULL (no
-##'   truncation), which is equivalent to a vector of zeros.
+##' @param time_to_event A numeric vector representing the observed time to
+##'   event.
+##' @param trunc_time A numeric vector representing the observed left-truncated
+##'   time.
 ##' @param event_type The event indicator vector (1=default,
 ##'   0=censored). Defaults to NULL (no censoring), which is equivalent to a
 ##'   vector of ones.
 ##' @param censoring An indicator for censoring (1=censored, 0=not). Defaults to
 ##'   a vector of 0s if `NULL`. An observation is only treated as an event if
 ##'   status=1 AND censoring=0.
-##' @param support_event A `vector` of time points at which to evaluate the
-##'   hazard.  If `NULL` (the default), it is calculated for a sequence from
-##'   `delta + 1` to `??`.
+##' @param support_lifetime_rv A `vector` of time points at which to evaluate
+##'   the hazard.  If `NULL` (the default), it is calculated for a sequence from
+##'   `Delta + 1` to `omega` (thattis, `max(time_to_event)`).
 ##' @param return_cdf A `boolean` indicator on whether to return the estimated
 ##'   CDF associated to the hazard rate or not. Default is `TRUE`
 ##' @param carry_hazard A `boolean` indicator on whether 0 hazard estimates
@@ -53,7 +54,7 @@ estimate_hazard <- function(time_to_event,
                             trunc_time = NULL,
                             event_type = NULL,
                             censoring = NULL,
-                            support_event = NULL,
+                            support_lifetime_rv = NULL,
                             return_cdf = TRUE,
                             carry_hazard = FALSE) {
   n_obs <- length(time_to_event)
@@ -78,13 +79,13 @@ estimate_hazard <- function(time_to_event,
   ## taking censoring into account
   event_type <- ifelse(event_type == 1 & censoring == 0, 1, 0)
   ## evaluation points based on the paper
-  if (is.null(support_event)) {
-    delta <- min(c(time_to_event, trunc_time), na.rm = TRUE)
+  if (is.null(support_lifetime_rv)) {
+    Delta <- min(c(time_to_event, trunc_time), na.rm = TRUE)
     m <- max(trunc_time, na.rm = TRUE)
     omega <- max(time_to_event)
-    support_event <- calc_tp(time_to_event, trunc_time)
+    support_lifetime_rv <- calc_tp(time_to_event, trunc_time)
   }
-  results <- sapply(support_event, function(t) {
+  results <- sapply(support_lifetime_rv, function(t) {
     at_risk_idx <- (trunc_time <= t) & (time_to_event >= t)
     n_at_risk   <- sum(at_risk_idx)
     events_idx  <- (time_to_event == t) & (event_type == 1)
