@@ -7,7 +7,7 @@
 ##' @param ... Additional arguments passed to the base `plot` function (e.g.,
 ##'   `main`, `xlab`, `ylab`, `ylim`).
 ##'
-##' @importFrom graphics polygon lines abline
+##' @importFrom graphics polygon lines
 ##' @seealso [estimate_hazard()]
 ##' @return A plot of the hazard rate.
 ##' @export
