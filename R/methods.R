@@ -24,8 +24,6 @@ plot.alife <- function(x, col_ci = "skyblue", col_line = "navy", ...) {
   ## avoiding NOTE (look for best practices here)
   lower_ci <- upper_ci <- time_to_event <- hazard <- trunc_time <- NULL
   plot_args <- utils::modifyList(defaults, args)
-  delta <- min(c(x$time_to_event, x$trunc_time), na.rm = TRUE)
-  m <- max(x$trunc_time, na.rm = TRUE)
   do.call("plot",
           c(list(x = x$time_to_event, y = x$hazard, type = "n"),
             plot_args))
@@ -37,5 +35,4 @@ plot.alife <- function(x, col_ci = "skyblue", col_line = "navy", ...) {
       border = NA
   )
   lines(ci_data$time_to_event, ci_data$hazard, col = col_line, lwd = 2)
-  abline(v = m + delta, lty = 2)
 }
