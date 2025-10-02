@@ -9,6 +9,8 @@
   
 * Create a class `alife` to enable a `plot` method for the `estimate_hazard`
   function output.
+  
+* Function to carry hazard estimates forward when a "zero hazard" is observed.
 
 # abslife 0.0.9
 
