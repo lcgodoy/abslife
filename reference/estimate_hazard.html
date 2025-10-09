@@ -50,8 +50,9 @@ censored data</p>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">estimate_hazard</span><span class="op">(</span></span>
 <span>  <span class="va">time_to_event</span>,</span>
 <span>  trunc_time <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  event_type <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  event <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  censoring <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  event_type <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  support_lifetime_rv <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  return_cdf <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  carry_hazard <span class="op">=</span> <span class="cn">FALSE</span>,</span>
@@ -73,16 +74,19 @@ event.</p></dd>
 time.</p></dd>
 
 
-<dt id="arg-event-type">event_type<a class="anchor" aria-label="anchor" href="#arg-event-type"></a></dt>
-<dd><p>The event indicator vector (1=default,
-0=censored). Defaults to NULL (no censoring), which is equivalent to a
-vector of ones.</p></dd>
+<dt id="arg-event">event<a class="anchor" aria-label="anchor" href="#arg-event"></a></dt>
+<dd><p>The event indicator vector (1=default, 0=censored). Defaults to
+NULL (no censoring), which is equivalent to a vector of ones.</p></dd>
 
 
 <dt id="arg-censoring">censoring<a class="anchor" aria-label="anchor" href="#arg-censoring"></a></dt>
 <dd><p>An indicator for censoring (1=censored, 0=not). Defaults to
 a vector of 0s if <code>NULL</code>. An observation is only treated as an event if
 status=1 AND censoring=0.</p></dd>
+
+
+<dt id="arg-event-type">event_type<a class="anchor" aria-label="anchor" href="#arg-event-type"></a></dt>
+<dd><p>a vector of "events identifies" (experimental)</p></dd>
 
 
 <dt id="arg-support-lifetime-rv">support_lifetime_rv<a class="anchor" aria-label="anchor" href="#arg-support-lifetime-rv"></a></dt>
