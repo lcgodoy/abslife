@@ -18,6 +18,40 @@ calc_tp <- function(time_to_event, trunc_time) {
   return(eval_points)
 }
 
+##' @title Hazard estimate for a single time-point.
+##'
+##' @description Internal use.
+##' 
+##' @param t A time point at which hazard estimates are sought.
+##' @inheritParams estimate_hazard
+##' @return A vector containing the time to event, \eqn{\hat{C}_n}, the number
+##'   of events, and the hazard estimate along with its standard error.
+##' @author lcgodoy
+single_t_hazard <- function(t,
+                            trunc_time,
+                            time_to_event,
+                            event) {
+  at_risk_idx <- (trunc_time <= t) & (time_to_event >= t)
+  c_n         <- mean(at_risk_idx)
+  n_at_risk   <- sum(at_risk_idx)
+  events_idx  <- (time_to_event == t) & (event == 1)
+  n_events    <- sum(events_idx)
+  if (n_at_risk == 0) {
+    hazard <- 0
+    var_log_h <- NA
+  } else {
+    hazard <- n_events / n_at_risk
+    var_log_h <- ifelse(n_events > 0, (1 - hazard) / n_events, NA)
+  }
+  c(
+      time_to_event = t,
+      c_n = c_n,
+      n_event = n_events,
+      hazard = hazard,
+      se_log_hazard = sqrt(var_log_h)
+  )
+}
+
 ##' @title Hazard rate
 ##'
 ##' @description Estimate the non-parametric hazard rate for truncated and
@@ -31,12 +65,12 @@ calc_tp <- function(time_to_event, trunc_time) {
 ##'   event.
 ##' @param trunc_time A numeric vector representing the observed left-truncated
 ##'   time.
-##' @param event_type The event indicator vector (1=default,
-##'   0=censored). Defaults to NULL (no censoring), which is equivalent to a
-##'   vector of ones.
+##' @param event The event indicator vector (1=default, 0=censored). Defaults to
+##'   NULL (no censoring), which is equivalent to a vector of ones.
 ##' @param censoring An indicator for censoring (1=censored, 0=not). Defaults to
 ##'   a vector of 0s if `NULL`. An observation is only treated as an event if
 ##'   status=1 AND censoring=0.
+##' @param event_type a vector of "events identifies" (experimental)
 ##' @param support_lifetime_rv A `vector` of time points at which to evaluate
 ##'   the hazard.  If `NULL` (the default), it is calculated for a sequence from
 ##'   `Delta + 1` to `omega` (that is, `max(time_to_event)`).
@@ -54,8 +88,9 @@ calc_tp <- function(time_to_event, trunc_time) {
 ##'
 estimate_hazard <- function(time_to_event,
                             trunc_time = NULL,
-                            event_type = NULL,
+                            event = NULL,
                             censoring = NULL,
+                            event_type = NULL,
                             support_lifetime_rv = NULL,
                             return_cdf = TRUE,
                             carry_hazard = FALSE,
@@ -64,8 +99,8 @@ estimate_hazard <- function(time_to_event,
   if (is.null(trunc_time)) {
     trunc_time <- rep(0, n_obs)
   }
-  if (is.null(event_type)) {
-    event_type <- rep(1, n_obs)
+  if (is.null(event)) {
+    event <- rep(1, n_obs)
   }
   if (is.null(censoring)) {
     censoring <- rep(0, n_obs)
@@ -80,7 +115,7 @@ estimate_hazard <- function(time_to_event,
   ## avoiding NOTE (look for best practices here)
   hazard <- se_log_hazard <- NULL
   ## taking censoring into account
-  event_type <- ifelse(event_type == 1 & censoring == 0, 1, 0)
+  event <- ifelse(event == 1 & censoring == 0, 1, 0)
   ## evaluation points based on the paper
   if (is.null(support_lifetime_rv)) {
     Delta <- min(c(time_to_event, trunc_time), na.rm = TRUE)
@@ -88,27 +123,10 @@ estimate_hazard <- function(time_to_event,
     omega <- max(time_to_event)
     support_lifetime_rv <- calc_tp(time_to_event, trunc_time)
   }
-  results <- sapply(support_lifetime_rv, function(t) {
-    at_risk_idx <- (trunc_time <= t) & (time_to_event >= t)
-    c_n         <- mean(at_risk_idx)
-    n_at_risk   <- sum(at_risk_idx)
-    events_idx  <- (time_to_event == t) & (event_type == 1)
-    n_events    <- sum(events_idx)
-    if (n_at_risk == 0) {
-      hazard <- 0
-      var_log_h <- NA
-    } else {
-      hazard <- n_events / n_at_risk
-      var_log_h <- ifelse(n_events > 0, (1 - hazard) / n_events, NA)
-    }
-    c(
-        time_to_event = t,
-        c_n = c_n,
-        n_event = n_events,
-        hazard = hazard,
-        se_log_hazard = sqrt(var_log_h)
-    )
-  })
+  results <- sapply(support_lifetime_rv, single_t_hazard,
+                    trunc_time = trunc_time,
+                    time_to_event = time_to_event,
+                    event = event)
   out <- as.data.frame(t(results))
   if (carry_hazard)
     out <- fix_0haz(out)

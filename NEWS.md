@@ -1,5 +1,9 @@
 # abslife 0.0.91
 
+* `single_t_hazard` internal function created. It is meant to make the code
+  easier to debug by expliting the big `estimate_hazard` function into
+  self-contained chunks.
+
 * `ci_level` now is a parameter of the `estimate_hazard` function.
 
 * First draft for the `estimate_hazard` function. So far, we do not have
