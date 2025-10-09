@@ -10,10 +10,12 @@
 ##' @keywords internal
 validate_alife <- function(x) {
   stopifnot(is.data.frame(x))
-  my_cols <- c("time_to_event", "c_n", "n_event",
+  my_cols <- c("event_type",
+               "time_to_event", "c_n", "n_event",
                "hazard", "se_log_hazard",
-               "lower_ci", "upper_ci")
-  stopifnot(all(my_cols %in% colnames(x)))
+               "lower_ci", "upper_ci",
+               "cdf")
+  stopifnot(all(colnames(x) %in% my_cols))
 }
 
 ##' Create an alife Object

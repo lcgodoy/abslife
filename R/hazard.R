@@ -123,13 +123,43 @@ estimate_hazard <- function(time_to_event,
     omega <- max(time_to_event)
     support_lifetime_rv <- calc_tp(time_to_event, trunc_time)
   }
-  results <- sapply(support_lifetime_rv, single_t_hazard,
-                    trunc_time = trunc_time,
-                    time_to_event = time_to_event,
-                    event = event)
-  out <- as.data.frame(t(results))
-  if (carry_hazard)
-    out <- fix_0haz(out)
+  etype_check <- ifelse(is.null(event_type), NA,
+                 ifelse(length(unique(event_type)) == 1,
+                        NA, event_type))
+  if (is.na(etype_check)) {
+    results <- sapply(support_lifetime_rv, single_t_hazard,
+                      trunc_time = trunc_time,
+                      time_to_event = time_to_event,
+                      event = event)
+    out <- as.data.frame(t(results))
+    if (carry_hazard)
+      out <- fix_0haz(out)
+  } else {
+    vars <- split(
+        data.frame(trunc_time = trunc_time,
+                   time_to_event = time_to_event,
+                   event = event,
+                   event_type = event_type),
+        event_type
+    )
+    out <-
+      lapply(vars,
+             \(vars_df) {
+               results <- sapply(support_lifetime_rv,
+                                 single_t_hazard,
+                                 trunc_time = vars_df[["trunc_time"]],
+                                 time_to_event = vars_df[["time_to_event"]],
+                                 event = vars_df[["event"]])
+               ret_ <-
+                 cbind.data.frame(event_type = unique(vars_df[["event_type"]]),
+                                  as.data.frame(t(results)))
+               if (carry_hazard)
+                 ret_ <- fix_0haz(ret_)
+               return(ret_)
+             })
+    out <- do.call(rbind, out)
+    rownames(out) <- NULL
+  }
   upper_tail <- 1 - .5 * (1 - ci_level)
   z <- stats::qnorm(upper_tail)
   out <- 

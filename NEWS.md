@@ -1,5 +1,8 @@
 # abslife 0.0.91
 
+* `event_type` parameter in the `estimate_hazard` function now deals with
+  competing risks.
+
 * `single_t_hazard` internal function created. It is meant to make the code
   easier to debug by expliting the big `estimate_hazard` function into
   self-contained chunks.
