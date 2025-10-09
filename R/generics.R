@@ -10,7 +10,7 @@
 ##' @keywords internal
 validate_alife <- function(x) {
   stopifnot(is.data.frame(x))
-  my_cols <- c("time_to_event", "n_risk", "n_event",
+  my_cols <- c("time_to_event", "c_n", "n_event",
                "hazard", "se_log_hazard",
                "lower_ci", "upper_ci")
   stopifnot(all(my_cols %in% colnames(x)))
@@ -28,7 +28,7 @@ validate_alife <- function(x) {
 ##' @export
 ##' @examples
 ##' # Create a minimal data frame with the required columns
-##' df <- data.frame(time_to_event = 1:2, n_risk = c(10, 8), n_event = c(1, 1),
+##' df <- data.frame(time_to_event = 1:2, c_n = c(10, 8), n_event = c(1, 1),
 ##'                  hazard = c(0.1, 0.125), se_log_hazard = c(0.1, 0.1),
 ##'                  lower_ci = c(0.08, 0.1), upper_ci = c(0.12, 0.15))
 ##'

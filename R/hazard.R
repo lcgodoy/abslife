@@ -39,11 +39,13 @@ calc_tp <- function(time_to_event, trunc_time) {
 ##'   status=1 AND censoring=0.
 ##' @param support_lifetime_rv A `vector` of time points at which to evaluate
 ##'   the hazard.  If `NULL` (the default), it is calculated for a sequence from
-##'   `Delta + 1` to `omega` (thattis, `max(time_to_event)`).
+##'   `Delta + 1` to `omega` (that is, `max(time_to_event)`).
 ##' @param return_cdf A `boolean` indicator on whether to return the estimated
 ##'   CDF associated to the hazard rate or not. Default is `TRUE`
 ##' @param carry_hazard A `boolean` indicator on whether 0 hazard estimates
 ##'   should be replaced by the last non-zero estimate. Defaults to `FALSE`
+##' @param ci_level A number between 0 and 1 indicating the level of the
+##'   confidence intervals.
 ##'
 ##' @export
 ##' 
@@ -56,7 +58,8 @@ estimate_hazard <- function(time_to_event,
                             censoring = NULL,
                             support_lifetime_rv = NULL,
                             return_cdf = TRUE,
-                            carry_hazard = FALSE) {
+                            carry_hazard = FALSE,
+                            ci_level = .95) {
   n_obs <- length(time_to_event)
   if (is.null(trunc_time)) {
     trunc_time <- rep(0, n_obs)
@@ -87,6 +90,7 @@ estimate_hazard <- function(time_to_event,
   }
   results <- sapply(support_lifetime_rv, function(t) {
     at_risk_idx <- (trunc_time <= t) & (time_to_event >= t)
+    c_n         <- mean(at_risk_idx)
     n_at_risk   <- sum(at_risk_idx)
     events_idx  <- (time_to_event == t) & (event_type == 1)
     n_events    <- sum(events_idx)
@@ -99,7 +103,7 @@ estimate_hazard <- function(time_to_event,
     }
     c(
         time_to_event = t,
-        n_risk = n_at_risk,
+        c_n = c_n,
         n_event = n_events,
         hazard = hazard,
         se_log_hazard = sqrt(var_log_h)
@@ -108,10 +112,12 @@ estimate_hazard <- function(time_to_event,
   out <- as.data.frame(t(results))
   if (carry_hazard)
     out <- fix_0haz(out)
+  upper_tail <- 1 - .5 * (1 - ci_level)
+  z <- stats::qnorm(upper_tail)
   out <- 
     transform(out,
-              lower_ci = exp(log(hazard) - 1.96 * se_log_hazard),
-              upper_ci = exp(log(hazard) + 1.96 * se_log_hazard))
+              lower_ci = exp(log(hazard) - z * se_log_hazard),
+              upper_ci = exp(log(hazard) + z * se_log_hazard))
   if (return_cdf)
     out <- transform(out, cdf = 1 - cumprod(1 - hazard))
   out <- new_alife(out)

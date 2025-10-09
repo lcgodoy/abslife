@@ -9,16 +9,18 @@ estimate_hazard(
   trunc_time = NULL,
   event_type = NULL,
   censoring = NULL,
-  support_event = NULL,
+  support_lifetime_rv = NULL,
   return_cdf = TRUE,
-  carry_hazard = FALSE
+  carry_hazard = FALSE,
+  ci_level = 0.95
 )
 }
 \arguments{
-\item{time_to_event}{The vector of event or censoring times.}
+\item{time_to_event}{A numeric vector representing the observed time to
+event.}
 
-\item{trunc_time}{The vector of left-truncation times. Defaults to NULL (no
-truncation), which is equivalent to a vector of zeros.}
+\item{trunc_time}{A numeric vector representing the observed left-truncated
+time.}
 
 \item{event_type}{The event indicator vector (1=default,
 0=censored). Defaults to NULL (no censoring), which is equivalent to a
@@ -28,15 +30,18 @@ vector of ones.}
 a vector of 0s if \code{NULL}. An observation is only treated as an event if
 status=1 AND censoring=0.}
 
-\item{support_event}{A \code{vector} of time points at which to evaluate the
-hazard.  If \code{NULL} (the default), it is calculated for a sequence from
-\code{delta + 1} to \verb{??}.}
+\item{support_lifetime_rv}{A \code{vector} of time points at which to evaluate
+the hazard.  If \code{NULL} (the default), it is calculated for a sequence from
+\code{Delta + 1} to \code{omega} (that is, \code{max(time_to_event)}).}
 
 \item{return_cdf}{A \code{boolean} indicator on whether to return the estimated
 CDF associated to the hazard rate or not. Default is \code{TRUE}}
 
 \item{carry_hazard}{A \code{boolean} indicator on whether 0 hazard estimates
 should be replaced by the last non-zero estimate. Defaults to \code{FALSE}}
+
+\item{ci_level}{A number between 0 and 1 indicating the level of the
+confidence intervals.}
 }
 \value{
 A \code{data.frame} with the hazard estimate their standard errors and
