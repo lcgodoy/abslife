@@ -52,9 +52,10 @@ censored data</p>
 <span>  trunc_time <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  event_type <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  censoring <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  support_event <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  support_lifetime_rv <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  return_cdf <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  carry_hazard <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span>  carry_hazard <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  ci_level <span class="op">=</span> <span class="fl">0.95</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -63,12 +64,13 @@ censored data</p>
 
 
 <dl><dt id="arg-time-to-event">time_to_event<a class="anchor" aria-label="anchor" href="#arg-time-to-event"></a></dt>
-<dd><p>The vector of event or censoring times.</p></dd>
+<dd><p>A numeric vector representing the observed time to
+event.</p></dd>
 
 
 <dt id="arg-trunc-time">trunc_time<a class="anchor" aria-label="anchor" href="#arg-trunc-time"></a></dt>
-<dd><p>The vector of left-truncation times. Defaults to NULL (no
-truncation), which is equivalent to a vector of zeros.</p></dd>
+<dd><p>A numeric vector representing the observed left-truncated
+time.</p></dd>
 
 
 <dt id="arg-event-type">event_type<a class="anchor" aria-label="anchor" href="#arg-event-type"></a></dt>
@@ -83,10 +85,10 @@ a vector of 0s if <code>NULL</code>. An observation is only treated as an event 
 status=1 AND censoring=0.</p></dd>
 
 
-<dt id="arg-support-event">support_event<a class="anchor" aria-label="anchor" href="#arg-support-event"></a></dt>
-<dd><p>A <code>vector</code> of time points at which to evaluate the
-hazard.  If <code>NULL</code> (the default), it is calculated for a sequence from
-<code>delta + 1</code> to <code>??</code>.</p></dd>
+<dt id="arg-support-lifetime-rv">support_lifetime_rv<a class="anchor" aria-label="anchor" href="#arg-support-lifetime-rv"></a></dt>
+<dd><p>A <code>vector</code> of time points at which to evaluate
+the hazard.  If <code>NULL</code> (the default), it is calculated for a sequence from
+<code>Delta + 1</code> to <code>omega</code> (that is, <code>max(time_to_event)</code>).</p></dd>
 
 
 <dt id="arg-return-cdf">return_cdf<a class="anchor" aria-label="anchor" href="#arg-return-cdf"></a></dt>
@@ -97,6 +99,11 @@ CDF associated to the hazard rate or not. Default is <code>TRUE</code></p></dd>
 <dt id="arg-carry-hazard">carry_hazard<a class="anchor" aria-label="anchor" href="#arg-carry-hazard"></a></dt>
 <dd><p>A <code>boolean</code> indicator on whether 0 hazard estimates
 should be replaced by the last non-zero estimate. Defaults to <code>FALSE</code></p></dd>
+
+
+<dt id="arg-ci-level">ci_level<a class="anchor" aria-label="anchor" href="#arg-ci-level"></a></dt>
+<dd><p>A number between 0 and 1 indicating the level of the
+confidence intervals.</p></dd>
 
 </dl></div>
     <div class="section level2">
