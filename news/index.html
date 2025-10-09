@@ -39,7 +39,8 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.0.91" id="abslife-0091">abslife 0.0.91<a class="anchor" aria-label="anchor" href="#abslife-0091"></a></h2>
-<ul><li><p><code>single_t_hazard</code> internal function created. It is meant to make the code easier to debug by expliting the big <code>estimate_hazard</code> function into self-contained chunks.</p></li>
+<ul><li><p><code>event_type</code> parameter in the <code>estimate_hazard</code> function now deals with competing risks.</p></li>
+<li><p><code>single_t_hazard</code> internal function created. It is meant to make the code easier to debug by expliting the big <code>estimate_hazard</code> function into self-contained chunks.</p></li>
 <li><p><code>ci_level</code> now is a parameter of the <code>estimate_hazard</code> function.</p></li>
 <li><p>First draft for the <code>estimate_hazard</code> function. So far, we do not have competing risks implemented.</p></li>
 <li><p><code>calc_tp</code> helper calculates <span class="math inline">\(\Delta\)</span> and <span class="math inline">\(m\)</span> based on left-truncation and time-to-event variables and outputs a sequence ranging from <span class="math inline">\(\Delta + 1\)</span> to <span class="math inline">\(\Delta + m\)</span>.</p></li>
