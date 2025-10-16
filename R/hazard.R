@@ -18,6 +18,40 @@ calc_tp <- function(time_to_event, trunc_time) {
   return(eval_points)
 }
 
+##' @title \eqn{\hat{f}(x)}
+##' @inheritParams single_t_hazard
+##' @return a scalar
+##' @author lcgodoy
+f_hat <- function(t, time_to_event,
+                  event,
+                  censoring) {
+  mean(censoring == 0 & event == 1 &
+       time_to_event == t)
+}
+
+##' @title \eqn{\hat{U}(x)}
+##' @inheritParams single_t_hazard
+##' @return a scalar
+##' @author lcgodoy
+u_hat <- function(t,
+                  time_to_event,
+                  trunc_time) {
+  mean(t >= trunc_time & t <= time_to_event)
+}
+
+##' @title Variance of the log-transformed hazard estimate
+##' @param lambda hazard rate
+##' @param uh \eqn{hat{U}}
+##' @param fh \eqn{hat{f}}
+##' @return a scalar
+##' @author lcgodoy
+var_hat <- function(lambda, uh, fh) {
+  lfh <- log(fh)
+  luh <- log(uh)
+  ll  <- log(lambda)
+  exp(lfh + log(uh - fh) - 3 * luh + 2 * ll)
+}
+
 ##' @title Hazard estimate for a single time-point.
 ##'
 ##' @description Internal use.
@@ -30,23 +64,24 @@ calc_tp <- function(time_to_event, trunc_time) {
 single_t_hazard <- function(t,
                             trunc_time,
                             time_to_event,
-                            event) {
-  at_risk_idx <- (trunc_time <= t) & (time_to_event >= t)
-  c_n         <- mean(at_risk_idx)
-  n_at_risk   <- sum(at_risk_idx)
-  events_idx  <- (time_to_event == t) & (event == 1)
-  n_events    <- sum(events_idx)
-  if (n_at_risk == 0) {
+                            event,
+                            censoring) {
+  fh <- f_hat(t, time_to_event, event, censoring)
+  uh <- u_hat(t, time_to_event, trunc_time)
+  if (uh == 0) {
     hazard <- 0
     var_log_h <- NA
   } else {
-    hazard <- n_events / n_at_risk
-    var_log_h <- ifelse(n_events > 0, (1 - hazard) / n_events, NA)
+    hazard <- fh / uh
+    var_log_h <-
+      ifelse(hazard > 0,
+             var_hat(hazard, fh, uh),
+             NA)
   }
   c(
       time_to_event = t,
-      c_n = c_n,
-      n_event = n_events,
+      fh = fh,
+      uh = uh,
       hazard = hazard,
       se_log_hazard = sqrt(var_log_h)
   )
@@ -115,7 +150,7 @@ estimate_hazard <- function(time_to_event,
   ## avoiding NOTE (look for best practices here)
   hazard <- se_log_hazard <- NULL
   ## taking censoring into account
-  event <- ifelse(event == 1 & censoring == 0, 1, 0)
+  ## event <- ifelse(event == 1 & censoring == 0, 1, 0)
   ## evaluation points based on the paper
   if (is.null(support_lifetime_rv)) {
     Delta <- min(c(time_to_event, trunc_time), na.rm = TRUE)
@@ -130,6 +165,7 @@ estimate_hazard <- function(time_to_event,
     results <- sapply(support_lifetime_rv, single_t_hazard,
                       trunc_time = trunc_time,
                       time_to_event = time_to_event,
+                      censoring = censoring,
                       event = event)
     out <- as.data.frame(t(results))
     if (carry_hazard)
@@ -139,6 +175,7 @@ estimate_hazard <- function(time_to_event,
         data.frame(trunc_time = trunc_time,
                    time_to_event = time_to_event,
                    event = event,
+                   cens  = censoring,
                    event_type = event_type),
         event_type
     )
@@ -149,7 +186,8 @@ estimate_hazard <- function(time_to_event,
                                  single_t_hazard,
                                  trunc_time = vars_df[["trunc_time"]],
                                  time_to_event = vars_df[["time_to_event"]],
-                                 event = vars_df[["event"]])
+                                 event = vars_df[["event"]],
+                                 censoring = vars_df[["censor"]])
                ret_ <-
                  cbind.data.frame(event_type = unique(vars_df[["event_type"]]),
                                   as.data.frame(t(results)))

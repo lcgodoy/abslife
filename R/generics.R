@@ -11,7 +11,7 @@
 validate_alife <- function(x) {
   stopifnot(is.data.frame(x))
   my_cols <- c("event_type",
-               "time_to_event", "c_n", "n_event",
+               "time_to_event", "fh", "uh",
                "hazard", "se_log_hazard",
                "lower_ci", "upper_ci",
                "cdf")
@@ -30,7 +30,7 @@ validate_alife <- function(x) {
 ##' @export
 ##' @examples
 ##' # Create a minimal data frame with the required columns
-##' df <- data.frame(time_to_event = 1:2, c_n = c(10, 8), n_event = c(1, 1),
+##' df <- data.frame(time_to_event = 1:2, fh = c(.2, .01), uh = c(.8, .20),
 ##'                  hazard = c(0.1, 0.125), se_log_hazard = c(0.1, 0.1),
 ##'                  lower_ci = c(0.08, 0.1), upper_ci = c(0.12, 0.15))
 ##'
