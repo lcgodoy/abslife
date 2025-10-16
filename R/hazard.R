@@ -45,11 +45,10 @@ u_hat <- function(t,
 ##' @param fh \eqn{hat{f}}
 ##' @return a scalar
 ##' @author lcgodoy
-var_hat <- function(lambda, uh, fh) {
+var_hat <- function(lambda, uh, fh, n) {
   lfh <- log(fh)
   luh <- log(uh)
-  ll  <- log(lambda)
-  exp(lfh + log(uh - fh) - 3 * luh + 2 * ll)
+  exp(log(uh - fh) -  log(n) - luh - lfh)
 }
 
 ##' @title Hazard estimate for a single time-point.
@@ -58,6 +57,7 @@ var_hat <- function(lambda, uh, fh) {
 ##' 
 ##' @param t A time point at which hazard estimates are sought.
 ##' @inheritParams estimate_hazard
+##' @param event event indicator
 ##' @return A vector containing the time to event, \eqn{\hat{C}_n}, the number
 ##'   of events, and the hazard estimate along with its standard error.
 ##' @author lcgodoy
@@ -68,15 +68,16 @@ single_t_hazard <- function(t,
                             censoring) {
   fh <- f_hat(t, time_to_event, event, censoring)
   uh <- u_hat(t, time_to_event, trunc_time)
+  n <- length(time_to_event)
   if (uh == 0) {
     hazard <- 0
     var_log_h <- NA
   } else {
     hazard <- fh / uh
     var_log_h <-
-      ifelse(hazard > 0,
-             var_hat(hazard, fh, uh),
-             NA)
+      ifelse(hazard == 0,
+             0,
+             var_hat(hazard, uh, fh, n))
   }
   c(
       time_to_event = t,
@@ -100,8 +101,9 @@ single_t_hazard <- function(t,
 ##'   event.
 ##' @param trunc_time A numeric vector representing the observed left-truncated
 ##'   time.
-##' @param event The event indicator vector (1=default, 0=censored). Defaults to
-##'   NULL (no censoring), which is equivalent to a vector of ones.
+##' @param event_indicator The event indicator vector (1=default,
+##'   0=censored). Defaults to NULL (no censoring), which is equivalent to a
+##'   vector of ones.
 ##' @param censoring An indicator for censoring (1=censored, 0=not). Defaults to
 ##'   a vector of 0s if `NULL`. An observation is only treated as an event if
 ##'   status=1 AND censoring=0.
@@ -123,7 +125,7 @@ single_t_hazard <- function(t,
 ##'
 estimate_hazard <- function(time_to_event,
                             trunc_time = NULL,
-                            event = NULL,
+                            event_indicator = NULL,
                             censoring = NULL,
                             event_type = NULL,
                             support_lifetime_rv = NULL,
@@ -134,8 +136,8 @@ estimate_hazard <- function(time_to_event,
   if (is.null(trunc_time)) {
     trunc_time <- rep(0, n_obs)
   }
-  if (is.null(event)) {
-    event <- rep(1, n_obs)
+  if (is.null(event_indicator)) {
+    event_indicator <- rep(1, n_obs)
   }
   if (is.null(censoring)) {
     censoring <- rep(0, n_obs)
@@ -166,7 +168,7 @@ estimate_hazard <- function(time_to_event,
                       trunc_time = trunc_time,
                       time_to_event = time_to_event,
                       censoring = censoring,
-                      event = event)
+                      event = event_indicator)
     out <- as.data.frame(t(results))
     if (carry_hazard)
       out <- fix_0haz(out)
@@ -174,7 +176,7 @@ estimate_hazard <- function(time_to_event,
     vars <- split(
         data.frame(trunc_time = trunc_time,
                    time_to_event = time_to_event,
-                   event = event,
+                   event = event_indicator,
                    cens  = censoring,
                    event_type = event_type),
         event_type
@@ -187,7 +189,7 @@ estimate_hazard <- function(time_to_event,
                                  trunc_time = vars_df[["trunc_time"]],
                                  time_to_event = vars_df[["time_to_event"]],
                                  event = vars_df[["event"]],
-                                 censoring = vars_df[["censor"]])
+                                 censoring = vars_df[["cens"]])
                ret_ <-
                  cbind.data.frame(event_type = unique(vars_df[["event_type"]]),
                                   as.data.frame(t(results)))

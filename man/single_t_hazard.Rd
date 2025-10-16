@@ -15,8 +15,7 @@ time.}
 \item{time_to_event}{A numeric vector representing the observed time to
 event.}
 
-\item{event}{The event indicator vector (1=default, 0=censored). Defaults to
-NULL (no censoring), which is equivalent to a vector of ones.}
+\item{event}{event indicator}
 
 \item{censoring}{An indicator for censoring (1=censored, 0=not). Defaults to
 a vector of 0s if \code{NULL}. An observation is only treated as an event if

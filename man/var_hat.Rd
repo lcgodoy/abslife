@@ -4,7 +4,7 @@
 \alias{var_hat}
 \title{Variance of the log-transformed hazard estimate}
 \usage{
-var_hat(lambda, uh, fh)
+var_hat(lambda, uh, fh, n)
 }
 \arguments{
 \item{lambda}{hazard rate}
