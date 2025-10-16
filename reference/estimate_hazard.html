@@ -50,7 +50,7 @@ censored data</p>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">estimate_hazard</span><span class="op">(</span></span>
 <span>  <span class="va">time_to_event</span>,</span>
 <span>  trunc_time <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  event <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  event_indicator <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  censoring <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  event_type <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  support_lifetime_rv <span class="op">=</span> <span class="cn">NULL</span>,</span>
@@ -74,9 +74,10 @@ event.</p></dd>
 time.</p></dd>
 
 
-<dt id="arg-event">event<a class="anchor" aria-label="anchor" href="#arg-event"></a></dt>
-<dd><p>The event indicator vector (1=default, 0=censored). Defaults to
-NULL (no censoring), which is equivalent to a vector of ones.</p></dd>
+<dt id="arg-event-indicator">event_indicator<a class="anchor" aria-label="anchor" href="#arg-event-indicator"></a></dt>
+<dd><p>The event indicator vector (1=default,
+0=censored). Defaults to NULL (no censoring), which is equivalent to a
+vector of ones.</p></dd>
 
 
 <dt id="arg-censoring">censoring<a class="anchor" aria-label="anchor" href="#arg-censoring"></a></dt>
