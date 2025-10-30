@@ -43,6 +43,7 @@ u_hat <- function(t,
 ##' @param lambda hazard rate
 ##' @param uh \eqn{hat{U}}
 ##' @param fh \eqn{hat{f}}
+##' @param n sample size (or number of timepoints)
 ##' @return a scalar
 ##' @author lcgodoy
 var_hat <- function(lambda, uh, fh, n) {
@@ -146,9 +147,9 @@ estimate_hazard <- function(time_to_event,
     stopifnot(length(time_to_event) == length(trunc_time))
     stopifnot(!all(is.na(time_to_event)))
   }
-  if (!is.null(censoring)) {
-    stopifnot(!is.null(trunc_time))
-  }
+  ## if (!is.null(censoring)) {
+  ##   stopifnot(!is.null(trunc_time))
+  ## }
   ## avoiding NOTE (look for best practices here)
   hazard <- se_log_hazard <- NULL
   ## taking censoring into account
@@ -174,30 +175,25 @@ estimate_hazard <- function(time_to_event,
     if (carry_hazard)
       out <- fix_0haz(out)
   } else {
-    vars <- split(
-        data.frame(trunc_time = trunc_time,
-                   time_to_event = time_to_event,
-                   event = event_indicator,
-                   cens  = censoring,
-                   event_type = event_type),
-        event_type
-    )
-    out <-
-      lapply(vars,
-             \(vars_df) {
-               results <- sapply(support_lifetime_rv,
-                                 single_t_hazard,
-                                 trunc_time = vars_df[["trunc_time"]],
-                                 time_to_event = vars_df[["time_to_event"]],
-                                 event = vars_df[["event"]],
-                                 censoring = vars_df[["cens"]])
-               ret_ <-
-                 cbind.data.frame(event_type = unique(vars_df[["event_type"]]),
-                                  as.data.frame(t(results)))
-               if (carry_hazard)
-                 ret_ <- fix_0haz(ret_)
-               return(ret_)
-             })
+    etypes <- unique(event_type)
+    out <- vector(mode = "list", length = length(etypes))
+    for (i in seq_along(out)) {
+      event_i <- as.integer(event_type == etypes[i])
+      out[[i]] <-
+        sapply(support_lifetime_rv,
+               single_t_hazard,
+               trunc_time = trunc_time,
+               time_to_event = time_to_event,
+               event = event_i,
+               censoring = censoring) |>
+        t() |>
+        as.data.frame()
+      out[[i]] <-
+        cbind.data.frame(event_type = etypes[i],
+                         out[[i]])
+      if (carry_hazard)
+        out[[i]] <- fix_0haz(out[[i]])
+    }
     out <- do.call(rbind, out)
     rownames(out) <- NULL
   }

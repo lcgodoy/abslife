@@ -9,7 +9,8 @@
 
 A data frame with 58,118 rows and 7 columns:
 \describe{
-\item{\code{risk_cat}}{Risk category}
+
+\item{\code{risk_cat}}{Credit score category}
 \item{\code{Z}}{Time-of-event}
 \item{\code{Y}}{Truncation time}
 \item{\code{C}}{Censor indicator (1 = censored, 0 = not censored)}

@@ -12,6 +12,8 @@ var_hat(lambda, uh, fh, n)
 \item{uh}{\eqn{hat{U}}}
 
 \item{fh}{\eqn{hat{f}}}
+
+\item{n}{sample size (or number of timepoints)}
 }
 \value{
 a scalar
