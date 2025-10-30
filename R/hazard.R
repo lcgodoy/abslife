@@ -164,7 +164,8 @@ estimate_hazard <- function(time_to_event,
                  ifelse(length(unique(event_type)) == 1,
                         NA, event_type))
   if (is.na(etype_check)) {
-    results <- sapply(support_lifetime_rv, single_t_hazard,
+    results <- sapply(support_lifetime_rv,
+                      single_t_hazard,
                       trunc_time = trunc_time,
                       time_to_event = time_to_event,
                       censoring = censoring,
