@@ -1,3 +1,7 @@
+# abslife 0.0.92
+
+* Fixed the competing risks approach.
+
 # abslife 0.0.91
 
 * `event_type` parameter in the `estimate_hazard` function now deals with
