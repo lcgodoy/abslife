@@ -10,6 +10,10 @@
 
 * Extended plot function to deal with multiple event types
 
+* `rlang` becomes a dependency :(
+
+* `autoplot` method for making graphs with `ggplot2`
+
 # abslife 0.0.92
 
 * Fixed the competing risks approach.
