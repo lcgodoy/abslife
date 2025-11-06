@@ -15,7 +15,7 @@ censored data"></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">abslife</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.92</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.93</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -54,7 +54,6 @@ censored data</p>
 <span>  censoring <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  event_type <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  support_lifetime_rv <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  return_cdf <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  carry_hazard <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  ci_level <span class="op">=</span> <span class="fl">0.95</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -94,11 +93,6 @@ status=1 AND censoring=0.</p></dd>
 <dd><p>A <code>vector</code> of time points at which to evaluate
 the hazard.  If <code>NULL</code> (the default), it is calculated for a sequence from
 <code>Delta + 1</code> to <code>omega</code> (that is, <code>max(time_to_event)</code>).</p></dd>
-
-
-<dt id="arg-return-cdf">return_cdf<a class="anchor" aria-label="anchor" href="#arg-return-cdf"></a></dt>
-<dd><p>A <code>boolean</code> indicator on whether to return the estimated
-CDF associated to the hazard rate or not. Default is <code>TRUE</code></p></dd>
 
 
 <dt id="arg-carry-hazard">carry_hazard<a class="anchor" aria-label="anchor" href="#arg-carry-hazard"></a></dt>
