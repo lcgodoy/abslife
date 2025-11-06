@@ -27,6 +27,18 @@
   return(long_df)
 }
 
+##' @title Plot an 'alife' (or `multi_alife`) Object using `ggplot2`
+##'
+##' @param object An object of class `alife` or `alife-multi`.
+##' @param ... Not used.
+##'
+##' @return ggplot.
+##' @export
+ggauto <- function(object, ...) {
+  UseMethod("ggauto")
+}
+
+
 ##' @title Plot an 'alife' Object using ggplot2
 ##'
 ##' @param object An object of class `alife`.
@@ -37,7 +49,7 @@
 ##' @return A `ggplot` object.
 ##' @importFrom rlang .data
 ##' @export
-autoplot.alife <- function(object, ci_level = 0.95, ...) {  
+ggauto.alife <- function(object, ci_level = 0.95, ...) {  
   if (!requireNamespace("ggplot2", quietly = TRUE)) {
     stop(
       "Package 'ggplot2' is required for this plot. ",
@@ -83,7 +95,7 @@ autoplot.alife <- function(object, ci_level = 0.95, ...) {
 ##' @importFrom rlang .data
 ##' @return A `ggplot` object.
 ##' @export
-autoplot.alife_multi <- function(object, ci_level = 0.95, ...) {
+ggauto.alife_multi <- function(object, ci_level = 0.95, ...) {
   if (!requireNamespace("ggplot2", quietly = TRUE)) {
     stop(
       "Package 'ggplot2' is required for this plot. ",
