@@ -1,10 +1,10 @@
 ##' Calculate Default Time Points
 ##'
 ##' This helper function generates a default sequence of evaluation points based
-##' on the study's overall time range (PUT REFERENCE HERE). In particular, it
-##' calculates \eqn{\Delta} and \eqn{m} based on left-truncation and
-##' time-to-event variables and outputs a sequence ranging from \eqn{\Delta + 1}
-##' to ??.
+##' on the study's overall time range (Lautier et al. 2023, <DOI:
+##' 10.1016/j.ecosta.2023.05.005>). In particular, it calculates \eqn{\Delta}
+##' and \eqn{m} based on left-truncation and time-to-event variables and outputs
+##' a sequence ranging from \eqn{\Delta + 1} to \eqn{\omega}.
 ##'
 ##' @param time_to_event The vector of event or censoring times.
 ##' @param trunc_time The vector of left-truncation times.
@@ -13,8 +13,12 @@
 ##' @export
 calc_tp <- function(time_to_event, trunc_time) {
   delta <- min(c(time_to_event, trunc_time), na.rm = TRUE)
-  omega <- max(time_to_event)
-  eval_points <- seq(from = delta + 1, to = omega)
+  omega <- max(time_to_event, na.rm = TRUE)
+  if (delta + 1 > omega) {
+    warning("There are less than 2 timepoints.")
+    return(numeric(0)) 
+  }
+  eval_points <- seq.int(from = delta + 1, to = omega, by = 1L)
   return(eval_points)
 }
 
