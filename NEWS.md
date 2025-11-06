@@ -1,3 +1,15 @@
+# abslife 0.0.93
+
+* `ggplot2` included as a suggested package
+
+* fixed "check" for number of events
+
+* `estimate_hazard` broken into smaller functions to make it easier to mantain.
+
+* Included a `summary` function for the `alife` objects
+
+* Extended plot function to deal with multiple event types
+
 # abslife 0.0.92
 
 * Fixed the competing risks approach.

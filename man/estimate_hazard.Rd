@@ -11,7 +11,6 @@ estimate_hazard(
   censoring = NULL,
   event_type = NULL,
   support_lifetime_rv = NULL,
-  return_cdf = TRUE,
   carry_hazard = FALSE,
   ci_level = 0.95
 )
@@ -36,9 +35,6 @@ status=1 AND censoring=0.}
 \item{support_lifetime_rv}{A \code{vector} of time points at which to evaluate
 the hazard.  If \code{NULL} (the default), it is calculated for a sequence from
 \code{Delta + 1} to \code{omega} (that is, \code{max(time_to_event)}).}
-
-\item{return_cdf}{A \code{boolean} indicator on whether to return the estimated
-CDF associated to the hazard rate or not. Default is \code{TRUE}}
 
 \item{carry_hazard}{A \code{boolean} indicator on whether 0 hazard estimates
 should be replaced by the last non-zero estimate. Defaults to \code{FALSE}}

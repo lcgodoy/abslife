@@ -16,8 +16,8 @@ A numeric vector of default time points to evaluate the hazard at.
 }
 \description{
 This helper function generates a default sequence of evaluation points based
-on the study's overall time range (PUT REFERENCE HERE). In particular, it
-calculates \eqn{\Delta} and \eqn{m} based on left-truncation and
-time-to-event variables and outputs a sequence ranging from \eqn{\Delta + 1}
-to ??.
+on the study's overall time range (Lautier et al. 2023, <DOI:
+10.1016/j.ecosta.2023.05.005>). In particular, it calculates \eqn{\Delta}
+and \eqn{m} based on left-truncation and time-to-event variables and outputs
+a sequence ranging from \eqn{\Delta + 1} to \eqn{\omega}.
 }

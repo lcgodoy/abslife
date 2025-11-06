@@ -92,6 +92,27 @@ single_t_hazard <- function(t,
       se_log_hazard = sqrt(var_log_h)
   )
 }
+##' @title Auxiliary function for `estimate_hazard`
+##' @param support where to calculate the hazards
+##' @inheritParams estimate_hazard
+##' @return a `data.frame`
+##' @author lcgodoy
+.hazard_core <- function(support, trunc_time,
+                         time_to_event, censoring,
+                         event_indicator,
+                         carry_hazard) {
+  out <-
+    sapply(support,
+           single_t_hazard,
+           trunc_time = trunc_time,
+           time_to_event = time_to_event,
+           censoring = censoring,
+           event = event_indicator)
+  out <- as.data.frame(t(out))
+  if (carry_hazard)
+    out <- fix_0haz(out)
+  return(out)
+}
 
 ##' @title Hazard rate
 ##'
@@ -116,8 +137,6 @@ single_t_hazard <- function(t,
 ##' @param support_lifetime_rv A `vector` of time points at which to evaluate
 ##'   the hazard.  If `NULL` (the default), it is calculated for a sequence from
 ##'   `Delta + 1` to `omega` (that is, `max(time_to_event)`).
-##' @param return_cdf A `boolean` indicator on whether to return the estimated
-##'   CDF associated to the hazard rate or not. Default is `TRUE`
 ##' @param carry_hazard A `boolean` indicator on whether 0 hazard estimates
 ##'   should be replaced by the last non-zero estimate. Defaults to `FALSE`
 ##' @param ci_level A number between 0 and 1 indicating the level of the
@@ -134,7 +153,6 @@ estimate_hazard <- function(time_to_event,
                             censoring = NULL,
                             event_type = NULL,
                             support_lifetime_rv = NULL,
-                            return_cdf = TRUE,
                             carry_hazard = FALSE,
                             ci_level = .95) {
   n_obs <- length(time_to_event)
@@ -154,8 +172,6 @@ estimate_hazard <- function(time_to_event,
   ## if (!is.null(censoring)) {
   ##   stopifnot(!is.null(trunc_time))
   ## }
-  ## avoiding NOTE (look for best practices here)
-  hazard <- se_log_hazard <- NULL
   ## taking censoring into account
   ## event <- ifelse(event == 1 & censoring == 0, 1, 0)
   ## evaluation points based on the paper
@@ -165,50 +181,40 @@ estimate_hazard <- function(time_to_event,
     omega <- max(time_to_event)
     support_lifetime_rv <- calc_tp(time_to_event, trunc_time)
   }
-  etype_check <- ifelse(is.null(event_type), NA,
-                 ifelse(length(unique(event_type)) == 1,
-                        NA, event_type))
-  if (is.na(etype_check)) {
-    results <- sapply(support_lifetime_rv,
-                      single_t_hazard,
-                      trunc_time = trunc_time,
-                      time_to_event = time_to_event,
-                      censoring = censoring,
-                      event = event_indicator)
-    out <- as.data.frame(t(results))
-    if (carry_hazard)
-      out <- fix_0haz(out)
+  run_by_type <-
+    !is.null(event_type) && length(unique(event_type)) > 1
+  if (!run_by_type) {
+    out <- .hazard_core(support_lifetime_rv,
+                        trunc_time,
+                        time_to_event,
+                        censoring,
+                        event_indicator,
+                        carry_hazard)
   } else {
     etypes <- unique(event_type)
     out <- vector(mode = "list", length = length(etypes))
     for (i in seq_along(out)) {
       event_i <- as.integer(event_type == etypes[i])
       out[[i]] <-
-        sapply(support_lifetime_rv,
-               single_t_hazard,
-               trunc_time = trunc_time,
-               time_to_event = time_to_event,
-               event = event_i,
-               censoring = censoring) |>
-        t() |>
-        as.data.frame()
+        .hazard_core(support_lifetime_rv,
+                     trunc_time,
+                     time_to_event,
+                     censoring,
+                     event_i,
+                     carry_hazard)
       out[[i]] <-
         cbind.data.frame(event_type = etypes[i],
                          out[[i]])
-      if (carry_hazard)
-        out[[i]] <- fix_0haz(out[[i]])
     }
     out <- do.call(rbind, out)
     rownames(out) <- NULL
   }
   upper_tail <- 1 - .5 * (1 - ci_level)
   z <- stats::qnorm(upper_tail)
-  out <- 
-    transform(out,
-              lower_ci = exp(log(hazard) - z * se_log_hazard),
-              upper_ci = exp(log(hazard) + z * se_log_hazard))
-  if (return_cdf)
-    out <- transform(out, cdf = 1 - cumprod(1 - hazard))
+  out$lower_ci <- ifelse(out$hazard == 0, NA_real_,
+                         exp(log(out$hazard) - z * out$se_log_hazard))
+  out$upper_ci <- ifelse(out$hazard == 0, NA_real_,
+                         exp(log(out$hazard) + z * out$se_log_hazard))
   out <- new_alife(out)
   return(out)
 }

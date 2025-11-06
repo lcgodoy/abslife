@@ -10,12 +10,11 @@
 ##' @keywords internal
 validate_alife <- function(x) {
   stopifnot(is.data.frame(x))
-  my_cols <- c("event_type",
+  my_cols <- c(## "event_type",
                "time_to_event", "fh", "uh",
                "hazard", "se_log_hazard",
-               "lower_ci", "upper_ci",
-               "cdf")
-  stopifnot(all(colnames(x) %in% my_cols))
+               "lower_ci", "upper_ci")
+  stopifnot(all(my_cols %in% colnames(x)))
 }
 
 ##' Create an alife Object
@@ -40,5 +39,8 @@ validate_alife <- function(x) {
 ##'
 new_alife <- function(x = data.frame()) {
   validate_alife(x)
-  structure(x, class = c("alife", class(x)))
+  new_class <- c("alife", class(x))
+  if ("event_type" %in% colnames(x))
+    new_class <- c("alife_multi", new_class)
+  structure(x, class = new_class)
 }
