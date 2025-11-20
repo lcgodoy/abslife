@@ -1,7 +1,5 @@
 
-<!-- README.md is generated from README.Rmd. Please edit that file -->
-
-# abslife
+# abslife <a href="http://lcgodoy.me/abslife/"> <img src="man/figures/logo.pdf" align="right" height="139" alt="abslife website" /></a>\`
 
 <!-- badges: start -->
 

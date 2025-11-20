@@ -16,3 +16,7 @@ usethis::use_test("class_check")
 
 ## news
 usethis::use_news_md()
+
+## logo
+usethis::use_logo("logo.pdf")
+pkgdown::build_favicons()

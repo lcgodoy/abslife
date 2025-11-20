@@ -1,3 +1,12 @@
+# abslife 0.0.94
+
+* Logo included in the package website and README file.
+
+* First vignette up.
+
+* Two new datasets: `aart` (for left-truncation) and `mbalt` (left-truncation +
+  right-censoring).
+
 # abslife 0.0.93
 
 * `ggplot2` included as a suggested package
