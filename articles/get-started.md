@@ -28,7 +28,7 @@ methods, which are helpful in understanding the results. In the
 following sections, we will use three different datasets to exemplify
 the package functionalities
 
-## Left-truncation
+### Left-truncation
 
 To load the first dataset (called `aart`), run the chunk below. In
 addition to loading the dataset, we are looking at its first rows using
@@ -148,7 +148,7 @@ tail(aart_cdf)
 #> 45 1.000000 1.0000000
 ```
 
-## Right-censoring
+### Right-censoring
 
 Now, we show that we can use an almost identical workflow to deal
 analyze right-censored data as well. To achieve that goal, we will load
@@ -211,7 +211,7 @@ ggauto(mbalt_hazard, ci_level = c(.5, .75, .85, .9, .95))
 
 ![](get-started_files/figure-html/ggplot_mbalt-1.png)
 
-## Competing risks
+### Competing risks
 
 Lastly, we show the
 [`estimate_hazard()`](http://lcgodoy.me/abslife/reference/estimate_hazard.md)
@@ -316,6 +316,8 @@ ggauto(aloans_hazard, ci_level = c(.5, .75, .85, .9, .95)) +
 ```
 
 ![](get-started_files/figure-html/ggplot_aloans-1.png)
+
+## References
 
 Lautier, Jackson P., Vladimir Pozdnyakov, and Jun Yan. 2023a.
 “Estimating a Discrete Distribution Subject to Random Left-Truncation

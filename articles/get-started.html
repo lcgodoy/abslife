@@ -99,9 +99,9 @@ risks. Moreover, the output <code>estimate_hazard</code> has specific
 <code>summary</code> and <code>plot</code> methods, which are helpful in
 understanding the results. In the following sections, we will use three
 different datasets to exemplify the package functionalities</p>
-<div class="section level2">
-<h2 id="left-truncation">Left-truncation<a class="anchor" aria-label="anchor" href="#left-truncation"></a>
-</h2>
+<div class="section level3">
+<h3 id="left-truncation">Left-truncation<a class="anchor" aria-label="anchor" href="#left-truncation"></a>
+</h3>
 <p>To load the first dataset (called <code>aart</code>), run the chunk
 below. In addition to loading the dataset, we are looking at its first
 rows using <code><a href="https://rdrr.io/r/utils/head.html" class="external-link">head()</a></code>. This dataset has two columns, one
@@ -199,9 +199,9 @@ function.</p>
 <span><span class="co">#&gt; 44 1.999219 0.9999694</span></span>
 <span><span class="co">#&gt; 45 1.000000 1.0000000</span></span></code></pre></div>
 </div>
-<div class="section level2">
-<h2 id="right-censoring">Right-censoring<a class="anchor" aria-label="anchor" href="#right-censoring"></a>
-</h2>
+<div class="section level3">
+<h3 id="right-censoring">Right-censoring<a class="anchor" aria-label="anchor" href="#right-censoring"></a>
+</h3>
 <p>Now, we show that we can use an almost identical workflow to deal
 analyze right-censored data as well. To achieve that goal, we will load
 another dataset, called <code>mbalt</code>. This dataset has three, as
@@ -248,9 +248,9 @@ and allows to visualize multiple levels of confidence at once.</p>
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/ggauto.html">ggauto</a></span><span class="op">(</span><span class="va">mbalt_hazard</span>, ci_level <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.5</span>, <span class="fl">.75</span>, <span class="fl">.85</span>, <span class="fl">.9</span>, <span class="fl">.95</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="get-started_files/figure-html/ggplot_mbalt-1.png" class="r-plt" width="700"></p>
 </div>
-<div class="section level2">
-<h2 id="competing-risks">Competing risks<a class="anchor" aria-label="anchor" href="#competing-risks"></a>
-</h2>
+<div class="section level3">
+<h3 id="competing-risks">Competing risks<a class="anchor" aria-label="anchor" href="#competing-risks"></a>
+</h3>
 <p>Lastly, we show the <code><a href="../reference/estimate_hazard.html">estimate_hazard()</a></code> function features
 to deal with competing risks. To showcase those features, we load the
 <code>aloans</code> dataset. This dataset contain information on
@@ -333,6 +333,10 @@ available:</p>
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/ggauto.html">ggauto</a></span><span class="op">(</span><span class="va">aloans_hazard</span>, ci_level <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.5</span>, <span class="fl">.75</span>, <span class="fl">.85</span>, <span class="fl">.9</span>, <span class="fl">.95</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_bw</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><img src="get-started_files/figure-html/ggplot_aloans-1.png" class="r-plt" width="700"></p>
+</div>
+<div class="section level2">
+<h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
+</h2>
 <div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
 <div id="ref-lautier2023estimating" class="csl-entry">
 Lautier, Jackson P., Vladimir Pozdnyakov, and Jun Yan. 2023a.
