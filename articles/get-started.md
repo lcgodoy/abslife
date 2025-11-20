@@ -7,34 +7,33 @@ library(abslife)
 library(ggplot2) ## optional
 ```
 
-> Under construction!
+> This package is currently under construction!
 
-In this vignette, we show the basic functionalities of the `abslife`
+This vignette demonstrates the core functionalities of the `abslife`
 package. `abslife` provides tools for non-parametric estimation of the
-hazard rate, denoted \\\lambda(t)\\ for time to event data subject to
-left-truncation (Jackson P. Lautier, Pozdnyakov, and Yan 2023a) and
-right-censoring (Jackson P. Lautier, Pozdnyakov, and Yan 2023b). The
-package also allows for scenarios where competing risks (Jackson P.
-Lautier, Pozdnyakov, and Yan 2024) is present. In all cases, asymptotic
-confidence intervals for the estimated hazard rates are readily
-available.
+hazard rate, denoted \\\lambda(t)\\, for time-to-event. The package is
+designed to handle combinations of the following scenarios:
 
-The main functionalities of the package are embedded in the
-`estimate_hazard` function. In particular, the function is flexible
-enough to be able to deal with all the cases mentioned in the previous
-paragraph: left-truncation, right-censoring, and competing risks.
-Moreover, the output `estimate_hazard` has specific `summary` and `plot`
-methods, which are helpful in understanding the results. In the
-following sections, we will use three different datasets to exemplify
-the package functionalities
+- **Left-truncation** (Jackson P. Lautier, Pozdnyakov, and Yan 2023a)
+
+- **Right-censoring** (Jackson P. Lautier, Pozdnyakov, and Yan 2023b)
+
+- **Competing risks** (Jackson P. Lautier, Pozdnyakov, and Yan 2024)
+
+In all cases, asymptotic confidence intervals for the estimated hazard
+rates are readily available. The main function of the package is the
+[`estimate_hazard()`](http://lcgodoy.me/abslife/reference/estimate_hazard.md)
+function, which adapts to these scenarios based on the arguments
+provided.
+
+Now, we provide specific examples with datasets shipped with the
+package.
 
 ### Left-truncation
 
-To load the first dataset (called `aart`), run the chunk below. In
-addition to loading the dataset, we are looking at its first rows using
-[`head()`](https://rdrr.io/r/utils/head.html). This dataset has two
-columns, one representing the time-to-event (`Xi`) and another one the
-truncation time (`Yi`).
+We begin by analyzing the aart dataset. This dataset represents a
+scenario involving only left-truncation. It contains two columns: `Xi`
+(time-to-event) and `Yi` (truncation time).
 
 ``` r
 data(aart)
@@ -48,10 +47,8 @@ head(aart)
 #> 6 39 33
 ```
 
-We estimate the hazard rate using the
-[`estimate_hazard()`](http://lcgodoy.me/abslife/reference/estimate_hazard.md)
-function and assign the result to `aart_hazard`. The `carry_hazard`
-replazes 0 hazard estimates with the last non-zero hazard estimate.
+We estimate the hazard rate using
+[`estimate_hazard()`](http://lcgodoy.me/abslife/reference/estimate_hazard.md).
 
 ``` r
 aart_hazard <- estimate_hazard(time_to_event = aart$Xi,
@@ -60,12 +57,13 @@ aart_hazard <- estimate_hazard(time_to_event = aart$Xi,
                                carry_hazard = TRUE) ## need 
 ```
 
-The function returns a `data.frame` containing time to event, the
-respective hazard estimates, and the standard errors (on the log scale).
-It also includes the lower and upper bounds of the hazard rate
-confidence interval, which correspond to the confidence level specified
-in the `ci_level` argument. Below, we inspect the final rows using
-[`tail()`](https://rdrr.io/r/utils/head.html):
+> Note that, we set `carry_hazard = TRUE`. This argument ensures that if
+> a hazard estimate is 0, it is replaced by the last non-zero estimate.
+
+The function returns a `data.frame` containing the evaluation times, the
+hazard estimates, and the standard errors (on the log scale). It also
+includes the lower and upper bounds of the confidence interval
+corresponding to the `ci_level` argument (in this case, set to 0.95).
 
 ``` r
 tail(aart_hazard)
@@ -88,8 +86,10 @@ tail(aart_hazard)
 > I believe we don’t need to output the `fh` and `uh` columns. What do
 > you think?
 
-The [`summary()`](https://rdrr.io/r/base/summary.html) function returns
-a cleaner output:
+#### Summarizing and plotting
+
+For a concise overview of the estimation, use the
+[`summary()`](https://rdrr.io/r/base/summary.html) method:
 
 ``` r
 summary(aart_hazard)
@@ -105,8 +105,8 @@ summary(aart_hazard)
 #> 41            45 0.50000000    0.70710678 0.125048827 1.99921908
 ```
 
-Finally, we can easily visualize the results using the
-[`plot()`](https://rdrr.io/r/graphics/plot.default.html) function:
+To visualize the hazard rate, you can use base R graphics via the
+[`plot()`](https://rdrr.io/r/graphics/plot.default.html) method:
 
 ``` r
 plot(aart_hazard)
@@ -114,8 +114,10 @@ plot(aart_hazard)
 
 ![](get-started_files/figure-html/plot_aart-1.png)
 
-A `ggplot2` powered version of the plot is also available, and allows to
-visualize multiple levels of confidence at once.
+Alternatively, use
+[`ggauto()`](http://lcgodoy.me/abslife/reference/ggauto.md) for a
+`ggplot2`-powered visualization. This function is particularly useful
+for visualizing multiple confidence levels simultaneously:
 
 ``` r
 ggauto(aart_hazard, ci_level = c(.5, .75, .85, .9, .95))
@@ -123,11 +125,12 @@ ggauto(aart_hazard, ci_level = c(.5, .75, .85, .9, .95))
 
 ![](get-started_files/figure-html/ggplot_aart-1.png)
 
-An interesting feature of the package, is that it allows for calculating
-the CDF associated with the time to events from using the hazard
-function. To achieve that, it suffices to call the `calc_cdf` function.
-That function adds a column (called `cdf`) to the output of the
-`estimate_hazard` function.
+#### Calculating the CDF
+
+he package can also derive the Cumulative Distribution Function (CDF)
+directly from the hazard estimates using
+[`calc_cdf()`](http://lcgodoy.me/abslife/reference/calc_cdf.md). This
+appends a cdf column to the results.
 
 ``` r
 aart_cdf <- calc_cdf(aart_hazard)
@@ -150,11 +153,9 @@ tail(aart_cdf)
 
 ### Right-censoring
 
-Now, we show that we can use an almost identical workflow to deal
-analyze right-censored data as well. To achieve that goal, we will load
-another dataset, called `mbalt`. This dataset has three, as opposed to
-two, columns. They represent the time-to-event (`Zi`), the
-left-truncation time (`Yi`), and a right-censoring indicator (`Di`).
+The workflow for right-censored data is nearly identical. We will
+demonstrate this using the `mbalt` dataset, which includes a third
+column, `Di`, serving as the right-censoring indicator.
 
 ``` r
 data(mbalt)
@@ -168,13 +169,11 @@ head(mbalt)
 #> 6 36 33  1
 ```
 
-Once again, we estimate the hazard rate using the
+We call
 [`estimate_hazard()`](http://lcgodoy.me/abslife/reference/estimate_hazard.md)
-function and this time assign its result to `mbalt_hazard`. The
-`carry_hazard` replazes 0 hazard estimates with the last non-zero hazard
-estimate. Notice, we added an extra argument to the function call: the
-`censoring` argument, which receives an indicator variable that has 1s
-if one event is right censored and 0 otherwise.
+again, but this time we provide the censoring argument. This argument
+accepts a vector where `1` indicates a censored observation and `0`
+indicates an observed event.
 
 ``` r
 mbalt_hazard <- estimate_hazard(time_to_event = mbalt$Zi,
@@ -184,8 +183,7 @@ mbalt_hazard <- estimate_hazard(time_to_event = mbalt$Zi,
                                 carry_hazard = TRUE) ## need 
 ```
 
-The output is analogous to what we have seen in the previous example,
-and we can easily extract some summary as follows:
+The output structure remains consistent with the previous example.
 
 ``` r
 summary(mbalt_hazard)
@@ -202,8 +200,7 @@ plot(mbalt_hazard)
 
 ![](get-started_files/figure-html/plot_mbalt-1.png)
 
-A `ggplot2` powered version of the plot is also available, and allows to
-visualize multiple levels of confidence at once.
+and, for `ggplot2`:
 
 ``` r
 ggauto(mbalt_hazard, ci_level = c(.5, .75, .85, .9, .95))
@@ -213,14 +210,9 @@ ggauto(mbalt_hazard, ci_level = c(.5, .75, .85, .9, .95))
 
 ### Competing risks
 
-Lastly, we show the
-[`estimate_hazard()`](http://lcgodoy.me/abslife/reference/estimate_hazard.md)
-function features to deal with competing risks. To showcase those
-features, we load the `aloans` dataset. This dataset contain information
-on consumer automobile loans (Jackson P. Lautier, Pozdnyakov, and Yan
-2024). To check what each of its columns represent, take a look at the
-dataset documentation by running
-[`help(aloans)`](http://lcgodoy.me/abslife/reference/aloans.md).
+Finally, `abslife` can estimate hazards in the presence of competing
+risks. We use the aloans dataset, which contains data on consumer
+automobile loans (Jackson P. Lautier, Pozdnyakov, and Yan 2024).
 
 ``` r
 data(aloans)
@@ -245,16 +237,18 @@ The relevant columns of the dataset for this example are the following:
 - `D`: Default indicator (1 represents default, and 0 represents
   pre-payment)
 
-The two competing risks in this case are default and pre-payment. We
-will create a more informative column to distinguish between those two
-events.
+The two competing risks in this case are default and pre-payment. To
+make the results more interpretable, we create a descriptive event_type
+column.
 
 ``` r
 aloans <- transform(aloans, event_type = ifelse(D == 1, "Defaut", "Pre-payment"))
 ```
 
 The package is designed so the workflow is identical as the previous two
-examples.
+examples. The only change here is passing the column discriminating the
+event types to the `event_type argument` in
+[`estimate_hazard()`](http://lcgodoy.me/abslife/reference/estimate_hazard.md).
 
 ``` r
 aloans_hazard <- estimate_hazard(time_to_event = aloans$Z,
@@ -265,8 +259,8 @@ aloans_hazard <- estimate_hazard(time_to_event = aloans$Z,
                                  carry_hazard = TRUE) ## need 
 ```
 
-The output is analogous to what we have seen in the previous example,
-but now we have an additional column specifing the event type.
+The output now includes a column specifying the event type for each
+hazard estimate.
 
 ``` r
 summary(aloans_hazard)
@@ -300,7 +294,8 @@ summary(aloans_hazard)
 #> 27 Pre-payment            68 0.076923077    0.96076892 0.0117016919 0.505667029
 ```
 
-The plotting functions work as in the previous examples:
+The plotting functions work as in the previous examples, handling the
+stratification by event type automatically:
 
 ``` r
 plot(aloans_hazard)
@@ -308,7 +303,7 @@ plot(aloans_hazard)
 
 ![](get-started_files/figure-html/plot_aloans-1.png)
 
-A `ggplot2` powered version of the plot is also available:
+The same holds for the `ggplot2` powered plots:
 
 ``` r
 ggauto(aloans_hazard, ci_level = c(.5, .75, .85, .9, .95)) +

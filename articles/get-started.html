@@ -81,32 +81,34 @@
 <span><span class="co">#&gt; WARNING: Under construction.</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span> <span class="co">## optional</span></span></code></pre></div>
 <blockquote>
-<p>Under construction!</p>
+<p>This package is currently under construction!</p>
 </blockquote>
-<p>In this vignette, we show the basic functionalities of the
+<p>This vignette demonstrates the core functionalities of the
 <code>abslife</code> package. <code>abslife</code> provides tools for
-non-parametric estimation of the hazard rate, denoted <span class="math inline">\(\lambda(t)\)</span> for time to event data subject
-to left-truncation <span class="citation">(Jackson P. Lautier,
-Pozdnyakov, and Yan 2023a)</span> and right-censoring <span class="citation">(Jackson P. Lautier, Pozdnyakov, and Yan 2023b)</span>.
-The package also allows for scenarios where competing risks <span class="citation">(Jackson P. Lautier, Pozdnyakov, and Yan 2024)</span>
-is present. In all cases, asymptotic confidence intervals for the
-estimated hazard rates are readily available.</p>
-<p>The main functionalities of the package are embedded in the
-<code>estimate_hazard</code> function. In particular, the function is
-flexible enough to be able to deal with all the cases mentioned in the
-previous paragraph: left-truncation, right-censoring, and competing
-risks. Moreover, the output <code>estimate_hazard</code> has specific
-<code>summary</code> and <code>plot</code> methods, which are helpful in
-understanding the results. In the following sections, we will use three
-different datasets to exemplify the package functionalities</p>
+non-parametric estimation of the hazard rate, denoted <span class="math inline">\(\lambda(t)\)</span>, for time-to-event. The
+package is designed to handle combinations of the following
+scenarios:</p>
+<ul>
+<li><p><strong>Left-truncation</strong> <span class="citation">(Jackson
+P. Lautier, Pozdnyakov, and Yan 2023a)</span></p></li>
+<li><p><strong>Right-censoring</strong> <span class="citation">(Jackson
+P. Lautier, Pozdnyakov, and Yan 2023b)</span></p></li>
+<li><p><strong>Competing risks</strong> <span class="citation">(Jackson
+P. Lautier, Pozdnyakov, and Yan 2024)</span></p></li>
+</ul>
+<p>In all cases, asymptotic confidence intervals for the estimated
+hazard rates are readily available. The main function of the package is
+the <code><a href="../reference/estimate_hazard.html">estimate_hazard()</a></code> function, which adapts to these
+scenarios based on the arguments provided.</p>
+<p>Now, we provide specific examples with datasets shipped with the
+package.</p>
 <div class="section level3">
 <h3 id="left-truncation">Left-truncation<a class="anchor" aria-label="anchor" href="#left-truncation"></a>
 </h3>
-<p>To load the first dataset (called <code>aart</code>), run the chunk
-below. In addition to loading the dataset, we are looking at its first
-rows using <code><a href="https://rdrr.io/r/utils/head.html" class="external-link">head()</a></code>. This dataset has two columns, one
-representing the time-to-event (<code>Xi</code>) and another one the
-truncation time (<code>Yi</code>).</p>
+<p>We begin by analyzing the aart dataset. This dataset represents a
+scenario involving only left-truncation. It contains two columns:
+<code>Xi</code> (time-to-event) and <code>Yi</code> (truncation
+time).</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">aart</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">aart</span><span class="op">)</span></span>
@@ -117,21 +119,22 @@ truncation time (<code>Yi</code>).</p>
 <span><span class="co">#&gt; 4 34 33</span></span>
 <span><span class="co">#&gt; 5 35 33</span></span>
 <span><span class="co">#&gt; 6 39 33</span></span></code></pre></div>
-<p>We estimate the hazard rate using the <code><a href="../reference/estimate_hazard.html">estimate_hazard()</a></code>
-function and assign the result to <code>aart_hazard</code>. The
-<code>carry_hazard</code> replazes 0 hazard estimates with the last
-non-zero hazard estimate.</p>
+<p>We estimate the hazard rate using <code><a href="../reference/estimate_hazard.html">estimate_hazard()</a></code>.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">aart_hazard</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/estimate_hazard.html">estimate_hazard</a></span><span class="op">(</span>time_to_event <span class="op">=</span> <span class="va">aart</span><span class="op">$</span><span class="va">Xi</span>,</span>
 <span>                               trunc_time <span class="op">=</span> <span class="va">aart</span><span class="op">$</span><span class="va">Yi</span>,</span>
 <span>                               ci_level <span class="op">=</span> <span class="fl">0.95</span>,</span>
 <span>                               carry_hazard <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="co">## need </span></span></code></pre></div>
-<p>The function returns a <code>data.frame</code> containing time to
-event, the respective hazard estimates, and the standard errors (on the
-log scale). It also includes the lower and upper bounds of the hazard
-rate confidence interval, which correspond to the confidence level
-specified in the <code>ci_level</code> argument. Below, we inspect the
-final rows using <code><a href="https://rdrr.io/r/utils/head.html" class="external-link">tail()</a></code>:</p>
+<blockquote>
+<p>Note that, we set <code>carry_hazard = TRUE</code>. This argument
+ensures that if a hazard estimate is 0, it is replaced by the last
+non-zero estimate.</p>
+</blockquote>
+<p>The function returns a <code>data.frame</code> containing the
+evaluation times, the hazard estimates, and the standard errors (on the
+log scale). It also includes the lower and upper bounds of the
+confidence interval corresponding to the <code>ci_level</code> argument
+(in this case, set to 0.95).</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">tail</a></span><span class="op">(</span><span class="va">aart_hazard</span><span class="op">)</span></span>
 <span><span class="co">#&gt;    time_to_event          fh          uh hazard se_log_hazard  lower_ci</span></span>
@@ -152,7 +155,11 @@ final rows using <code><a href="https://rdrr.io/r/utils/head.html" class="extern
 <p>I believe we don’t need to output the <code>fh</code> and
 <code>uh</code> columns. What do you think?</p>
 </blockquote>
-<p>The <code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code> function returns a cleaner output:</p>
+<div class="section level4">
+<h4 id="summarizing-and-plotting">Summarizing and plotting<a class="anchor" aria-label="anchor" href="#summarizing-and-plotting"></a>
+</h4>
+<p>For a concise overview of the estimation, use the
+<code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code> method:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">aart_hazard</span><span class="op">)</span></span>
 <span><span class="co">#&gt;    time_to_event     hazard se_log_hazard    lower_ci   upper_ci</span></span>
@@ -165,22 +172,25 @@ final rows using <code><a href="https://rdrr.io/r/utils/head.html" class="extern
 <span><span class="co">#&gt; 31            35 0.05163330    0.13912017 0.039310680 0.06781866</span></span>
 <span><span class="co">#&gt; 36            40 0.73134328    0.07404587 0.632547761 0.84556935</span></span>
 <span><span class="co">#&gt; 41            45 0.50000000    0.70710678 0.125048827 1.99921908</span></span></code></pre></div>
-<p>Finally, we can easily visualize the results using the
-<code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code> function:</p>
+<p>To visualize the hazard rate, you can use base R graphics via the
+<code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code> method:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">aart_hazard</span><span class="op">)</span></span></code></pre></div>
 <p><img src="get-started_files/figure-html/plot_aart-1.png" class="r-plt" width="700"></p>
-<p>A <code>ggplot2</code> powered version of the plot is also available,
-and allows to visualize multiple levels of confidence at once.</p>
+<p>Alternatively, use <code><a href="../reference/ggauto.html">ggauto()</a></code> for a
+<code>ggplot2</code>-powered visualization. This function is
+particularly useful for visualizing multiple confidence levels
+simultaneously:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/ggauto.html">ggauto</a></span><span class="op">(</span><span class="va">aart_hazard</span>, ci_level <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.5</span>, <span class="fl">.75</span>, <span class="fl">.85</span>, <span class="fl">.9</span>, <span class="fl">.95</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="get-started_files/figure-html/ggplot_aart-1.png" class="r-plt" width="700"></p>
-<p>An interesting feature of the package, is that it allows for
-calculating the CDF associated with the time to events from using the
-hazard function. To achieve that, it suffices to call the
-<code>calc_cdf</code> function. That function adds a column (called
-<code>cdf</code>) to the output of the <code>estimate_hazard</code>
-function.</p>
+</div>
+<div class="section level4">
+<h4 id="calculating-the-cdf">Calculating the CDF<a class="anchor" aria-label="anchor" href="#calculating-the-cdf"></a>
+</h4>
+<p>he package can also derive the Cumulative Distribution Function (CDF)
+directly from the hazard estimates using <code><a href="../reference/calc_cdf.html">calc_cdf()</a></code>. This
+appends a cdf column to the results.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">aart_cdf</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calc_cdf.html">calc_cdf</a></span><span class="op">(</span><span class="va">aart_hazard</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">tail</a></span><span class="op">(</span><span class="va">aart_cdf</span><span class="op">)</span></span>
@@ -199,15 +209,14 @@ function.</p>
 <span><span class="co">#&gt; 44 1.999219 0.9999694</span></span>
 <span><span class="co">#&gt; 45 1.000000 1.0000000</span></span></code></pre></div>
 </div>
+</div>
 <div class="section level3">
 <h3 id="right-censoring">Right-censoring<a class="anchor" aria-label="anchor" href="#right-censoring"></a>
 </h3>
-<p>Now, we show that we can use an almost identical workflow to deal
-analyze right-censored data as well. To achieve that goal, we will load
-another dataset, called <code>mbalt</code>. This dataset has three, as
-opposed to two, columns. They represent the time-to-event
-(<code>Zi</code>), the left-truncation time (<code>Yi</code>), and a
-right-censoring indicator (<code>Di</code>).</p>
+<p>The workflow for right-censored data is nearly identical. We will
+demonstrate this using the <code>mbalt</code> dataset, which includes a
+third column, <code>Di</code>, serving as the right-censoring
+indicator.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">mbalt</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">mbalt</span><span class="op">)</span></span>
@@ -218,21 +227,18 @@ right-censoring indicator (<code>Di</code>).</p>
 <span><span class="co">#&gt; 4 32 32  1</span></span>
 <span><span class="co">#&gt; 5 37 32  1</span></span>
 <span><span class="co">#&gt; 6 36 33  1</span></span></code></pre></div>
-<p>Once again, we estimate the hazard rate using the
-<code><a href="../reference/estimate_hazard.html">estimate_hazard()</a></code> function and this time assign its result
-to <code>mbalt_hazard</code>. The <code>carry_hazard</code> replazes 0
-hazard estimates with the last non-zero hazard estimate. Notice, we
-added an extra argument to the function call: the <code>censoring</code>
-argument, which receives an indicator variable that has 1s if one event
-is right censored and 0 otherwise.</p>
+<p>We call <code><a href="../reference/estimate_hazard.html">estimate_hazard()</a></code> again, but this time we
+provide the censoring argument. This argument accepts a vector where
+<code>1</code> indicates a censored observation and <code>0</code>
+indicates an observed event.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mbalt_hazard</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/estimate_hazard.html">estimate_hazard</a></span><span class="op">(</span>time_to_event <span class="op">=</span> <span class="va">mbalt</span><span class="op">$</span><span class="va">Zi</span>,</span>
 <span>                                trunc_time <span class="op">=</span> <span class="va">mbalt</span><span class="op">$</span><span class="va">Yi</span>,</span>
 <span>                                censoring <span class="op">=</span> <span class="va">mbalt</span><span class="op">$</span><span class="va">Di</span>,</span>
 <span>                                ci_level <span class="op">=</span> <span class="fl">0.95</span>,</span>
 <span>                                carry_hazard <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="co">## need </span></span></code></pre></div>
-<p>The output is analogous to what we have seen in the previous example,
-and we can easily extract some summary as follows:</p>
+<p>The output structure remains consistent with the previous
+example.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">mbalt_hazard</span><span class="op">)</span></span>
 <span><span class="co">#&gt;    time_to_event     hazard se_log_hazard   lower_ci   upper_ci</span></span>
@@ -242,8 +248,7 @@ and we can easily extract some summary as follows:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mbalt_hazard</span><span class="op">)</span></span></code></pre></div>
 <p><img src="get-started_files/figure-html/plot_mbalt-1.png" class="r-plt" width="700"></p>
-<p>A <code>ggplot2</code> powered version of the plot is also available,
-and allows to visualize multiple levels of confidence at once.</p>
+<p>and, for <code>ggplot2</code>:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/ggauto.html">ggauto</a></span><span class="op">(</span><span class="va">mbalt_hazard</span>, ci_level <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.5</span>, <span class="fl">.75</span>, <span class="fl">.85</span>, <span class="fl">.9</span>, <span class="fl">.95</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="get-started_files/figure-html/ggplot_mbalt-1.png" class="r-plt" width="700"></p>
@@ -251,13 +256,10 @@ and allows to visualize multiple levels of confidence at once.</p>
 <div class="section level3">
 <h3 id="competing-risks">Competing risks<a class="anchor" aria-label="anchor" href="#competing-risks"></a>
 </h3>
-<p>Lastly, we show the <code><a href="../reference/estimate_hazard.html">estimate_hazard()</a></code> function features
-to deal with competing risks. To showcase those features, we load the
-<code>aloans</code> dataset. This dataset contain information on
+<p>Finally, <code>abslife</code> can estimate hazards in the presence of
+competing risks. We use the aloans dataset, which contains data on
 consumer automobile loans <span class="citation">(Jackson P. Lautier,
-Pozdnyakov, and Yan 2024)</span>. To check what each of its columns
-represent, take a look at the dataset documentation by running
-<code><a href="../reference/aloans.html">help(aloans)</a></code>.</p>
+Pozdnyakov, and Yan 2024)</span>.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">aloans</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">aloans</span><span class="op">)</span></span>
@@ -277,13 +279,15 @@ following:</p>
 <li><p><code>D</code>: Default indicator (1 represents default, and 0
 represents pre-payment)</p></li>
 </ul>
-<p>The two competing risks in this case are default and pre-payment. We
-will create a more informative column to distinguish between those two
-events.</p>
+<p>The two competing risks in this case are default and pre-payment. To
+make the results more interpretable, we create a descriptive event_type
+column.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">aloans</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/transform.html" class="external-link">transform</a></span><span class="op">(</span><span class="va">aloans</span>, event_type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">D</span> <span class="op">==</span> <span class="fl">1</span>, <span class="st">"Defaut"</span>, <span class="st">"Pre-payment"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>The package is designed so the workflow is identical as the previous
-two examples.</p>
+two examples. The only change here is passing the column discriminating
+the event types to the <code>event_type argument</code> in
+<code><a href="../reference/estimate_hazard.html">estimate_hazard()</a></code>.</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">aloans_hazard</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/estimate_hazard.html">estimate_hazard</a></span><span class="op">(</span>time_to_event <span class="op">=</span> <span class="va">aloans</span><span class="op">$</span><span class="va">Z</span>,</span>
 <span>                                 trunc_time <span class="op">=</span> <span class="va">aloans</span><span class="op">$</span><span class="va">Y</span>,</span>
@@ -291,8 +295,8 @@ two examples.</p>
 <span>                                 event_type <span class="op">=</span> <span class="va">aloans</span><span class="op">$</span><span class="va">event_type</span>,</span>
 <span>                                 ci_level <span class="op">=</span> <span class="fl">0.95</span>,</span>
 <span>                                 carry_hazard <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="co">## need </span></span></code></pre></div>
-<p>The output is analogous to what we have seen in the previous example,
-but now we have an additional column specifing the event type.</p>
+<p>The output now includes a column specifying the event type for each
+hazard estimate.</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">aloans_hazard</span><span class="op">)</span></span>
 <span><span class="co">#&gt;     event_type time_to_event      hazard se_log_hazard     lower_ci    upper_ci</span></span>
@@ -323,12 +327,12 @@ but now we have an additional column specifing the event type.</p>
 <span><span class="co">#&gt; 25 Pre-payment            58 0.037953795    0.20451918 0.0254195682 0.056668570</span></span>
 <span><span class="co">#&gt; 26 Pre-payment            63 0.020408163    0.98974332 0.0029331406 0.141995624</span></span>
 <span><span class="co">#&gt; 27 Pre-payment            68 0.076923077    0.96076892 0.0117016919 0.505667029</span></span></code></pre></div>
-<p>The plotting functions work as in the previous examples:</p>
+<p>The plotting functions work as in the previous examples, handling the
+stratification by event type automatically:</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">aloans_hazard</span><span class="op">)</span></span></code></pre></div>
 <p><img src="get-started_files/figure-html/plot_aloans-1.png" class="r-plt" width="700"></p>
-<p>A <code>ggplot2</code> powered version of the plot is also
-available:</p>
+<p>The same holds for the <code>ggplot2</code> powered plots:</p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/ggauto.html">ggauto</a></span><span class="op">(</span><span class="va">aloans_hazard</span>, ci_level <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.5</span>, <span class="fl">.75</span>, <span class="fl">.85</span>, <span class="fl">.9</span>, <span class="fl">.95</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_bw</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
