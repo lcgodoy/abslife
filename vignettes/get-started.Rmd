@@ -204,4 +204,4 @@ ggauto(aloans_hazard, ci_level = c(.5, .75, .85, .9, .95)) +
   theme_bw()
 ```
 
-
+# References
