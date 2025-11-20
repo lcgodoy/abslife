@@ -61,7 +61,7 @@ ggauto.alife <- function(object, ci_level = 0.95, ...) {
   p <- ggplot2::ggplot(
     plot_data,
     # Use .data$column_name inside aes()
-    ggplot2::aes(x = .data$time_to_event, y = .data$hazard)
+    ggplot2::aes(x = .data$lifetime, y = .data$hazard)
   ) +
     ggplot2::geom_ribbon(
       ggplot2::aes(
@@ -105,7 +105,7 @@ ggauto.alife_multi <- function(object, ci_level = 0.95, ...) {
   }
   plot_data <- .prep_ggplot(object, ci_level)
   p <- ggplot2::ggplot(plot_data,
-                       ggplot2::aes(x = .data$time_to_event,
+                       ggplot2::aes(x = .data$lifetime,
                                     y = .data$hazard)) +
     ggplot2::geom_ribbon(
       ggplot2::aes(ymin = .data$lower_ci,
@@ -119,7 +119,7 @@ ggauto.alife_multi <- function(object, ci_level = 0.95, ...) {
     ggplot2::labs(
       ## title = "Hazard Rate Estimate by Event Type",
       x = "x",
-      y = "Cause specific hazard",
+      y = "Event_Type specific hazard",
       fill = "CI Level"
     ) +
     ggplot2::facet_wrap(ggplot2::vars(.data$event_type),

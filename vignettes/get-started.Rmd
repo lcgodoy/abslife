@@ -23,15 +23,14 @@ library(ggplot2) ## optional
 > This package is currently under construction!
 
 This vignette demonstrates the core functionalities of the `abslife`
-package. `abslife` provides tools for non-parametric estimation of the hazard
-rate, denoted $\lambda(t)$, for time-to-event. The package is designed to handle
-combinations of the following scenarios:
+package. `abslife` provides tools for estimation of the hazard rate, denoted
+$\lambda$, for discrete time-to-event data subject to **left-truncation**
+[@lautier2023estimating]. The package is designed so it can additionally handle
+the following common observational data challenges:
 
-* **Left-truncation** [@lautier2023estimating] 
+* **+ Right-censoring** [@lautier2023pricing] 
 
-* **Right-censoring** [@lautier2023pricing] 
-
-* **Competing risks** [@lautier2024convergence]
+* **+ Competing risks** [@lautier2024convergence]
 
 In all cases, asymptotic confidence intervals for the estimated hazard rates are
 readily available. The main function of the package is the `estimate_hazard()`
@@ -53,7 +52,7 @@ head(aart)
 
 We estimate the hazard rate using `estimate_hazard()`.
 ```{r aart_est}
-aart_hazard <- estimate_hazard(time_to_event = aart$Xi,
+aart_hazard <- estimate_hazard(lifetime = aart$Xi,
                                trunc_time = aart$Yi,
                                ci_level = 0.95,
                                carry_hazard = TRUE) ## need 
@@ -122,7 +121,7 @@ We call `estimate_hazard()` again, but this time we provide the censoring
 argument. This argument accepts a vector where `1` indicates a censored
 observation and `0` indicates an observed event.
 ```{r mbalt_est}
-mbalt_hazard <- estimate_hazard(time_to_event = mbalt$Zi,
+mbalt_hazard <- estimate_hazard(lifetime = mbalt$Zi,
                                 trunc_time = mbalt$Yi,
                                 censoring = mbalt$Di,
                                 ci_level = 0.95,
@@ -175,12 +174,12 @@ The package is designed so the workflow is identical as the previous two
 examples. The only change here is passing the column discriminating the event
 types to the `event_type argument` in `estimate_hazard()`.
 ```{r aloans_est}
-aloans_hazard <- estimate_hazard(time_to_event = aloans$Z,
+aloans_hazard <- estimate_hazard(lifetime = aloans$Z,
                                  trunc_time = aloans$Y,
                                  censoring = aloans$C,
                                  event_type = aloans$event_type,
                                  ci_level = 0.95,
-                                 carry_hazard = TRUE) ## need 
+                                 carry_hazard = FALSE) ## need 
 ```
 
 

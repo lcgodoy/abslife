@@ -19,20 +19,20 @@ plot.alife <- function(x, col_ci = "skyblue", col_line = "navy", ...) {
       ylab = "Hazard rate",
       main = NA_character_,
       ylim = range(c(x$lower_ci, x$upper_ci), na.rm = TRUE),
-      xlim = range(x$time, na.rm = TRUE)
+      xlim = range(x$lifetime, na.rm = TRUE)
   )
   plot_args <- utils::modifyList(defaults, args)
   do.call("plot",
-          c(list(x = x$time_to_event, y = x$hazard, type = "n"),
+          c(list(x = x$lifetime, y = x$hazard, type = "n"),
             plot_args))
   ci_data <- x[!is.na(x$lower_ci) & !is.na(x$upper_ci), ]
   polygon(
-      x = c(ci_data$time_to_event, rev(ci_data$time_to_event)),
+      x = c(ci_data$lifetime, rev(ci_data$lifetime)),
       y = c(ci_data$lower_ci, rev(ci_data$upper_ci)),
       col = col_ci,
       border = NA
   )
-  lines(ci_data$time_to_event, ci_data$hazard, col = col_line, lwd = 2)
+  lines(ci_data$lifetime, ci_data$hazard, col = col_line, lwd = 2)
 }
 
 ##' Plot Method for an 'alife_multi' Object
@@ -69,20 +69,20 @@ plot.alife_multi <- function(x, col_ci = "skyblue", col_line = "navy", ...) {
       # Use the event type in the title
       main = paste("Event:", et),
       ylim = range(c(x_sub$lower_ci, x_sub$upper_ci), na.rm = TRUE),
-      xlim = range(x_sub$time_to_event, na.rm = TRUE)
+      xlim = range(x_sub$lifetime, na.rm = TRUE)
     )
     plot_args <- utils::modifyList(defaults, args)
     do.call("plot",
-            c(list(x = x_sub$time_to_event, y = x_sub$hazard, type = "n"),
+            c(list(x = x_sub$lifetime, y = x_sub$hazard, type = "n"),
               plot_args))
     ci_data <- x_sub[!is.na(x_sub$lower_ci) & !is.na(x_sub$upper_ci), ]    
     polygon(
-      x = c(ci_data$time_to_event, rev(ci_data$time_to_event)),
+      x = c(ci_data$lifetime, rev(ci_data$lifetime)),
       y = c(ci_data$lower_ci, rev(ci_data$upper_ci)),
       col = col_ci,
       border = NA
     )
-    lines(ci_data$time_to_event, ci_data$hazard, col = col_line, lwd = 2)
+    lines(ci_data$lifetime, ci_data$hazard, col = col_line, lwd = 2)
   }
 }
 
@@ -98,15 +98,15 @@ plot.alife_multi <- function(x, col_ci = "skyblue", col_line = "navy", ...) {
 ##' @return A summary of the hazard rate.
 ##' @export
 summary.alife <- function(object, by = 5, ...) {
-  lower <- min(object$time_to_event, na.rm = TRUE)
-  upper <- max(object$time_to_event, na.rm = TRUE)
+  lower <- min(object$lifetime, na.rm = TRUE)
+  upper <- max(object$lifetime, na.rm = TRUE)
   times <- seq.int(from = lower, to = upper, by = by)
-  cols <- c("time_to_event",
+  cols <- c("lifetime",
             "hazard",
             "se_log_hazard",
             "lower_ci",
             "upper_ci")
-  object[object$time_to_event %in% times, cols]
+  object[object$lifetime %in% times, cols]
 }
 
 ##' Summary Method for an 'alife_multi' Object
@@ -121,18 +121,18 @@ summary.alife <- function(object, by = 5, ...) {
 ##' @return A summary of the hazard rate.
 ##' @export
 summary.alife_multi <- function(object, by = 5, ...) {
-  lower <- min(object$time_to_event, na.rm = TRUE)
-  upper <- max(object$time_to_event, na.rm = TRUE)
+  lower <- min(object$lifetime, na.rm = TRUE)
+  upper <- max(object$lifetime, na.rm = TRUE)
   times <- seq.int(from = lower, to = upper, by = by)
   cols <- c("event_type",
-            "time_to_event",
+            "lifetime",
             "hazard",
             "se_log_hazard",
             "lower_ci",
             "upper_ci")
   df_list <- split(object, object$event_type)
   df_list <- lapply(df_list, function(df) {
-    df[df$time_to_event %in% times, cols]
+    df[df$lifetime %in% times, cols]
   })
   out <- do.call(rbind, df_list)
   rownames(out) <- NULL

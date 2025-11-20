@@ -5,9 +5,9 @@
 \title{Hazard rate}
 \usage{
 estimate_hazard(
-  time_to_event,
+  lifetime,
   trunc_time = NULL,
-  censoring = NULL,
+  censoring_indicator = NULL,
   event_type = NULL,
   support_lifetime_rv = NULL,
   carry_hazard = FALSE,
@@ -15,13 +15,13 @@ estimate_hazard(
 )
 }
 \arguments{
-\item{time_to_event}{A numeric vector representing the observed time to
+\item{lifetime}{A numeric vector representing the observed time to
 event.}
 
 \item{trunc_time}{A numeric vector representing the observed left-truncated
 time.}
 
-\item{censoring}{An indicator for censoring (1=censored, 0=not). Defaults to
+\item{censoring_indicator}{An indicator for censoring (1=censored, 0=not). Defaults to
 a vector of 0s if \code{NULL}. An observation is only treated as an event if
 status=1 AND censoring=0.}
 
@@ -29,7 +29,7 @@ status=1 AND censoring=0.}
 
 \item{support_lifetime_rv}{A \code{vector} of time points at which to evaluate
 the hazard.  If \code{NULL} (the default), it is calculated for a sequence from
-\code{Delta + 1} to \code{omega} (that is, \code{max(time_to_event)}).}
+\code{Delta + 1} to \code{omega} (that is, \code{max(lifetime)}).}
 
 \item{carry_hazard}{A \code{boolean} indicator on whether 0 hazard estimates
 should be replaced by the last non-zero estimate. Defaults to \code{FALSE}}

@@ -7,8 +7,8 @@
 .hazard_core(
   support,
   trunc_time,
-  time_to_event,
-  censoring,
+  lifetime,
+  censoring_indicator,
   event_indicator,
   carry_hazard
 )
@@ -19,10 +19,10 @@
 \item{trunc_time}{A numeric vector representing the observed left-truncated
 time.}
 
-\item{time_to_event}{A numeric vector representing the observed time to
+\item{lifetime}{A numeric vector representing the observed time to
 event.}
 
-\item{censoring}{An indicator for censoring (1=censored, 0=not). Defaults to
+\item{censoring_indicator}{An indicator for censoring (1=censored, 0=not). Defaults to
 a vector of 0s if \code{NULL}. An observation is only treated as an event if
 status=1 AND censoring=0.}
 

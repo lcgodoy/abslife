@@ -4,17 +4,17 @@
 \alias{f_hat}
 \title{\eqn{\hat{f}(x)}}
 \usage{
-f_hat(t, time_to_event, event, censoring)
+f_hat(t, lifetime, event, censoring_indicator)
 }
 \arguments{
 \item{t}{A time point at which hazard estimates are sought.}
 
-\item{time_to_event}{A numeric vector representing the observed time to
+\item{lifetime}{A numeric vector representing the observed time to
 event.}
 
 \item{event}{event indicator}
 
-\item{censoring}{An indicator for censoring (1=censored, 0=not). Defaults to
+\item{censoring_indicator}{An indicator for censoring (1=censored, 0=not). Defaults to
 a vector of 0s if \code{NULL}. An observation is only treated as an event if
 status=1 AND censoring=0.}
 }

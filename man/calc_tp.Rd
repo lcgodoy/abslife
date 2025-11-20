@@ -4,10 +4,10 @@
 \alias{calc_tp}
 \title{Calculate Default Time Points}
 \usage{
-calc_tp(time_to_event, trunc_time)
+calc_tp(lifetime, trunc_time)
 }
 \arguments{
-\item{time_to_event}{The vector of event or censoring times.}
+\item{lifetime}{The vector of event or censoring times.}
 
 \item{trunc_time}{The vector of left-truncation times.}
 }

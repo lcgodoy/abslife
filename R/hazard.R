@@ -6,14 +6,14 @@
 ##' and \eqn{m} based on left-truncation and time-to-event variables and outputs
 ##' a sequence ranging from \eqn{\Delta + 1} to \eqn{\omega}.
 ##'
-##' @param time_to_event The vector of event or censoring times.
+##' @param lifetime The vector of event or censoring times.
 ##' @param trunc_time The vector of left-truncation times.
 ##'
 ##' @return A numeric vector of default time points to evaluate the hazard at.
 ##' @export
-calc_tp <- function(time_to_event, trunc_time) {
-  delta <- min(c(time_to_event, trunc_time), na.rm = TRUE)
-  omega <- max(time_to_event, na.rm = TRUE)
+calc_tp <- function(lifetime, trunc_time) {
+  delta <- min(c(lifetime, trunc_time), na.rm = TRUE)
+  omega <- max(lifetime, na.rm = TRUE)
   if (delta + 1 > omega) {
     warning("There are less than 2 timepoints.")
     return(numeric(0)) 
@@ -26,11 +26,11 @@ calc_tp <- function(time_to_event, trunc_time) {
 ##' @inheritParams single_t_hazard
 ##' @return a scalar
 ##' @author lcgodoy
-f_hat <- function(t, time_to_event,
+f_hat <- function(t, lifetime,
                   event,
-                  censoring) {
-  mean(censoring == 0 & event == 1 &
-       time_to_event == t)
+                  censoring_indicator) {
+  mean(censoring_indicator == 0 & event == 1 &
+       lifetime == t)
 }
 
 ##' @title \eqn{\hat{U}(x)}
@@ -38,9 +38,9 @@ f_hat <- function(t, time_to_event,
 ##' @return a scalar
 ##' @author lcgodoy
 u_hat <- function(t,
-                  time_to_event,
+                  lifetime,
                   trunc_time) {
-  mean(t >= trunc_time & t <= time_to_event)
+  mean(t >= trunc_time & t <= lifetime)
 }
 
 ##' @title Variance of the log-transformed hazard estimate
@@ -68,12 +68,12 @@ var_hat <- function(lambda, uh, fh, n) {
 ##' @author lcgodoy
 single_t_hazard <- function(t,
                             trunc_time,
-                            time_to_event,
+                            lifetime,
                             event,
-                            censoring) {
-  fh <- f_hat(t, time_to_event, event, censoring)
-  uh <- u_hat(t, time_to_event, trunc_time)
-  n <- length(time_to_event)
+                            censoring_indicator) {
+  fh <- f_hat(t, lifetime, event, censoring_indicator)
+  uh <- u_hat(t, lifetime, trunc_time)
+  n <- length(lifetime)
   if (uh == 0) {
     hazard <- 0
     var_log_h <- NA
@@ -85,7 +85,7 @@ single_t_hazard <- function(t,
              var_hat(hazard, uh, fh, n))
   }
   c(
-      time_to_event = t,
+      lifetime = t,
       fh = fh,
       uh = uh,
       hazard = hazard,
@@ -99,15 +99,15 @@ single_t_hazard <- function(t,
 ##' @return a `data.frame`
 ##' @author lcgodoy
 .hazard_core <- function(support, trunc_time,
-                         time_to_event, censoring,
+                         lifetime, censoring_indicator,
                          event_indicator,
                          carry_hazard) {
   out <-
     sapply(support,
            single_t_hazard,
            trunc_time = trunc_time,
-           time_to_event = time_to_event,
-           censoring = censoring,
+           lifetime = lifetime,
+           censoring_indicator = censoring_indicator,
            event = event_indicator)
   out <- as.data.frame(t(out))
   if (carry_hazard)
@@ -124,17 +124,17 @@ single_t_hazard <- function(t,
 ##'   based on <REFERENCES> (We can also include some brief notation/definitions
 ##'   here)
 ##' 
-##' @param time_to_event A numeric vector representing the observed time to
+##' @param lifetime A numeric vector representing the observed time to
 ##'   event.
 ##' @param trunc_time A numeric vector representing the observed left-truncated
 ##'   time.
-##' @param censoring An indicator for censoring (1=censored, 0=not). Defaults to
+##' @param censoring_indicator An indicator for censoring (1=censored, 0=not). Defaults to
 ##'   a vector of 0s if `NULL`. An observation is only treated as an event if
 ##'   status=1 AND censoring=0.
 ##' @param event_type a vector of "events identifies" (experimental)
 ##' @param support_lifetime_rv A `vector` of time points at which to evaluate
 ##'   the hazard.  If `NULL` (the default), it is calculated for a sequence from
-##'   `Delta + 1` to `omega` (that is, `max(time_to_event)`).
+##'   `Delta + 1` to `omega` (that is, `max(lifetime)`).
 ##' @param carry_hazard A `boolean` indicator on whether 0 hazard estimates
 ##'   should be replaced by the last non-zero estimate. Defaults to `FALSE`
 ##' @param ci_level A number between 0 and 1 indicating the level of the
@@ -145,23 +145,23 @@ single_t_hazard <- function(t,
 ##' @return A `data.frame` with the hazard estimate their standard errors and
 ##'   asymptotic confidence intervals.
 ##'
-estimate_hazard <- function(time_to_event,
+estimate_hazard <- function(lifetime,
                             trunc_time = NULL,
-                            censoring = NULL,
+                            censoring_indicator = NULL,
                             event_type = NULL,
                             support_lifetime_rv = NULL,
                             carry_hazard = FALSE,
                             ci_level = .95) {
-  n_obs <- length(time_to_event)
+  n_obs <- length(lifetime)
   if (is.null(trunc_time)) {
     trunc_time <- rep(0, n_obs)
   }
-  if (is.null(censoring)) {
-    censoring <- rep(0, n_obs)
+  if (is.null(censoring_indicator)) {
+    censoring_indicator <- rep(0, n_obs)
   }
   if (!is.null(trunc_time)) {
-    stopifnot(length(time_to_event) == length(trunc_time))
-    stopifnot(!all(is.na(time_to_event)))
+    stopifnot(length(lifetime) == length(trunc_time))
+    stopifnot(!all(is.na(lifetime)))
   }
   ## if (!is.null(censoring)) {
   ##   stopifnot(!is.null(trunc_time))
@@ -170,10 +170,10 @@ estimate_hazard <- function(time_to_event,
   ## event <- ifelse(event == 1 & censoring == 0, 1, 0)
   ## evaluation points based on the paper
   if (is.null(support_lifetime_rv)) {
-    Delta <- min(c(time_to_event, trunc_time), na.rm = TRUE)
+    Delta <- min(c(lifetime, trunc_time), na.rm = TRUE)
     m <- max(trunc_time, na.rm = TRUE)
-    omega <- max(time_to_event)
-    support_lifetime_rv <- calc_tp(time_to_event, trunc_time)
+    omega <- max(lifetime)
+    support_lifetime_rv <- calc_tp(lifetime, trunc_time)
   }
   run_by_type <-
     !is.null(event_type) && length(unique(event_type)) > 1
@@ -181,8 +181,8 @@ estimate_hazard <- function(time_to_event,
     event_i <- rep(1, n_obs)
     out <- .hazard_core(support_lifetime_rv,
                         trunc_time,
-                        time_to_event,
-                        censoring,
+                        lifetime,
+                        censoring_indicator,
                         event_i,
                         carry_hazard)
   } else {
@@ -193,8 +193,8 @@ estimate_hazard <- function(time_to_event,
       out[[i]] <-
         .hazard_core(support_lifetime_rv,
                      trunc_time,
-                     time_to_event,
-                     censoring,
+                     lifetime,
+                     censoring_indicator,
                      event_i,
                      carry_hazard)
       out[[i]] <-

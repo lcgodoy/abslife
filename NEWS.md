@@ -1,5 +1,7 @@
 # abslife 0.0.94
 
+* `time_to_event` becomes lifetime
+
 * Logo included in the package website and README file.
 
 * First draft for a vignette.
