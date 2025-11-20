@@ -26,9 +26,7 @@ event.}
 a vector of 0s if \code{NULL}. An observation is only treated as an event if
 status=1 AND censoring=0.}
 
-\item{event_indicator}{The event indicator vector (1=default,
-0=censored). Defaults to NULL (no censoring), which is equivalent to a
-vector of ones.}
+\item{event_indicator}{legacy.}
 
 \item{carry_hazard}{A \code{boolean} indicator on whether 0 hazard estimates
 should be replaced by the last non-zero estimate. Defaults to \code{FALSE}}

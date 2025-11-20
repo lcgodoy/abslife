@@ -94,6 +94,7 @@ single_t_hazard <- function(t,
 }
 ##' @title Auxiliary function for `estimate_hazard`
 ##' @param support where to calculate the hazards
+##' @param event_indicator legacy.
 ##' @inheritParams estimate_hazard
 ##' @return a `data.frame`
 ##' @author lcgodoy
@@ -127,9 +128,6 @@ single_t_hazard <- function(t,
 ##'   event.
 ##' @param trunc_time A numeric vector representing the observed left-truncated
 ##'   time.
-##' @param event_indicator The event indicator vector (1=default,
-##'   0=censored). Defaults to NULL (no censoring), which is equivalent to a
-##'   vector of ones.
 ##' @param censoring An indicator for censoring (1=censored, 0=not). Defaults to
 ##'   a vector of 0s if `NULL`. An observation is only treated as an event if
 ##'   status=1 AND censoring=0.
@@ -149,7 +147,6 @@ single_t_hazard <- function(t,
 ##'
 estimate_hazard <- function(time_to_event,
                             trunc_time = NULL,
-                            event_indicator = NULL,
                             censoring = NULL,
                             event_type = NULL,
                             support_lifetime_rv = NULL,
@@ -158,9 +155,6 @@ estimate_hazard <- function(time_to_event,
   n_obs <- length(time_to_event)
   if (is.null(trunc_time)) {
     trunc_time <- rep(0, n_obs)
-  }
-  if (is.null(event_indicator)) {
-    event_indicator <- rep(1, n_obs)
   }
   if (is.null(censoring)) {
     censoring <- rep(0, n_obs)
@@ -184,11 +178,12 @@ estimate_hazard <- function(time_to_event,
   run_by_type <-
     !is.null(event_type) && length(unique(event_type)) > 1
   if (!run_by_type) {
+    event_i <- rep(1, n_obs)
     out <- .hazard_core(support_lifetime_rv,
                         trunc_time,
                         time_to_event,
                         censoring,
-                        event_indicator,
+                        event_i,
                         carry_hazard)
   } else {
     etypes <- unique(event_type)

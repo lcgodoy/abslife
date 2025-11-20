@@ -15,9 +15,9 @@
 plot.alife <- function(x, col_ci = "skyblue", col_line = "navy", ...) {
   args <- list(...)
   defaults <- list(
-      xlab = "t",
-      ylab = expression(hat(lambda)(t)),
-      main = "Hazard Rate Estimate",
+      xlab = "x",
+      ylab = "Hazard rate",
+      main = NA_character_,
       ylim = range(c(x$lower_ci, x$upper_ci), na.rm = TRUE),
       xlim = range(x$time, na.rm = TRUE)
   )
@@ -64,10 +64,10 @@ plot.alife_multi <- function(x, col_ci = "skyblue", col_line = "navy", ...) {
     x_sub <- x[x$event_type == et, ]
     args <- list(...)
     defaults <- list(
-      xlab = "t",
-      ylab = expression(hat(lambda)(t)),
+      xlab = "x",
+      ylab = "Cause specific hazard rate",
       # Use the event type in the title
-      main = paste("Hazard Rate - Event:", et), 
+      main = paste("Event:", et),
       ylim = range(c(x_sub$lower_ci, x_sub$upper_ci), na.rm = TRUE),
       xlim = range(x_sub$time_to_event, na.rm = TRUE)
     )

@@ -7,7 +7,6 @@
 estimate_hazard(
   time_to_event,
   trunc_time = NULL,
-  event_indicator = NULL,
   censoring = NULL,
   event_type = NULL,
   support_lifetime_rv = NULL,
@@ -21,10 +20,6 @@ event.}
 
 \item{trunc_time}{A numeric vector representing the observed left-truncated
 time.}
-
-\item{event_indicator}{The event indicator vector (1=default,
-0=censored). Defaults to NULL (no censoring), which is equivalent to a
-vector of ones.}
 
 \item{censoring}{An indicator for censoring (1=censored, 0=not). Defaults to
 a vector of 0s if \code{NULL}. An observation is only treated as an event if

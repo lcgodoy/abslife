@@ -75,9 +75,9 @@ ggauto.alife <- function(object, ci_level = 0.95, ...) {
     ggplot2::geom_line(linewidth = 1) +
     ggplot2::scale_fill_brewer(type = "seq") +
     ggplot2::labs(
-      title = "Hazard Rate Estimate",
-      x = "Time",
-      y = expression(hat(lambda)(t)),
+      ## title = "Hazard rate",
+      x = "x",
+      y = "Hazard rate",
       fill = "CI Level"
     )
   return(p)
@@ -117,12 +117,13 @@ ggauto.alife_multi <- function(object, ci_level = 0.95, ...) {
     ggplot2::geom_line() +
     ggplot2::scale_fill_brewer(type = "seq") +
     ggplot2::labs(
-      title = "Hazard Rate Estimate by Event Type",
-      x = "Time",
-      y = expression(hat(lambda)(t)),
+      ## title = "Hazard Rate Estimate by Event Type",
+      x = "x",
+      y = "Cause specific hazard",
       fill = "CI Level"
     ) +
-    ggplot2::facet_wrap(ggplot2::vars(.data$event_type)) +
+    ggplot2::facet_wrap(ggplot2::vars(.data$event_type),
+                        labeller = ggplot2::label_both) +
   ggplot2::theme_minimal()
   return(p)
 }

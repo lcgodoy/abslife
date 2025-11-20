@@ -18,3 +18,4 @@ tramp
 docs
 
 *.tar.gz
+inst/doc

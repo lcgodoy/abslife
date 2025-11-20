@@ -2,10 +2,12 @@
 
 * Logo included in the package website and README file.
 
-* First vignette up.
+* First draft for a vignette.
 
 * Two new datasets: `aart` (for left-truncation) and `mbalt` (left-truncation +
   right-censoring).
+
+* `event_indicator` is no longer an argument of `estimate_hazard()`.
 
 # abslife 0.0.93
 

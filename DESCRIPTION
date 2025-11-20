@@ -1,7 +1,7 @@
 Package: abslife
 Title: Asset-Backed Security for lifetime data
-Version: 0.0.93
-Date: 2025-11-06
+Version: 0.0.94
+Date: 2025-11-20
 Authors@R:
   c(
     person(given = "Lucas",
@@ -20,7 +20,9 @@ License: MIT + file LICENSE
 Suggests: 
     testthat (>= 3.0.0),
     ggplot2,
-    zoo
+    zoo,
+    knitr,
+    rmarkdown
 Imports: rlang
 Config/testthat/edition: 3
 Encoding: UTF-8
@@ -31,3 +33,4 @@ Depends:
     graphics
 LazyData: true
 URL: http://lcgodoy.me/abslife/
+VignetteBuilder: knitr

@@ -15,3 +15,34 @@
 ##' }
 ##' @source DATASETS SOURCE (I'll get from the paper)
 "aloans"
+
+##' NAME OF THE DATASET?
+##'
+##' We should have a brief description here
+##'
+##' @format ## `aart`
+##' A data frame with 47,315 rows and 3 columns:
+##' \describe{
+##'
+##' \item{\code{risk_cat}}{Credit score category}
+##'   \item{\code{Zi}}{Time-of-event}
+##'   \item{\code{Yi}}{Truncation time}
+##'   \item{\code{Di}}{Default indicator (1 = default, 0 = not default)}
+##' }
+##' @source DATASETS SOURCE (I'll get from the paper)
+"aart"
+
+##' NAME OF THE DATASET?
+##'
+##' We should have a brief description here
+##'
+##' @format ## `mbalt`
+##' A data frame with 1,553 rows and 2 columns:
+##' \describe{
+##'
+##' \item{\code{risk_cat}}{Credit score category}
+##'   \item{\code{Xi}}{Time-of-event}
+##'   \item{\code{Yi}}{Truncation time}
+##' }
+##' @source DATASETS SOURCE (I'll get from the paper)
+"mbalt"
