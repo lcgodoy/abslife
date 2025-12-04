@@ -5,7 +5,7 @@
 ## Usage
 
 ``` r
-u_hat(t, time_to_event, trunc_time)
+u_hat(t, lifetime, trunc_time)
 ```
 
 ## Arguments
@@ -14,7 +14,7 @@ u_hat(t, time_to_event, trunc_time)
 
   A time point at which hazard estimates are sought.
 
-- time_to_event:
+- lifetime:
 
   A numeric vector representing the observed time to event.
 

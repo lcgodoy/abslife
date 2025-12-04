@@ -13,7 +13,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">abslife</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.94</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.95</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -42,8 +42,18 @@
     </div>
 
     <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.0.95" id="abslife-0095">abslife 0.0.95<a class="anchor" aria-label="anchor" href="#abslife-0095"></a></h2>
+<ul><li><p>Now we have a <code>ci_level</code> parameter that allows plotting multiple confidence intervals at once.</p></li>
+<li><p><code>calc_cdf</code> function also esimates the density (in addition to the CDF) and its output has been modified to a <code>data.frame</code> with the <code>lifetime</code> and the respective density and CDF evaluations.</p></li>
+<li><p><code>summary</code> and <code>plot</code> methods for the output of the <code>calc_cdf</code> function.</p></li>
+<li><p><span class="math inline">\(\hat{f}\)</span> is no longer part of the output</p></li>
+<li><p><span class="math inline">\(\hat{u}\)</span> is now referred to as <code>risk_set</code></p></li>
+<li><p><code>ralife_cdf</code> function to sample “time to event” data has been included in the package.</p></li>
+</ul></div>
+    <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.0.94" id="abslife-0094">abslife 0.0.94<a class="anchor" aria-label="anchor" href="#abslife-0094"></a></h2>
-<ul><li><p>Logo included in the package website and README file.</p></li>
+<ul><li><p><code>time_to_event</code> becomes lifetime</p></li>
+<li><p>Logo included in the package website and README file.</p></li>
 <li><p>First draft for a vignette.</p></li>
 <li><p>Two new datasets: <code>aart</code> (for left-truncation) and <code>mbalt</code> (left-truncation + right-censoring).</p></li>
 <li><p><code>event_indicator</code> is no longer an argument of <code><a href="../reference/estimate_hazard.html">estimate_hazard()</a></code>.</p></li>

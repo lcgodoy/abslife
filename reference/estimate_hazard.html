@@ -15,7 +15,7 @@ censored data"></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">abslife</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.94</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.95</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -52,9 +52,9 @@ censored data</p>
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">estimate_hazard</span><span class="op">(</span></span>
-<span>  <span class="va">time_to_event</span>,</span>
+<span>  <span class="va">lifetime</span>,</span>
 <span>  trunc_time <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  censoring <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  censoring_indicator <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  event_type <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  support_lifetime_rv <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  carry_hazard <span class="op">=</span> <span class="cn">FALSE</span>,</span>
@@ -66,7 +66,7 @@ censored data</p>
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
 
 
-<dl><dt id="arg-time-to-event">time_to_event<a class="anchor" aria-label="anchor" href="#arg-time-to-event"></a></dt>
+<dl><dt id="arg-lifetime">lifetime<a class="anchor" aria-label="anchor" href="#arg-lifetime"></a></dt>
 <dd><p>A numeric vector representing the observed time to
 event.</p></dd>
 
@@ -76,7 +76,7 @@ event.</p></dd>
 time.</p></dd>
 
 
-<dt id="arg-censoring">censoring<a class="anchor" aria-label="anchor" href="#arg-censoring"></a></dt>
+<dt id="arg-censoring-indicator">censoring_indicator<a class="anchor" aria-label="anchor" href="#arg-censoring-indicator"></a></dt>
 <dd><p>An indicator for censoring (1=censored, 0=not). Defaults to
 a vector of 0s if <code>NULL</code>. An observation is only treated as an event if
 status=1 AND censoring=0.</p></dd>
@@ -89,7 +89,7 @@ status=1 AND censoring=0.</p></dd>
 <dt id="arg-support-lifetime-rv">support_lifetime_rv<a class="anchor" aria-label="anchor" href="#arg-support-lifetime-rv"></a></dt>
 <dd><p>A <code>vector</code> of time points at which to evaluate
 the hazard.  If <code>NULL</code> (the default), it is calculated for a sequence from
-<code>Delta + 1</code> to <code>omega</code> (that is, <code>max(time_to_event)</code>).</p></dd>
+<code>Delta + 1</code> to <code>omega</code> (that is, <code>max(lifetime)</code>).</p></dd>
 
 
 <dt id="arg-carry-hazard">carry_hazard<a class="anchor" aria-label="anchor" href="#arg-carry-hazard"></a></dt>

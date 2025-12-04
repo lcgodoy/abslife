@@ -5,7 +5,7 @@ Variance of the log-transformed hazard estimate
 ## Usage
 
 ``` r
-var_hat(lambda, uh, fh, n)
+var_hat(lambda, risk_set, fh, n)
 ```
 
 ## Arguments
@@ -14,7 +14,7 @@ var_hat(lambda, uh, fh, n)
 
   hazard rate
 
-- uh:
+- risk_set:
 
   \\hat{U}\\
 

@@ -5,7 +5,7 @@
 ## Usage
 
 ``` r
-f_hat(t, time_to_event, event, censoring)
+f_hat(t, lifetime, event, censoring_indicator)
 ```
 
 ## Arguments
@@ -14,7 +14,7 @@ f_hat(t, time_to_event, event, censoring)
 
   A time point at which hazard estimates are sought.
 
-- time_to_event:
+- lifetime:
 
   A numeric vector representing the observed time to event.
 
@@ -22,7 +22,7 @@ f_hat(t, time_to_event, event, censoring)
 
   event indicator
 
-- censoring:
+- censoring_indicator:
 
   An indicator for censoring (1=censored, 0=not). Defaults to a vector
   of 0s if `NULL`. An observation is only treated as an event if

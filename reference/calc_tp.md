@@ -9,12 +9,12 @@ outputs a sequence ranging from \\\Delta + 1\\ to \\\omega\\.
 ## Usage
 
 ``` r
-calc_tp(time_to_event, trunc_time)
+calc_tp(lifetime, trunc_time)
 ```
 
 ## Arguments
 
-- time_to_event:
+- lifetime:
 
   The vector of event or censoring times.
 

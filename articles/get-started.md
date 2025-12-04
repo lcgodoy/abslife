@@ -10,15 +10,15 @@ library(ggplot2) ## optional
 > This package is currently under construction!
 
 This vignette demonstrates the core functionalities of the `abslife`
-package. `abslife` provides tools for non-parametric estimation of the
-hazard rate, denoted \\\lambda(t)\\, for time-to-event. The package is
-designed to handle combinations of the following scenarios:
+package. `abslife` provides tools for estimation of the hazard rate,
+denoted \\\lambda\\, for discrete time-to-event data subject to
+**left-truncation** (Jackson P. Lautier, Pozdnyakov, and Yan 2023a). The
+package is designed so it can additionally handle the following common
+observational data challenges:
 
-- **Left-truncation** (Jackson P. Lautier, Pozdnyakov, and Yan 2023a)
+- **+ Right-censoring** (Jackson P. Lautier, Pozdnyakov, and Yan 2023b)
 
-- **Right-censoring** (Jackson P. Lautier, Pozdnyakov, and Yan 2023b)
-
-- **Competing risks** (Jackson P. Lautier, Pozdnyakov, and Yan 2024)
+- **+ Competing risks** (Jackson P. Lautier, Pozdnyakov, and Yan 2024)
 
 In all cases, asymptotic confidence intervals for the estimated hazard
 rates are readily available. The main function of the package is the
@@ -51,7 +51,7 @@ We estimate the hazard rate using
 [`estimate_hazard()`](http://lcgodoy.me/abslife/reference/estimate_hazard.md).
 
 ``` r
-aart_hazard <- estimate_hazard(time_to_event = aart$Xi,
+aart_hazard <- estimate_hazard(lifetime = aart$Xi,
                                trunc_time = aart$Yi,
                                ci_level = 0.95,
                                carry_hazard = TRUE) ## need 
@@ -67,20 +67,13 @@ corresponding to the `ci_level` argument (in this case, set to 0.95).
 
 ``` r
 tail(aart_hazard)
-#>    time_to_event          fh          uh hazard se_log_hazard  lower_ci
-#> 40            44 0.000000000 0.001287830    0.5     0.5000000 0.1876589
-#> 41            45 0.000643915 0.001287830    0.5     0.7071068 0.1250488
-#> 42            46 0.000000000 0.000643915    0.5     0.7071068 0.1250488
-#> 43            47 0.000000000 0.000643915    0.5     0.7071068 0.1250488
-#> 44            48 0.000000000 0.000643915    0.5     0.7071068 0.1250488
-#> 45            49 0.000643915 0.000643915    1.0     0.0000000 1.0000000
-#>    upper_ci
-#> 40 1.332204
-#> 41 1.999219
-#> 42 1.999219
-#> 43 1.999219
-#> 44 1.999219
-#> 45 1.000000
+#>    lifetime    risk_set hazard se_log_hazard  lower_ci upper_ci
+#> 40       44 0.001287830    0.5     0.5000000 0.1876589 1.332204
+#> 41       45 0.001287830    0.5     0.7071068 0.1250488 1.999219
+#> 42       46 0.000643915    0.5     0.7071068 0.1250488 1.999219
+#> 43       47 0.000643915    0.5     0.7071068 0.1250488 1.999219
+#> 44       48 0.000643915    0.5     0.7071068 0.1250488 1.999219
+#> 45       49 0.000643915    1.0     0.0000000 1.0000000 1.000000
 ```
 
 > I believe we don’t need to output the `fh` and `uh` columns. What do
@@ -93,23 +86,23 @@ For a concise overview of the estimation, use the
 
 ``` r
 summary(aart_hazard)
-#>    time_to_event     hazard se_log_hazard    lower_ci   upper_ci
-#> 1              5 0.01904762    0.70034005 0.004827365 0.07515731
-#> 6             10 0.01556420    0.35079121 0.007825874 0.03095429
-#> 11            15 0.02432778    0.22660796 0.015603194 0.03793077
-#> 16            20 0.01724138    0.25596336 0.010439882 0.02847400
-#> 21            25 0.02956705    0.18616745 0.020527782 0.04258671
-#> 26            30 0.03311966    0.17660603 0.023429257 0.04681803
-#> 31            35 0.05163330    0.13912017 0.039310680 0.06781866
-#> 36            40 0.73134328    0.07404587 0.632547761 0.84556935
-#> 41            45 0.50000000    0.70710678 0.125048827 1.99921908
+#>    lifetime     hazard se_log_hazard    lower_ci   upper_ci
+#> 1         5 0.01904762    0.70034005 0.004827365 0.07515731
+#> 6        10 0.01556420    0.35079121 0.007825874 0.03095429
+#> 11       15 0.02432778    0.22660796 0.015603194 0.03793077
+#> 16       20 0.01724138    0.25596336 0.010439882 0.02847400
+#> 21       25 0.02956705    0.18616745 0.020527782 0.04258671
+#> 26       30 0.03311966    0.17660603 0.023429257 0.04681803
+#> 31       35 0.05163330    0.13912017 0.039310680 0.06781866
+#> 36       40 0.73134328    0.07404587 0.632547761 0.84556935
+#> 41       45 0.50000000    0.70710678 0.125048827 1.99921908
 ```
 
 To visualize the hazard rate, you can use base R graphics via the
 [`plot()`](https://rdrr.io/r/graphics/plot.default.html) method:
 
 ``` r
-plot(aart_hazard)
+plot(aart_hazard, ci_level = c(.5, .75, .85, .9, .95))
 ```
 
 ![](get-started_files/figure-html/plot_aart-1.png)
@@ -134,22 +127,26 @@ appends a cdf column to the results.
 
 ``` r
 aart_cdf <- calc_cdf(aart_hazard)
-tail(aart_cdf)
-#>    time_to_event          fh          uh hazard se_log_hazard  lower_ci
-#> 40            44 0.000000000 0.001287830    0.5     0.5000000 0.1876589
-#> 41            45 0.000643915 0.001287830    0.5     0.7071068 0.1250488
-#> 42            46 0.000000000 0.000643915    0.5     0.7071068 0.1250488
-#> 43            47 0.000000000 0.000643915    0.5     0.7071068 0.1250488
-#> 44            48 0.000000000 0.000643915    0.5     0.7071068 0.1250488
-#> 45            49 0.000643915 0.000643915    1.0     0.0000000 1.0000000
-#>    upper_ci       cdf
-#> 40 1.332204 0.9995101
-#> 41 1.999219 0.9997551
-#> 42 1.999219 0.9998775
-#> 43 1.999219 0.9999388
-#> 44 1.999219 0.9999694
-#> 45 1.000000 1.0000000
+summary(aart_cdf)
+#>    lifetime        cdf      density
+#> 1         5 0.01904762 0.0190476190
+#> 6        10 0.10628735 0.0141298442
+#> 11       15 0.19848679 0.0199852375
+#> 16       20 0.28713123 0.0125064696
+#> 21       25 0.37058116 0.0191770702
+#> 26       30 0.45756023 0.0185808099
+#> 31       35 0.54922672 0.0245421009
+#> 36       40 0.99118211 0.0240042534
+#> 41       45 0.99975506 0.0002449414
 ```
+
+We can also plot the CDF:
+
+``` r
+plot(aart_cdf)
+```
+
+![](get-started_files/figure-html/plot_cdf_aart-1.png)
 
 ### Right-censoring
 
@@ -176,20 +173,25 @@ accepts a vector where `1` indicates a censored observation and `0`
 indicates an observed event.
 
 ``` r
-mbalt_hazard <- estimate_hazard(time_to_event = mbalt$Zi,
+mbalt_hazard <- estimate_hazard(lifetime = mbalt$Zi,
                                 trunc_time = mbalt$Yi,
                                 censoring = mbalt$Di,
                                 ci_level = 0.95,
-                                carry_hazard = TRUE) ## need 
+                                carry_hazard = FALSE) ## need 
 ```
 
 The output structure remains consistent with the previous example.
 
 ``` r
 summary(mbalt_hazard)
-#>    time_to_event     hazard se_log_hazard   lower_ci   upper_ci
-#> 27            31 0.05372423    0.02048953 0.05160948 0.05592563
-#> 32            36 0.04244229    0.03464025 0.03965637 0.04542393
+#>    lifetime     hazard se_log_hazard   lower_ci  upper_ci
+#> 1         5 0.00000000    0.00000000         NA        NA
+#> 6        10 0.00000000    0.00000000         NA        NA
+#> 11       15 0.00000000    0.00000000         NA        NA
+#> 16       20 0.00000000    0.00000000         NA        NA
+#> 21       25 0.00000000    0.00000000         NA        NA
+#> 26       30 0.00000000    0.00000000         NA        NA
+#> 31       35 0.05596574    0.02623112 0.05316113 0.0589183
 ```
 
 The plotting functions also work out of the box:
@@ -204,6 +206,8 @@ and, for `ggplot2`:
 
 ``` r
 ggauto(mbalt_hazard, ci_level = c(.5, .75, .85, .9, .95))
+#> Warning: Removed 135 rows containing missing values or values outside the scale range
+#> (`geom_ribbon()`).
 ```
 
 ![](get-started_files/figure-html/ggplot_mbalt-1.png)
@@ -251,12 +255,12 @@ event types to the `event_type argument` in
 [`estimate_hazard()`](http://lcgodoy.me/abslife/reference/estimate_hazard.md).
 
 ``` r
-aloans_hazard <- estimate_hazard(time_to_event = aloans$Z,
+aloans_hazard <- estimate_hazard(lifetime = aloans$Z,
                                  trunc_time = aloans$Y,
                                  censoring = aloans$C,
                                  event_type = aloans$event_type,
                                  ci_level = 0.95,
-                                 carry_hazard = TRUE) ## need 
+                                 carry_hazard = FALSE) ## need 
 ```
 
 The output now includes a column specifying the event type for each
@@ -264,34 +268,35 @@ hazard estimate.
 
 ``` r
 summary(aloans_hazard)
-#>     event_type time_to_event      hazard se_log_hazard     lower_ci    upper_ci
-#> 1       Defaut             3 0.011520293    0.06431095 0.0101559826 0.013067879
-#> 2       Defaut             8 0.012729470    0.03827262 0.0118095304 0.013721072
-#> 3       Defaut            13 0.010477761    0.04439775 0.0096045507 0.011430360
-#> 4       Defaut            18 0.013350256    0.04167804 0.0123030612 0.014486585
-#> 5       Defaut            23 0.012722853    0.04578351 0.0116309047 0.013917316
-#> 6       Defaut            28 0.013859145    0.04665738 0.0126479922 0.015186275
-#> 7       Defaut            33 0.013032176    0.05157801 0.0117791425 0.014418505
-#> 8       Defaut            38 0.018664205    0.04593909 0.0170571344 0.020422688
-#> 9       Defaut            43 0.011084154    0.06514809 0.0097554744 0.012593798
-#> 10      Defaut            48 0.007673623    0.08449283 0.0065024947 0.009055676
-#> 11      Defaut            53 0.006133755    0.10337666 0.0050087815 0.007511399
-#> 12      Defaut            58 0.006600660    0.49834710 0.0024853843 0.017529971
-#> 13      Defaut            63 0.002898551    0.99854967 0.0004094623 0.020518610
-#> 14      Defaut            68 0.031250000    0.98425098 0.0045399813 0.215102758
-#> 15 Pre-payment             8 0.007686787    0.04937728 0.0069777408 0.008467883
-#> 16 Pre-payment            13 0.011646595    0.04208613 0.0107244538 0.012648026
-#> 17 Pre-payment            18 0.015630141    0.03847409 0.0144948494 0.016854354
-#> 18 Pre-payment            23 0.011372231    0.04845910 0.0103418258 0.012505301
-#> 19 Pre-payment            28 0.015052316    0.04474289 0.0137885345 0.016431929
-#> 20 Pre-payment            33 0.015385696    0.04741284 0.0140203633 0.016883988
-#> 21 Pre-payment            38 0.013687084    0.05378116 0.0123177763 0.015208610
-#> 22 Pre-payment            43 0.018648019    0.05003448 0.0169060937 0.020569423
-#> 23 Pre-payment            48 0.017776306    0.05523028 0.0159525240 0.019808592
-#> 24 Pre-payment            53 0.032053819    0.04462800 0.0293692158 0.034983818
-#> 25 Pre-payment            58 0.037953795    0.20451918 0.0254195682 0.056668570
-#> 26 Pre-payment            63 0.020408163    0.98974332 0.0029331406 0.141995624
-#> 27 Pre-payment            68 0.076923077    0.96076892 0.0117016919 0.505667029
+#>     event_type lifetime      hazard se_log_hazard    lower_ci    upper_ci
+#> 1       Defaut        3 0.011520293    0.06431095 0.010155983 0.013067879
+#> 2       Defaut        8 0.012729470    0.03827262 0.011809530 0.013721072
+#> 3       Defaut       13 0.010477761    0.04439775 0.009604551 0.011430360
+#> 4       Defaut       18 0.013350256    0.04167804 0.012303061 0.014486585
+#> 5       Defaut       23 0.012722853    0.04578351 0.011630905 0.013917316
+#> 6       Defaut       28 0.013859145    0.04665738 0.012647992 0.015186275
+#> 7       Defaut       33 0.013032176    0.05157801 0.011779142 0.014418505
+#> 8       Defaut       38 0.018664205    0.04593909 0.017057134 0.020422688
+#> 9       Defaut       43 0.011084154    0.06514809 0.009755474 0.012593798
+#> 10      Defaut       48 0.007673623    0.08449283 0.006502495 0.009055676
+#> 11      Defaut       53 0.006133755    0.10337666 0.005008781 0.007511399
+#> 12      Defaut       58 0.006600660    0.49834710 0.002485384 0.017529971
+#> 13      Defaut       63 0.000000000    0.00000000          NA          NA
+#> 14      Defaut       68 0.000000000    0.00000000          NA          NA
+#> 15 Pre-payment        3 0.000000000    0.00000000          NA          NA
+#> 16 Pre-payment        8 0.007686787    0.04937728 0.006977741 0.008467883
+#> 17 Pre-payment       13 0.011646595    0.04208613 0.010724454 0.012648026
+#> 18 Pre-payment       18 0.015630141    0.03847409 0.014494849 0.016854354
+#> 19 Pre-payment       23 0.011372231    0.04845910 0.010341826 0.012505301
+#> 20 Pre-payment       28 0.015052316    0.04474289 0.013788534 0.016431929
+#> 21 Pre-payment       33 0.015385696    0.04741284 0.014020363 0.016883988
+#> 22 Pre-payment       38 0.013687084    0.05378116 0.012317776 0.015208610
+#> 23 Pre-payment       43 0.018648019    0.05003448 0.016906094 0.020569423
+#> 24 Pre-payment       48 0.017776306    0.05523028 0.015952524 0.019808592
+#> 25 Pre-payment       53 0.032053819    0.04462800 0.029369216 0.034983818
+#> 26 Pre-payment       58 0.037953795    0.20451918 0.025419568 0.056668570
+#> 27 Pre-payment       63 0.020408163    0.98974332 0.002933141 0.141995624
+#> 28 Pre-payment       68 0.076923077    0.96076892 0.011701692 0.505667029
 ```
 
 The plotting functions work as in the previous examples, handling the
@@ -308,6 +313,8 @@ The same holds for the `ggplot2` powered plots:
 ``` r
 ggauto(aloans_hazard, ci_level = c(.5, .75, .85, .9, .95)) +
   theme_bw()
+#> Warning: Removed 60 rows containing missing values or values outside the scale range
+#> (`geom_ribbon()`).
 ```
 
 ![](get-started_files/figure-html/ggplot_aloans-1.png)

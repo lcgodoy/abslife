@@ -13,7 +13,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">abslife</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.94</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.95</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -51,8 +51,8 @@
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">.hazard_core</span><span class="op">(</span></span>
 <span>  <span class="va">support</span>,</span>
 <span>  <span class="va">trunc_time</span>,</span>
-<span>  <span class="va">time_to_event</span>,</span>
-<span>  <span class="va">censoring</span>,</span>
+<span>  <span class="va">lifetime</span>,</span>
+<span>  <span class="va">censoring_indicator</span>,</span>
 <span>  <span class="va">event_indicator</span>,</span>
 <span>  <span class="va">carry_hazard</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -71,12 +71,12 @@
 time.</p></dd>
 
 
-<dt id="arg-time-to-event">time_to_event<a class="anchor" aria-label="anchor" href="#arg-time-to-event"></a></dt>
+<dt id="arg-lifetime">lifetime<a class="anchor" aria-label="anchor" href="#arg-lifetime"></a></dt>
 <dd><p>A numeric vector representing the observed time to
 event.</p></dd>
 
 
-<dt id="arg-censoring">censoring<a class="anchor" aria-label="anchor" href="#arg-censoring"></a></dt>
+<dt id="arg-censoring-indicator">censoring_indicator<a class="anchor" aria-label="anchor" href="#arg-censoring-indicator"></a></dt>
 <dd><p>An indicator for censoring (1=censored, 0=not). Defaults to
 a vector of 0s if <code>NULL</code>. An observation is only treated as an event if
 status=1 AND censoring=0.</p></dd>

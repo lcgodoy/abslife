@@ -6,9 +6,9 @@ Estimate the non-parametric hazard rate for truncated and censored data
 
 ``` r
 estimate_hazard(
-  time_to_event,
+  lifetime,
   trunc_time = NULL,
-  censoring = NULL,
+  censoring_indicator = NULL,
   event_type = NULL,
   support_lifetime_rv = NULL,
   carry_hazard = FALSE,
@@ -18,7 +18,7 @@ estimate_hazard(
 
 ## Arguments
 
-- time_to_event:
+- lifetime:
 
   A numeric vector representing the observed time to event.
 
@@ -26,7 +26,7 @@ estimate_hazard(
 
   A numeric vector representing the observed left-truncated time.
 
-- censoring:
+- censoring_indicator:
 
   An indicator for censoring (1=censored, 0=not). Defaults to a vector
   of 0s if `NULL`. An observation is only treated as an event if
@@ -40,7 +40,7 @@ estimate_hazard(
 
   A `vector` of time points at which to evaluate the hazard. If `NULL`
   (the default), it is calculated for a sequence from `Delta + 1` to
-  `omega` (that is, `max(time_to_event)`).
+  `omega` (that is, `max(lifetime)`).
 
 - carry_hazard:
 

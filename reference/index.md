@@ -44,8 +44,20 @@
 - [`mbalt`](http://lcgodoy.me/abslife/reference/mbalt.md) : NAME OF THE
   DATASET?
 
+- [`multiple_cis()`](http://lcgodoy.me/abslife/reference/mci.md) :
+  Computing multiple CIs at once.
+
+- [`new_acdf()`](http://lcgodoy.me/abslife/reference/new_acdf.md) :
+  Create an acdf Object
+
 - [`new_alife()`](http://lcgodoy.me/abslife/reference/new_alife.md) :
   Create an alife Object
+
+- [`plot(`*`<acdf>`*`)`](http://lcgodoy.me/abslife/reference/plot.acdf.md)
+  : Plot Method for an 'acdf' Object
+
+- [`plot(`*`<acdf_multi>`*`)`](http://lcgodoy.me/abslife/reference/plot.acdf_multi.md)
+  : Plot Method for an 'acdf_multi' Object
 
 - [`plot(`*`<alife>`*`)`](http://lcgodoy.me/abslife/reference/plot.alife.md)
   : Plot Method for an 'alife' Object
@@ -53,8 +65,17 @@
 - [`plot(`*`<alife_multi>`*`)`](http://lcgodoy.me/abslife/reference/plot.alife_multi.md)
   : Plot Method for an 'alife_multi' Object
 
+- [`ralife_cdf()`](http://lcgodoy.me/abslife/reference/ralife_cdf.md) :
+  Samples from a "abslife" object
+
 - [`single_t_hazard()`](http://lcgodoy.me/abslife/reference/single_t_hazard.md)
   : Hazard estimate for a single time-point.
+
+- [`summary(`*`<acdf>`*`)`](http://lcgodoy.me/abslife/reference/summary.acdf.md)
+  : Summary Method for an 'acdf' Object
+
+- [`summary(`*`<acdf_multi>`*`)`](http://lcgodoy.me/abslife/reference/summary.acdf_multi.md)
+  : Summary Method for an 'alife_multi' Object
 
 - [`summary(`*`<alife>`*`)`](http://lcgodoy.me/abslife/reference/summary.alife.md)
   : Summary Method for an 'alife' Object
