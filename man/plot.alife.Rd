@@ -4,7 +4,7 @@
 \alias{plot.alife}
 \title{Plot Method for an 'alife' Object}
 \usage{
-\method{plot}{alife}(x, ci_level = 0.95, col_ci = "skyblue", col_line = "navy", ...)
+\method{plot}{alife}(x, ci_level = 0.95, col_ci = 2, col_line = 1, ...)
 }
 \arguments{
 \item{x}{An object of class \code{alife}. Typically the output of the

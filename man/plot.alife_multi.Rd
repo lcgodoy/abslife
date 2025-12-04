@@ -4,7 +4,7 @@
 \alias{plot.alife_multi}
 \title{Plot Method for an 'alife_multi' Object}
 \usage{
-\method{plot}{alife_multi}(x, ci_level = 0.95, col_ci = "skyblue", col_line = "navy", ...)
+\method{plot}{alife_multi}(x, ci_level = 0.95, col_ci = 2, col_line = 1, ...)
 }
 \arguments{
 \item{x}{An object of class \code{alife-multi}.}
