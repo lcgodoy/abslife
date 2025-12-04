@@ -9,6 +9,13 @@
   
 - `summary` and `plot` methods for the output of the `calc_cdf` function.
 
+- $\hat{f}$ is no longer part of the output
+
+- $\hat{u}$ is now referred to as `risk_set`
+
+- `ralife_cdf` function to sample "time to event" data has been included in the
+  package.
+
 # abslife 0.0.94
 
 * `time_to_event` becomes lifetime

@@ -87,7 +87,7 @@ To visualize the hazard rate, you can use base R graphics via the `plot()`
 method:
 
 ```{r plot_aart}
-plot(aart_hazard)
+plot(aart_hazard, ci_level = c(.5, .75, .85, .9, .95))
 ```
 
 Alternatively, use `ggauto()` for a `ggplot2`-powered visualization. This
@@ -104,7 +104,12 @@ from the hazard estimates using `calc_cdf()`. This appends a cdf column to the
 results.
 ```{r cdf_aart}
 aart_cdf <- calc_cdf(aart_hazard)
-tail(aart_cdf)
+summary(aart_cdf)
+```
+
+We can also plot the CDF:
+```{r plot_cdf_aart}
+plot(aart_cdf)
 ```
 
 ## Right-censoring
@@ -125,7 +130,7 @@ mbalt_hazard <- estimate_hazard(lifetime = mbalt$Zi,
                                 trunc_time = mbalt$Yi,
                                 censoring = mbalt$Di,
                                 ci_level = 0.95,
-                                carry_hazard = TRUE) ## need 
+                                carry_hazard = FALSE) ## need 
 ```
 
 The output structure remains consistent with the previous example.

@@ -126,7 +126,6 @@ plot.alife_multi <- function(x, ci_level = 0.95,
   par(mfrow = c(n_rows, n_cols), 
       mar = c(4, 4, 2, 1))
   for (et in etypes) {
-    # Subset the data for this event type
     x_sub <- x[x$event_type == et, ]
     all_lower <- unlist(lapply(cis_list,
                                \(x) x[x$event_type == et, ][["lower_ci"]]))
@@ -136,7 +135,6 @@ plot.alife_multi <- function(x, ci_level = 0.95,
     defaults <- list(
       xlab = "x",
       ylab = "Cause specific hazard rate",
-      # Use the event type in the title
       main = paste("Event:", et),
       ylim = range(c(all_lower, all_upper), na.rm = TRUE),
       xlim = range(x_sub$lifetime, na.rm = TRUE)
@@ -213,19 +211,6 @@ summary.alife_multi <- function(object, by = 5, ...) {
   return(out)
 }
 
-##' @title Helper function to compute the lagged version of a vector
-##'
-##' @details Internal usage.
-##' 
-##' @param x a numeric vector
-##' 
-##' @return a lagged numeric vector
-##' @author lcgodoy
-lag_1 <- function(x) {
-  return(c(0, x)[seq_len(x)])
-}
-
-
 ##' @title Calculate CDF from Hazard Estimates
 ##'
 ##' @description Adds a 'cdf' column to an 'alife' or 'alife-multi' object based
@@ -244,7 +229,8 @@ calc_cdf <- function(x, ...) {
 ##' @rdname calc_cdf
 calc_cdf.alife <- function(x, ...) {
   x$cdf <- 1 - cumprod(1 - x$hazard)
-  out <- new_acdf(x[, c("lifetime", "cdf")])
+  x$density <- x$cdf - c(0, x$cdf)[seq_along(x$cdf)]
+  out <- new_acdf(x[, c("lifetime", "cdf", "density")])
   return(out)
 }
 
@@ -254,11 +240,12 @@ calc_cdf.alife_multi <- function(x, ...) {
   df_list <- split(x, x$event_type)
   df_list_with_cdf <- lapply(df_list, function(df) {
     df$cdf <- 1 - cumprod(1 - df$hazard)
+    df$density <- df$cdf - c(0, df$cdf)[seq_along(df$cdf)]
     return(df)
   })
   out <- do.call(rbind, df_list_with_cdf)
   rownames(out) <- NULL
-  out <- new_acdf(out[, c("event_type", "lifetime", "cdf")])
+  out <- new_acdf(out[, c("event_type", "lifetime", "cdf", "density")])
   return(out)
 }
 
@@ -277,8 +264,7 @@ summary.acdf <- function(object, by = 5, ...) {
   lower <- min(object$lifetime, na.rm = TRUE)
   upper <- max(object$lifetime, na.rm = TRUE)
   times <- seq.int(from = lower, to = upper, by = by)
-  cols <- c("lifetime",
-            "cdf")
+  cols <- c("lifetime", "cdf", "density")
   object[object$lifetime %in% times, cols]
 }
 
@@ -297,9 +283,7 @@ summary.acdf_multi <- function(object, by = 5, ...) {
   lower <- min(object$lifetime, na.rm = TRUE)
   upper <- max(object$lifetime, na.rm = TRUE)
   times <- seq.int(from = lower, to = upper, by = by)
-  cols <- c("event_type",
-            "lifetime",
-            "cdf")
+  cols <- c("event_type", "lifetime", "cdf", "density")
   df_list <- split(object, object$event_type)
   df_list <- lapply(df_list, function(df) {
     df[df$lifetime %in% times, cols]

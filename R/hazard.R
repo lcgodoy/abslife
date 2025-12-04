@@ -45,12 +45,13 @@ u_hat <- function(t,
 
 ##' @title Variance of the log-transformed hazard estimate
 ##' @param lambda hazard rate
-##' @param uh \eqn{hat{U}}
+##' @param risk_set \eqn{hat{U}}
 ##' @param fh \eqn{hat{f}}
 ##' @param n sample size (or number of timepoints)
 ##' @return a scalar
 ##' @author lcgodoy
-var_hat <- function(lambda, uh, fh, n) {
+var_hat <- function(lambda, risk_set, fh, n) {
+  uh <- risk_set
   lfh <- log(fh)
   luh <- log(uh)
   exp(log(uh - fh) -  log(n) - luh - lfh)
@@ -86,8 +87,7 @@ single_t_hazard <- function(t,
   }
   c(
       lifetime = t,
-      fh = fh,
-      uh = uh,
+      risk_set = uh,
       hazard = hazard,
       se_log_hazard = sqrt(var_log_h)
   )

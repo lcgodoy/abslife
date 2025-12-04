@@ -28,3 +28,31 @@ fix_0haz <- function(haz_est) {
   }
   return(haz_est)
 }
+
+##' @title Samples from a "abslife" object
+##' @param n number of samples
+##' @param x the output of a `calc_cdf` function
+##'
+##' @return a vector of "time to event" samples
+##' @author lcgodoy
+##' @export
+ralife_cdf <- function(n, x) {
+  if ("event_type" %in% names(x)) {
+    etypes <- unique(x$event_type)
+    out <- vector(mode = "list",
+                  length = length(etypes))
+    for (i in seq_along(etypes)) {
+      x_sub <- x[x$event_type == etypes[i], ]
+      u <- stats::runif(n)
+      indices <- findInterval(u, x_sub$cdf) + 1
+      out[[i]] <- data.frame(event_type = etypes[i],
+                             lifetime = x_sub$lifetime[indices])
+    }
+    out <- do.call(rbind, out)
+  } else {
+    u <- stats::runif(n)
+    indices <- findInterval(u, x$cdf) + 1
+    out <- x$lifetime[indices]
+  }
+  return(out)
+}
