@@ -11,7 +11,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-# abslife <a href="http://lcgodoy.me/abslife/"> <img src="man/figures/logo.pdf" align="right" height="139" alt="abslife website" /></a>`
+# abslife <a href="http://lcgodoy.me/abslife/"> <img src="man/figures/logo.pdf" align="right" height="139" alt="abslife website" /></a>
 
 <!-- badges: start -->
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)

@@ -1,5 +1,5 @@
 
-# abslife <a href="http://lcgodoy.me/abslife/"> <img src="man/figures/logo.pdf" align="right" height="139" alt="abslife website" /></a>\`
+# abslife <a href="http://lcgodoy.me/abslife/"> <img src="man/figures/logo.pdf" align="right" height="139" alt="abslife website" /></a>
 
 <!-- badges: start -->
 
