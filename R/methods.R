@@ -59,8 +59,10 @@ multiple_cis.alife_multi <- function(x, ci_level = .95) {
 ##' @return A plot of the hazard rate.
 ##' @export
 ##'
-plot.alife <- function(x, ci_level = 0.95, col_ci = "skyblue",
-                       col_line = "navy", ...) {
+plot.alife <- function(x, ci_level = 0.95,
+                       col_ci = 2,
+                       col_line = 1,
+                       ...) {
   ci_level <- sort(ci_level, decreasing = TRUE)
   cis_list <- multiple_cis(x, ci_level = ci_level)
   all_lower <- unlist(lapply(cis_list, \(x) x[["lower_ci"]]))
@@ -111,7 +113,7 @@ plot.alife <- function(x, ci_level = 0.95, col_ci = "skyblue",
 ##' @export
 ##'
 plot.alife_multi <- function(x, ci_level = 0.95,
-                             col_ci = "skyblue", col_line = "navy", ...) {
+                             col_ci = 2, col_line = 1, ...) {
   ci_level <- sort(ci_level, decreasing = TRUE)
   cis_list <- multiple_cis(x, ci_level = ci_level)
   etypes <- unique(x$event_type)
