@@ -1,7 +1,7 @@
 # abslife 0.0.95
 
 - Now we have a `ci_level` parameter that allows plotting multiple confidence
-  intervals at once.
+  intervals at once and changed default colors for plotting.
 
 - `calc_cdf` function also esimates the density (in addition to the CDF) and its
   output has been modified to a `data.frame` with the `lifetime` and the
