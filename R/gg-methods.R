@@ -119,7 +119,7 @@ ggauto.alife_multi <- function(object, ci_level = 0.95, ...) {
     ggplot2::labs(
       ## title = "Hazard Rate Estimate by Event Type",
       x = "x",
-      y = "Event_Type specific hazard",
+      y = "Cause specific hazard",
       fill = "CI Level"
     ) +
     ggplot2::facet_wrap(ggplot2::vars(.data$event_type),

@@ -1,3 +1,14 @@
+# abslife 0.0.95
+
+- Now we have a `ci_level` parameter that allows plotting multiple confidence
+  intervals at once.
+
+- `calc_cdf` function also esimates the density (in addition to the CDF) and its
+  output has been modified to a `data.frame` with the `lifetime` and the
+  respective density and CDF evaluations.
+  
+- `summary` and `plot` methods for the output of the `calc_cdf` function.
+
 # abslife 0.0.94
 
 * `time_to_event` becomes lifetime

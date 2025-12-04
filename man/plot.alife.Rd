@@ -4,11 +4,14 @@
 \alias{plot.alife}
 \title{Plot Method for an 'alife' Object}
 \usage{
-\method{plot}{alife}(x, col_ci = "skyblue", col_line = "navy", ...)
+\method{plot}{alife}(x, ci_level = 0.95, col_ci = "skyblue", col_line = "navy", ...)
 }
 \arguments{
 \item{x}{An object of class \code{alife}. Typically the output of the
 \code{estimate_hazard} function.}
+
+\item{ci_level}{A numeric vector of confidence ci_level to plot (e.g.,
+\code{c(0.5, 0.95)}). Defaults to \code{0.95}.}
 
 \item{col_ci}{The color for the confidence interval polygon.}
 
