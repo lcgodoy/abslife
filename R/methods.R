@@ -318,7 +318,7 @@ plot.acdf <- function(x, ...) {
   )
   plot_args <- utils::modifyList(defaults, args)
   do.call("plot",
-          c(list(x = x$lifetime, y = x$cdf, type = "l"),
+          c(list(x = x$lifetime, y = x$cdf, type = "s"),
             plot_args))
 }
 
@@ -358,7 +358,7 @@ plot.acdf_multi <- function(x, ...) {
     )
     plot_args <- utils::modifyList(defaults, args)
     do.call("plot",
-            c(list(x = x_sub$lifetime, y = x_sub$cdf, type = "n"),
+            c(list(x = x_sub$lifetime, y = x_sub$cdf, type = "s"),
               plot_args))
   }
 }
