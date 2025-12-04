@@ -6,7 +6,7 @@ Creates a faceted plot, with one panel per event type.
 
 ``` r
 # S3 method for class 'alife_multi'
-plot(x, ci_level = 0.95, col_ci = "skyblue", col_line = "navy", ...)
+plot(x, ci_level = 0.95, col_ci = 2, col_line = 1, ...)
 ```
 
 ## Arguments

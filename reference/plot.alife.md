@@ -6,7 +6,7 @@ Plot Method for an 'alife' Object
 
 ``` r
 # S3 method for class 'alife'
-plot(x, ci_level = 0.95, col_ci = "skyblue", col_line = "navy", ...)
+plot(x, ci_level = 0.95, col_ci = 2, col_line = 1, ...)
 ```
 
 ## Arguments

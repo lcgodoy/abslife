@@ -1,4 +1,4 @@
-# abslife [![abslife website](reference/figures/logo.pdf)](http://lcgodoy.me/abslife/)\`
+# abslife [![abslife website](reference/figures/logo.pdf)](http://lcgodoy.me/abslife/)
 
 > Under construction!
 
