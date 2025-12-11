@@ -1,5 +1,7 @@
 # abslife 0.0.95
 
+- `hazard` CI upper bound does not exceed 1 anymore.
+
 - Now we have a `ci_level` parameter that allows plotting multiple confidence
   intervals at once and changed default colors for plotting.
 

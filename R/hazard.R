@@ -92,6 +92,7 @@ single_t_hazard <- function(t,
       se_log_hazard = sqrt(var_log_h)
   )
 }
+
 ##' @title Auxiliary function for `estimate_hazard`
 ##' @param support where to calculate the hazards
 ##' @param event_indicator legacy.
@@ -113,6 +114,22 @@ single_t_hazard <- function(t,
   if (carry_hazard)
     out <- fix_0haz(out)
   return(out)
+}
+
+##' @title Auxiliary function for `estimate_hazard`
+##' @inheritParams estimate_hazard
+##' @return Nothing
+##' @author lcgodoy
+check_censored <- function(lifetime, censoring_indicator, support_lifetime_rv) {
+  max_support <- max(support_lifetime_rv, na.rm = TRUE)
+  is_problematic <- (lifetime == max_support) & (censoring_indicator == 1)
+  if (any(is_problematic, na.rm = TRUE)) {
+    warning(paste(
+      "Warning: Detected censored observations at the maximum limit of the support",
+      "(lifetime == max(support_lifetime_rv)).",
+      "This may lead to identifiability issues or unstable hazard estimates at the tail."
+    ))
+  }
 }
 
 ##' @title Hazard rate
@@ -175,6 +192,9 @@ estimate_hazard <- function(lifetime,
     omega <- max(lifetime)
     support_lifetime_rv <- calc_tp(lifetime, trunc_time)
   }
+  ## throws a warning if there are censored observations at
+  ## max(support_lifetime_rv)
+  check_censored(lifetime, censoring_indicator, support_lifetime_rv)
   run_by_type <-
     !is.null(event_type) && length(unique(event_type)) > 1
   if (!run_by_type) {
@@ -209,7 +229,8 @@ estimate_hazard <- function(lifetime,
   out$lower_ci <- ifelse(out$hazard == 0, NA_real_,
                          exp(log(out$hazard) - z * out$se_log_hazard))
   out$upper_ci <- ifelse(out$hazard == 0, NA_real_,
-                         exp(log(out$hazard) + z * out$se_log_hazard))
+                         pmin(exp(log(out$hazard) + z * out$se_log_hazard),
+                              1))
   out <- new_alife(out)
   return(out)
 }
