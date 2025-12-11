@@ -58,6 +58,11 @@ summary(aloans)
 - [`calc_tp()`](http://lcgodoy.me/abslife/reference/calc_tp.md) :
   Calculate Default Time Points
 
+- [`check_censored()`](http://lcgodoy.me/abslife/reference/check_censored.md)
+  :
+
+  Auxiliary function for `estimate_hazard`
+
 - [`.hazard_core()`](http://lcgodoy.me/abslife/reference/dot-hazard_core.md)
   :
 

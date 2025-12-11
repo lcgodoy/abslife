@@ -68,12 +68,12 @@ corresponding to the `ci_level` argument (in this case, set to 0.95).
 ``` r
 tail(aart_hazard)
 #>    lifetime    risk_set hazard se_log_hazard  lower_ci upper_ci
-#> 40       44 0.001287830    0.5     0.5000000 0.1876589 1.332204
-#> 41       45 0.001287830    0.5     0.7071068 0.1250488 1.999219
-#> 42       46 0.000643915    0.5     0.7071068 0.1250488 1.999219
-#> 43       47 0.000643915    0.5     0.7071068 0.1250488 1.999219
-#> 44       48 0.000643915    0.5     0.7071068 0.1250488 1.999219
-#> 45       49 0.000643915    1.0     0.0000000 1.0000000 1.000000
+#> 40       44 0.001287830    0.5     0.5000000 0.1876589        1
+#> 41       45 0.001287830    0.5     0.7071068 0.1250488        1
+#> 42       46 0.000643915    0.5     0.7071068 0.1250488        1
+#> 43       47 0.000643915    0.5     0.7071068 0.1250488        1
+#> 44       48 0.000643915    0.5     0.7071068 0.1250488        1
+#> 45       49 0.000643915    1.0     0.0000000 1.0000000        1
 ```
 
 > I believe we don’t need to output the `fh` and `uh` columns. What do
@@ -95,7 +95,7 @@ summary(aart_hazard)
 #> 26       30 0.03311966    0.17660603 0.023429257 0.04681803
 #> 31       35 0.05163330    0.13912017 0.039310680 0.06781866
 #> 36       40 0.73134328    0.07404587 0.632547761 0.84556935
-#> 41       45 0.50000000    0.70710678 0.125048827 1.99921908
+#> 41       45 0.50000000    0.70710678 0.125048827 1.00000000
 ```
 
 To visualize the hazard rate, you can use base R graphics via the
@@ -178,6 +178,10 @@ mbalt_hazard <- estimate_hazard(lifetime = mbalt$Zi,
                                 censoring = mbalt$Di,
                                 ci_level = 0.95,
                                 carry_hazard = FALSE) ## need 
+#> Warning in check_censored(lifetime, censoring_indicator, support_lifetime_rv):
+#> Warning: Detected censored observations at the maximum limit of the support
+#> (lifetime == max(support_lifetime_rv)). This may lead to identifiability issues
+#> or unstable hazard estimates at the tail.
 ```
 
 The output structure remains consistent with the previous example.
@@ -261,6 +265,10 @@ aloans_hazard <- estimate_hazard(lifetime = aloans$Z,
                                  event_type = aloans$event_type,
                                  ci_level = 0.95,
                                  carry_hazard = FALSE) ## need 
+#> Warning in check_censored(lifetime, censoring_indicator, support_lifetime_rv):
+#> Warning: Detected censored observations at the maximum limit of the support
+#> (lifetime == max(support_lifetime_rv)). This may lead to identifiability issues
+#> or unstable hazard estimates at the tail.
 ```
 
 The output now includes a column specifying the event type for each

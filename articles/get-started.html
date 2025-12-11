@@ -137,12 +137,12 @@ confidence interval corresponding to the <code>ci_level</code> argument
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">tail</a></span><span class="op">(</span><span class="va">aart_hazard</span><span class="op">)</span></span>
 <span><span class="co">#&gt;    lifetime    risk_set hazard se_log_hazard  lower_ci upper_ci</span></span>
-<span><span class="co">#&gt; 40       44 0.001287830    0.5     0.5000000 0.1876589 1.332204</span></span>
-<span><span class="co">#&gt; 41       45 0.001287830    0.5     0.7071068 0.1250488 1.999219</span></span>
-<span><span class="co">#&gt; 42       46 0.000643915    0.5     0.7071068 0.1250488 1.999219</span></span>
-<span><span class="co">#&gt; 43       47 0.000643915    0.5     0.7071068 0.1250488 1.999219</span></span>
-<span><span class="co">#&gt; 44       48 0.000643915    0.5     0.7071068 0.1250488 1.999219</span></span>
-<span><span class="co">#&gt; 45       49 0.000643915    1.0     0.0000000 1.0000000 1.000000</span></span></code></pre></div>
+<span><span class="co">#&gt; 40       44 0.001287830    0.5     0.5000000 0.1876589        1</span></span>
+<span><span class="co">#&gt; 41       45 0.001287830    0.5     0.7071068 0.1250488        1</span></span>
+<span><span class="co">#&gt; 42       46 0.000643915    0.5     0.7071068 0.1250488        1</span></span>
+<span><span class="co">#&gt; 43       47 0.000643915    0.5     0.7071068 0.1250488        1</span></span>
+<span><span class="co">#&gt; 44       48 0.000643915    0.5     0.7071068 0.1250488        1</span></span>
+<span><span class="co">#&gt; 45       49 0.000643915    1.0     0.0000000 1.0000000        1</span></span></code></pre></div>
 <blockquote>
 <p>I believe we don’t need to output the <code>fh</code> and
 <code>uh</code> columns. What do you think?</p>
@@ -163,7 +163,7 @@ confidence interval corresponding to the <code>ci_level</code> argument
 <span><span class="co">#&gt; 26       30 0.03311966    0.17660603 0.023429257 0.04681803</span></span>
 <span><span class="co">#&gt; 31       35 0.05163330    0.13912017 0.039310680 0.06781866</span></span>
 <span><span class="co">#&gt; 36       40 0.73134328    0.07404587 0.632547761 0.84556935</span></span>
-<span><span class="co">#&gt; 41       45 0.50000000    0.70710678 0.125048827 1.99921908</span></span></code></pre></div>
+<span><span class="co">#&gt; 41       45 0.50000000    0.70710678 0.125048827 1.00000000</span></span></code></pre></div>
 <p>To visualize the hazard rate, you can use base R graphics via the
 <code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code> method:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
@@ -228,7 +228,11 @@ indicates an observed event.</p>
 <span>                                trunc_time <span class="op">=</span> <span class="va">mbalt</span><span class="op">$</span><span class="va">Yi</span>,</span>
 <span>                                censoring <span class="op">=</span> <span class="va">mbalt</span><span class="op">$</span><span class="va">Di</span>,</span>
 <span>                                ci_level <span class="op">=</span> <span class="fl">0.95</span>,</span>
-<span>                                carry_hazard <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="co">## need </span></span></code></pre></div>
+<span>                                carry_hazard <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="co">## need </span></span>
+<span><span class="co">#&gt; Warning in check_censored(lifetime, censoring_indicator, support_lifetime_rv):</span></span>
+<span><span class="co">#&gt; Warning: Detected censored observations at the maximum limit of the support</span></span>
+<span><span class="co">#&gt; (lifetime == max(support_lifetime_rv)). This may lead to identifiability issues</span></span>
+<span><span class="co">#&gt; or unstable hazard estimates at the tail.</span></span></code></pre></div>
 <p>The output structure remains consistent with the previous
 example.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
@@ -293,7 +297,11 @@ the event types to the <code>event_type argument</code> in
 <span>                                 censoring <span class="op">=</span> <span class="va">aloans</span><span class="op">$</span><span class="va">C</span>,</span>
 <span>                                 event_type <span class="op">=</span> <span class="va">aloans</span><span class="op">$</span><span class="va">event_type</span>,</span>
 <span>                                 ci_level <span class="op">=</span> <span class="fl">0.95</span>,</span>
-<span>                                 carry_hazard <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="co">## need </span></span></code></pre></div>
+<span>                                 carry_hazard <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="co">## need </span></span>
+<span><span class="co">#&gt; Warning in check_censored(lifetime, censoring_indicator, support_lifetime_rv):</span></span>
+<span><span class="co">#&gt; Warning: Detected censored observations at the maximum limit of the support</span></span>
+<span><span class="co">#&gt; (lifetime == max(support_lifetime_rv)). This may lead to identifiability issues</span></span>
+<span><span class="co">#&gt; or unstable hazard estimates at the tail.</span></span></code></pre></div>
 <p>The output now includes a column specifying the event type for each
 hazard estimate.</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
