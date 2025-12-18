@@ -1,5 +1,7 @@
 # abslife 0.0.95
 
+- `hazard` CI fixed for graphis with multiple confidence levels as well.
+
 - `hazard` CI upper bound does not exceed 1 anymore.
 
 - Now we have a `ci_level` parameter that allows plotting multiple confidence

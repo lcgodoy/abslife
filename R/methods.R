@@ -17,8 +17,9 @@ multiple_cis.alife <- function(x, ci_level = .95) {
                                              exp(log(x[["hazard"]]) -
                                                  z * x[["se_log_hazard"]])),
                            upper_ci = ifelse(x[["hazard"]] == 0, NA_real_,
-                                             exp(log(x[["hazard"]]) +
-                                                 z * x[["se_log_hazard"]])))
+                                             pmin(exp(log(x[["hazard"]]) +
+                                                      z * x[["se_log_hazard"]]),
+                                                  1)))
   }
   names(out) <- ci_level
   return(out)
@@ -33,7 +34,9 @@ multiple_cis.alife_multi <- function(x, ci_level = .95) {
     lower_vals <- ifelse(x[["hazard"]] == 0, NA_real_,
                          exp(log(x[["hazard"]]) - z * x[["se_log_hazard"]]))
     upper_vals <- ifelse(x[["hazard"]] == 0, NA_real_,
-                         exp(log(x[["hazard"]]) + z * x[["se_log_hazard"]]))
+                         pmin(exp(log(x[["hazard"]]) +
+                                  z * x[["se_log_hazard"]]),
+                              1))
     out[[i]] <- data.frame(lifetime = x[["lifetime"]],
                            event_type = x[["event_type"]],
                            lower_ci = lower_vals,
