@@ -70,9 +70,6 @@ argument (in this case, set to 0.95).
 tail(aart_hazard)
 ```
 
-> I believe we don't need to output the `fh` and `uh` columns. What do you
-> think?
-
 
 ### Summarizing and plotting
 
@@ -197,7 +194,7 @@ summary(aloans_hazard)
 The plotting functions work as in the previous examples, handling the
 stratification by event type automatically:
 ```{r plot_aloans}
-plot(aloans_hazard)
+plot(aloans_hazard, ci_level = c(.5, .75, .85, .9, .95))
 ```
 
 The same holds for the `ggplot2` powered plots:

@@ -13,10 +13,10 @@ multiple_cis.alife <- function(x, ci_level = .95) {
     upper_tail <- 1 - .5 * (1 - ci_level[[i]])
     z <- stats::qnorm(upper_tail)
     out[[i]] <- data.frame(lifetime = x[["lifetime"]],
-                           lower_ci = ifelse(x[["hazard"]] == 0, NA_real_,
+                           lower_ci = ifelse(x[["hazard"]] == 0, 0,
                                              exp(log(x[["hazard"]]) -
                                                  z * x[["se_log_hazard"]])),
-                           upper_ci = ifelse(x[["hazard"]] == 0, NA_real_,
+                           upper_ci = ifelse(x[["hazard"]] == 0, 0,
                                              pmin(exp(log(x[["hazard"]]) +
                                                       z * x[["se_log_hazard"]]),
                                                   1)))
@@ -31,9 +31,9 @@ multiple_cis.alife_multi <- function(x, ci_level = .95) {
   for (i in seq_along(out)) {
     upper_tail <- 1 - .5 * (1 - ci_level[[i]])
     z <- stats::qnorm(upper_tail)
-    lower_vals <- ifelse(x[["hazard"]] == 0, NA_real_,
+    lower_vals <- ifelse(x[["hazard"]] == 0, 0,
                          exp(log(x[["hazard"]]) - z * x[["se_log_hazard"]]))
-    upper_vals <- ifelse(x[["hazard"]] == 0, NA_real_,
+    upper_vals <- ifelse(x[["hazard"]] == 0, 0,
                          pmin(exp(log(x[["hazard"]]) +
                                   z * x[["se_log_hazard"]]),
                               1))

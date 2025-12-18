@@ -226,9 +226,9 @@ estimate_hazard <- function(lifetime,
   }
   upper_tail <- 1 - .5 * (1 - ci_level)
   z <- stats::qnorm(upper_tail)
-  out$lower_ci <- ifelse(out[["hazard"]] == 0, NA_real_,
+  out$lower_ci <- ifelse(out[["hazard"]] == 0, 0,
                          exp(log(out[["hazard"]]) - z * out[["se_log_hazard"]]))
-  out$upper_ci <- ifelse(out[["hazard"]] == 0, NA_real_,
+  out$upper_ci <- ifelse(out[["hazard"]] == 0, 0,
                          pmin(exp(log(out[["hazard"]]) + z * out[["se_log_hazard"]]),
                               1))
   out <- new_alife(out)
