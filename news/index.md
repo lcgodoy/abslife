@@ -1,5 +1,12 @@
 # Changelog
 
+## abslife 0.0.96
+
+- When `se_log_hazard` is zero, the lower and upper CI for the hazard
+  rate are fixed at zero as well. The reason for doing this is that
+  having `NA`s for those quantities was causing unexpected behavior on
+  the plots.
+
 ## abslife 0.0.95
 
 - `hazard` CI fixed for graphis with multiple confidence levels as well.

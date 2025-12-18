@@ -76,9 +76,6 @@ tail(aart_hazard)
 #> 45       49 0.000643915    1.0     0.0000000 1.0000000        1
 ```
 
-> I believe we don’t need to output the `fh` and `uh` columns. What do
-> you think?
-
 #### Summarizing and plotting
 
 For a concise overview of the estimation, use the
@@ -189,12 +186,12 @@ The output structure remains consistent with the previous example.
 ``` r
 summary(mbalt_hazard)
 #>    lifetime     hazard se_log_hazard   lower_ci  upper_ci
-#> 1         5 0.00000000    0.00000000         NA        NA
-#> 6        10 0.00000000    0.00000000         NA        NA
-#> 11       15 0.00000000    0.00000000         NA        NA
-#> 16       20 0.00000000    0.00000000         NA        NA
-#> 21       25 0.00000000    0.00000000         NA        NA
-#> 26       30 0.00000000    0.00000000         NA        NA
+#> 1         5 0.00000000    0.00000000 0.00000000 0.0000000
+#> 6        10 0.00000000    0.00000000 0.00000000 0.0000000
+#> 11       15 0.00000000    0.00000000 0.00000000 0.0000000
+#> 16       20 0.00000000    0.00000000 0.00000000 0.0000000
+#> 21       25 0.00000000    0.00000000 0.00000000 0.0000000
+#> 26       30 0.00000000    0.00000000 0.00000000 0.0000000
 #> 31       35 0.05596574    0.02623112 0.05316113 0.0589183
 ```
 
@@ -210,8 +207,6 @@ and, for `ggplot2`:
 
 ``` r
 ggauto(mbalt_hazard, ci_level = c(.5, .75, .85, .9, .95))
-#> Warning: Removed 135 rows containing missing values or values outside the scale range
-#> (`geom_ribbon()`).
 ```
 
 ![](get-started_files/figure-html/ggplot_mbalt-1.png)
@@ -289,9 +284,9 @@ summary(aloans_hazard)
 #> 10      Defaut       48 0.007673623    0.08449283 0.006502495 0.009055676
 #> 11      Defaut       53 0.006133755    0.10337666 0.005008781 0.007511399
 #> 12      Defaut       58 0.006600660    0.49834710 0.002485384 0.017529971
-#> 13      Defaut       63 0.000000000    0.00000000          NA          NA
-#> 14      Defaut       68 0.000000000    0.00000000          NA          NA
-#> 15 Pre-payment        3 0.000000000    0.00000000          NA          NA
+#> 13      Defaut       63 0.000000000    0.00000000 0.000000000 0.000000000
+#> 14      Defaut       68 0.000000000    0.00000000 0.000000000 0.000000000
+#> 15 Pre-payment        3 0.000000000    0.00000000 0.000000000 0.000000000
 #> 16 Pre-payment        8 0.007686787    0.04937728 0.006977741 0.008467883
 #> 17 Pre-payment       13 0.011646595    0.04208613 0.010724454 0.012648026
 #> 18 Pre-payment       18 0.015630141    0.03847409 0.014494849 0.016854354
@@ -311,7 +306,7 @@ The plotting functions work as in the previous examples, handling the
 stratification by event type automatically:
 
 ``` r
-plot(aloans_hazard)
+plot(aloans_hazard, ci_level = c(.5, .75, .85, .9, .95))
 ```
 
 ![](get-started_files/figure-html/plot_aloans-1.png)
@@ -321,8 +316,6 @@ The same holds for the `ggplot2` powered plots:
 ``` r
 ggauto(aloans_hazard, ci_level = c(.5, .75, .85, .9, .95)) +
   theme_bw()
-#> Warning: Removed 60 rows containing missing values or values outside the scale range
-#> (`geom_ribbon()`).
 ```
 
 ![](get-started_files/figure-html/ggplot_aloans-1.png)
