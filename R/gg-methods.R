@@ -16,7 +16,7 @@
     df$level <- factor(paste0(lvl * 100, "%"))
     log_haz <- log(df$hazard)
     df$lower_ci <- exp(log_haz - z * df$se_log_hazard)
-    df$upper_ci <- exp(log_haz + z * df$se_log_hazard)
+    df$upper_ci <- pmin(exp(log_haz + z * df$se_log_hazard), 1)
     df$lower_ci[df$hazard == 0] <- NA_real_
     df$upper_ci[df$hazard == 0] <- NA_real_
     return(df)
