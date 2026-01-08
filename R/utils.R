@@ -60,15 +60,16 @@ ralife_cdf <- function(n, x) {
 ##' @rdname rmat
 aux_kmat <-
   function(hazard, rephaz, support_length) {
+    nt <- support_length
     out <- rep(0.0, nt)
-    out[(nt - rep + 1):nt] <- rep(- 1 / (1 - haz), rep)
+    out[(nt - rephaz + 1):nt] <- rep(- 1 / (1 - hazard), rephaz)
     return(out)
   }
 
 ##' @title Build the auxiliary matrix K
 ##' 
 ##' @param hazard A `vector` of estimated hazards at every timepoint.
-##' @param se_hazard A `vector` of SE estimates for the log-hazards.
+##' @param se_log_hazard A `vector` of SE estimates for the log-hazards.
 ##' @param rephaz number of times `hazard` must be repeated (auxiliary)
 ##' @param support_length length of `hazard`.
 ##' @param pmfvar a square `matrix` corresponding to the output of a `build_pmf`
@@ -113,8 +114,8 @@ build_sigmat <- function(hazard, se_log_hazard) {
   se_hazard <- se_log_hazard * hazard
   nt <- length(hazard)
   sigmat <- matrix(0.0, ncol = nt, nrow = nt)
-  diag(rmat) <- se_hazard
-  return(rmat)
+  diag(sigmat) <- se_hazard
+  return(sigmat)
 }
 
 ##' @rdname rmat

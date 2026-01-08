@@ -235,7 +235,11 @@ calc_cdf <- function(x, ...) {
 calc_cdf.alife <- function(x, ...) {
   x$cdf <- 1 - cumprod(1 - x$hazard)
   x$density <- x$cdf - c(0, x$cdf)[seq_along(x$cdf)]
-  out <- new_acdf(x[, c("lifetime", "cdf", "density")])
+  pmfvarcov <- build_pmfvar(x$hazard, x$se_log_hazard)
+  cdfvarcov <- build_cdfvar(pmfvarcov)
+  x$se_cdf <- sqrt(diag(cdfvarcov))
+  x$se_dens <- sqrt(diag(pmfvarcov))
+  out <- new_acdf(x[, c("lifetime", "cdf", "se_cdf", "density", "se_dens")])
   return(out)
 }
 
@@ -246,11 +250,15 @@ calc_cdf.alife_multi <- function(x, ...) {
   df_list_with_cdf <- lapply(df_list, function(df) {
     df$cdf <- 1 - cumprod(1 - df$hazard)
     df$density <- df$cdf - c(0, df$cdf)[seq_along(df$cdf)]
+    pmfvarcov <- build_pmfvar(x$hazard, x$se_log_hazard)
+    cdfvarcov <- build_cdfvar(pmfvarcov)
+    x$se_cdf <- sqrt(diag(cdfvarcov))
+    x$se_dens <- sqrt(diag(pmfvarcov))
     return(df)
   })
   out <- do.call(rbind, df_list_with_cdf)
   rownames(out) <- NULL
-  out <- new_acdf(out[, c("event_type", "lifetime", "cdf", "density")])
+  out <- new_acdf(out[, c("event_type", "lifetime", "cdf", "se_cdf", "density", "se_dens")])
   return(out)
 }
 
