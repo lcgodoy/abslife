@@ -34,6 +34,7 @@ build:
 # 	R CMD INSTALL .
 install: docs build
 	R CMD INSTALL $(PKG_NAME)_*.tar.gz
+	@rm $(PKG_NAME)_*.tar.gz
 
 clean:
 	rm -f ./$(PKG_NAME)_*.tar.gz

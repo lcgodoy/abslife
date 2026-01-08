@@ -1,5 +1,5 @@
 Package: abslife
-Title: Asset-Backed Security for lifetime data
+Title: Estimating the lifetime distribution for left-truncated, discrete-time data with applications to Asset-Backed Securities
 Version: 0.0.96
 Date: 2025-12-18
 Authors@R:
