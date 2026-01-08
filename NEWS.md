@@ -6,7 +6,7 @@
 
 # abslife 0.0.95
 
-- `hazard` CI fixed for graphis with multiple confidence levels as well.
+- `hazard` CI fixed for graphics with multiple confidence levels as well.
 
 - `hazard` CI upper bound does not exceed 1 anymore.
 
