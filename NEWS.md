@@ -11,7 +11,7 @@
 - `hazard` CI upper bound does not exceed 1 anymore.
 
 - Now we have a `ci_level` parameter that allows plotting multiple confidence
-  intervals at once and changed default colors for plotting.
+  intervals at once and changes default colors for plotting.
 
 - `calc_cdf` function also esimates the density (in addition to the CDF) and its
   output has been modified to a `data.frame` with the `lifetime` and the
