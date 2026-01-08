@@ -65,7 +65,7 @@
   competing risks.
 
 * `single_t_hazard` internal function created. It is meant to make the code
-  easier to debug by expliting the big `estimate_hazard` function into
+  easier to debug by spliting the big `estimate_hazard` function into
   self-contained chunks.
 
 * `ci_level` now is a parameter of the `estimate_hazard` function.
