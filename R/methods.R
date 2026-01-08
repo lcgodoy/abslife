@@ -250,10 +250,10 @@ calc_cdf.alife_multi <- function(x, ...) {
   df_list_with_cdf <- lapply(df_list, function(df) {
     df$cdf <- 1 - cumprod(1 - df$hazard)
     df$density <- df$cdf - c(0, df$cdf)[seq_along(df$cdf)]
-    pmfvarcov <- build_pmfvar(x$hazard, x$se_log_hazard)
+    pmfvarcov <- build_pmfvar(df$hazard, df$se_log_hazard)
     cdfvarcov <- build_cdfvar(pmfvarcov)
-    x$se_cdf <- sqrt(diag(cdfvarcov))
-    x$se_dens <- sqrt(diag(pmfvarcov))
+    df$se_cdf <- sqrt(diag(cdfvarcov))
+    df$se_dens <- sqrt(diag(pmfvarcov))
     return(df)
   })
   out <- do.call(rbind, df_list_with_cdf)
