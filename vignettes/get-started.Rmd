@@ -96,7 +96,7 @@ ggauto(aart_hazard, ci_level = c(.5, .75, .85, .9, .95))
 
 ### Calculating the CDF
 
-he package can also derive the Cumulative Distribution Function (CDF) directly
+The package can also derive the Cumulative Distribution Function (CDF) directly
 from the hazard estimates using `calc_cdf()`. This appends a cdf column to the
 results.
 ```{r cdf_aart}

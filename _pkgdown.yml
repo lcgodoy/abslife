@@ -2,3 +2,7 @@ url: http://lcgodoy.me/abslife/
 template:
   bootstrap: 5
   math-rendering: mathjax
+
+navbar: 
+  structure:
+    right: [search, github]
