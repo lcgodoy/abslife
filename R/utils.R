@@ -56,3 +56,84 @@ ralife_cdf <- function(n, x) {
   }
   return(out)
 }
+
+##' @rdname rmat
+aux_kmat <-
+  function(hazard, rephaz, support_length) {
+    out <- rep(0.0, nt)
+    out[(nt - rep + 1):nt] <- rep(- 1 / (1 - haz), rep)
+    return(out)
+  }
+
+##' @title Build the auxiliary matrix K
+##' 
+##' @param hazard A `vector` of estimated hazards at every timepoint.
+##' @param se_hazard A `vector` of SE estimates for the log-hazards.
+##' @param rephaz number of times `hazard` must be repeated (auxiliary)
+##' @param support_length length of `hazard`.
+##' @param pmfvar a square `matrix` corresponding to the output of a `build_pmf`
+##'   call.
+##'
+##' @return A square `matrix` with number of rows (and columns) matching the
+##'   dimension of `hazard`.
+##' @name rmat
+##' @author lcgodoy
+build_kmat <- function(hazard) {
+  nt <- length(hazard)
+  reps <- rev(seq_len(nt))
+  kmat <- mapply(aux_kmat, hazard = hazard,
+                 rephaz = reps,
+                 support_length = nt)
+  return(kmat)
+}
+
+##' @rdname rmat
+build_rmat <- function(hazard) {
+  nt <- length(hazard)
+  rmat <- matrix(0.0, ncol = nt, nrow = nt)
+  diag(rmat) <- cumprod(1 - hazard)
+  return(rmat)
+}
+
+##' @rdname rmat
+build_amat <- function(support_length) {
+  amat <- matrix(0.0,
+                 ncol = support_length,
+                 nrow = support_length)
+  idsd <-
+    seq(from = 2, by = support_length + 1,
+        length.out = support_length - 1)
+  diag(amat) <- - 1.0
+  amat[idsd] <- 1.0
+  return(amat)
+}
+
+##' @rdname rmat
+build_sigmat <- function(hazard, se_log_hazard) {
+  se_hazard <- se_log_hazard * hazard
+  nt <- length(hazard)
+  sigmat <- matrix(0.0, ncol = nt, nrow = nt)
+  diag(rmat) <- se_hazard
+  return(rmat)
+}
+
+##' @rdname rmat
+build_pmfvar <- function(hazard, se_log_hazard) {
+  sig_sqrt <- build_sigmat(hazard, se_log_hazard)
+  kmat <- build_kmat(hazard)
+  rmat <- build_rmat(hazard)
+  amat <- build_amat(length(hazard))
+  out <- amat %*% rmat %*% kmat %*% sig_sqrt
+  out <- tcrossprod(out)
+  return(out)
+}
+
+##' @rdname rmat
+build_cdfvar <- function(pmfvar) {
+  nt <- NROW(pmfvar)
+  astmat <- matrix(1.0, nrow = nt, ncol = nt)
+  astmat[lower.tri(astmat)] <- 0.0
+  out <- crossprod(astmat, pmfvar)
+  out <- out %*% astmat
+  return(out)
+}

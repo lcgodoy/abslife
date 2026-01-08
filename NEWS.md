@@ -1,3 +1,10 @@
+# abslife 0.1.0
+
+- Includes seach and GitHub link to navbar.
+
+- Auxiliary functions for calculating the matrices necessary to calculate the se
+  of the density (i.e., pmf) covariance matrix.
+
 # abslife 0.0.96
 
 - When `se_log_hazard` is zero, the lower and upper CI for the hazard rate are
