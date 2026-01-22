@@ -5,6 +5,8 @@
 \alias{multiple_cis}
 \alias{multiple_cis.alife}
 \alias{multiple_cis.alife_multi}
+\alias{multiple_cis.acdf}
+\alias{multiple_cis.acdf_multi}
 \title{Computing multiple CIs at once.}
 \usage{
 multiple_cis(x, ci_level = 0.95)
@@ -12,6 +14,10 @@ multiple_cis(x, ci_level = 0.95)
 \method{multiple_cis}{alife}(x, ci_level = 0.95)
 
 \method{multiple_cis}{alife_multi}(x, ci_level = 0.95)
+
+\method{multiple_cis}{acdf}(x, ci_level = 0.95)
+
+\method{multiple_cis}{acdf_multi}(x, ci_level = 0.95)
 }
 \arguments{
 \item{x}{An object of class \code{alife}. Typically the output of the

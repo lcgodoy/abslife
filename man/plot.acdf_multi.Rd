@@ -4,20 +4,37 @@
 \alias{plot.acdf_multi}
 \title{Plot Method for an 'acdf_multi' Object}
 \usage{
-\method{plot}{acdf_multi}(x, ...)
+\method{plot}{acdf_multi}(x, ci_level = 0.95, col_ci = "grey80", col_line = 1, ...)
+
+\method{plot}{acdf_multi}(x, ci_level = 0.95, col_ci = "grey80", col_line = 1, ...)
 }
 \arguments{
 \item{x}{An object of class \code{acdf_multi}.}
 
+\item{ci_level}{A numeric vector of confidence levels to plot (e.g.,
+\code{c(0.5, 0.95)}). Defaults to \code{0.95}.}
+
+\item{col_ci}{The color for the confidence interval polygon/bars.}
+
+\item{col_line}{The color for the main estimate line/points.}
+
 \item{...}{Additional arguments passed to the base \code{plot} function (e.g.,
-\code{xlab}, \code{ylab}, \code{ylim}).}
+\code{xlab}, \code{ylab} override).}
 }
 \value{
 A faceted plot of the CDFs.
+
+A faceted plot of CDFs and Densities.
 }
 \description{
 Creates a faceted plot, with one panel per event type.
+
+Creates a faceted plot with one row per event type. Each row contains
+two panels: one for the Cumulative Distribution Function (CDF) and one
+for the Probability Mass Function (Density).
 }
 \seealso{
+\code{\link[=calc_cdf]{calc_cdf()}}
+
 \code{\link[=calc_cdf]{calc_cdf()}}
 }

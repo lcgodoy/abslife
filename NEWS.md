@@ -1,9 +1,13 @@
+# abslife 0.1.1
+
+- plotting and summary methods for pmf and CDF.
+
 # abslife 0.1.0
 
-- Includes seach and GitHub link to navbar.
+- Includes search and GitHub link to navbar.
 
-- Auxiliary functions for calculating the matrices necessary to calculate the se
-  of the density (i.e., pmf) covariance matrix.
+- Auxiliary functions for calculating the matrices necessary to calculate the
+  standard error of the density (i.e., pmf) asymptotic covariance matrix.
 
 # abslife 0.0.96
 

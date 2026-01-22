@@ -46,6 +46,56 @@ multiple_cis.alife_multi <- function(x, ci_level = .95) {
   return(out)
 }
 
+##' @rdname mci
+multiple_cis.acdf <- function(x, ci_level = .95) {
+  out <- vector(mode = "list", length = length(ci_level))
+  for (i in seq_along(out)) {
+    upper_tail <- 1 - .5 * (1 - ci_level[[i]])
+    z <- stats::qnorm(upper_tail)
+    cdf_lower <- pmax(0, x[["cdf"]] - z * x[["se_cdf"]])
+    cdf_upper <- pmin(1, x[["cdf"]] + z * x[["se_cdf"]])
+    dens_lower <- pmax(0, x[["density"]] - z * x[["se_dens"]])
+    dens_upper <- x[["density"]] + z * x[["se_dens"]]    
+    out[[i]] <- data.frame(
+      lifetime   = x[["lifetime"]],
+      cdf_lower  = cdf_lower,
+      cdf_upper  = cdf_upper,
+      dens_lower = dens_lower,
+      dens_upper = dens_upper
+    )
+  }
+  names(out) <- ci_level
+  return(out)
+}
+
+##' @rdname mci
+##' @export
+multiple_cis.acdf_multi <- function(x, ci_level = .95) {
+  out <- vector(mode = "list", length = length(ci_level))
+  
+  for (i in seq_along(out)) {
+    upper_tail <- 1 - .5 * (1 - ci_level[[i]])
+    z <- stats::qnorm(upper_tail)
+
+    cdf_lower <- pmax(0, x[["cdf"]] - z * x[["se_cdf"]])
+    cdf_upper <- pmin(1, x[["cdf"]] + z * x[["se_cdf"]])
+    
+    dens_lower <- pmax(0, x[["density"]] - z * x[["se_dens"]])
+    dens_upper <- x[["density"]] + z * x[["se_dens"]]    
+    
+    out[[i]] <- data.frame(
+      lifetime   = x[["lifetime"]],
+      event_type = x[["event_type"]],
+      cdf_lower  = cdf_lower,
+      cdf_upper  = cdf_upper,
+      dens_lower = dens_lower,
+      dens_upper = dens_upper
+    )
+  }
+  names(out) <- ci_level
+  return(out)
+}
+
 ##' Plot Method for an 'alife' Object
 ##'
 ##' @param x An object of class `alife`. Typically the output of the
@@ -258,7 +308,8 @@ calc_cdf.alife_multi <- function(x, ...) {
   })
   out <- do.call(rbind, df_list_with_cdf)
   rownames(out) <- NULL
-  out <- new_acdf(out[, c("event_type", "lifetime", "cdf", "se_cdf", "density", "se_dens")])
+  out <- new_acdf(out[, c("event_type", "lifetime", "cdf",
+                          "se_cdf", "density", "se_dens")])
   return(out)
 }
 
@@ -310,28 +361,91 @@ summary.acdf_multi <- function(object, by = 5, ...) {
 ##'
 ##' @param x An object of class `acdf`. Typically the output of the
 ##'   `estimate_hazard` function.
+##' @param ci_level A numeric vector of confidence ci_level to plot (e.g.,
+##'   \code{c(0.5, 0.95)}). Defaults to \code{0.95}.
+##' @param col_ci The color for the confidence interval polygon.
+##' @param col_line The color for the hazard rate line.
 ##' @param ... Additional arguments passed to the base `plot` function (e.g.,
-##'   `xlab`, `ylab`, `ylim`).
+##'   `main`, `xlab`, `ylab`, `ylim`).
 ##'
-##' @importFrom graphics polygon lines
+##' @importFrom graphics polygon lines points arrows
 ##' @seealso [calc_cdf()]
 ##' @return A plot of the CDF.
 ##' @export
-##'
-plot.acdf <- function(x, ...) {
+plot.acdf <- function(x, ci_level = 0.95,
+                      col_ci = "grey80",
+                      col_line = 1,
+                      ...) {
+  opar <- par(no.readonly = TRUE)
+  on.exit(par(opar))
+  par(mfrow = c(1, 2))
+  
+  ci_level <- sort(ci_level, decreasing = TRUE)
+  cis_list <- multiple_cis.acdf(x, ci_level = ci_level)
+  
+  n_ci_level <- length(ci_level)
+  transparency <- if (n_ci_level > 1) {
+    seq(0.2, 0.8, length.out = n_ci_level)
+  } else {
+    1.0
+  }
+  
   args <- list(...)
-  defaults <- list(
-      xlab = "x",
-      ylab = "CDF",
-      main = NA_character_,
-      ylim = c(0, 1),
-      xlim = range(x$lifetime, na.rm = TRUE)
+  
+  defaults_cdf <- list(
+    xlab = "Lifetime",
+    ylab = "CDF",
+    main = "Cumulative Distribution",
+    ylim = c(0, 1),
+    xlim = range(x$lifetime, na.rm = TRUE)
   )
-  plot_args <- utils::modifyList(defaults, args)
-  do.call("plot",
-          c(list(x = x$lifetime, y = x$cdf, type = "s"),
-            plot_args))
+  plot_args_cdf <- utils::modifyList(defaults_cdf, args)
+  
+  do.call("plot", c(list(x = x$lifetime, y = x$cdf, type = "n"), plot_args_cdf))
+  
+  for (i in seq_along(ci_level)) {
+    lvl_name <- as.character(ci_level[i])
+    ci_data <- cis_list[[lvl_name]]
+    xx <- ci_data[["lifetime"]]
+    x_poly <- c(xx[1], rep(xx[-1], each = 2))
+    yy_low <- ci_data[["cdf_lower"]]
+    y_low_poly <- c(rep(yy_low[-length(yy_low)], each = 2), yy_low[length(yy_low)])
+    yy_up <- ci_data[["cdf_upper"]]
+    y_up_poly <- c(rep(yy_up[-length(yy_up)], each = 2), yy_up[length(yy_up)])
+    polygon(
+      x = c(x_poly, rev(x_poly)),
+      y = c(y_low_poly, rev(y_up_poly)),
+      col = grDevices::adjustcolor(col_ci, alpha.f = if(n_ci_level > 1) 0.2 + (i*0.1) else 0.4),
+      border = NA
+    )
+  }
+  lines(x$lifetime, x$cdf, col = col_line, type = "s", lwd = 2)
+  all_dens_upper <- unlist(lapply(cis_list, function(d) d$dens_upper))
+  max_dens_y <- max(all_dens_upper, x$density, na.rm = TRUE)
+  defaults_dens <- list(
+    xlab = "Lifetime",
+    ylab = "Probability Mass",
+    main = "Density (PMF)",
+    ylim = c(0, max_dens_y),
+    xlim = range(x$lifetime, na.rm = TRUE)
+  )
+  plot_args_dens <- utils::modifyList(defaults_dens, args)
+  do.call("plot", c(list(x = x$lifetime, y = x$density, type = "n"), plot_args_dens))
+  ## Draw Error Bars
+  for (i in seq_along(ci_level)) {
+    lvl_name <- as.character(ci_level[i])
+    ci_data <- cis_list[[lvl_name]]
+    arrows(
+      x0 = ci_data$lifetime, y0 = ci_data$dens_lower,
+      x1 = ci_data$lifetime, y1 = ci_data$dens_upper,
+      length = 0.05, angle = 90, code = 3,
+      col = grDevices::adjustcolor(col_ci, alpha.f = transparency[i]),
+      lwd = 1.5
+    )
+  }
+  points(x$lifetime, x$density, col = col_line, pch = 19)
 }
+
 
 ##' Plot Method for an 'acdf_multi' Object
 ##'
@@ -356,13 +470,11 @@ plot.acdf_multi <- function(x, ...) {
   par(mfrow = c(n_rows, n_cols), 
       mar = c(4, 4, 2, 1))
   for (et in etypes) {
-    # Subset the data for this event type
     x_sub <- x[x$event_type == et, ]    
     args <- list(...)
     defaults <- list(
       xlab = "x",
       ylab = "Cause specific CDF",
-      # Use the event type in the title
       main = paste("Event:", et),
       ylim = c(0, 1),
       xlim = range(x_sub$lifetime, na.rm = TRUE)
@@ -371,5 +483,124 @@ plot.acdf_multi <- function(x, ...) {
     do.call("plot",
             c(list(x = x_sub$lifetime, y = x_sub$cdf, type = "s"),
               plot_args))
+  }
+}
+
+##' Plot Method for an 'acdf_multi' Object
+##'
+##' Creates a faceted plot with one row per event type. Each row contains
+##' two panels: one for the Cumulative Distribution Function (CDF) and one
+##' for the Probability Mass Function (Density).
+##'
+##' @param x An object of class `acdf_multi`.
+##' @param ci_level A numeric vector of confidence levels to plot (e.g.,
+##'   \code{c(0.5, 0.95)}). Defaults to \code{0.95}.
+##' @param col_ci The color for the confidence interval polygon/bars.
+##' @param col_line The color for the main estimate line/points.
+##' @param ... Additional arguments passed to the base `plot` function (e.g.,
+##'   `xlab`, `ylab` override).
+##'
+##' @importFrom graphics polygon lines par points arrows
+##' @importFrom grDevices adjustcolor
+##' @seealso [calc_cdf()]
+##' @return A faceted plot of CDFs and Densities.
+##' @export
+plot.acdf_multi <- function(x, ci_level = 0.95,
+                            col_ci = "grey80",
+                            col_line = 1,
+                            ...) {
+  
+  etypes <- unique(x$event_type)
+  n_types <- length(etypes)
+  
+  old_par <- par(no.readonly = TRUE)
+  on.exit(par(old_par))
+  
+  par(mfrow = c(n_types, 2), 
+      mar = c(4, 4, 2, 1), 
+      oma = c(0, 0, 2, 0))
+  
+  ci_level <- sort(ci_level, decreasing = TRUE)
+  n_ci_level <- length(ci_level)
+  transparency <- if (n_ci_level > 1) {
+    seq(0.2, 0.8, length.out = n_ci_level)
+  } else {
+    1.0
+  }
+  
+  args <- list(...)
+  
+  for (et in etypes) {
+    x_sub <- x[x$event_type == et, ]
+    cis_list <- multiple_cis.acdf(x_sub, ci_level = ci_level)
+    
+    defaults_cdf <- list(
+      xlab = "Lifetime",
+      ylab = "Cause Specific CDF",
+      main = paste("CDF - Event:", et),
+      ylim = c(0, 1),
+      xlim = range(x_sub$lifetime, na.rm = TRUE)
+    )
+    
+    plot_args_cdf <- utils::modifyList(defaults_cdf, args)
+    
+    do.call("plot", c(list(x = x_sub$lifetime, y = x_sub$cdf, type = "n"),
+                      plot_args_cdf))
+    
+    for (i in seq_along(ci_level)) {
+      lvl_name <- as.character(ci_level[i])
+      ci_data <- cis_list[[lvl_name]]
+      
+      xx <- ci_data[["lifetime"]]
+      x_poly <- c(xx[1], rep(xx[-1], each = 2))
+      
+      yy_low <- ci_data[["cdf_lower"]]
+      y_low_poly <- c(rep(yy_low[-length(yy_low)], each = 2),
+                      yy_low[length(yy_low)])
+      
+      yy_up <- ci_data[["cdf_upper"]]
+      y_up_poly <- c(rep(yy_up[-length(yy_up)], each = 2),
+                     yy_up[length(yy_up)])
+      
+      polygon(
+        x = c(x_poly, rev(x_poly)),
+        y = c(y_low_poly, rev(y_up_poly)),
+        col = grDevices::adjustcolor(col_ci,
+                                     alpha.f =
+                                       if(n_ci_level > 1) 0.2 + (i * 0.1) else 0.4),
+        border = NA
+      )
+    }
+
+    lines(x_sub$lifetime, x_sub$cdf, col = col_line, type = "s", lwd = 2)
+
+    all_dens_upper <- unlist(lapply(cis_list, function(d) d$dens_upper))
+    max_dens_y <- max(all_dens_upper, x_sub$density, na.rm = TRUE)
+    
+    defaults_dens <- list(
+      xlab = "Lifetime",
+      ylab = "Probability Mass",
+      main = paste("Density - Event:", et),
+      ylim = c(0, max_dens_y),
+      xlim = range(x_sub$lifetime, na.rm = TRUE)
+    )
+    
+    plot_args_dens <- utils::modifyList(defaults_dens, args)
+    
+    do.call("plot", c(list(x = x_sub$lifetime, y = x_sub$density, type = "n"),
+                      plot_args_dens))
+    
+    for (i in seq_along(ci_level)) {
+      lvl_name <- as.character(ci_level[i])
+      ci_data <- cis_list[[lvl_name]]
+      arrows(
+        x0 = ci_data$lifetime, y0 = ci_data$dens_lower,
+        x1 = ci_data$lifetime, y1 = ci_data$dens_upper,
+        length = 0.05, angle = 90, code = 3,
+        col = grDevices::adjustcolor(col_ci, alpha.f = transparency[i]),
+        lwd = 1.5
+      )
+    }
+    points(x_sub$lifetime, x_sub$density, col = col_line, pch = 19)
   }
 }
