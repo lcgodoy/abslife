@@ -73,6 +73,15 @@
 - [`ralife_cdf()`](http://lcgodoy.me/abslife/reference/ralife_cdf.md) :
   Samples from a "abslife" object
 
+- [`aux_kmat()`](http://lcgodoy.me/abslife/reference/rmat.md)
+  [`build_kmat()`](http://lcgodoy.me/abslife/reference/rmat.md)
+  [`build_rmat()`](http://lcgodoy.me/abslife/reference/rmat.md)
+  [`build_amat()`](http://lcgodoy.me/abslife/reference/rmat.md)
+  [`build_sigmat()`](http://lcgodoy.me/abslife/reference/rmat.md)
+  [`build_pmfvar()`](http://lcgodoy.me/abslife/reference/rmat.md)
+  [`build_cdfvar()`](http://lcgodoy.me/abslife/reference/rmat.md) :
+  Build the auxiliary matrix K
+
 - [`single_t_hazard()`](http://lcgodoy.me/abslife/reference/single_t_hazard.md)
   : Hazard estimate for a single time-point.
 

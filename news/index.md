@@ -1,5 +1,17 @@
 # Changelog
 
+## abslife 0.1.1
+
+- plotting and summary methods for pmf and CDF.
+
+## abslife 0.1.0
+
+- Includes search and GitHub link to navbar.
+
+- Auxiliary functions for calculating the matrices necessary to
+  calculate the standard error of the density (i.e., pmf) asymptotic
+  covariance matrix.
+
 ## abslife 0.0.96
 
 - When `se_log_hazard` is zero, the lower and upper CI for the hazard
@@ -9,12 +21,13 @@
 
 ## abslife 0.0.95
 
-- `hazard` CI fixed for graphis with multiple confidence levels as well.
+- `hazard` CI fixed for graphics with multiple confidence levels as
+  well.
 
 - `hazard` CI upper bound does not exceed 1 anymore.
 
 - Now we have a `ci_level` parameter that allows plotting multiple
-  confidence intervals at once and changed default colors for plotting.
+  confidence intervals at once and changes default colors for plotting.
 
 - `calc_cdf` function also esimates the density (in addition to the CDF)
   and its output has been modified to a `data.frame` with the `lifetime`
@@ -71,7 +84,7 @@
   with competing risks.
 
 - `single_t_hazard` internal function created. It is meant to make the
-  code easier to debug by expliting the big `estimate_hazard` function
+  code easier to debug by spliting the big `estimate_hazard` function
   into self-contained chunks.
 
 - `ci_level` now is a parameter of the `estimate_hazard` function.

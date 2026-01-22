@@ -57,7 +57,7 @@ aart_hazard <- estimate_hazard(lifetime = aart$Xi,
                                carry_hazard = TRUE) ## need 
 ```
 
-> Note that, we set `carry_hazard = TRUE`. This argument ensures that if
+> Note that we set `carry_hazard = TRUE`. This argument ensures that if
 > a hazard estimate is 0, it is replaced by the last non-zero estimate.
 
 The function returns a `data.frame` containing the evaluation times, the
@@ -117,7 +117,7 @@ ggauto(aart_hazard, ci_level = c(.5, .75, .85, .9, .95))
 
 #### Calculating the CDF
 
-he package can also derive the Cumulative Distribution Function (CDF)
+The package can also derive the Cumulative Distribution Function (CDF)
 directly from the hazard estimates using
 [`calc_cdf()`](http://lcgodoy.me/abslife/reference/calc_cdf.md). This
 appends a cdf column to the results.

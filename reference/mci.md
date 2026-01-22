@@ -12,6 +12,12 @@ multiple_cis(x, ci_level = 0.95)
 
 # S3 method for class 'alife_multi'
 multiple_cis(x, ci_level = 0.95)
+
+# S3 method for class 'acdf'
+multiple_cis(x, ci_level = 0.95)
+
+# S3 method for class 'acdf_multi'
+multiple_cis(x, ci_level = 0.95)
 ```
 
 ## Arguments
