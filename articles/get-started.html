@@ -31,7 +31,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">abslife</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -181,6 +181,8 @@ simultaneously:</p>
 This appends a cdf column to the results.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">aart_cdf</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calc_cdf.html">calc_cdf</a></span><span class="op">(</span><span class="va">aart_hazard</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning in calc_cdf.alife(aart_hazard): Not reporting CDF (and density) values</span></span>
+<span><span class="co">#&gt; for time points where the hazard rate equals 1.</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">aart_cdf</span><span class="op">)</span></span>
 <span><span class="co">#&gt;    lifetime        cdf      density</span></span>
 <span><span class="co">#&gt; 1         5 0.01904762 0.0190476190</span></span>
@@ -194,7 +196,9 @@ This appends a cdf column to the results.</p>
 <span><span class="co">#&gt; 41       45 0.99975506 0.0002449414</span></span></code></pre></div>
 <p>We can also plot the CDF:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">aart_cdf</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">aart_cdf</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning in arrows(x0 = ci_data$lifetime, y0 = ci_data$dens_lower, x1 =</span></span>
+<span><span class="co">#&gt; ci_data$lifetime, : zero-length arrow is of indeterminate angle and so skipped</span></span></code></pre></div>
 <p><img src="get-started_files/figure-html/plot_cdf_aart-1.png" class="r-plt" alt="" width="700"></p>
 </div>
 </div>

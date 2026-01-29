@@ -1,5 +1,9 @@
 # Changelog
 
+## abslife 0.1.2
+
+- “safeguard” for CDF and density functions.
+
 ## abslife 0.1.1
 
 - plotting and summary methods for pmf and CDF.

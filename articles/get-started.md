@@ -124,6 +124,8 @@ appends a cdf column to the results.
 
 ``` r
 aart_cdf <- calc_cdf(aart_hazard)
+#> Warning in calc_cdf.alife(aart_hazard): Not reporting CDF (and density) values
+#> for time points where the hazard rate equals 1.
 summary(aart_cdf)
 #>    lifetime        cdf      density
 #> 1         5 0.01904762 0.0190476190
@@ -141,6 +143,8 @@ We can also plot the CDF:
 
 ``` r
 plot(aart_cdf)
+#> Warning in arrows(x0 = ci_data$lifetime, y0 = ci_data$dens_lower, x1 =
+#> ci_data$lifetime, : zero-length arrow is of indeterminate angle and so skipped
 ```
 
 ![](get-started_files/figure-html/plot_cdf_aart-1.png)
