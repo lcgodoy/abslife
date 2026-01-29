@@ -283,14 +283,16 @@ calc_cdf <- function(x, ...) {
 ##' @export
 ##' @rdname calc_cdf
 calc_cdf.alife <- function(x, ...) {
-  x$cdf <- 1 - cumprod(1 - x$hazard)
-  x$density <- x$cdf - c(0, x$cdf)[seq_along(x$cdf)]
-  pmfvarcov <- build_pmfvar(x$hazard, x$se_log_hazard)
+  if (any(x$hazard == 1))
+    warning("Not reporting CDF (and density) values for time points where the hazard rate equals 1.")
+  y <- x[x$hazard < 1, ]
+  y$cdf <- 1 - cumprod(1 - y$hazard)
+  y$density <- y$cdf - c(0, y$cdf)[seq_along(y$cdf)]
+  pmfvarcov <- build_pmfvar(y$hazard, y$se_log_hazard)
   cdfvarcov <- build_cdfvar(pmfvarcov)
-  x$se_cdf <- sqrt(diag(cdfvarcov))
-  x$se_dens <- sqrt(diag(pmfvarcov))
-  out <- new_acdf(x[, c("lifetime", "cdf", "se_cdf", "density", "se_dens")])
-  return(out)
+  y$se_cdf <- sqrt(diag(cdfvarcov))
+  y$se_dens <- sqrt(diag(pmfvarcov))
+  out <- new_acdf(y[, c("lifetime", "cdf", "se_cdf", "density", "se_dens")])
 }
 
 ##' @export
@@ -298,6 +300,7 @@ calc_cdf.alife <- function(x, ...) {
 calc_cdf.alife_multi <- function(x, ...) {
   df_list <- split(x, x$event_type)
   df_list_with_cdf <- lapply(df_list, function(df) {
+    df <- df[df$hazard < 1, ]
     df$cdf <- 1 - cumprod(1 - df$hazard)
     df$density <- df$cdf - c(0, df$cdf)[seq_along(df$cdf)]
     pmfvarcov <- build_pmfvar(df$hazard, df$se_log_hazard)
