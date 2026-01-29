@@ -138,3 +138,24 @@ build_cdfvar <- function(pmfvar) {
   out <- out %*% astmat
   return(out)
 }
+
+## below is a more efficient way to compute those things
+
+## build_q <- function(hazard, se_log_hazard) {
+##   n <- length(hazard)
+##   r_vec <- cumprod(1 - hazard)
+##   sig_vec <- se_log_hazard * hazard
+##   k_vec <- -1 / (1 - hazard)
+##   Q <- outer(r_vec, k_vec * sig_vec)
+##   Q[upper.tri(Q)] <- 0.0  
+##   return(Q)
+## }
+
+## build_cdfpmfses <- function(hazard, se_log_hazard) {
+##   qmat <- build_q(hazard, se_log_hazard)
+##   cdf_se <- sqrt(diag(tcrossprod(qmat)))
+##   q_pad <- rbind(0.0, qmat)
+##   zmat <- -diff(q_pad)
+##   pmf_se <- sqrt(diag(tcrossprod(zmat)))
+##   return(cbind(cdf_se, pmf_se))
+## }
