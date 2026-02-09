@@ -6,8 +6,8 @@
 ##' @param x An object of class 'alife' or 'alife-multi'
 ##' @param ci_level A numeric vector of confidence levels (e.g., c(0.80, 0.95))
 ##' @return A long-form data.frame with CI columns.
-##' @noRd
-.prep_ggplot <- function(x, ci_level = 0.95) {
+##' @export
+prep_ggplot <- function(x, ci_level = 0.95) {
   sorted_levels <- rev(sort(ci_level))
   ci_list <- lapply(sorted_levels, function(lvl) {
     upper_tail <- 1 - .5 * (1 - lvl)
@@ -23,7 +23,9 @@
   })
   long_df <- do.call(rbind, ci_list)
   level_order <- paste0(sorted_levels * 100, "%")
-  long_df$level <- factor(long_df$level, levels = level_order)  
+  long_df$level <- factor(long_df$level, levels = level_order)
+  classes_df <- class(long_df)
+  class(long_df) <- classes_df[!grepl("alife", classes_df)]
   return(long_df)
 }
 
@@ -57,7 +59,7 @@ ggauto.alife <- function(object, ci_level = 0.95, ...) {
       call. = FALSE
     )
   }
-  plot_data <- .prep_ggplot(object, ci_level)
+  plot_data <- prep_ggplot(object, ci_level)
   p <- ggplot2::ggplot(
     plot_data,
     # Use .data$column_name inside aes()
@@ -103,7 +105,7 @@ ggauto.alife_multi <- function(object, ci_level = 0.95, ...) {
       call. = FALSE
     )
   }
-  plot_data <- .prep_ggplot(object, ci_level)
+  plot_data <- prep_ggplot(object, ci_level)
   p <- ggplot2::ggplot(plot_data,
                        ggplot2::aes(x = .data$lifetime,
                                     y = .data$hazard)) +

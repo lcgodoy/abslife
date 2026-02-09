@@ -1,5 +1,7 @@
 # abslife 0.1.3
 
+- `prep_ggplot` function for customized plotting.
+
 - Changing default colors
 
 - Improved printing methods
