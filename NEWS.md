@@ -1,3 +1,9 @@
+# abslife 0.1.3
+
+- Changing default colors
+
+- Improved printing methods
+
 # abslife 0.1.2
 
 - "safeguard" for CDF and density functions.

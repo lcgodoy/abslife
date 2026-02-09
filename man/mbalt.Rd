@@ -9,10 +9,9 @@
 
 A data frame with 1,553 rows and 2 columns:
 \describe{
-
-\item{\code{risk_cat}}{Credit score category}
-\item{\code{Xi}}{Time-of-event}
+\item{\code{Zi}}{Time to event}
 \item{\code{Yi}}{Truncation time}
+\item{\code{Di}}{Default indicator}
 }
 }
 }

@@ -102,7 +102,7 @@ multiple_cis.acdf_multi <- function(x, ci_level = .95) {
 ##'   `estimate_hazard` function.
 ##' @param ci_level A numeric vector of confidence ci_level to plot (e.g.,
 ##'   \code{c(0.5, 0.95)}). Defaults to \code{0.95}.
-##' @param col_ci The color for the confidence interval polygon.
+##' @param color The color for the confidence interval polygon.
 ##' @param col_line The color for the hazard rate line.
 ##' @param ... Additional arguments passed to the base `plot` function (e.g.,
 ##'   `main`, `xlab`, `ylab`, `ylim`).
@@ -113,7 +113,7 @@ multiple_cis.acdf_multi <- function(x, ci_level = .95) {
 ##' @export
 ##'
 plot.alife <- function(x, ci_level = 0.95,
-                       col_ci = 2,
+                       color = 2,
                        col_line = 1,
                        ...) {
   ci_level <- sort(ci_level, decreasing = TRUE)
@@ -141,7 +141,7 @@ plot.alife <- function(x, ci_level = 0.95,
     polygon(
         x = c(ci_data[["lifetime"]], rev(ci_data[["lifetime"]])),
         y = c(ci_data[["lower_ci"]], rev(ci_data[["upper_ci"]])),
-        col = grDevices::adjustcolor(col_ci, alpha.f = transparency[i]),
+        col = grDevices::adjustcolor(color, alpha.f = transparency[i]),
         border = NA
     )
   }
@@ -155,7 +155,7 @@ plot.alife <- function(x, ci_level = 0.95,
 ##' @param x An object of class `alife-multi`.
 ##' @param ci_level A numeric vector of confidence ci_level to plot (e.g.,
 ##'   \code{c(0.5, 0.95)}). Defaults to \code{0.95}.
-##' @param col_ci The color for the confidence interval polygon.
+##' @param color The color for the confidence interval polygon.
 ##' @param col_line The color for the hazard rate line.
 ##' @param ... Additional arguments passed to the base `plot` function (e.g.,
 ##'   `xlab`, `ylab`, `ylim`).
@@ -166,7 +166,7 @@ plot.alife <- function(x, ci_level = 0.95,
 ##' @export
 ##'
 plot.alife_multi <- function(x, ci_level = 0.95,
-                             col_ci = 2, col_line = 1, ...) {
+                             color = 2, col_line = 1, ...) {
   ci_level <- sort(ci_level, decreasing = TRUE)
   cis_list <- multiple_cis(x, ci_level = ci_level)
   etypes <- unique(x$event_type)
@@ -205,12 +205,74 @@ plot.alife_multi <- function(x, ci_level = 0.95,
       polygon(
           x = c(ci_data[["lifetime"]], rev(ci_data[["lifetime"]])),
           y = c(ci_data[["lower_ci"]], rev(ci_data[["upper_ci"]])),
-          col = grDevices::adjustcolor(col_ci, alpha.f = transparency[i]),
+          col = grDevices::adjustcolor(color, alpha.f = transparency[i]),
           border = NA
       )
     }
     lines(x_sub$lifetime, x_sub$hazard, col = col_line, lwd = 2)
   }
+}
+
+##' Print Method for an 'alife' Object
+##'
+##' @param x An object of class `alife`. Typically the output of the
+##'   `estimate_hazard` function.
+##' @param ... Additional arguments passed to the base `print` function (e.g.,
+##'   `digits`).
+##'
+##' @seealso [estimate_hazard()]
+##' @return Prints information about `x` and invisibly returns it.
+##' @export
+print.alife <- function(x, ...) {
+  lower <- min(x$lifetime, na.rm = TRUE)
+  upper <- max(x$lifetime, na.rm = TRUE)
+  ntimes <- length(unique(x$lifetime))
+  cat("Minimum time to event:", lower, "\n")
+  cat("Maximum time to event:", upper, "\n")
+  cat("Total number of timepoints observed:", ntimes, "\n")
+  invisible(x)
+}
+
+##' Print Method for an 'alife_multi' Object
+##'
+##' @param x An object of class `alife_multi`. Typically the output of the
+##'   `estimate_hazard` function.
+##' @param ... Additional arguments passed to the base `print` function (e.g.,
+##'   `digits`).
+##'
+##' @seealso [estimate_hazard()]
+##' @return Prints information about `x` and invisibly returns it.
+##' @export
+print.alife_multi <- function(x, ...) {
+  lower <- min(x$lifetime, na.rm = TRUE)
+  upper <- max(x$lifetime, na.rm = TRUE)
+  ntimes <- length(unique(x$lifetime))
+  cat("Minimum time to event:", lower, "\n")
+  cat("Maximum time to event:", upper, "\n")
+  cat("Total number of timepoints observed:", ntimes, "\n")
+  invisible(x)
+}
+
+##' Print Method for an 'alife_multi' Object
+##'
+##' @param x An object of class `alife_multi`.
+##' @param ... Additional arguments passed to the base `print` function.
+##'
+##' @return Prints information about `x` and invisibly returns it.
+##' @export
+print.alife_multi <- function(x, ...) {
+  lower <- min(x$lifetime, na.rm = TRUE)
+  upper <- max(x$lifetime, na.rm = TRUE)
+  ntimes <- length(unique(x$lifetime))
+  events <- unique(x$event_type)
+  events <- events[!is.na(events)]
+  n_events <- length(events)
+  cat("Minimum time to event:", lower, "\n")
+  cat("Maximum time to event:", upper, "\n")
+  cat("Total number of timepoints observed:", ntimes, "\n")
+  cat("Total number of event types:", n_events, "\n")
+  cat("Event types observed:", paste(sort(events), collapse = ", "), "\n")
+  invisible(x)
 }
 
 ##' Summary Method for an 'alife' Object
@@ -233,7 +295,7 @@ summary.alife <- function(object, by = 5, ...) {
             "se_log_hazard",
             "lower_ci",
             "upper_ci")
-  object[object$lifetime %in% times, cols]
+  print.data.frame(object[object$lifetime %in% times, cols])
 }
 
 ##' Summary Method for an 'alife_multi' Object
@@ -263,7 +325,7 @@ summary.alife_multi <- function(object, by = 5, ...) {
   })
   out <- do.call(rbind, df_list)
   rownames(out) <- NULL
-  return(out)
+  print.data.frame(out)
 }
 
 ##' @title Calculate CDF from Hazard Estimates
@@ -366,7 +428,7 @@ summary.acdf_multi <- function(object, by = 5, ...) {
 ##'   `estimate_hazard` function.
 ##' @param ci_level A numeric vector of confidence ci_level to plot (e.g.,
 ##'   \code{c(0.5, 0.95)}). Defaults to \code{0.95}.
-##' @param col_ci The color for the confidence interval polygon.
+##' @param color The color for the confidence interval polygon.
 ##' @param col_line The color for the hazard rate line.
 ##' @param ... Additional arguments passed to the base `plot` function (e.g.,
 ##'   `main`, `xlab`, `ylab`, `ylim`).
@@ -376,7 +438,7 @@ summary.acdf_multi <- function(object, by = 5, ...) {
 ##' @return A plot of the CDF.
 ##' @export
 plot.acdf <- function(x, ci_level = 0.95,
-                      col_ci = "grey80",
+                      color = 2,
                       col_line = 1,
                       ...) {
   opar <- par(no.readonly = TRUE)
@@ -418,7 +480,7 @@ plot.acdf <- function(x, ci_level = 0.95,
     polygon(
       x = c(x_poly, rev(x_poly)),
       y = c(y_low_poly, rev(y_up_poly)),
-      col = grDevices::adjustcolor(col_ci, alpha.f = if(n_ci_level > 1) 0.2 + (i*0.1) else 0.4),
+      col = grDevices::adjustcolor(color, alpha.f = if(n_ci_level > 1) 0.2 + (i*0.1) else 0.4),
       border = NA
     )
   }
@@ -442,7 +504,7 @@ plot.acdf <- function(x, ci_level = 0.95,
       x0 = ci_data$lifetime, y0 = ci_data$dens_lower,
       x1 = ci_data$lifetime, y1 = ci_data$dens_upper,
       length = 0.05, angle = 90, code = 3,
-      col = grDevices::adjustcolor(col_ci, alpha.f = transparency[i]),
+      col = grDevices::adjustcolor(color, alpha.f = transparency[i]),
       lwd = 1.5
     )
   }
@@ -498,7 +560,7 @@ plot.acdf_multi <- function(x, ...) {
 ##' @param x An object of class `acdf_multi`.
 ##' @param ci_level A numeric vector of confidence levels to plot (e.g.,
 ##'   \code{c(0.5, 0.95)}). Defaults to \code{0.95}.
-##' @param col_ci The color for the confidence interval polygon/bars.
+##' @param color The color for the confidence interval polygon/bars.
 ##' @param col_line The color for the main estimate line/points.
 ##' @param ... Additional arguments passed to the base `plot` function (e.g.,
 ##'   `xlab`, `ylab` override).
@@ -509,7 +571,7 @@ plot.acdf_multi <- function(x, ...) {
 ##' @return A faceted plot of CDFs and Densities.
 ##' @export
 plot.acdf_multi <- function(x, ci_level = 0.95,
-                            col_ci = "grey80",
+                            color = 2,
                             col_line = 1,
                             ...) {
   
@@ -568,7 +630,7 @@ plot.acdf_multi <- function(x, ci_level = 0.95,
       polygon(
         x = c(x_poly, rev(x_poly)),
         y = c(y_low_poly, rev(y_up_poly)),
-        col = grDevices::adjustcolor(col_ci,
+        col = grDevices::adjustcolor(color,
                                      alpha.f =
                                        if(n_ci_level > 1) 0.2 + (i * 0.1) else 0.4),
         border = NA
@@ -600,7 +662,7 @@ plot.acdf_multi <- function(x, ci_level = 0.95,
         x0 = ci_data$lifetime, y0 = ci_data$dens_lower,
         x1 = ci_data$lifetime, y1 = ci_data$dens_upper,
         length = 0.05, angle = 90, code = 3,
-        col = grDevices::adjustcolor(col_ci, alpha.f = transparency[i]),
+        col = grDevices::adjustcolor(color, alpha.f = transparency[i]),
         lwd = 1.5
       )
     }

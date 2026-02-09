@@ -4,9 +4,9 @@
 \alias{plot.acdf_multi}
 \title{Plot Method for an 'acdf_multi' Object}
 \usage{
-\method{plot}{acdf_multi}(x, ci_level = 0.95, col_ci = "grey80", col_line = 1, ...)
+\method{plot}{acdf_multi}(x, ci_level = 0.95, color = 2, col_line = 1, ...)
 
-\method{plot}{acdf_multi}(x, ci_level = 0.95, col_ci = "grey80", col_line = 1, ...)
+\method{plot}{acdf_multi}(x, ci_level = 0.95, color = 2, col_line = 1, ...)
 }
 \arguments{
 \item{x}{An object of class \code{acdf_multi}.}
@@ -14,7 +14,7 @@
 \item{ci_level}{A numeric vector of confidence levels to plot (e.g.,
 \code{c(0.5, 0.95)}). Defaults to \code{0.95}.}
 
-\item{col_ci}{The color for the confidence interval polygon/bars.}
+\item{color}{The color for the confidence interval polygon/bars.}
 
 \item{col_line}{The color for the main estimate line/points.}
 

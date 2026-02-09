@@ -4,7 +4,7 @@
 \alias{plot.acdf}
 \title{Plot Method for an 'acdf' Object}
 \usage{
-\method{plot}{acdf}(x, ci_level = 0.95, col_ci = "grey80", col_line = 1, ...)
+\method{plot}{acdf}(x, ci_level = 0.95, color = 2, col_line = 1, ...)
 }
 \arguments{
 \item{x}{An object of class \code{acdf}. Typically the output of the
@@ -13,7 +13,7 @@
 \item{ci_level}{A numeric vector of confidence ci_level to plot (e.g.,
 \code{c(0.5, 0.95)}). Defaults to \code{0.95}.}
 
-\item{col_ci}{The color for the confidence interval polygon.}
+\item{color}{The color for the confidence interval polygon.}
 
 \item{col_line}{The color for the hazard rate line.}
 
