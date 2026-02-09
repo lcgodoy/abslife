@@ -246,10 +246,16 @@ print.alife_multi <- function(x, ...) {
   lower <- min(x$lifetime, na.rm = TRUE)
   upper <- max(x$lifetime, na.rm = TRUE)
   ntimes <- length(unique(x$lifetime))
+  events <- unique(x$event_type)
+  events <- events[!is.na(events)]
+  n_events <- length(events)
   cat(sprintf("Observed lifetime support: [%d, %d]", lower, upper), "\n")
   cat("Total number of timepoints observed:", ntimes, "\n")
+  cat("Total number of event types:", n_events, "\n")
+  cat("Event types observed:", paste(sort(events), collapse = ", "), "\n")
   invisible(x)
 }
+
 
 ##' Summary Method for an 'alife' Object
 ##'
