@@ -5,22 +5,18 @@
 \title{Print Method for an 'alife_multi' Object}
 \usage{
 \method{print}{alife_multi}(x, ...)
-
-\method{print}{alife_multi}(x, ...)
 }
 \arguments{
-\item{x}{An object of class \code{alife_multi}.}
+\item{x}{An object of class \code{alife_multi}. Typically the output of the
+\code{estimate_hazard} function.}
 
-\item{...}{Additional arguments passed to the base \code{print} function.}
+\item{...}{Additional arguments passed to the base \code{print} function (e.g.,
+\code{digits}).}
 }
 \value{
 Prints information about \code{x} and invisibly returns it.
-
-Prints information about \code{x} and invisibly returns it.
 }
 \description{
-Print Method for an 'alife_multi' Object
-
 Print Method for an 'alife_multi' Object
 }
 \seealso{
