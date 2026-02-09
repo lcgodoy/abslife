@@ -1,5 +1,7 @@
 # abslife 0.1.3
 
+- Function to calculate expected lifetime from the `calc_cdf` output.
+
 - `prep_ggplot` function for customized plotting.
 
 - Changing default colors

@@ -227,8 +227,7 @@ print.alife <- function(x, ...) {
   lower <- min(x$lifetime, na.rm = TRUE)
   upper <- max(x$lifetime, na.rm = TRUE)
   ntimes <- length(unique(x$lifetime))
-  cat("Minimum time to event:", lower, "\n")
-  cat("Maximum time to event:", upper, "\n")
+  cat(sprintf("Observed lifetime support: [%d, %d]", lower, upper), "\n")
   cat("Total number of timepoints observed:", ntimes, "\n")
   invisible(x)
 }
@@ -247,8 +246,7 @@ print.alife_multi <- function(x, ...) {
   lower <- min(x$lifetime, na.rm = TRUE)
   upper <- max(x$lifetime, na.rm = TRUE)
   ntimes <- length(unique(x$lifetime))
-  cat("Minimum time to event:", lower, "\n")
-  cat("Maximum time to event:", upper, "\n")
+  cat(sprintf("Observed lifetime support: [%d, %d]", lower, upper), "\n")
   cat("Total number of timepoints observed:", ntimes, "\n")
   invisible(x)
 }
@@ -394,7 +392,10 @@ summary.acdf <- function(object, by = 5, ...) {
   upper <- max(object$lifetime, na.rm = TRUE)
   times <- seq.int(from = lower, to = upper, by = by)
   cols <- c("lifetime", "cdf", "density")
-  object[object$lifetime %in% times, cols]
+  out <- object[object$lifetime %in% times, cols]
+  classes_out <- class(out)
+  class(out) <- classes_out[!grepl("alife", classes_out)]
+  return(out)
 }
 
 ##' Summary Method for an 'alife_multi' Object
@@ -419,7 +420,39 @@ summary.acdf_multi <- function(object, by = 5, ...) {
   })
   out <- do.call(rbind, df_list)
   rownames(out) <- NULL
+  classes_out <- class(out)
+  class(out) <- classes_out[!grepl("alife", classes_out)]
   return(out)
+}
+
+##' @title Calculate expected value for the time to event of interest
+##'
+##' @description Uses the estimated density from the 'acdf' output.
+##'
+##' @param x An object of class `acdf`.
+##' @param digits number of digits for the output.
+##' @param ... extra arguments to be passed to the `round` function.
+##'
+##' @return The expected value associated with the object `x`.
+##' @name ev
+##' @export
+ev_life <- function(x, digits = 2, ...) {
+  UseMethod("ev_life")
+}
+
+##' @rdname ev
+##' @export
+ev_life.acdf <- function(x, ...) {
+  ev <- crossprod(x$density, x$lifetime)
+  cat(sprintf("Expected lifetime: %s", round(ev, ...)), "\n")
+  invisible(ev)
+}
+
+##' @rdname ev
+##' @export
+ev_life.alife <- function(x, ...) {
+  .cdf <- calc_cdf(x, ...)
+  ev_life(.cdf)
 }
 
 ##' Plot Method for an 'acdf' Object
