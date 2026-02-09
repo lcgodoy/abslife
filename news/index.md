@@ -1,5 +1,15 @@
 # Changelog
 
+## abslife 0.1.3
+
+- Function to calculate expected lifetime.
+
+- `prep_ggplot` function for customized plotting.
+
+- Changing default colors
+
+- Improved printing methods
+
 ## abslife 0.1.2
 
 - “safeguard” for CDF and density functions.

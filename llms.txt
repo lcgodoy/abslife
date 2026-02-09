@@ -71,6 +71,9 @@ summary(aloans)
 - [`estimate_hazard()`](http://lcgodoy.me/abslife/reference/estimate_hazard.md)
   : Hazard rate
 
+- [`ev_life()`](http://lcgodoy.me/abslife/reference/ev.md) : Calculate
+  expected value for the time to event of interest
+
 - [`f_hat()`](http://lcgodoy.me/abslife/reference/f_hat.md) :
   \\\hat{f}(x)\\
 
@@ -113,6 +116,15 @@ summary(aloans)
 
 - [`plot(`*`<alife_multi>`*`)`](http://lcgodoy.me/abslife/reference/plot.alife_multi.md)
   : Plot Method for an 'alife_multi' Object
+
+- [`prep_ggplot()`](http://lcgodoy.me/abslife/reference/prep_ggplot.md)
+  : Prepare alife object for ggplot
+
+- [`print(`*`<alife>`*`)`](http://lcgodoy.me/abslife/reference/print.alife.md)
+  : Print Method for an 'alife' Object
+
+- [`print(`*`<alife_multi>`*`)`](http://lcgodoy.me/abslife/reference/print.alife_multi.md)
+  : Print Method for an 'alife_multi' Object
 
 - [`ralife_cdf()`](http://lcgodoy.me/abslife/reference/ralife_cdf.md) :
   Samples from a "abslife" object

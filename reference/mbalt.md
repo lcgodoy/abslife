@@ -14,17 +14,17 @@ mbalt
 
 A data frame with 1,553 rows and 2 columns:
 
-- `risk_cat`:
+- `Zi`:
 
-  Credit score category
-
-- `Xi`:
-
-  Time-of-event
+  Time to event
 
 - `Yi`:
 
   Truncation time
+
+- `Di`:
+
+  Default indicator
 
 ## Source
 

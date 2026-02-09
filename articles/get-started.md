@@ -67,13 +67,8 @@ corresponding to the `ci_level` argument (in this case, set to 0.95).
 
 ``` r
 tail(aart_hazard)
-#>    lifetime    risk_set hazard se_log_hazard  lower_ci upper_ci
-#> 40       44 0.001287830    0.5     0.5000000 0.1876589        1
-#> 41       45 0.001287830    0.5     0.7071068 0.1250488        1
-#> 42       46 0.000643915    0.5     0.7071068 0.1250488        1
-#> 43       47 0.000643915    0.5     0.7071068 0.1250488        1
-#> 44       48 0.000643915    0.5     0.7071068 0.1250488        1
-#> 45       49 0.000643915    1.0     0.0000000 1.0000000        1
+#> Observed lifetime support: [44, 49] 
+#> Total number of timepoints observed: 6
 ```
 
 #### Summarizing and plotting

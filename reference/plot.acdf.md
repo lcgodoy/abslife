@@ -6,7 +6,7 @@ Plot Method for an 'acdf' Object
 
 ``` r
 # S3 method for class 'acdf'
-plot(x, ci_level = 0.95, col_ci = "grey80", col_line = 1, ...)
+plot(x, ci_level = 0.95, color = 2, col_line = 1, ...)
 ```
 
 ## Arguments
@@ -21,7 +21,7 @@ plot(x, ci_level = 0.95, col_ci = "grey80", col_line = 1, ...)
   A numeric vector of confidence ci_level to plot (e.g.,
   `c(0.5, 0.95)`). Defaults to `0.95`.
 
-- col_ci:
+- color:
 
   The color for the confidence interval polygon.
 

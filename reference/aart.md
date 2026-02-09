@@ -12,24 +12,16 @@ aart
 
 ### `aart`
 
-A data frame with 47,315 rows and 3 columns:
+A data frame with 1,553 rows and 2 columns:
 
-- `risk_cat`:
+- `Xi`:
 
-  Credit score category
-
-- `Zi`:
-
-  Time-of-event
+  Time to event
 
 - `Yi`:
 
   Truncation time
 
-- `Di`:
-
-  Default indicator (1 = default, 0 = not default)
-
 ## Source
 
-DATASETS SOURCE (I'll get from the paper)
+TBD

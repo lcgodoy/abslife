@@ -14,6 +14,7 @@
 <url><loc>http://lcgodoy.me/abslife/reference/check_censored.html</loc></url>
 <url><loc>http://lcgodoy.me/abslife/reference/dot-hazard_core.html</loc></url>
 <url><loc>http://lcgodoy.me/abslife/reference/estimate_hazard.html</loc></url>
+<url><loc>http://lcgodoy.me/abslife/reference/ev.html</loc></url>
 <url><loc>http://lcgodoy.me/abslife/reference/f_hat.html</loc></url>
 <url><loc>http://lcgodoy.me/abslife/reference/fix_0haz.html</loc></url>
 <url><loc>http://lcgodoy.me/abslife/reference/ggauto.alife.html</loc></url>
@@ -28,6 +29,9 @@
 <url><loc>http://lcgodoy.me/abslife/reference/plot.acdf_multi.html</loc></url>
 <url><loc>http://lcgodoy.me/abslife/reference/plot.alife.html</loc></url>
 <url><loc>http://lcgodoy.me/abslife/reference/plot.alife_multi.html</loc></url>
+<url><loc>http://lcgodoy.me/abslife/reference/prep_ggplot.html</loc></url>
+<url><loc>http://lcgodoy.me/abslife/reference/print.alife.html</loc></url>
+<url><loc>http://lcgodoy.me/abslife/reference/print.alife_multi.html</loc></url>
 <url><loc>http://lcgodoy.me/abslife/reference/ralife_cdf.html</loc></url>
 <url><loc>http://lcgodoy.me/abslife/reference/rmat.html</loc></url>
 <url><loc>http://lcgodoy.me/abslife/reference/single_t_hazard.html</loc></url>
