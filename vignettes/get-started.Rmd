@@ -125,7 +125,7 @@ observation and `0` indicates an observed event.
 ```{r mbalt_est}
 mbalt_hazard <- estimate_hazard(lifetime = mbalt$Zi,
                                 trunc_time = mbalt$Yi,
-                                censoring = mbalt$Di,
+                                censoring = 1 - mbalt$Di,
                                 ci_level = 0.95,
                                 carry_hazard = FALSE) ## need 
 ```

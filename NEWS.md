@@ -1,5 +1,7 @@
 # abslife 0.1.3
 
+- Fixed problem with censoring in the vignette
+
 - Function to calculate expected lifetime.
 
 - `prep_ggplot` function for customized plotting.
