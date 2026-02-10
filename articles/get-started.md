@@ -171,27 +171,23 @@ indicates an observed event.
 ``` r
 mbalt_hazard <- estimate_hazard(lifetime = mbalt$Zi,
                                 trunc_time = mbalt$Yi,
-                                censoring = mbalt$Di,
+                                censoring = 1 - mbalt$Di,
                                 ci_level = 0.95,
                                 carry_hazard = FALSE) ## need 
-#> Warning in check_censored(lifetime, censoring_indicator, support_lifetime_rv):
-#> Warning: Detected censored observations at the maximum limit of the support
-#> (lifetime == max(support_lifetime_rv)). This may lead to identifiability issues
-#> or unstable hazard estimates at the tail.
 ```
 
 The output structure remains consistent with the previous example.
 
 ``` r
 summary(mbalt_hazard)
-#>    lifetime     hazard se_log_hazard   lower_ci  upper_ci
-#> 1         5 0.00000000    0.00000000 0.00000000 0.0000000
-#> 6        10 0.00000000    0.00000000 0.00000000 0.0000000
-#> 11       15 0.00000000    0.00000000 0.00000000 0.0000000
-#> 16       20 0.00000000    0.00000000 0.00000000 0.0000000
-#> 21       25 0.00000000    0.00000000 0.00000000 0.0000000
-#> 26       30 0.00000000    0.00000000 0.00000000 0.0000000
-#> 31       35 0.05596574    0.02623112 0.05316113 0.0589183
+#>    lifetime      hazard se_log_hazard     lower_ci    upper_ci
+#> 1         5 0.002508511    0.26692582 0.0014866487 0.004232760
+#> 6        10 0.001434144    0.19985653 0.0009693366 0.002121832
+#> 11       15 0.001737138    0.14573824 0.0013055144 0.002311463
+#> 16       20 0.002970103    0.09698424 0.0024559434 0.003591903
+#> 21       25 0.006408170    0.06229942 0.0056715882 0.007240414
+#> 26       30 0.022951205    0.03163976 0.0215711690 0.024419531
+#> 31       35 0.177075260    0.01376845 0.1723606643 0.181918815
 ```
 
 The plotting functions also work out of the box:
