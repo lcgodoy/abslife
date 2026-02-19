@@ -44,14 +44,14 @@ ralife_cdf <- function(n, x) {
     for (i in seq_along(etypes)) {
       x_sub <- x[x$event_type == etypes[i], ]
       u <- stats::runif(n)
-      indices <- findInterval(u, x_sub$cdf) + 1
+      indices <- pmin(findInterval(u, x_sub$cdf) + 1, NROW(x_sub))
       out[[i]] <- data.frame(event_type = etypes[i],
                              lifetime = x_sub$lifetime[indices])
     }
     out <- do.call(rbind, out)
   } else {
     u <- stats::runif(n)
-    indices <- findInterval(u, x$cdf) + 1
+    indices <- pmin(findInterval(u, x$cdf) + 1, NROW(x))
     out <- x$lifetime[indices]
   }
   return(out)

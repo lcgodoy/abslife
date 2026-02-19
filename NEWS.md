@@ -1,3 +1,7 @@
+# abslife 0.1.4
+
+- Minor bug on `ralife_cdf` fixed.
+
 # abslife 0.1.3
 
 - Fixed problem with censoring in the vignette
