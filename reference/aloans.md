@@ -1,6 +1,12 @@
 # Consumer automobile loans dataset
 
-We should have a brief description here
+A dataset containing the performance records of 58,118 consumer
+automobile loans with original terms of 72 to 73 months. The data was
+obtained from four publicly traded asset-backed securities (ABS) bonds.
+This dataset is subject to left-truncation (loans must survive long
+enough to be included in the ABS trust) and right-censoring (the trust
+may be unwound before all loans terminate), and it features competing
+risks of default and prepayment.
 
 ## Usage
 
@@ -14,30 +20,47 @@ aloans
 
 A data frame with 58,118 rows and 7 columns:
 
-- `risk_cat`:
+- risk_cat:
 
-  Credit score category
+  Credit risk band based on the loan's Annual Percentage Rate (APR).
+  Categories include "super_prime" (0-5%), "prime" (5-10%), "near_prime"
+  (10-15%), "subprime" (15-20%), and "deep_subprime" (20%+).
 
-- `Z`:
+- Z:
 
-  Time-of-event
+  Time-to-event, representing the loan termination age in months.
 
-- `Y`:
+- Y:
 
-  Truncation time
+  Left-truncation time, representing the loan age in months when the ABS
+  trust began making payments to investors.
 
-- `C`:
+- C:
 
-  Censor indicator (1 = censored, 0 = not censored)
+  Right-censoring indicator (1 = right-censored, 0 = exact termination
+  observed).
 
-- `D`:
+- D:
 
-  Default indicator (1 = default, 0 = not default)
+  Default indicator for competing risks (1 = default, 0 = prepayment).
 
-- `bond`:
+- bond:
 
-  Categorical variable specifying different bonds.
+  Categorical variable specifying the source ABS bond: CARMX (CarMax
+  Auto Owner Trust 2017-2), AART (Ally Auto Receivables Trust 2017-3),
+  SDART (Santander Drive Auto Receivables Trust 2017-2), or DRIVE (Drive
+  Auto Receivables Trust 2017-1).
 
 ## Source
 
-DATASETS SOURCE (I'll get from the paper)
+Data was originally compiled from the SEC's Electronic Data Gathering,
+Analysis, and Retrieval (EDGAR) system. The replication data repository
+is available at
+<https://github.com/jackson-lautier/credit-risk-convergence/>.
+
+## References
+
+Lautier, J. P., Pozdnyakov, V., & Yan, J. (2024). On the convergence of
+credit risk in current consumer automobile loans. *Journal of the Royal
+Statistical Society Series A: Statistics in Society*, qnae137.
+[doi:10.1093/jrsssa/qnae137](https://doi.org/10.1093/jrsssa/qnae137) .

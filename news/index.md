@@ -1,5 +1,13 @@
 # Changelog
 
+## abslife 0.1.4
+
+- Minor bug on `ralife_cdf` fixed.
+
+- Using logit for the asymptotic distribution of \\\lambda(x)\\.
+
+- Datasets properly documented
+
 ## abslife 0.1.3
 
 - Fixed problem with censoring in the vignette
