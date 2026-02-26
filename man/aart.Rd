@@ -3,24 +3,37 @@
 \docType{data}
 \name{aart}
 \alias{aart}
-\title{NAME OF THE DATASET?}
+\title{Consumer automobile loans from Ally Auto Receivables Trust}
 \format{
 \subsection{\code{aart}}{
 
 A data frame with 1,553 rows and 2 columns:
 \describe{
-\item{\code{Xi}}{Time to event}
-\item{\code{Yi}}{Truncation time}
+\item{\code{Xi}}{Time-to-event, representing the loan termination age
+in months.}
+\item{\code{Yi}}{Left-truncation time, representing the loan age in
+months when the ABS trust began making payments to investors.}
 }
 }
 }
 \source{
-TBD
+Data was compiled from the SEC's Electronic Data Gathering,
+Analysis, and Retrieval (EDGAR) system. The replication data repository
+is available at
+\url{https://github.com/jackson-lautier/consumer-auto-abs-parametric}.
 }
 \usage{
 aart
 }
 \description{
-We should have a brief description here
+A dataset containing time-to-event and left-truncation times for consumer
+automobile loans from the Ally Auto Receivables Trust (AART). The data were
+compiled from the SEC's EDGAR system.
+}
+\references{
+Lautier, J. P., Pozdnyakov, V., & Yan, J. (2025). Estimating the
+time-to-event distribution for loan-level data within a consumer auto loan
+asset-backed security. \emph{The Annals of Applied Statistics}.
+\doi{10.1214/25-AOAS2103}.
 }
 \keyword{datasets}

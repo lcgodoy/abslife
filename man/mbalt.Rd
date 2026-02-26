@@ -3,25 +3,42 @@
 \docType{data}
 \name{mbalt}
 \alias{mbalt}
-\title{NAME OF THE DATASET?}
+\title{Consumer automobile leases from Mercedes-Benz Auto Lease Trust 2017-A}
 \format{
 \subsection{\code{mbalt}}{
 
-A data frame with 1,553 rows and 2 columns:
+A data frame with 47,315 rows and 3 columns:
 \describe{
-\item{\code{Zi}}{Time to event}
-\item{\code{Yi}}{Truncation time}
-\item{\code{Di}}{Default indicator}
+\item{\code{Zi}}{Time-to-event, representing the observed lease
+termination age in months.}
+\item{\code{Yi}}{Left-truncation time, representing the lease age in
+months when the ABS trust began making payments to investors.}
+\item{\code{Di}}{Event indicator (1 = exact termination observed,
+0 = right-censored).}
 }
 }
 }
 \source{
-DATASETS SOURCE (I'll get from the paper)
+Data was compiled from the SEC's Electronic Data Gathering,
+Analysis, and Retrieval (EDGAR) system.
 }
 \usage{
 mbalt
 }
 \description{
-We should have a brief description here
+A dataset containing performance records of 47,315 consumer automobile
+leases with an original term of 36 months from the Mercedes-Benz Auto Lease
+Trust (MBALT) 2017-A.
+}
+\references{
+Lautier, J. P., Pozdnyakov, V., & Yan, J. (2023). Estimating a
+discrete distribution subject to random left-truncation with an
+application to structured finance. \emph{Econometrics and Statistics}.
+\doi{10.1016/j.ecosta.2023.05.005}.
+
+Lautier, J. P., Pozdnyakov, V., & Yan, J. (2023). Pricing time-to-event
+contingent cash flows: A discrete-time survival analysis
+approach. \emph{Insurance: Mathematics and Economics}, 110,
+53-71. \doi{10.1016/j.insmatheco.2023.02.003}.
 }
 \keyword{datasets}

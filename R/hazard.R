@@ -75,21 +75,13 @@ single_t_hazard <- function(t,
   fh <- f_hat(t, lifetime, event, censoring_indicator)
   uh <- u_hat(t, lifetime, trunc_time)
   n <- length(lifetime)
-  if (uh == 0) {
-    hazard <- 0
-    var_log_h <- NA
-  } else {
-    hazard <- fh / uh
-    var_log_h <-
-      ifelse(hazard == 0,
-             0,
-             var_hat(hazard, uh, fh, n))
-  }
+  hazard <- ifelse(uh == 0, 0, fh / uh)
+  var_log_h <- - log(fh) - log1p(- hazard) - log(n)
   c(
       lifetime = t,
       risk_set = uh,
       hazard = hazard,
-      se_log_hazard = sqrt(var_log_h)
+      se_log_hazard = exp(0.5 * var_log_h)
   )
 }
 
@@ -226,11 +218,10 @@ estimate_hazard <- function(lifetime,
   }
   upper_tail <- 1 - .5 * (1 - ci_level)
   z <- stats::qnorm(upper_tail)
-  out$lower_ci <- ifelse(out[["hazard"]] == 0, 0,
-                         exp(log(out[["hazard"]]) - z * out[["se_log_hazard"]]))
-  out$upper_ci <- ifelse(out[["hazard"]] == 0, 0,
-                         pmin(exp(log(out[["hazard"]]) + z * out[["se_log_hazard"]]),
-                              1))
+  out$lower_ci <- ifelse(out[["hazard"]] == 1, Inf,
+                         stats::plogis(stats::qlogis(out[["hazard"]]) - z * out[["se_log_hazard"]]))
+  out$upper_ci <- ifelse(out[["hazard"]] == 1, Inf,
+                         stats::plogis(stats::qlogis(out[["hazard"]]) + z * out[["se_log_hazard"]]))
   out <- new_alife(out)
   return(out)
 }
