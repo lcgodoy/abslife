@@ -25,9 +25,9 @@
 ##' Receivables Trust 2017-1).}
 ##' }
 ##'
-##' @source Data was originally compiled from the SEC's Electronic Data
-##'   Gathering, Analysis, and Retrieval (EDGAR) system. The replication data
-##'   repository is available at
+##' @source Data was originally compiled from the the Electronic Data Gathering,
+##'   Analysis, and Retrieval (EDGAR) system of the Securities and Exchange
+##'   Comission (SEC).. The replication data repository is available at
 ##'   <https://github.com/jackson-lautier/credit-risk-convergence/>.
 ##' 
 ##' @references Lautier, J. P., Pozdnyakov, V., & Yan, J. (2024). On the
@@ -40,7 +40,8 @@
 ##'
 ##' A dataset containing time-to-event and left-truncation times for consumer
 ##' automobile loans from the Ally Auto Receivables Trust (AART). The data were
-##' compiled from the SEC's EDGAR system.
+##' compiled from the the Electronic Data Gathering, Analysis, and Retrieval
+##' (EDGAR) system of the Securities and Exchange Comission (SEC).
 ##'
 ##' @format ## `aart`
 ##' A data frame with 1,553 rows and 2 columns:
@@ -51,10 +52,11 @@
 ##'   months when the ABS trust began making payments to investors.}
 ##' }
 ##'
-##' @source Data was compiled from the SEC's Electronic Data Gathering, 
-##' Analysis, and Retrieval (EDGAR) system. The replication data repository 
-##' is available at 
-##' <https://github.com/jackson-lautier/consumer-auto-abs-parametric>.
+##' 
+##' @source Data was compiled from the Electronic Data Gathering, Analysis, and
+##'   Retrieval (EDGAR) system of the Securities and Exchange Commission
+##'   (SEC). The replication data repository is available at
+##'   <https://github.com/jackson-lautier/consumer-auto-abs-parametric>.
 ##' 
 ##' @references
 ##' Lautier, J. P., Pozdnyakov, V., & Yan, J. (2025). Estimating the 
@@ -80,8 +82,8 @@
 ##'   0 = right-censored).}
 ##' }
 ##'
-##' @source Data was compiled from the SEC's Electronic Data Gathering, 
-##' Analysis, and Retrieval (EDGAR) system.
+##' @source Data was compiled from the Electronic Data Gathering, Analysis, and
+##'   Retrieval (EDGAR) system of the Securities and Exchange Commission (SEC).
 ##' 
 ##' @references Lautier, J. P., Pozdnyakov, V., & Yan, J. (2023). Estimating a
 ##'   discrete distribution subject to random left-truncation with an
