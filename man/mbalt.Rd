@@ -19,8 +19,8 @@ months when the ABS trust began making payments to investors.}
 }
 }
 \source{
-Data was compiled from the SEC's Electronic Data Gathering,
-Analysis, and Retrieval (EDGAR) system.
+Data was compiled from the Electronic Data Gathering, Analysis, and
+Retrieval (EDGAR) system of the Securities and Exchange Commission (SEC).
 }
 \usage{
 mbalt

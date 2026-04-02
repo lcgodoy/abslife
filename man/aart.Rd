@@ -17,9 +17,9 @@ months when the ABS trust began making payments to investors.}
 }
 }
 \source{
-Data was compiled from the SEC's Electronic Data Gathering,
-Analysis, and Retrieval (EDGAR) system. The replication data repository
-is available at
+Data was compiled from the Electronic Data Gathering, Analysis, and
+Retrieval (EDGAR) system of the Securities and Exchange Commission
+(SEC). The replication data repository is available at
 \url{https://github.com/jackson-lautier/consumer-auto-abs-parametric}.
 }
 \usage{
@@ -28,7 +28,8 @@ aart
 \description{
 A dataset containing time-to-event and left-truncation times for consumer
 automobile loans from the Ally Auto Receivables Trust (AART). The data were
-compiled from the SEC's EDGAR system.
+compiled from the the Electronic Data Gathering, Analysis, and Retrieval
+(EDGAR) system of the Securities and Exchange Comission (SEC).
 }
 \references{
 Lautier, J. P., Pozdnyakov, V., & Yan, J. (2025). Estimating the

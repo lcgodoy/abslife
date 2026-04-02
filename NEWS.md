@@ -1,6 +1,6 @@
 # abslife 0.1.5
 
-
+- Including density of the left-truncated random variable to `calc_cdf`.
 
 # abslife 0.1.4
 

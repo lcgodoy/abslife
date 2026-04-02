@@ -336,7 +336,8 @@ calc_cdf.alife <- function(x, ...) {
   cdfvarcov <- build_cdfvar(pmfvarcov)
   y$se_cdf <- sqrt(diag(cdfvarcov))
   y$se_dens <- sqrt(diag(pmfvarcov))
-  out <- new_acdf(y[, c("lifetime", "cdf", "se_cdf", "density", "se_dens")])
+  out <- new_acdf(y[, c("lifetime", "cdf", "se_cdf", "density", "se_dens",
+                        "risk_set")])
 }
 
 ##' @export
@@ -356,7 +357,8 @@ calc_cdf.alife_multi <- function(x, ...) {
   out <- do.call(rbind, df_list_with_cdf)
   rownames(out) <- NULL
   out <- new_acdf(out[, c("event_type", "lifetime", "cdf",
-                          "se_cdf", "density", "se_dens")])
+                          "se_cdf", "density", "se_dens",
+                          "risk_set")])
   return(out)
 }
 
