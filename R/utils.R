@@ -159,3 +159,36 @@ build_cdfvar <- function(pmfvar) {
 ##   pmf_se <- sqrt(diag(tcrossprod(zmat)))
 ##   return(cbind(cdf_se, pmf_se))
 ## }
+
+##' Internal use
+##'
+##' @title Core for left-truncation PMF computation
+##' @inheritParams estimate_hazard
+##' @param denom A \code{numeric} vector representing the denominator for the
+##'   calculation of the pmf
+##' @param rc a \code{numeric} boolean indicating whether right-censoring is to
+##'   be considered.
+##' @return A \code{numeric} vector of estimates of the PMF for the
+##'   left-truncation random variable.
+##' @author lcgodoy
+##' @name lt_pmf
+.lt_core <- function(lifetime, denom, trunc_time, rc = TRUE) {
+  gamma <- sapply(lifetime, \(k, Y, rc) {
+    ifelse(rc, mean(Y == k), sum(Y == k))
+  }, Y = trunc_time, rc = rc)
+  gamma_dens <- sapply(seq_along(lifetime), \(k, gm, denom, rc) {
+    len_dens <- length(denom)
+    gm[k] / ifelse(rc, sum(denom[k:len_dens]), denom[k])
+  }, gm = gamma, denom = denom, rc = rc)
+  gamma_dens / sum(gamma_dens)
+}
+
+##' @rdname lt_pmf
+##' @param x is the output of an \code{estimate_hazard} call.
+##' @export
+lt_pmf <- function(x, trunc_time, rc = TRUE) {
+  validate_alife(x)
+  lt <- x$lifetime
+  denom <- ifelse(rep(rc, length(lt)), x$density, x$risk_set)
+  .lt_core(lt, denom, trunc_time, rc)
+}

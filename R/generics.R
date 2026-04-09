@@ -57,7 +57,7 @@ new_alife <- function(x = data.frame()) {
 ##' @keywords internal
 validate_acdf <- function(x) {
   stopifnot(is.data.frame(x))
-  my_cols <- c("lifetime", "cdf")
+  my_cols <- c("lifetime", "cdf", "density")
   stopifnot(all(my_cols %in% colnames(x)))
 }
 
