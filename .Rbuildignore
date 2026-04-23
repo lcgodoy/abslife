@@ -9,3 +9,4 @@ setup.R
 ^pkgdown$
 ^\.github$
 Makefile
+resources_new_functions
