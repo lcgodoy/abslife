@@ -88,3 +88,21 @@ new_acdf <- function(x = data.frame()) {
     new_class <- c("acdf_multi", new_class)
   structure(x, class = new_class)
 }
+
+##' @title Calculate Actuarial Present Value (APV)
+##' @param x An object of class `acdf` or `alife`.
+##' @param ... Additional arguments.
+##' @return A numeric value representing the APV.
+##' @export
+calc_apv <- function(x, ...) {
+  UseMethod("calc_apv")
+}
+
+##' @title Calculate Variance of APV
+##' @param x An object of class `acdf` or `alife`.
+##' @param ... Additional arguments.
+##' @return A numeric value representing the variance of the APV.
+##' @export
+calc_apv_var <- function(x, ...) {
+  UseMethod("calc_apv_var")
+}
