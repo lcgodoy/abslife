@@ -44,12 +44,22 @@
 ##' (EDGAR) system of the Securities and Exchange Comission (SEC).
 ##'
 ##' @format ## `aart`
-##' A data frame with 1,553 rows and 2 columns:
+##' A data frame with 2,756 rows and 12 columns:
 ##' \describe{
 ##'   \item{\code{Xi}}{Time-to-event, representing the loan termination age 
 ##'   in months.}
 ##'   \item{\code{Yi}}{Left-truncation time, representing the loan age in 
 ##'   months when the ABS trust began making payments to investors.}
+##'   \item{\code{credit.score}}{Obligor credit score}
+##'   \item{\code{interest.rate}}{Obligor annual percentage rate}
+##'   \item{\code{pti}}{Obligor payment-to-income}
+##'   \item{\code{veh.value}}{Estimated vehicle value at signing ($\log$ scale)}
+##'   \item{\code{co.sign}}{Co-Obligor indicator (1 = \code{TRUE})}
+##'   \item{\code{new.used}}{New-Used indicator (1 = \code{NEW})}
+##'   \item{\code{subvent.rate}}{Subvented interest rate indicator (1 = \code{TRUE})}
+##'   \item{\code{subvent.cash}}{Cash rebate indicator (1 = \code{TRUE})\\}
+##'   \item{\code{veh.pick.up}}{Pick-up truck indicator (1 = \code{TRUE})}
+##'   \item{\code{veh.suv}}{Sport-Utility-Vehicle indicator (1 = \code{TRUE})}
 ##' }
 ##'
 ##' 
