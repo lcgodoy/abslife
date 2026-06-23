@@ -7,7 +7,7 @@
 \format{
 \subsection{\code{mbalt}}{
 
-A data frame with 47,315 rows and 3 columns:
+A data frame with 47,314 rows and 15 columns:
 \describe{
 \item{\code{Zi}}{Time-to-event, representing the observed lease
 termination age in months.}
@@ -15,6 +15,18 @@ termination age in months.}
 months when the ABS trust began making payments to investors.}
 \item{\code{Di}}{Event indicator (1 = exact termination observed,
 0 = right-censored).}
+\item{\code{base.resid}}{Securitized residual value.}
+\item{\code{contract.resid}}{Lessee purchase price option value.}
+\item{\code{co.lessee}}{Co-Lessee indicator}
+\item{\code{credit.score}}{Obligor credit score}
+\item{\code{location}}{State or U.S.\ territory of contract}
+\item{\code{lease.term}}{Original lease term}
+\item{\code{pti}}{Obligor payment-to-income}
+\item{\code{subvented}}{Subvention type (cash, rate, none)}
+\item{\code{model}}{Vehicle model}
+\item{\code{year}}{Vehicle year}
+\item{\code{manufacturer}}{Vehicle manufacturer}
+\item{\code{veh.value}}{Estimated vehicle value at signing}
 }
 }
 }
