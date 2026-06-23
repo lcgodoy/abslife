@@ -7,9 +7,9 @@
 \format{
 \subsection{\code{aloans}}{
 
-A data frame with 58,118 rows and 7 columns:
+A data frame with 58,118 rows and 12 columns:
 \describe{
-\item{risk_cat}{Credit risk band based on the loan's Annual Percentage Rate
+\item{risk.cat}{Credit risk band based on the loan's Annual Percentage Rate
 (APR). Categories include "super_prime" (0-5\%), "prime" (5-10\%), "near_prime"
 (10-15\%), "subprime" (15-20\%), and "deep_subprime" (20\%+).}
 \item{Z}{Time-to-event, representing the loan termination age in months.}
@@ -22,6 +22,13 @@ termination observed).}
 (CarMax Auto Owner Trust 2017-2), AART (Ally Auto Receivables Trust 2017-3),
 SDART (Santander Drive Auto Receivables Trust 2017-2), or DRIVE (Drive Auto
 Receivables Trust 2017-1).}
+\item{orig.apr}{Obligor annual percentage rate}
+\item{orig.term}{Original loan term}
+\item{orig.loan.amt}{Original loan amount}
+\item{cur.age}{Loan age as of the start of the asset-backed security}
+\item{cur.balance}{Outstanding loan balance as of the start of the
+asset-backed security}
+\item{calc.pmt}{Calculated monthly payment}
 }
 }
 }
