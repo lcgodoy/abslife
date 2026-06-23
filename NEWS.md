@@ -1,5 +1,7 @@
 # abslife 0.1.5
 
+- New versions of the datasets containing additional variables
+
 - Density of the left-truncated random variable
 
 # abslife 0.1.4
