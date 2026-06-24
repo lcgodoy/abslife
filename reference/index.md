@@ -11,14 +11,8 @@
 - [`calc_apv()`](http://lcgodoy.me/abslife/reference/calc_apv.md) :
   Calculate Actuarial Present Value (APV)
 
-- [`calc_apv(`*`<acdf>`*`)`](http://lcgodoy.me/abslife/reference/calc_apv.acdf.md)
-  : Calculate Expected Actuarial Present Value
-
 - [`calc_apv_var()`](http://lcgodoy.me/abslife/reference/calc_apv_var.md)
   : Calculate Variance of APV
-
-- [`calc_apv_var(`*`<acdf>`*`)`](http://lcgodoy.me/abslife/reference/calc_apv_var.acdf.md)
-  : Calculate Variance of Actuarial Present Value
 
 - [`calc_cdf()`](http://lcgodoy.me/abslife/reference/calc_cdf.md) :
   Calculate CDF from Hazard Estimates

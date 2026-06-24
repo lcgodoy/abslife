@@ -3,9 +3,6 @@
 ``` r
 
 library(abslife)
-#> Warning: S3 methods 'calc_apv.acdf', 'calc_apv.acdf_multi', 'calc_apv.alife',
-#> 'calc_apv_var.acdf', 'calc_apv_var.acdf_multi', 'calc_apv_var.alife' were
-#> declared in NAMESPACE but not found
 #> Welcome to the abslife package!
 #> WARNING: Under construction.
 library(ggplot2) ## optional

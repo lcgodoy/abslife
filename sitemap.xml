@@ -9,9 +9,7 @@
 <url><loc>http://lcgodoy.me/abslife/news/index.html</loc></url>
 <url><loc>http://lcgodoy.me/abslife/reference/aart.html</loc></url>
 <url><loc>http://lcgodoy.me/abslife/reference/aloans.html</loc></url>
-<url><loc>http://lcgodoy.me/abslife/reference/calc_apv.acdf.html</loc></url>
 <url><loc>http://lcgodoy.me/abslife/reference/calc_apv.html</loc></url>
-<url><loc>http://lcgodoy.me/abslife/reference/calc_apv_var.acdf.html</loc></url>
 <url><loc>http://lcgodoy.me/abslife/reference/calc_apv_var.html</loc></url>
 <url><loc>http://lcgodoy.me/abslife/reference/calc_cdf.html</loc></url>
 <url><loc>http://lcgodoy.me/abslife/reference/calc_tp.html</loc></url>
@@ -30,7 +28,6 @@
 <url><loc>http://lcgodoy.me/abslife/reference/mci.html</loc></url>
 <url><loc>http://lcgodoy.me/abslife/reference/new_acdf.html</loc></url>
 <url><loc>http://lcgodoy.me/abslife/reference/new_alife.html</loc></url>
-<url><loc>http://lcgodoy.me/abslife/reference/payment_pv.html</loc></url>
 <url><loc>http://lcgodoy.me/abslife/reference/plot.acdf.html</loc></url>
 <url><loc>http://lcgodoy.me/abslife/reference/plot.acdf_multi.html</loc></url>
 <url><loc>http://lcgodoy.me/abslife/reference/plot.alife.html</loc></url>
@@ -38,10 +35,7 @@
 <url><loc>http://lcgodoy.me/abslife/reference/prep_ggplot.html</loc></url>
 <url><loc>http://lcgodoy.me/abslife/reference/print.alife.html</loc></url>
 <url><loc>http://lcgodoy.me/abslife/reference/print.alife_multi.html</loc></url>
-<url><loc>http://lcgodoy.me/abslife/reference/prob_delay.html</loc></url>
-<url><loc>http://lcgodoy.me/abslife/reference/prob_termination.html</loc></url>
 <url><loc>http://lcgodoy.me/abslife/reference/ralife_cdf.html</loc></url>
-<url><loc>http://lcgodoy.me/abslife/reference/residual_pv.html</loc></url>
 <url><loc>http://lcgodoy.me/abslife/reference/rmat.html</loc></url>
 <url><loc>http://lcgodoy.me/abslife/reference/single_t_hazard.html</loc></url>
 <url><loc>http://lcgodoy.me/abslife/reference/summary.acdf.html</loc></url>
