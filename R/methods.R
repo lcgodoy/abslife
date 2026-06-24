@@ -343,15 +343,25 @@ calc_cdf.alife <- function(x, ...) {
 ##' @export
 ##' @rdname calc_cdf
 calc_cdf.alife_multi <- function(x, ...) {
+  all_haz <-
+    with(x, stats::aggregate(hazard ~ lifetime, FUN = sum))
+  all_haz$surv <-
+    c(1, cumprod(1 - all_haz$hazard))[seq_len(NROW(all_haz))]
+  all_haz <- all_haz[, -2]
   df_list <- split(x, x$event_type)
   df_list_with_cdf <- lapply(df_list, function(df) {
-    df <- df[df$hazard < 1, ]
-    df$cdf <- 1 - cumprod(1 - df$hazard)
-    df$density <- df$cdf - c(0, df$cdf)[seq_along(df$cdf)]
-    pmfvarcov <- build_pmfvar(df$hazard, df$se_log_hazard)
-    cdfvarcov <- build_cdfvar(pmfvarcov)
-    df$se_cdf <- sqrt(diag(cdfvarcov))
-    df$se_dens <- sqrt(diag(pmfvarcov))
+    df <-
+      merge(df, all_haz, by = "lifetime", all.x = TRUE)
+    df$density <-
+      df$surv * df$hazard
+    df$cdf <- cumsum(df$density)
+    df$surv <- NULL
+    ## pmfvarcov <- build_pmfvar(df$hazard, df$se_log_hazard)
+    ## cdfvarcov <- build_cdfvar(pmfvarcov)
+    ## df$se_cdf <- sqrt(diag(cdfvarcov))
+    ## df$se_dens <- sqrt(diag(pmfvarcov))
+    df$se_cdf <- NA_real_
+    df$se_dens <- NA_real_
     return(df)
   })
   out <- do.call(rbind, df_list_with_cdf)

@@ -1,5 +1,8 @@
 # abslife 0.1.5
 
+- The calculaton of density and CDF for competing risks have been fixed. No
+  interval estimates available at the time.
+
 - New versions of the datasets containing additional variables
 
 - Density of the left-truncated random variable
