@@ -1,3 +1,6 @@
+# abslife 0.2.0
+
+
 # abslife 0.1.5
 
 - Updated how the CIs for the case where $\lambda (1 - \lambda) = 0$ are

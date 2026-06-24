@@ -1,7 +1,7 @@
 Package: abslife
 Title: Estimating the lifetime distribution for left-truncated, discrete-time data with applications to Asset-Backed Securities
-Version: 0.1.5
-Date: 2026-03-26
+Version: 0.2.0
+Date: 2026-06-24
 Authors@R:
   c(
     person(given = "Lucas",
@@ -20,7 +20,6 @@ License: MIT + file LICENSE
 Suggests: 
     testthat (>= 3.0.0),
     ggplot2,
-    zoo,
     knitr,
     rmarkdown
 Imports: rlang
