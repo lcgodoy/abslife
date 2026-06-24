@@ -60,7 +60,7 @@
 ##'   \item{\code{credit.score}}{Obligor credit score}
 ##'   \item{\code{interest.rate}}{Obligor annual percentage rate}
 ##'   \item{\code{pti}}{Obligor payment-to-income}
-##'   \item{\code{veh.value}}{Estimated vehicle value at signing ($\log$ scale)}
+##'   \item{\code{veh.value}}{Estimated vehicle value at signing (\eqn{\\log} scale)}
 ##'   \item{\code{co.sign}}{Co-Obligor indicator (1 = \code{TRUE})}
 ##'   \item{\code{new.used}}{New-Used indicator (1 = \code{NEW})}
 ##'   \item{\code{subvent.rate}}{Subvented interest rate indicator (1 = \code{TRUE})}
