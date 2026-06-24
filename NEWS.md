@@ -1,5 +1,8 @@
 # abslife 0.1.5
 
+- Updated how the CIs for the case where $\lambda (1 - \lambda) = 0$ are
+  handled.
+
 - A problem with the `fix_0haz` utility function has been solved. Specifically,
   if the hazard at the first value of the support (possible in a competing risk
   scenario) is zero, then its SD is also set to zero.

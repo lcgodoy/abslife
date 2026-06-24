@@ -6,32 +6,19 @@
 ##' @return A \code{data.frame} with hazard estimates carried forward when zeros
 ##'   are present.
 fix_0haz <- function(haz_est) {
-  hazard <- se_log_hazard <- NULL
-  zero_rows <- with(haz_est, hazard == 0)
-  if (1 %in% which(zero_rows)) {
-    haz_est$hazard[1] <- 0
-    haz_est$se_log_hazard[1] <- 0
-    zero_rows <- zero_rows[which(zero_rows) > 1]
+  is_zero <- haz_est$hazard == 0 | is.na(haz_est$hazard)
+  valid_idx <- which(!is_zero)
+  if (length(valid_idx) == 0) {
+    warning("All hazard estimates are zero.")
+    return(haz_est)
   }
-  if (requireNamespace("zoo", quietly = TRUE)) {
-    haz_est$hazard[zero_rows] <- NA_real_
-    haz_est$se_log_hazard[zero_rows] <- NA_real_
-    haz_est <- zoo::na.locf(haz_est)
-  } else {
-    first_valid_row <- which(!zero_rows)[1]
-    if (is.na(first_valid_row)) {
-      stop("All hazard estimates are zero.")
-    }
-    ids <- first_valid_row:NROW(haz_est)
-    zero_rows <- zero_rows[ids]
-    haz_est <- haz_est[ids, ]
-    for (i in seq_along(zero_rows)[-1]) {
-      if (zero_rows[i]) {
-        haz_est[i, c("hazard", "se_log_hazard")] <-
-          haz_est[i - 1, c("hazard", "se_log_hazard")]
-      }
-    }
-  }
+  group <- cumsum(!is_zero)
+  fill_idx <- seq_len(nrow(haz_est))
+  ## avoiding removing first zero row
+  has_valid_prior <- group > 0
+  fill_idx[has_valid_prior] <- valid_idx[group[has_valid_prior]]
+  haz_est$hazard <- haz_est$hazard[fill_idx]
+  haz_est$se_log_hazard <- haz_est$se_log_hazard[fill_idx]
   return(haz_est)
 }
 
