@@ -1,5 +1,9 @@
 # abslife 0.1.5
 
+- A problem with the `fix_0haz` utility function has been solved. Specifically,
+  if the hazard at the first value of the support (possible in a competing risk
+  scenario) is zero, then its SD is also set to zero.
+
 - The calculaton of density and CDF for competing risks have been fixed. No
   interval estimates available at the time.
 

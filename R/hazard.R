@@ -77,12 +77,10 @@ single_t_hazard <- function(t,
   n <- length(lifetime)
   hazard <- ifelse(uh == 0, 0, fh / uh)
   var_log_h <- - log(fh) - log1p(- hazard) - log(n)
-  c(
-      lifetime = t,
-      risk_set = uh,
-      hazard = hazard,
-      se_log_hazard = exp(0.5 * var_log_h)
-  )
+  c(lifetime = t,
+    risk_set = uh,
+    hazard = hazard,
+    se_log_hazard = exp(0.5 * var_log_h))
 }
 
 ##' @title Auxiliary function for `estimate_hazard`
@@ -218,10 +216,14 @@ estimate_hazard <- function(lifetime,
   }
   upper_tail <- 1 - .5 * (1 - ci_level)
   z <- stats::qnorm(upper_tail)
-  out$lower_ci <- ifelse(out[["hazard"]] == 1, Inf,
-                         stats::plogis(stats::qlogis(out[["hazard"]]) - z * out[["se_log_hazard"]]))
-  out$upper_ci <- ifelse(out[["hazard"]] == 1, Inf,
-                         stats::plogis(stats::qlogis(out[["hazard"]]) + z * out[["se_log_hazard"]]))
+  out$lower_ci <-
+    ifelse(out[["hazard"]] == 1, Inf,
+           stats::plogis(stats::qlogis(out[["hazard"]]) -
+                         z * out[["se_log_hazard"]]))
+  out$upper_ci <-
+    ifelse(out[["hazard"]] == 1, Inf,
+           stats::plogis(stats::qlogis(out[["hazard"]]) +
+                         z * out[["se_log_hazard"]]))
   out <- new_alife(out)
   return(out)
 }

@@ -8,14 +8,20 @@
 fix_0haz <- function(haz_est) {
   hazard <- se_log_hazard <- NULL
   zero_rows <- with(haz_est, hazard == 0)
+  if (1 %in% which(zero_rows)) {
+    haz_est$hazard[1] <- 0
+    haz_est$se_log_hazard[1] <- 0
+    zero_rows <- zero_rows[which(zero_rows) > 1]
+  }
   if (requireNamespace("zoo", quietly = TRUE)) {
     haz_est$hazard[zero_rows] <- NA_real_
     haz_est$se_log_hazard[zero_rows] <- NA_real_
     haz_est <- zoo::na.locf(haz_est)
   } else {
     first_valid_row <- which(!zero_rows)[1]
-    if (is.na(first_valid_row))
+    if (is.na(first_valid_row)) {
       stop("All hazard estimates are zero.")
+    }
     ids <- first_valid_row:NROW(haz_est)
     zero_rows <- zero_rows[ids]
     haz_est <- haz_est[ids, ]
