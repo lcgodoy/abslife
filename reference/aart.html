@@ -5,11 +5,13 @@
       fontURL: "https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/output/chtml/fonts/woff-v2"
     }
   };
-</script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet"><script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Consumer automobile loans from Ally Auto Receivables Trust — aart"><meta name="description" content="A dataset containing time-to-event and left-truncation times for consumer
+</script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet"><script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Consumer automobile loans from Ally Auto Receivables Trust — aart"><meta name="description" content="A dataset containing time-to-event and left-truncation times for consumer
 automobile loans from the Ally Auto Receivables Trust (AART). The data were
-compiled from the SEC's EDGAR system."><meta property="og:description" content="A dataset containing time-to-event and left-truncation times for consumer
+compiled from the the Electronic Data Gathering, Analysis, and Retrieval
+(EDGAR) system of the Securities and Exchange Comission (SEC)."><meta property="og:description" content="A dataset containing time-to-event and left-truncation times for consumer
 automobile loans from the Ally Auto Receivables Trust (AART). The data were
-compiled from the SEC's EDGAR system."></head><body>
+compiled from the the Electronic Data Gathering, Analysis, and Retrieval
+(EDGAR) system of the Securities and Exchange Comission (SEC)."></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
@@ -17,7 +19,7 @@ compiled from the SEC's EDGAR system."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">abslife</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.4</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.5</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -49,7 +51,8 @@ compiled from the SEC's EDGAR system."></head><body>
     <div class="ref-description section level2">
     <p>A dataset containing time-to-event and left-truncation times for consumer
 automobile loans from the Ally Auto Receivables Trust (AART). The data were
-compiled from the SEC's EDGAR system.</p>
+compiled from the the Electronic Data Gathering, Analysis, and Retrieval
+(EDGAR) system of the Securities and Exchange Comission (SEC).</p>
     </div>
 
     <div class="section level2">
@@ -64,7 +67,7 @@ compiled from the SEC's EDGAR system.</p>
 <h3 id="aart"><code>aart</code><a class="anchor" aria-label="anchor" href="#aart"></a></h3>
 
 
-<p>A data frame with 1,553 rows and 2 columns:</p><dl><dt><code>Xi</code></dt>
+<p>A data frame with 2,756 rows and 12 columns:</p><dl><dt><code>Xi</code></dt>
 <dd><p>Time-to-event, representing the loan termination age
 in months.</p></dd>
 
@@ -72,15 +75,45 @@ in months.</p></dd>
 <dd><p>Left-truncation time, representing the loan age in
 months when the ABS trust began making payments to investors.</p></dd>
 
+<dt><code>credit.score</code></dt>
+<dd><p>Obligor credit score</p></dd>
+
+<dt><code>interest.rate</code></dt>
+<dd><p>Obligor annual percentage rate</p></dd>
+
+<dt><code>pti</code></dt>
+<dd><p>Obligor payment-to-income</p></dd>
+
+<dt><code>veh.value</code></dt>
+<dd><p>Estimated vehicle value at signing (\(\\log\) scale)</p></dd>
+
+<dt><code>co.sign</code></dt>
+<dd><p>Co-Obligor indicator (1 = <code>TRUE</code>)</p></dd>
+
+<dt><code>new.used</code></dt>
+<dd><p>New-Used indicator (1 = <code>NEW</code>)</p></dd>
+
+<dt><code>subvent.rate</code></dt>
+<dd><p>Subvented interest rate indicator (1 = <code>TRUE</code>)</p></dd>
+
+<dt><code>subvent.cash</code></dt>
+<dd><p>Cash rebate indicator (1 = <code>TRUE</code>)\</p></dd>
+
+<dt><code>veh.pick.up</code></dt>
+<dd><p>Pick-up truck indicator (1 = <code>TRUE</code>)</p></dd>
+
+<dt><code>veh.suv</code></dt>
+<dd><p>Sport-Utility-Vehicle indicator (1 = <code>TRUE</code>)</p></dd>
+
 
 </dl></div>
 
     </div>
     <div class="section level2">
     <h2 id="source">Source<a class="anchor" aria-label="anchor" href="#source"></a></h2>
-    <p>Data was compiled from the SEC's Electronic Data Gathering,
-Analysis, and Retrieval (EDGAR) system. The replication data repository
-is available at
+    <p>Data was compiled from the Electronic Data Gathering, Analysis, and
+Retrieval (EDGAR) system of the Securities and Exchange Commission
+(SEC). The replication data repository is available at
 <a href="https://github.com/jackson-lautier/consumer-auto-abs-parametric" class="external-link">https://github.com/jackson-lautier/consumer-auto-abs-parametric</a>.</p>
     </div>
     <div class="section level2">

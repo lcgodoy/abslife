@@ -2,7 +2,9 @@
 
 A dataset containing time-to-event and left-truncation times for
 consumer automobile loans from the Ally Auto Receivables Trust (AART).
-The data were compiled from the SEC's EDGAR system.
+The data were compiled from the the Electronic Data Gathering, Analysis,
+and Retrieval (EDGAR) system of the Securities and Exchange Comission
+(SEC).
 
 ## Usage
 
@@ -14,7 +16,7 @@ aart
 
 ### `aart`
 
-A data frame with 1,553 rows and 2 columns:
+A data frame with 2,756 rows and 12 columns:
 
 - `Xi`:
 
@@ -25,11 +27,51 @@ A data frame with 1,553 rows and 2 columns:
   Left-truncation time, representing the loan age in months when the ABS
   trust began making payments to investors.
 
+- `credit.score`:
+
+  Obligor credit score
+
+- `interest.rate`:
+
+  Obligor annual percentage rate
+
+- `pti`:
+
+  Obligor payment-to-income
+
+- `veh.value`:
+
+  Estimated vehicle value at signing (\\\\log\\ scale)
+
+- `co.sign`:
+
+  Co-Obligor indicator (1 = `TRUE`)
+
+- `new.used`:
+
+  New-Used indicator (1 = `NEW`)
+
+- `subvent.rate`:
+
+  Subvented interest rate indicator (1 = `TRUE`)
+
+- `subvent.cash`:
+
+  Cash rebate indicator (1 = `TRUE`)\\
+
+- `veh.pick.up`:
+
+  Pick-up truck indicator (1 = `TRUE`)
+
+- `veh.suv`:
+
+  Sport-Utility-Vehicle indicator (1 = `TRUE`)
+
 ## Source
 
-Data was compiled from the SEC's Electronic Data Gathering, Analysis,
-and Retrieval (EDGAR) system. The replication data repository is
-available at
+Data was compiled from the Electronic Data Gathering, Analysis, and
+Retrieval (EDGAR) system of the Securities and Exchange Commission
+(SEC). The replication data repository is available at
 <https://github.com/jackson-lautier/consumer-auto-abs-parametric>.
 
 ## References

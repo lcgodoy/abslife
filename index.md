@@ -9,12 +9,14 @@ The goal of abslife is to …
 You can install the development version of abslife like so:
 
 ``` r
+
 remotes::install_github("lcgodoy/abslife")
 ```
 
 ## Example
 
 ``` r
+
 library(abslife)
 #> Welcome to the abslife package!
 #> WARNING: Under construction.
@@ -24,6 +26,7 @@ What is special about using `README.Rmd` instead of just `README.md`?
 You can include R chunks like so:
 
 ``` r
+
 data(aloans)
 summary(aloans)
 #>    risk_cat               Z               Y               C         

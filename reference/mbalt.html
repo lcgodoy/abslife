@@ -5,7 +5,7 @@
       fontURL: "https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/output/chtml/fonts/woff-v2"
     }
   };
-</script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet"><script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Consumer automobile leases from Mercedes-Benz Auto Lease Trust 2017-A — mbalt"><meta name="description" content="A dataset containing performance records of 47,315 consumer automobile
+</script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet"><script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Consumer automobile leases from Mercedes-Benz Auto Lease Trust 2017-A — mbalt"><meta name="description" content="A dataset containing performance records of 47,315 consumer automobile
 leases with an original term of 36 months from the Mercedes-Benz Auto Lease
 Trust (MBALT) 2017-A."><meta property="og:description" content="A dataset containing performance records of 47,315 consumer automobile
 leases with an original term of 36 months from the Mercedes-Benz Auto Lease
@@ -17,7 +17,7 @@ Trust (MBALT) 2017-A."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">abslife</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.4</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.5</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -64,7 +64,7 @@ Trust (MBALT) 2017-A.</p>
 <h3 id="mbalt"><code>mbalt</code><a class="anchor" aria-label="anchor" href="#mbalt"></a></h3>
 
 
-<p>A data frame with 47,315 rows and 3 columns:</p><dl><dt><code>Zi</code></dt>
+<p>A data frame with 47,314 rows and 15 columns:</p><dl><dt><code>Zi</code></dt>
 <dd><p>Time-to-event, representing the observed lease
 termination age in months.</p></dd>
 
@@ -76,14 +76,50 @@ months when the ABS trust began making payments to investors.</p></dd>
 <dd><p>Event indicator (1 = exact termination observed,
 0 = right-censored).</p></dd>
 
+<dt><code>base.resid</code></dt>
+<dd><p>Securitized residual value.</p></dd>
+
+<dt><code>contract.resid</code></dt>
+<dd><p>Lessee purchase price option value.</p></dd>
+
+<dt><code>co.lessee</code></dt>
+<dd><p>Co-Lessee indicator</p></dd>
+
+<dt><code>credit.score</code></dt>
+<dd><p>Obligor credit score</p></dd>
+
+<dt><code>location</code></dt>
+<dd><p>State or U.S.\ territory of contract</p></dd>
+
+<dt><code>lease.term</code></dt>
+<dd><p>Original lease term</p></dd>
+
+<dt><code>pti</code></dt>
+<dd><p>Obligor payment-to-income</p></dd>
+
+<dt><code>subvented</code></dt>
+<dd><p>Subvention type (cash, rate, none)</p></dd>
+
+<dt><code>model</code></dt>
+<dd><p>Vehicle model</p></dd>
+
+<dt><code>year</code></dt>
+<dd><p>Vehicle year</p></dd>
+
+<dt><code>manufacturer</code></dt>
+<dd><p>Vehicle manufacturer</p></dd>
+
+<dt><code>veh.value</code></dt>
+<dd><p>Estimated vehicle value at signing</p></dd>
+
 
 </dl></div>
 
     </div>
     <div class="section level2">
     <h2 id="source">Source<a class="anchor" aria-label="anchor" href="#source"></a></h2>
-    <p>Data was compiled from the SEC's Electronic Data Gathering,
-Analysis, and Retrieval (EDGAR) system.</p>
+    <p>Data was compiled from the Electronic Data Gathering, Analysis, and
+Retrieval (EDGAR) system of the Securities and Exchange Commission (SEC).</p>
     </div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>

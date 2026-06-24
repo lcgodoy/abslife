@@ -5,7 +5,7 @@
       fontURL: "https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/output/chtml/fonts/woff-v2"
     }
   };
-</script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet"><script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Consumer automobile loans dataset — aloans"><meta name="description" content="A dataset containing the performance records of 58,118 consumer automobile
+</script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet"><script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Consumer automobile loans dataset — aloans"><meta name="description" content="A dataset containing the performance records of 58,118 consumer automobile
 loans with original terms of 72 to 73 months. The data was obtained from
 four publicly traded asset-backed securities (ABS) bonds. This dataset is
 subject to left-truncation (loans must survive long enough to be included in
@@ -23,7 +23,7 @@ loans terminate), and it features competing risks of default and prepayment."></
 
     <a class="navbar-brand me-2" href="../index.html">abslife</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.4</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.5</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -73,7 +73,7 @@ loans terminate), and it features competing risks of default and prepayment.</p>
 <h3 id="aloans"><code>aloans</code><a class="anchor" aria-label="anchor" href="#aloans"></a></h3>
 
 
-<p>A data frame with 58,118 rows and 7 columns:</p><dl><dt>risk_cat</dt>
+<p>A data frame with 58,118 rows and 12 columns:</p><dl><dt>risk.cat</dt>
 <dd><p>Credit risk band based on the loan's Annual Percentage Rate
 (APR). Categories include "super_prime" (0-5%), "prime" (5-10%), "near_prime"
 (10-15%), "subprime" (15-20%), and "deep_subprime" (20%+).</p></dd>
@@ -98,15 +98,34 @@ termination observed).</p></dd>
 SDART (Santander Drive Auto Receivables Trust 2017-2), or DRIVE (Drive Auto
 Receivables Trust 2017-1).</p></dd>
 
+<dt>orig.apr</dt>
+<dd><p>Obligor annual percentage rate</p></dd>
+
+<dt>orig.term</dt>
+<dd><p>Original loan term</p></dd>
+
+<dt>orig.loan.amt</dt>
+<dd><p>Original loan amount</p></dd>
+
+<dt>cur.age</dt>
+<dd><p>Loan age as of the start of the asset-backed security</p></dd>
+
+<dt>cur.balance</dt>
+<dd><p>Outstanding loan balance as of the start of the
+asset-backed security</p></dd>
+
+<dt>calc.pmt</dt>
+<dd><p>Calculated monthly payment</p></dd>
+
 
 </dl></div>
 
     </div>
     <div class="section level2">
     <h2 id="source">Source<a class="anchor" aria-label="anchor" href="#source"></a></h2>
-    <p>Data was originally compiled from the SEC's Electronic Data
-Gathering, Analysis, and Retrieval (EDGAR) system. The replication data
-repository is available at
+    <p>Data was originally compiled from the the Electronic Data Gathering,
+Analysis, and Retrieval (EDGAR) system of the Securities and Exchange
+Comission (SEC).. The replication data repository is available at
 <a href="https://github.com/jackson-lautier/credit-risk-convergence/" class="external-link">https://github.com/jackson-lautier/credit-risk-convergence/</a>.</p>
     </div>
     <div class="section level2">

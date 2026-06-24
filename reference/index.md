@@ -8,6 +8,18 @@
 - [`aloans`](http://lcgodoy.me/abslife/reference/aloans.md) : Consumer
   automobile loans dataset
 
+- [`calc_apv()`](http://lcgodoy.me/abslife/reference/calc_apv.md) :
+  Calculate Actuarial Present Value (APV)
+
+- [`calc_apv(`*`<acdf>`*`)`](http://lcgodoy.me/abslife/reference/calc_apv.acdf.md)
+  : Calculate Expected Actuarial Present Value
+
+- [`calc_apv_var()`](http://lcgodoy.me/abslife/reference/calc_apv_var.md)
+  : Calculate Variance of APV
+
+- [`calc_apv_var(`*`<acdf>`*`)`](http://lcgodoy.me/abslife/reference/calc_apv_var.acdf.md)
+  : Calculate Variance of Actuarial Present Value
+
 - [`calc_cdf()`](http://lcgodoy.me/abslife/reference/calc_cdf.md) :
   Calculate CDF from Hazard Estimates
 
@@ -48,6 +60,10 @@
   :
 
   Plot an 'alife-multi' Object using `ggplot2`
+
+- [`.lt_core()`](http://lcgodoy.me/abslife/reference/lt_pmf.md)
+  [`lt_pmf()`](http://lcgodoy.me/abslife/reference/lt_pmf.md) : Core for
+  left-truncation PMF computation
 
 - [`mbalt`](http://lcgodoy.me/abslife/reference/mbalt.md) : Consumer
   automobile leases from Mercedes-Benz Auto Lease Trust 2017-A

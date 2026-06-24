@@ -18,9 +18,9 @@ aloans
 
 ### `aloans`
 
-A data frame with 58,118 rows and 7 columns:
+A data frame with 58,118 rows and 12 columns:
 
-- risk_cat:
+- risk.cat:
 
   Credit risk band based on the loan's Annual Percentage Rate (APR).
   Categories include "super_prime" (0-5%), "prime" (5-10%), "near_prime"
@@ -51,11 +51,35 @@ A data frame with 58,118 rows and 7 columns:
   SDART (Santander Drive Auto Receivables Trust 2017-2), or DRIVE (Drive
   Auto Receivables Trust 2017-1).
 
+- orig.apr:
+
+  Obligor annual percentage rate
+
+- orig.term:
+
+  Original loan term
+
+- orig.loan.amt:
+
+  Original loan amount
+
+- cur.age:
+
+  Loan age as of the start of the asset-backed security
+
+- cur.balance:
+
+  Outstanding loan balance as of the start of the asset-backed security
+
+- calc.pmt:
+
+  Calculated monthly payment
+
 ## Source
 
-Data was originally compiled from the SEC's Electronic Data Gathering,
-Analysis, and Retrieval (EDGAR) system. The replication data repository
-is available at
+Data was originally compiled from the the Electronic Data Gathering,
+Analysis, and Retrieval (EDGAR) system of the Securities and Exchange
+Comission (SEC).. The replication data repository is available at
 <https://github.com/jackson-lautier/credit-risk-convergence/>.
 
 ## References

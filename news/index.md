@@ -1,5 +1,22 @@
 # Changelog
 
+## abslife 0.1.5
+
+- Updated how the CIs for the case where \\\lambda (1 - \lambda) = 0\\
+  are handled.
+
+- A problem with the `fix_0haz` utility function has been solved.
+  Specifically, if the hazard at the first value of the support
+  (possible in a competing risk scenario) is zero, then its SD is also
+  set to zero.
+
+- The calculaton of density and CDF for competing risks have been fixed.
+  No interval estimates available at the time.
+
+- New versions of the datasets containing additional variables
+
+- Density of the left-truncated random variable
+
 ## abslife 0.1.4
 
 - Minor bug on `ralife_cdf` fixed.

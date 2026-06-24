@@ -14,7 +14,7 @@ mbalt
 
 ### `mbalt`
 
-A data frame with 47,315 rows and 3 columns:
+A data frame with 47,314 rows and 15 columns:
 
 - `Zi`:
 
@@ -30,10 +30,59 @@ A data frame with 47,315 rows and 3 columns:
 
   Event indicator (1 = exact termination observed, 0 = right-censored).
 
+- `base.resid`:
+
+  Securitized residual value.
+
+- `contract.resid`:
+
+  Lessee purchase price option value.
+
+- `co.lessee`:
+
+  Co-Lessee indicator
+
+- `credit.score`:
+
+  Obligor credit score
+
+- `location`:
+
+  State or U.S.\\ territory of contract
+
+- `lease.term`:
+
+  Original lease term
+
+- `pti`:
+
+  Obligor payment-to-income
+
+- `subvented`:
+
+  Subvention type (cash, rate, none)
+
+- `model`:
+
+  Vehicle model
+
+- `year`:
+
+  Vehicle year
+
+- `manufacturer`:
+
+  Vehicle manufacturer
+
+- `veh.value`:
+
+  Estimated vehicle value at signing
+
 ## Source
 
-Data was compiled from the SEC's Electronic Data Gathering, Analysis,
-and Retrieval (EDGAR) system.
+Data was compiled from the Electronic Data Gathering, Analysis, and
+Retrieval (EDGAR) system of the Securities and Exchange Commission
+(SEC).
 
 ## References
 
