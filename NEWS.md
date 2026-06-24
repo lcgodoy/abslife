@@ -1,5 +1,6 @@
 # abslife 0.2.0
 
+- Function for calculating APV (single loan)
 
 # abslife 0.1.5
 
