@@ -13,12 +13,12 @@ multiple_cis.alife <- function(x, ci_level = .95) {
     upper_tail <- 1 - .5 * (1 - ci_level[[i]])
     z <- stats::qnorm(upper_tail)
     out[[i]] <- data.frame(lifetime = x[["lifetime"]])
-    out$lower_ci <-
+    out[[i]]$lower_ci <-
       ifelse(x[["hazard"]] * (x[["hazard"]] - 1) == 0,
              x[["hazard"]],
              stats::plogis(stats::qlogis(x[["hazard"]]) -
                            z * x[["se_log_hazard"]]))
-    out$upper_ci <-
+    out[[i]]$upper_ci <-
       ifelse(x[["hazard"]] * (x[["hazard"]] - 1) == 0,
              x[["hazard"]],
              stats::plogis(stats::qlogis(x[["hazard"]]) +
@@ -332,9 +332,10 @@ calc_cdf <- function(x, ...) {
 ##' @export
 ##' @rdname calc_cdf
 calc_cdf.alife <- function(x, ...) {
-  if (any(x$hazard == 1))
-    warning("Not reporting CDF (and density) values for time points where the hazard rate equals 1.")
-  y <- x[x$hazard < 1, ]
+  ## if (any(x$hazard == 1))
+  ##   warning("Not reporting CDF (and density) values for time points where the hazard rate equals 1.")
+  ## y <- x[x$hazard < 1, ]
+  y <- x
   y$cdf <- 1 - cumprod(1 - y$hazard)
   y$density <- y$cdf - c(0, y$cdf)[seq_along(y$cdf)]
   pmfvarcov <- build_pmfvar(y$hazard, y$se_log_hazard)
@@ -444,9 +445,30 @@ ev_life <- function(x, digits = 2, ...) {
 ##' @rdname ev
 ##' @export
 ev_life.acdf <- function(x, ...) {
-  ev <- crossprod(x$density, x$lifetime)
+  ev <- sum(x$density * x$lifetime)
   cat(sprintf("Expected lifetime: %s", round(ev, ...)), "\n")
   invisible(ev)
+}
+
+##' @rdname ev
+##' @export
+ev_life.acdf_multi <- function(x, ...) {
+  events <- unique(x$event_type)
+  out <- vector(mode = "numeric", length = length(events) + 1)  
+  all_cause <- with(x, stats::aggregate(density ~ lifetime, FUN = sum))
+  out[1] <- sum(all_cause$lifetime * all_cause$density)
+  cat(sprintf("Expected lifetime (all_cause): %s",
+              round(out[1], ...)), "\n")
+  for (e in seq_along(events)) {
+    out[e + 1] <-
+      sum(x$lifetime[x$event_type == events[e]] *
+          x$density[x$event_type == events[e]]) /
+      sum(x$density[x$event_type == events[e]])
+    cat(sprintf("Expected lifetime (%s): %s",
+                events[e],
+                round(out[e + 1], ...)), "\n")
+  }
+  invisible(out)
 }
 
 ##' @rdname ev
@@ -454,12 +476,6 @@ ev_life.acdf <- function(x, ...) {
 ev_life.alife <- function(x, ...) {
   .cdf <- calc_cdf(x, ...)
   ev_life(.cdf)
-}
-
-##' @rdname ev
-##' @export
-ev_life.alife_multi <- function(x, ...) {
-  ## EV for all cause and each event.
 }
 
 

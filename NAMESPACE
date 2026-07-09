@@ -3,6 +3,7 @@
 S3method(calc_cdf,alife)
 S3method(calc_cdf,alife_multi)
 S3method(ev_life,acdf)
+S3method(ev_life,acdf_multi)
 S3method(ev_life,alife)
 S3method(ggauto,alife)
 S3method(ggauto,alife_multi)
