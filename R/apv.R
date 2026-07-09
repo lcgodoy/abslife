@@ -80,11 +80,11 @@ calculate_apv <- function(cur_age, orig_term, orig_loan_amt, mon_pmt,
   ## Sub-densities for remaining months
   prbs_def_rem <- prbs[prbs$event_type == default_name, ]
   prbs_def_rem <- prbs_def_rem[order(prbs_def_rem$lifetime), ]
-  p_def <- prbs_def_rem$density
+  p_def <- prbs_def_rem$density[prbs_def_rem$lifetime %in% rem_months]
   
   prbs_pre_rem <- prbs[prbs$event_type == non_default_name, ]
   prbs_pre_rem <- prbs_pre_rem[order(prbs_pre_rem$lifetime), ]
-  p_pre <- prbs_pre_rem$density
+  p_pre <- prbs_pre_rem$density[prbs_pre_rem$lifetime %in% rem_months]
   
   cum_disc <- cumsum(disc_vec)
   def_pv <- mon_pmt * (cum_disc - disc_vec) + recov_cfs * disc_vec

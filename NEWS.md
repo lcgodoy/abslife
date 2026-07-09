@@ -8,6 +8,7 @@
   instead of exp)
 
 - Function for calculating APV (single loan)
+  - Fixing some parts of the function
 
 # abslife 0.1.5
 

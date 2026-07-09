@@ -10,9 +10,9 @@
 \usage{
 ev_life(x, digits = 2, ...)
 
-\method{ev_life}{acdf}(x, ...)
+\method{ev_life}{acdf}(x, digits = 2, ...)
 
-\method{ev_life}{acdf_multi}(x, ...)
+\method{ev_life}{acdf_multi}(x, digits = 2, ...)
 
 \method{ev_life}{alife}(x, ...)
 }

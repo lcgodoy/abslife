@@ -444,30 +444,27 @@ ev_life <- function(x, digits = 2, ...) {
 
 ##' @rdname ev
 ##' @export
-ev_life.acdf <- function(x, ...) {
+ev_life.acdf <- function(x, digits = 2, ...) {
   ev <- sum(x$density * x$lifetime)
-  cat(sprintf("Expected lifetime: %s", round(ev, ...)), "\n")
+  cat(sprintf("Expected lifetime: %s", round(ev, digits)), "\n")
   invisible(ev)
 }
 
 ##' @rdname ev
 ##' @export
-ev_life.acdf_multi <- function(x, ...) {
-  events <- unique(x$event_type)
-  out <- vector(mode = "numeric", length = length(events) + 1)  
-  all_cause <- with(x, stats::aggregate(density ~ lifetime, FUN = sum))
-  out[1] <- sum(all_cause$lifetime * all_cause$density)
-  cat(sprintf("Expected lifetime (all_cause): %s",
-              round(out[1], ...)), "\n")
-  for (e in seq_along(events)) {
-    out[e + 1] <-
-      sum(x$lifetime[x$event_type == events[e]] *
-          x$density[x$event_type == events[e]]) /
-      sum(x$density[x$event_type == events[e]])
-    cat(sprintf("Expected lifetime (%s): %s",
-                events[e],
-                round(out[e + 1], ...)), "\n")
+ev_life.acdf_multi <- function(x, digits = 2, ...) {
+  weighted_life <- x$lifetime * x$density
+  all_cause_val <- sum(weighted_life)
+  cat(sprintf("Expected lifetime (all_cause): %s\n", round(all_cause_val, digits)))
+  num <- tapply(weighted_life, x$event_type, sum)
+  den <- tapply(x$density, x$event_type, sum)
+  event_vals <- num / den
+  for (e_name in names(event_vals)) {
+    cat(sprintf("Expected lifetime (%s): %s\n", 
+                e_name, 
+                round(event_vals[e_name], digits)))
   }
+  out <- c("all_cause" = all_cause_val, event_vals)
   invisible(out)
 }
 
