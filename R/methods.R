@@ -12,14 +12,17 @@ multiple_cis.alife <- function(x, ci_level = .95) {
   for (i in seq_along(out)) {
     upper_tail <- 1 - .5 * (1 - ci_level[[i]])
     z <- stats::qnorm(upper_tail)
-    out[[i]] <- data.frame(lifetime = x[["lifetime"]],
-                           lower_ci = ifelse(x[["hazard"]] == 0, 0,
-                                             exp(log(x[["hazard"]]) -
-                                                 z * x[["se_log_hazard"]])),
-                           upper_ci = ifelse(x[["hazard"]] == 0, 0,
-                                             pmin(exp(log(x[["hazard"]]) +
-                                                      z * x[["se_log_hazard"]]),
-                                                  1)))
+    out[[i]] <- data.frame(lifetime = x[["lifetime"]])
+    out$lower_ci <-
+      ifelse(x[["hazard"]] * (x[["hazard"]] - 1) == 0,
+             x[["hazard"]],
+             stats::plogis(stats::qlogis(x[["hazard"]]) -
+                           z * x[["se_log_hazard"]]))
+    out$upper_ci <-
+      ifelse(x[["hazard"]] * (x[["hazard"]] - 1) == 0,
+             x[["hazard"]],
+             stats::plogis(stats::qlogis(x[["hazard"]]) +
+                           z * x[["se_log_hazard"]]))
   }
   names(out) <- ci_level
   return(out)
@@ -31,12 +34,14 @@ multiple_cis.alife_multi <- function(x, ci_level = .95) {
   for (i in seq_along(out)) {
     upper_tail <- 1 - .5 * (1 - ci_level[[i]])
     z <- stats::qnorm(upper_tail)
-    lower_vals <- ifelse(x[["hazard"]] == 0, 0,
-                         exp(log(x[["hazard"]]) - z * x[["se_log_hazard"]]))
-    upper_vals <- ifelse(x[["hazard"]] == 0, 0,
-                         pmin(exp(log(x[["hazard"]]) +
-                                  z * x[["se_log_hazard"]]),
-                              1))
+    lower_vals <- ifelse(x[["hazard"]] * (x[["hazard"]] - 1) == 0,
+                         x[["hazard"]],
+                         stats::plogis(stats::qlogis(x[["hazard"]]) -
+                                       z * x[["se_log_hazard"]]))
+    upper_vals <- ifelse(x[["hazard"]] * (x[["hazard"]] - 1) == 0,
+                         x[["hazard"]],
+                         stats::plogis(stats::qlogis(x[["hazard"]]) +
+                                       z * x[["se_log_hazard"]]))
     out[[i]] <- data.frame(lifetime = x[["lifetime"]],
                            event_type = x[["event_type"]],
                            lower_ci = lower_vals,
@@ -450,6 +455,13 @@ ev_life.alife <- function(x, ...) {
   .cdf <- calc_cdf(x, ...)
   ev_life(.cdf)
 }
+
+##' @rdname ev
+##' @export
+ev_life.alife_multi <- function(x, ...) {
+  ## EV for all cause and each event.
+}
+
 
 ##' Plot Method for an 'acdf' Object
 ##'
