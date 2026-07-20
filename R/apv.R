@@ -103,7 +103,7 @@ calculate_apv <- function(cur_age, orig_term, orig_loan_amt, mon_pmt,
 
 ##' Solve for Risk-Adjusted Internal Rate of Return (IRR)
 ##'
-##' @param cur_bal Current loan balance (to match EPV against).
+##' @param abs0_bal Current loan balance (to match EPV against).
 ##' @param cur_age Current age of the loan in months.
 ##' @param orig_term Original loan term in months.
 ##' @param orig_loan_amt Original loan amount.
@@ -115,7 +115,7 @@ calculate_apv <- function(cur_age, orig_term, orig_loan_amt, mon_pmt,
 ##' @return List with risk adjusted monthly rate, annualized rate, and objective
 ##'   value.
 ##' @export
-solve_irr <- function(cur_bal, cur_age, orig_term, orig_loan_amt, mon_pmt,
+solve_irr <- function(abs0_bal, cur_age, orig_term, orig_loan_amt, mon_pmt,
                       recov_curve, prbs, orig_apy = 0.15) {
   irr_loss <- function(r) {
     ann_rate <- (1 + r)^12 - 1
@@ -126,7 +126,7 @@ solve_irr <- function(cur_bal, cur_age, orig_term, orig_loan_amt, mon_pmt,
     }, error = function(e) {
       return(list(APV = Inf))
     })
-    diff_val <- cur_bal - apv_res$APV
+    diff_val <- abs0_bal - apv_res$APV
     return(diff_val * diff_val)
   }  
   opt <- stats::optimize(irr_loss, interval = c(-1, 1), tol = 1e-07)
