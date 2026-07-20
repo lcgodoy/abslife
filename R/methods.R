@@ -174,7 +174,7 @@ plot.alife_multi <- function(x, ci_level = 0.95,
                              color = 2, col_line = 1, ...) {
   ci_level <- sort(ci_level, decreasing = TRUE)
   cis_list <- multiple_cis(x, ci_level = ci_level)
-  etypes <- unique(x$event_type)
+  etypes <- sort(unique(x$event_type))
   n_types <- length(etypes)
   n_cols <- ceiling(sqrt(n_types))
   n_rows <- ceiling(n_types / n_cols)
@@ -580,7 +580,7 @@ plot.acdf <- function(x, ci_level = 0.95,
 ##' @export
 ##'
 plot.acdf_multi <- function(x, ...) {
-  etypes <- unique(x$event_type)
+  etypes <- sort(unique(x$event_type))
   n_types <- length(etypes)
   n_cols <- ceiling(sqrt(n_types))
   n_rows <- ceiling(n_types / n_cols)
@@ -629,7 +629,7 @@ plot.acdf_multi <- function(x, ci_level = 0.95,
                             col_line = 1,
                             ...) {
   
-  etypes <- unique(x$event_type)
+  etypes <- sort(unique(x$event_type))
   n_types <- length(etypes)
   
   old_par <- par(no.readonly = TRUE)

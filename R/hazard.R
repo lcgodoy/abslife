@@ -117,7 +117,7 @@ check_censored <- function(lifetime, censoring_indicator, support_lifetime_rv) {
   is_problematic <- (lifetime == max_support) & (censoring_indicator == 1)
   if (any(is_problematic, na.rm = TRUE)) {
     warning(paste(
-      "Warning: Detected censored observations at the maximum limit of the support",
+      "Warning: Detected censored observations at the maximum observed limit of the support",
       "(lifetime == max(support_lifetime_rv)).",
       "This may lead to identifiability issues or unstable hazard estimates at the tail."
     ))
