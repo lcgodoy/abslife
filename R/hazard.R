@@ -14,6 +14,11 @@
 calc_tp <- function(lifetime, trunc_time) {
   delta <- min(c(lifetime, trunc_time), na.rm = TRUE)
   omega <- max(lifetime, na.rm = TRUE)
+  ## m <- min(lifetime, na.rm = TRUE)
+  ## if (delta + m > omega) {
+  ##   warning("There are less than 2 timepoints.")
+  ##   return(numeric(0)) 
+  ## }
   if (delta + 1 > omega) {
     warning("There are less than 2 timepoints.")
     return(numeric(0)) 

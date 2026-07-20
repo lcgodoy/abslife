@@ -38,8 +38,7 @@ disc_fac <- function(time, int_rate) {
 ##' @param orig_apy Internal loan APY for amortization. Defaults to 0.15.
 ##'
 ##' @return A list containing APV, second moment (APV2), standard deviation
-##'   (SD), survival probability to current age (S_cur_age), and conditional
-##'   probability of survival to maturity (cond_p_mat).
+##'   (SD).
 ##'
 ##' @export
 calculate_apv <- function(cur_age, orig_term, orig_loan_amt, mon_pmt,
@@ -49,6 +48,9 @@ calculate_apv <- function(cur_age, orig_term, orig_loan_amt, mon_pmt,
   }
   if (!("event_type" %in% colnames(prbs))) {
     stop("prbs must contain competing risks (multiple event types) in 'event_type' column.")
+  }
+  if (recov_curve$month < orig_term) {
+    stop("Recovery curve must have information (at least) up to the original loan term.")
   }
   evs <- unique(as.character(prbs$event_type))
   if (length(evs) != 2) {

@@ -47,8 +47,8 @@
 ##' \item{orig.apr}{Obligor annual percentage rate}
 ##' \item{orig.term}{Original loan term}
 ##' \item{orig.loan.amt}{Original loan amount}
-##' \item{cur.age}{Loan age as of the start of the asset-backed security}
-##' \item{cur.balance}{Outstanding loan balance as of the start of the
+##' \item{abs0.age}{Loan age as of the start of the asset-backed security}
+##' \item{abs0.balance}{Outstanding loan balance as of the start of the
 ##' asset-backed security}
 ##' \item{calc.pmt}{Calculated monthly payment}
 ##' }
