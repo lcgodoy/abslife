@@ -5,7 +5,7 @@
 \title{Solve for Risk-Adjusted Internal Rate of Return (IRR)}
 \usage{
 solve_irr(
-  cur_bal,
+  abs0_bal,
   cur_age,
   orig_term,
   orig_loan_amt,
@@ -16,7 +16,7 @@ solve_irr(
 )
 }
 \arguments{
-\item{cur_bal}{Current loan balance (to match EPV against).}
+\item{abs0_bal}{Current loan balance (to match EPV against).}
 
 \item{cur_age}{Current age of the loan in months.}
 

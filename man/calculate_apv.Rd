@@ -34,8 +34,7 @@ calculate_apv(
 }
 \value{
 A list containing APV, second moment (APV2), standard deviation
-(SD), survival probability to current age (S_cur_age), and conditional
-probability of survival to maturity (cond_p_mat).
+(SD).
 }
 \description{
 Calculates the APV of a loan under competing risks (Default vs. Pre-payment)

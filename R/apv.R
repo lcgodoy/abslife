@@ -49,7 +49,7 @@ calculate_apv <- function(cur_age, orig_term, orig_loan_amt, mon_pmt,
   if (!("event_type" %in% colnames(prbs))) {
     stop("prbs must contain competing risks (multiple event types) in 'event_type' column.")
   }
-  if (recov_curve$month < orig_term) {
+  if (max(recov_curve$month) < orig_term) {
     stop("Recovery curve must have information (at least) up to the original loan term.")
   }
   evs <- unique(as.character(prbs$event_type))

@@ -65,7 +65,7 @@ month of the loan's term. In this example, we construct a dummy recovery curve
 showing declining recovery over time.
 
 ```{r recovery-curve}
-rem_months <- cur_age:(orig_term - 1)
+rem_months <- cur_age:orig_term
 recov_curve <- data.frame(
   month = rem_months,
   recovery = seq(0.40, 0.15, length.out = length(rem_months))
@@ -82,6 +82,9 @@ orig_loan_amt <- 50000
 mon_pmt <- 1031.84
 ref_rate <- 0.05 # Annual market discount rate
 
+## getting warning because prob does not go all the way to the original term:
+## THIS NEEDS TO BE FIXED. SOLUTION: WARNING and extrapolating hazard at
+## geometric rate.
 apv_res <- calculate_apv(
   cur_age = cur_age,
   orig_term = orig_term,
@@ -108,7 +111,7 @@ the loan price to its expected present value:
 cur_bal <- 37719.47
 
 irr_res <- solve_irr(
-  cur_bal = cur_bal,
+  abs0_bal = cur_bal,
   cur_age = cur_age,
   orig_term = orig_term,
   orig_loan_amt = orig_loan_amt,
