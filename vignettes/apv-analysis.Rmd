@@ -67,8 +67,8 @@ showing declining recovery over time.
 ```{r recovery-curve}
 rem_months <- cur_age:(orig_term - 1)
 recov_curve <- data.frame(
-  Month = rem_months,
-  Recovery = seq(0.40, 0.15, length.out = length(rem_months))
+  month = rem_months,
+  recovery = seq(0.40, 0.15, length.out = length(rem_months))
 )
 ```
 

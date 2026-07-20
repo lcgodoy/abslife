@@ -71,9 +71,9 @@ calculate_apv <- function(cur_age, orig_term, orig_loan_amt, mon_pmt,
                                int_rate = orig_ir,
                                payment = mon_pmt)
   prepay_cfs_rem <- prepay_balances[rem_months]
-  recov_sub <- recov_curve[recov_curve$Month %in% rem_months, ]
-  recov_sub <- recov_sub[order(recov_sub$Month), ]
-  recov_cfs <- orig_loan_amt * recov_sub$Recovery
+  recov_sub <- recov_curve[recov_curve$month %in% rem_months, ]
+  recov_sub <- recov_sub[order(recov_sub$month), ]
+  recov_cfs <- orig_loan_amt * recov_sub$recovery
   cur_market_rate <- (1 + ref_rate)^(1/12) - 1
   disc_vec <- disc_fac(1:N, cur_market_rate)
   
