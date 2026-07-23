@@ -8,11 +8,8 @@
 - [`aloans`](http://lcgodoy.me/abslife/reference/aloans.md) : Consumer
   automobile loans dataset
 
-- [`calc_apv()`](http://lcgodoy.me/abslife/reference/calc_apv.md) :
-  Calculate Actuarial Present Value (APV)
-
-- [`calc_apv_var()`](http://lcgodoy.me/abslife/reference/calc_apv_var.md)
-  : Calculate Variance of APV
+- [`amort_bal()`](http://lcgodoy.me/abslife/reference/amort_bal.md) :
+  Calculate Loan Amortization Schedule
 
 - [`calc_cdf()`](http://lcgodoy.me/abslife/reference/calc_cdf.md) :
   Calculate CDF from Hazard Estimates
@@ -20,10 +17,16 @@
 - [`calc_tp()`](http://lcgodoy.me/abslife/reference/calc_tp.md) :
   Calculate Default Time Points
 
+- [`calculate_apv()`](http://lcgodoy.me/abslife/reference/calculate_apv.md)
+  : Calculate Actuarial Present Value (APV) of a Loan
+
 - [`check_censored()`](http://lcgodoy.me/abslife/reference/check_censored.md)
   :
 
   Auxiliary function for `estimate_hazard`
+
+- [`disc_fac()`](http://lcgodoy.me/abslife/reference/disc_fac.md) :
+  Calculate Discount Factors
 
 - [`.hazard_core()`](http://lcgodoy.me/abslife/reference/dot-hazard_core.md)
   :
@@ -106,6 +109,9 @@
 
 - [`single_t_hazard()`](http://lcgodoy.me/abslife/reference/single_t_hazard.md)
   : Hazard estimate for a single time-point.
+
+- [`solve_irr()`](http://lcgodoy.me/abslife/reference/solve_irr.md) :
+  Solve for Risk-Adjusted Internal Rate of Return (IRR)
 
 - [`summary(`*`<acdf>`*`)`](http://lcgodoy.me/abslife/reference/summary.acdf.md)
   : Summary Method for an 'acdf' Object

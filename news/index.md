@@ -1,5 +1,18 @@
 # Changelog
 
+## abslife 0.2.0
+
+- Making `ev_life` compatible with competing risks.
+
+- Reporting density for cases where `hazard = 1` as well.
+
+- Fixed functions for plotting multiple confidence intervals (using
+  logit instead of exp)
+
+- Function for calculating APV (single loan)
+
+  - Fixing some parts of the function
+
 ## abslife 0.1.5
 
 - Updated how the CIs for the case where \\\lambda (1 - \lambda) = 0\\

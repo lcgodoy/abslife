@@ -13,7 +13,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">abslife</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.5</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -24,7 +24,8 @@
       <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/get-started.html">Get Started</a></li>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/apv-analysis.html">Actuarial Present Value and IRR Analysis</a></li>
+    <li><a class="dropdown-item" href="../articles/get-started.html">Get Started</a></li>
   </ul></li>
 <li class="active nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
@@ -41,6 +42,16 @@
 
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.2.0" id="abslife-020">abslife 0.2.0<a class="anchor" aria-label="anchor" href="#abslife-020"></a></h2>
+<ul><li><p>Making <code>ev_life</code> compatible with competing risks.</p></li>
+<li><p>Reporting density for cases where <code>hazard = 1</code> as well.</p></li>
+<li><p>Fixed functions for plotting multiple confidence intervals (using logit instead of exp)</p></li>
+<li>
+<p>Function for calculating APV (single loan)</p>
+<ul><li>Fixing some parts of the function</li>
+</ul></li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.1.5" id="abslife-015">abslife 0.1.5<a class="anchor" aria-label="anchor" href="#abslife-015"></a></h2>
 <ul><li><p>Updated how the CIs for the case where <span class="math inline">\(\lambda (1 - \lambda) = 0\)</span> are handled.</p></li>
@@ -136,7 +147,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer></div>

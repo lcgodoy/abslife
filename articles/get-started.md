@@ -133,8 +133,6 @@ appends a cdf column to the results.
 ``` r
 
 aart_cdf <- calc_cdf(aart_hazard)
-#> Warning in calc_cdf.alife(aart_hazard): Not reporting CDF (and density) values
-#> for time points where the hazard rate equals 1.
 summary(aart_cdf)
 #>    lifetime        cdf    density
 #> 1         5 0.01538462 0.01538462

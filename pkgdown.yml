@@ -1,9 +1,10 @@
 pandoc: 3.8.3
-pkgdown: 2.2.0
+pkgdown: 2.2.1
 pkgdown_sha: ~
 articles:
+  apv-analysis: apv-analysis.html
   get-started: get-started.html
-last_built: 2026-06-24T15:25Z
+last_built: 2026-07-23T19:48Z
 urls:
   reference: http://lcgodoy.me/abslife/reference
   article: http://lcgodoy.me/abslife/articles

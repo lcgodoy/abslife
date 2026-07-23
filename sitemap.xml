@@ -2,6 +2,7 @@
 <url><loc>http://lcgodoy.me/abslife/404.html</loc></url>
 <url><loc>http://lcgodoy.me/abslife/LICENSE-text.html</loc></url>
 <url><loc>http://lcgodoy.me/abslife/LICENSE.html</loc></url>
+<url><loc>http://lcgodoy.me/abslife/articles/apv-analysis.html</loc></url>
 <url><loc>http://lcgodoy.me/abslife/articles/get-started.html</loc></url>
 <url><loc>http://lcgodoy.me/abslife/articles/index.html</loc></url>
 <url><loc>http://lcgodoy.me/abslife/authors.html</loc></url>
@@ -9,11 +10,12 @@
 <url><loc>http://lcgodoy.me/abslife/news/index.html</loc></url>
 <url><loc>http://lcgodoy.me/abslife/reference/aart.html</loc></url>
 <url><loc>http://lcgodoy.me/abslife/reference/aloans.html</loc></url>
-<url><loc>http://lcgodoy.me/abslife/reference/calc_apv.html</loc></url>
-<url><loc>http://lcgodoy.me/abslife/reference/calc_apv_var.html</loc></url>
+<url><loc>http://lcgodoy.me/abslife/reference/amort_bal.html</loc></url>
 <url><loc>http://lcgodoy.me/abslife/reference/calc_cdf.html</loc></url>
 <url><loc>http://lcgodoy.me/abslife/reference/calc_tp.html</loc></url>
+<url><loc>http://lcgodoy.me/abslife/reference/calculate_apv.html</loc></url>
 <url><loc>http://lcgodoy.me/abslife/reference/check_censored.html</loc></url>
+<url><loc>http://lcgodoy.me/abslife/reference/disc_fac.html</loc></url>
 <url><loc>http://lcgodoy.me/abslife/reference/dot-hazard_core.html</loc></url>
 <url><loc>http://lcgodoy.me/abslife/reference/estimate_hazard.html</loc></url>
 <url><loc>http://lcgodoy.me/abslife/reference/ev.html</loc></url>
@@ -38,6 +40,7 @@
 <url><loc>http://lcgodoy.me/abslife/reference/ralife_cdf.html</loc></url>
 <url><loc>http://lcgodoy.me/abslife/reference/rmat.html</loc></url>
 <url><loc>http://lcgodoy.me/abslife/reference/single_t_hazard.html</loc></url>
+<url><loc>http://lcgodoy.me/abslife/reference/solve_irr.html</loc></url>
 <url><loc>http://lcgodoy.me/abslife/reference/summary.acdf.html</loc></url>
 <url><loc>http://lcgodoy.me/abslife/reference/summary.acdf_multi.html</loc></url>
 <url><loc>http://lcgodoy.me/abslife/reference/summary.alife.html</loc></url>
