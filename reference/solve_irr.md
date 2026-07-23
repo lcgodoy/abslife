@@ -6,7 +6,7 @@ Solve for Risk-Adjusted Internal Rate of Return (IRR)
 
 ``` r
 solve_irr(
-  cur_bal,
+  abs0_bal,
   cur_age,
   orig_term,
   orig_loan_amt,
@@ -19,7 +19,7 @@ solve_irr(
 
 ## Arguments
 
-- cur_bal:
+- abs0_bal:
 
   Current loan balance (to match EPV against).
 

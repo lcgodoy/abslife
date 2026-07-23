@@ -110,9 +110,9 @@ loan term of 72 months to cover the entire potential duration.</p>
 <span>                       ci_level <span class="op">=</span> <span class="fl">0.95</span>,</span>
 <span>                       carry_hazard <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Warning in check_censored(lifetime, censoring_indicator, support_lifetime_rv):</span></span>
-<span><span class="co">#&gt; Warning: Detected censored observations at the maximum limit of the support</span></span>
-<span><span class="co">#&gt; (lifetime == max(support_lifetime_rv)). This may lead to identifiability issues</span></span>
-<span><span class="co">#&gt; or unstable hazard estimates at the tail.</span></span></code></pre></div>
+<span><span class="co">#&gt; Warning: Detected censored observations at the maximum observed limit of the</span></span>
+<span><span class="co">#&gt; support (lifetime == max(support_lifetime_rv)). This may lead to</span></span>
+<span><span class="co">#&gt; identifiability issues or unstable hazard estimates at the tail.</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="step-2-compute-cdf-and-densities">Step 2: Compute CDF and Densities<a class="anchor" aria-label="anchor" href="#step-2-compute-cdf-and-densities"></a>
@@ -129,10 +129,10 @@ functions (CDF) and sub-density values using <code>calc_cdf</code>.</p>
 remaining month of the loan’s term. In this example, we construct a
 dummy recovery curve showing declining recovery over time.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">rem_months</span> <span class="op">&lt;-</span> <span class="va">cur_age</span><span class="op">:</span><span class="op">(</span><span class="va">orig_term</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">rem_months</span> <span class="op">&lt;-</span> <span class="va">cur_age</span><span class="op">:</span><span class="va">orig_term</span></span>
 <span><span class="va">recov_curve</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
-<span>  Month <span class="op">=</span> <span class="va">rem_months</span>,</span>
-<span>  Recovery <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0.40</span>, <span class="fl">0.15</span>, length.out <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">rem_months</span><span class="op">)</span><span class="op">)</span></span>
+<span>  month <span class="op">=</span> <span class="va">rem_months</span>,</span>
+<span>  recovery <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0.40</span>, <span class="fl">0.15</span>, length.out <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">rem_months</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
@@ -145,6 +145,9 @@ reference market rate) and compute the APV:</p>
 <span><span class="va">mon_pmt</span> <span class="op">&lt;-</span> <span class="fl">1031.84</span></span>
 <span><span class="va">ref_rate</span> <span class="op">&lt;-</span> <span class="fl">0.05</span> <span class="co"># Annual market discount rate</span></span>
 <span></span>
+<span><span class="co">## getting warning because prob does not go all the way to the original term:</span></span>
+<span><span class="co">## THIS NEEDS TO BE FIXED. SOLUTION: WARNING and extrapolating hazard at</span></span>
+<span><span class="co">## geometric rate.</span></span>
 <span><span class="va">apv_res</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calculate_apv.html">calculate_apv</a></span><span class="op">(</span></span>
 <span>  cur_age <span class="op">=</span> <span class="va">cur_age</span>,</span>
 <span>  orig_term <span class="op">=</span> <span class="va">orig_term</span>,</span>
@@ -164,7 +167,7 @@ reference market rate) and compute the APV:</p>
 <span><span class="co">#&gt; Warning in rep_pv^2 * p_pre: longer object length is not a multiple of shorter</span></span>
 <span><span class="co">#&gt; object length</span></span></code></pre></div>
 <ul>
-<li>Estimated APV: $45641.66 (13546.51)</li>
+<li>Estimated APV: $45681.66 (13557.79)</li>
 </ul>
 </div>
 <div class="section level2">
@@ -178,7 +181,7 @@ value:</p>
 <code class="sourceCode R"><span><span class="va">cur_bal</span> <span class="op">&lt;-</span> <span class="fl">37719.47</span></span>
 <span></span>
 <span><span class="va">irr_res</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/solve_irr.html">solve_irr</a></span><span class="op">(</span></span>
-<span>  cur_bal <span class="op">=</span> <span class="va">cur_bal</span>,</span>
+<span>  abs0_bal <span class="op">=</span> <span class="va">cur_bal</span>,</span>
 <span>  cur_age <span class="op">=</span> <span class="va">cur_age</span>,</span>
 <span>  orig_term <span class="op">=</span> <span class="va">orig_term</span>,</span>
 <span>  orig_loan_amt <span class="op">=</span> <span class="va">orig_loan_amt</span>,</span>
@@ -348,8 +351,8 @@ value:</p>
 <span><span class="co">#&gt; Warning in rep_pv^2 * p_pre: longer object length is not a multiple of shorter</span></span>
 <span><span class="co">#&gt; object length</span></span></code></pre></div>
 <ul>
-<li>Calculated monthly rate: 0.013820 (1.3820%)</li>
-<li>Calculated annualized rate: 0.179049 (17.9049%)</li>
+<li>Calculated monthly rate: 0.013859 (1.3859%)</li>
+<li>Calculated annualized rate: 0.179590 (17.9590%)</li>
 </ul>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

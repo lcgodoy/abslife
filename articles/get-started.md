@@ -238,20 +238,20 @@ automobile loans (Lautier et al. 2024).
 
 data(aloans)
 head(aloans)
-#>     risk.cat  Z  Y C D R bond orig.apr orig.term orig.loan.amt cur.age
-#> 1      prime 36 18 0 0 1 aart   0.0704        72      13649.18      17
-#> 2 near_prime 60 17 1 0 0 aart   0.1025        72      19999.10      16
-#> 3      prime 28 17 0 0 1 aart   0.0694        72       9098.58      16
-#> 4 near_prime 33 17 0 0 1 aart   0.1080        72      11723.36      16
-#> 5      prime 60 17 1 0 0 aart   0.0869        72       8753.48      16
-#> 6      prime 46 17 0 0 1 aart   0.0560        72      22206.59      16
-#>   cur.balance calc.pmt
-#> 1    11448.24 231.5438
-#> 2    16143.29 368.4643
-#> 3     7600.87 153.9386
-#> 4     9665.35 218.9605
-#> 5     7515.89 155.0285
-#> 6    18458.99 362.4058
+#>     risk.cat  Z  Y C D R bond orig.apr orig.term orig.loan.amt abs0.age
+#> 1      prime 36 18 0 0 1 aart   0.0704        72      13649.18       17
+#> 2 near_prime 60 17 1 0 0 aart   0.1025        72      19999.10       16
+#> 3      prime 28 17 0 0 1 aart   0.0694        72       9098.58       16
+#> 4 near_prime 33 17 0 0 1 aart   0.1080        72      11723.36       16
+#> 5      prime 60 17 1 0 0 aart   0.0869        72       8753.48       16
+#> 6      prime 46 17 0 0 1 aart   0.0560        72      22206.59       16
+#>   abs0.balance calc.pmt
+#> 1     11448.24 231.5438
+#> 2     16143.29 368.4643
+#> 3      7600.87 153.9386
+#> 4      9665.35 218.9605
+#> 5      7515.89 155.0285
+#> 6     18458.99 362.4058
 ```
 
 The relevant columns of the dataset for this example are the following:
@@ -288,9 +288,9 @@ aloans_hazard <- estimate_hazard(lifetime = aloans$Z,
                                  ci_level = 0.95,
                                  carry_hazard = FALSE) ## need 
 #> Warning in check_censored(lifetime, censoring_indicator, support_lifetime_rv):
-#> Warning: Detected censored observations at the maximum limit of the support
-#> (lifetime == max(support_lifetime_rv)). This may lead to identifiability issues
-#> or unstable hazard estimates at the tail.
+#> Warning: Detected censored observations at the maximum observed limit of the
+#> support (lifetime == max(support_lifetime_rv)). This may lead to
+#> identifiability issues or unstable hazard estimates at the tail.
 ```
 
 The output now includes a column specifying the event type for each

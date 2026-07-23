@@ -54,6 +54,4 @@ calculate_apv(
 
 ## Value
 
-A list containing APV, second moment (APV2), standard deviation (SD),
-survival probability to current age (S_cur_age), and conditional
-probability of survival to maturity (cond_p_mat).
+A list containing APV, second moment (APV2), standard deviation (SD).

@@ -262,20 +262,20 @@ consumer automobile loans <span class="citation">(Lautier et al.
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">aloans</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">aloans</span><span class="op">)</span></span>
-<span><span class="co">#&gt;     risk.cat  Z  Y C D R bond orig.apr orig.term orig.loan.amt cur.age</span></span>
-<span><span class="co">#&gt; 1      prime 36 18 0 0 1 aart   0.0704        72      13649.18      17</span></span>
-<span><span class="co">#&gt; 2 near_prime 60 17 1 0 0 aart   0.1025        72      19999.10      16</span></span>
-<span><span class="co">#&gt; 3      prime 28 17 0 0 1 aart   0.0694        72       9098.58      16</span></span>
-<span><span class="co">#&gt; 4 near_prime 33 17 0 0 1 aart   0.1080        72      11723.36      16</span></span>
-<span><span class="co">#&gt; 5      prime 60 17 1 0 0 aart   0.0869        72       8753.48      16</span></span>
-<span><span class="co">#&gt; 6      prime 46 17 0 0 1 aart   0.0560        72      22206.59      16</span></span>
-<span><span class="co">#&gt;   cur.balance calc.pmt</span></span>
-<span><span class="co">#&gt; 1    11448.24 231.5438</span></span>
-<span><span class="co">#&gt; 2    16143.29 368.4643</span></span>
-<span><span class="co">#&gt; 3     7600.87 153.9386</span></span>
-<span><span class="co">#&gt; 4     9665.35 218.9605</span></span>
-<span><span class="co">#&gt; 5     7515.89 155.0285</span></span>
-<span><span class="co">#&gt; 6    18458.99 362.4058</span></span></code></pre></div>
+<span><span class="co">#&gt;     risk.cat  Z  Y C D R bond orig.apr orig.term orig.loan.amt abs0.age</span></span>
+<span><span class="co">#&gt; 1      prime 36 18 0 0 1 aart   0.0704        72      13649.18       17</span></span>
+<span><span class="co">#&gt; 2 near_prime 60 17 1 0 0 aart   0.1025        72      19999.10       16</span></span>
+<span><span class="co">#&gt; 3      prime 28 17 0 0 1 aart   0.0694        72       9098.58       16</span></span>
+<span><span class="co">#&gt; 4 near_prime 33 17 0 0 1 aart   0.1080        72      11723.36       16</span></span>
+<span><span class="co">#&gt; 5      prime 60 17 1 0 0 aart   0.0869        72       8753.48       16</span></span>
+<span><span class="co">#&gt; 6      prime 46 17 0 0 1 aart   0.0560        72      22206.59       16</span></span>
+<span><span class="co">#&gt;   abs0.balance calc.pmt</span></span>
+<span><span class="co">#&gt; 1     11448.24 231.5438</span></span>
+<span><span class="co">#&gt; 2     16143.29 368.4643</span></span>
+<span><span class="co">#&gt; 3      7600.87 153.9386</span></span>
+<span><span class="co">#&gt; 4      9665.35 218.9605</span></span>
+<span><span class="co">#&gt; 5      7515.89 155.0285</span></span>
+<span><span class="co">#&gt; 6     18458.99 362.4058</span></span></code></pre></div>
 <p>The relevant columns of the dataset for this example are the
 following:</p>
 <ul>
@@ -302,9 +302,9 @@ the event types to the <code>event_type argument</code> in
 <span>                                 ci_level <span class="op">=</span> <span class="fl">0.95</span>,</span>
 <span>                                 carry_hazard <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="co">## need </span></span>
 <span><span class="co">#&gt; Warning in check_censored(lifetime, censoring_indicator, support_lifetime_rv):</span></span>
-<span><span class="co">#&gt; Warning: Detected censored observations at the maximum limit of the support</span></span>
-<span><span class="co">#&gt; (lifetime == max(support_lifetime_rv)). This may lead to identifiability issues</span></span>
-<span><span class="co">#&gt; or unstable hazard estimates at the tail.</span></span></code></pre></div>
+<span><span class="co">#&gt; Warning: Detected censored observations at the maximum observed limit of the</span></span>
+<span><span class="co">#&gt; support (lifetime == max(support_lifetime_rv)). This may lead to</span></span>
+<span><span class="co">#&gt; identifiability issues or unstable hazard estimates at the tail.</span></span></code></pre></div>
 <p>The output now includes a column specifying the event type for each
 hazard estimate.</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">

@@ -38,9 +38,9 @@ hazards <-
                        ci_level = 0.95,
                        carry_hazard = TRUE))
 #> Warning in check_censored(lifetime, censoring_indicator, support_lifetime_rv):
-#> Warning: Detected censored observations at the maximum limit of the support
-#> (lifetime == max(support_lifetime_rv)). This may lead to identifiability issues
-#> or unstable hazard estimates at the tail.
+#> Warning: Detected censored observations at the maximum observed limit of the
+#> support (lifetime == max(support_lifetime_rv)). This may lead to
+#> identifiability issues or unstable hazard estimates at the tail.
 ```
 
 ## Step 2: Compute CDF and Densities
@@ -61,10 +61,10 @@ dummy recovery curve showing declining recovery over time.
 
 ``` r
 
-rem_months <- cur_age:(orig_term - 1)
+rem_months <- cur_age:orig_term
 recov_curve <- data.frame(
-  Month = rem_months,
-  Recovery = seq(0.40, 0.15, length.out = length(rem_months))
+  month = rem_months,
+  recovery = seq(0.40, 0.15, length.out = length(rem_months))
 )
 ```
 
@@ -79,6 +79,9 @@ orig_loan_amt <- 50000
 mon_pmt <- 1031.84
 ref_rate <- 0.05 # Annual market discount rate
 
+## getting warning because prob does not go all the way to the original term:
+## THIS NEEDS TO BE FIXED. SOLUTION: WARNING and extrapolating hazard at
+## geometric rate.
 apv_res <- calculate_apv(
   cur_age = cur_age,
   orig_term = orig_term,
@@ -99,7 +102,7 @@ apv_res <- calculate_apv(
 #> object length
 ```
 
-- Estimated APV: \$45641.66 (13546.51)
+- Estimated APV: \$45681.66 (13557.79)
 
 ## Step 5: Solve for Risk-Adjusted IRR
 
@@ -112,7 +115,7 @@ equates the loan price to its expected present value:
 cur_bal <- 37719.47
 
 irr_res <- solve_irr(
-  cur_bal = cur_bal,
+  abs0_bal = cur_bal,
   cur_age = cur_age,
   orig_term = orig_term,
   orig_loan_amt = orig_loan_amt,
@@ -283,5 +286,5 @@ irr_res <- solve_irr(
 #> object length
 ```
 
-- Calculated monthly rate: 0.013820 (1.3820%)
-- Calculated annualized rate: 0.179049 (17.9049%)
+- Calculated monthly rate: 0.013859 (1.3859%)
+- Calculated annualized rate: 0.179590 (17.9590%)

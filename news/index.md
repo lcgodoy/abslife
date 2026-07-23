@@ -2,6 +2,15 @@
 
 ## abslife 0.2.0
 
+- Function `ralife_cdf` now works with competing risks as well.
+
+- Included `aloans_recov` dataset with recovery curves.
+
+- Minor fix to make base `plot` and `ggauto` methods for competing risk
+  display event types in the same order.
+
+- The warning message for `estimate_hazard` has been updated
+
 - Making `ev_life` compatible with competing risks.
 
 - Reporting density for cases where `hazard = 1` as well.

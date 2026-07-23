@@ -8,6 +8,9 @@
 - [`aloans`](http://lcgodoy.me/abslife/reference/aloans.md) : Consumer
   automobile loans dataset
 
+- [`aloans_recov`](http://lcgodoy.me/abslife/reference/aloans_recov.md)
+  : Consumer automobile loans recovery curves
+
 - [`amort_bal()`](http://lcgodoy.me/abslife/reference/amort_bal.md) :
   Calculate Loan Amortization Schedule
 

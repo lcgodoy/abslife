@@ -63,11 +63,11 @@ A data frame with 58,118 rows and 12 columns:
 
   Original loan amount
 
-- cur.age:
+- abs0.age:
 
   Loan age as of the start of the asset-backed security
 
-- cur.balance:
+- abs0.balance:
 
   Outstanding loan balance as of the start of the asset-backed security
 
