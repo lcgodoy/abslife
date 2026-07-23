@@ -12,18 +12,19 @@
 ##' @return A numeric vector of default time points to evaluate the hazard at.
 ##' @export
 calc_tp <- function(lifetime, trunc_time) {
-  delta <- min(c(lifetime, trunc_time), na.rm = TRUE)
+  delta_p1 <- min(c(lifetime, trunc_time), na.rm = TRUE)
+  delta_m  <- max(trunc_time, na.rm = TRUE)
   omega <- max(lifetime, na.rm = TRUE)
   ## m <- min(lifetime, na.rm = TRUE)
   ## if (delta + m > omega) {
   ##   warning("There are less than 2 timepoints.")
   ##   return(numeric(0)) 
   ## }
-  if (delta + 1 > omega) {
+  if (delta_p1 > omega) {
     warning("There are less than 2 timepoints.")
     return(numeric(0)) 
   }
-  eval_points <- seq.int(from = delta + 1, to = omega, by = 1L)
+  eval_points <- seq.int(from = delta_p1, to = omega, by = 1L)
   return(eval_points)
 }
 

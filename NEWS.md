@@ -1,3 +1,7 @@
+# abslife 0.2.1
+
+- Updating how the observed support is handled.
+
 # abslife 0.2.0
 
 - Function `ralife_cdf` now works with competing risks as well.
