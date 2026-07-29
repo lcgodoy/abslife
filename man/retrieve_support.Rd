@@ -4,9 +4,13 @@
 \alias{retrieve_support}
 \title{Computes the theoretical support of a lifetime variable}
 \usage{
-retrieve_support(delta, m, omega)
+retrieve_support(Delta, m, omega)
 }
 \arguments{
+\item{Delta}{a scalar denoting the marketing period (in months) during which
+the ABS is marketed to prospective investors after the trust closes to new
+loan originations.}
+
 \item{m}{a scalar representing the total number of months over which the
 underlying consumer auto loans are originated. This defines the length of
 the loan origination window before the trust closes}
@@ -14,10 +18,6 @@ the loan origination window before the trust closes}
 \item{omega}{a scalar denoting the known, finite upper bound of a loan's
 lifetime (in months), which is fixed by its amortization schedule at
 contract signing (for example, \eqn{\omega = 72} for a 72-month loan).}
-
-\item{Delta}{a scalar denoting the marketing period (in months) during which
-the ABS is marketed to prospective investors after the trust closes to new
-loan originations.}
 }
 \value{
 A numeric vector representing the theoretical or observed support
@@ -30,7 +30,7 @@ al. 2025, \url{DOI:10.1214/25-AOAS2103}).
 \note{
 The observed support may not extend all the way to \eqn{omega}
 (\code{omega}). In that scenario, one may want to set \eqn{omega} to the
-age of the oldest contract in the bond (coresponding to \eqn{\min(\omega,
+age of the oldest contract in the bond (corresponding to \eqn{\min(\omega,
   \varepsilon - 1)} in the notation used in Lautier et al. 2025), with
 \eqn{\varepsilon} denoting the present time.
 }
