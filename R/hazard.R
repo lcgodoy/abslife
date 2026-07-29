@@ -8,10 +8,15 @@
 ##'   loan originations.
 ##' @param m a scalar representing the total number of months over which the
 ##'   underlying consumer auto loans are originated. This defines the length of
-##'   the loan origination window before the trust closes
+##'   the loan origination window before the trust closes.
 ##' @param omega a scalar denoting the known, finite upper bound of a loan's
 ##'   lifetime (in months), which is fixed by its amortization schedule at
 ##'   contract signing (for example, \eqn{\omega = 72} for a 72-month loan).
+##' @param epsilon a scalar (default is \code{NULL}) denoting denotes the
+##'   present time (the current calendar month of observation) of the data
+##'   generation process for an active ABS pool. If larger than \code{omega},
+##'   right-censoring is present because it indicates some active loans are
+##'   still making ongoing payments and have not yet terminated.
 ##'
 ##' @note The observed support may not extend all the way to \eqn{omega}
 ##'   (\code{omega}). In that scenario, one may want to set \eqn{omega} to the
@@ -22,11 +27,17 @@
 ##' @return A numeric vector representing the theoretical or observed support
 ##'   associated with the inputs.
 ##' @export
-retrieve_support <- function(Delta, m, omega) {
+retrieve_support <- function(Delta, m, omega, epsilon = NULL) {
   stopifnot(length(Delta) == 1)
   stopifnot(length(m) == 1)
   stopifnot(length(omega) == 1)
-  support_x <- seq.int(from = Delta + 1, to = omega)
+  if (!is.null(epsilon)) {
+    epsilon <- omega + 1
+  } else {
+    stopifnot(length(epsilon) == 1)
+  }
+  xi <- min(epsilon - 1, omega)
+  support_x <- seq.int(from = Delta + 1, to = xi)
   support_y <- seq.int(from = Delta + 1, to = Delta + m)
   return(list("X" = support_x, "Y" = support_y))
 }
