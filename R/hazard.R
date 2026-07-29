@@ -252,7 +252,11 @@ estimate_hazard <- function(lifetime,
                         event_i,
                         carry_hazard)
   } else {
-    etypes <- unique(event_type)
+    uncensored_id <- which(censoring_indicator == 0)
+    etypes <- unique(event_type[uncensored_id])
+    if (!all(unique(event_type) %in% etypes)) {
+      warning("Dropping event types for which no lifetime information is available.")
+    }
     out <- vector(mode = "list", length = length(etypes))
     for (i in seq_along(out)) {
       event_i <- as.integer(event_type == etypes[i])

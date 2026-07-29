@@ -4,6 +4,8 @@
 
 - `retrieve_support` function included in the package.
 
+- Not using events that are "completely censored".
+
 # abslife 0.2.0
 
 - Function `ralife_cdf` now works with competing risks as well.
