@@ -1,30 +1,67 @@
-##' Calculate Default Time Points
+##' Computes the theoretical support of a lifetime variable
 ##'
-##' This helper function generates a default sequence of evaluation points based
-##' on the study's overall time range (Lautier et al. 2023, <DOI:
+##' This helper function generates a sequence of evaluation points (Lautier et
+##' al. 2025, <DOI:10.1214/25-AOAS2103>).
+##'
+##' @param Delta a scalar denoting the marketing period (in months) during which
+##'   the ABS is marketed to prospective investors after the trust closes to new
+##'   loan originations.
+##' @param m a scalar representing the total number of months over which the
+##'   underlying consumer auto loans are originated. This defines the length of
+##'   the loan origination window before the trust closes
+##' @param omega a scalar denoting the known, finite upper bound of a loan's
+##'   lifetime (in months), which is fixed by its amortization schedule at
+##'   contract signing (for example, \eqn{\omega = 72} for a 72-month loan).
+##'
+##' @note The observed support may not extend all the way to \eqn{omega}
+##'   (\code{omega}). In that scenario, one may want to set \eqn{omega} to the
+##'   age of the oldest contract in the bond (coresponding to \eqn{\min(\omega,
+##'   \varepsilon - 1)} in the notation used in Lautier et al. 2025), with
+##'   \eqn{\varepsilon} denoting the present time.
+##' 
+##' @return A numeric vector representing the theoretical or observed support
+##'   associated with the inputs.
+##' @export
+retrieve_support <- function(delta, m, omega) {
+  stopifnot(length(delta) == 1)
+  stopifnot(length(m) == 1)
+  stopifnot(length(omega) == 1)
+  support_x <- seq.int(from = delta + 1, to = omega)
+  support_y <- seq.int(from = delta + 1, to = delta + m)
+  return(list("X" = support_x, "Y" = support_y))
+}
+
+##' Calculate Observed Support
+##'
+##' This helper function generates the observed support of the lifetime variable
+##' based on the study's overall time range (Lautier et al. 2023, <DOI:
 ##' 10.1016/j.ecosta.2023.05.005>). In particular, it calculates \eqn{\Delta}
 ##' and \eqn{m} based on left-truncation and time-to-event variables and outputs
-##' a sequence ranging from \eqn{\Delta + 1} to \eqn{\omega}.
+##' a sequence ranging from \eqn{\Delta + 1} to \eqn{\xi}, where \eqn{\xi =
+##' \min(\omega, \varepsilon - 1)}, with \eqn{\varepsilon} denoting the present
+##' time.
 ##'
 ##' @param lifetime The vector of event or censoring times.
 ##' @param trunc_time The vector of left-truncation times.
 ##'
-##' @return A numeric vector of default time points to evaluate the hazard at.
+##' @return A numeric vector representing the observed support of the lifetime
+##'   variable.
 ##' @export
-calc_tp <- function(lifetime, trunc_time) {
-  delta_p1 <- min(c(lifetime, trunc_time), na.rm = TRUE)
-  delta_m  <- max(trunc_time, na.rm = TRUE)
-  omega <- max(lifetime, na.rm = TRUE)
-  ## m <- min(lifetime, na.rm = TRUE)
-  ## if (delta + m > omega) {
-  ##   warning("There are less than 2 timepoints.")
-  ##   return(numeric(0)) 
+calc_osup <- function(lifetime, trunc_time) {
+  delta <- min(c(lifetime, trunc_time), na.rm = TRUE) - 1
+  delta_p_m  <- max(trunc_time, na.rm = TRUE)
+  m <- delta_p_m - delta
+  ## if (is.null(C)) {
+  ##   omega <- max(lifetime, na.rm = TRUE)
+  ## } else {
+  ##   omega <- max(lifetime[C < 1], na.rm = TRUE)
   ## }
-  if (delta_p1 > omega) {
+  omega <- max(lifetime, na.rm = TRUE)
+  if (delta + 1 > omega) {
     warning("There are less than 2 timepoints.")
     return(numeric(0)) 
   }
-  eval_points <- seq.int(from = delta_p1, to = omega, by = 1L)
+  eval_points <- retrieve_support(delta, m, omega)[["X"]]
   return(eval_points)
 }
 
@@ -188,7 +225,7 @@ estimate_hazard <- function(lifetime,
     Delta <- min(c(lifetime, trunc_time), na.rm = TRUE)
     m <- max(trunc_time, na.rm = TRUE)
     omega <- max(lifetime)
-    support_lifetime_rv <- calc_tp(lifetime, trunc_time)
+    support_lifetime_rv <- calc_osup(lifetime, trunc_time)
   }
   ## throws a warning if there are censored observations at
   ## max(support_lifetime_rv)

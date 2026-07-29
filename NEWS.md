@@ -2,6 +2,8 @@
 
 - Updating how the observed support is handled.
 
+- `retrieve_support` function included in the package.
+
 # abslife 0.2.0
 
 - Function `ralife_cdf` now works with competing risks as well.
