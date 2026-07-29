@@ -15,19 +15,19 @@
 ##'
 ##' @note The observed support may not extend all the way to \eqn{omega}
 ##'   (\code{omega}). In that scenario, one may want to set \eqn{omega} to the
-##'   age of the oldest contract in the bond (coresponding to \eqn{\min(\omega,
+##'   age of the oldest contract in the bond (corresponding to \eqn{\min(\omega,
 ##'   \varepsilon - 1)} in the notation used in Lautier et al. 2025), with
 ##'   \eqn{\varepsilon} denoting the present time.
 ##' 
 ##' @return A numeric vector representing the theoretical or observed support
 ##'   associated with the inputs.
 ##' @export
-retrieve_support <- function(delta, m, omega) {
-  stopifnot(length(delta) == 1)
+retrieve_support <- function(Delta, m, omega) {
+  stopifnot(length(Delta) == 1)
   stopifnot(length(m) == 1)
   stopifnot(length(omega) == 1)
-  support_x <- seq.int(from = delta + 1, to = omega)
-  support_y <- seq.int(from = delta + 1, to = delta + m)
+  support_x <- seq.int(from = Delta + 1, to = omega)
+  support_y <- seq.int(from = Delta + 1, to = Delta + m)
   return(list("X" = support_x, "Y" = support_y))
 }
 
