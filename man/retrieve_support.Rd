@@ -4,7 +4,7 @@
 \alias{retrieve_support}
 \title{Computes the theoretical support of a lifetime variable}
 \usage{
-retrieve_support(Delta, m, omega)
+retrieve_support(Delta, m, omega, epsilon = NULL)
 }
 \arguments{
 \item{Delta}{a scalar denoting the marketing period (in months) during which
@@ -13,11 +13,17 @@ loan originations.}
 
 \item{m}{a scalar representing the total number of months over which the
 underlying consumer auto loans are originated. This defines the length of
-the loan origination window before the trust closes}
+the loan origination window before the trust closes.}
 
 \item{omega}{a scalar denoting the known, finite upper bound of a loan's
 lifetime (in months), which is fixed by its amortization schedule at
 contract signing (for example, \eqn{\omega = 72} for a 72-month loan).}
+
+\item{epsilon}{a scalar (default is \code{NULL}) denoting denotes the
+present time (the current calendar month of observation) of the data
+generation process for an active ABS pool. If larger than \code{omega},
+right-censoring is present because it indicates some active loans are
+still making ongoing payments and have not yet terminated.}
 }
 \value{
 A numeric vector representing the theoretical or observed support

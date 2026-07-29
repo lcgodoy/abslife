@@ -31,7 +31,7 @@ retrieve_support <- function(Delta, m, omega, epsilon = NULL) {
   stopifnot(length(Delta) == 1)
   stopifnot(length(m) == 1)
   stopifnot(length(omega) == 1)
-  if (!is.null(epsilon)) {
+  if (is.null(epsilon)) {
     epsilon <- omega + 1
   } else {
     stopifnot(length(epsilon) == 1)
