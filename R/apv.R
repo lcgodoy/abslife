@@ -41,8 +41,10 @@ disc_fac <- function(time, int_rate) {
 ##'   (SD).
 ##'
 ##' @export
-calculate_apv <- function(cur_age, orig_term, orig_loan_amt, mon_pmt,
-                          ref_rate, recov_curve, prbs, orig_apy = 0.15) {
+calculate_apv <- function(cur_age,
+                          orig_term, orig_loan_amt,
+                          mon_pmt, ref_rate, recov_curve,
+                          prbs, orig_apy = 0.15) {
   if (cur_age >= orig_term) {
     stop("Current age cannot be greater than or equal to the original term.")
   }
