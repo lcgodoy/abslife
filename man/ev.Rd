@@ -17,7 +17,7 @@ ev_life(x, digits = 2, ...)
 \method{ev_life}{alife}(x, ...)
 }
 \arguments{
-\item{x}{An object of class \code{acdf}.}
+\item{x}{An object of class \code{acdf}, \code{acdf_multi}, or \code{alife}.}
 
 \item{digits}{number of digits for the output.}
 

@@ -7,8 +7,8 @@
 \method{summary}{acdf_multi}(object, by = 5, ...)
 }
 \arguments{
-\item{object}{An object of class \code{alife}. Typically the output of the
-\code{estimate_hazard} function.}
+\item{object}{An object of class \code{acdf_multi}. Typically the output of the
+\code{calc_cdf} method.}
 
 \item{by}{an \code{integer} defining the periodicity of the summary.}
 

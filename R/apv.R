@@ -28,33 +28,36 @@ disc_fac <- function(time, int_rate) {
 ##' Calculates the APV of a loan under competing risks (Default vs. Pre-payment)
 ##' and left-truncated survival data.
 ##'
+##' @param x An object of class `acdf`. Typically the output of the
+##'   `estimate_hazard` function.
 ##' @param cur_age Current age of the loan in months.
 ##' @param orig_term Original loan term in months.
 ##' @param orig_loan_amt Original loan amount.
 ##' @param mon_pmt Monthly payment amount.
 ##' @param ref_rate Annualized reference discount rate.
 ##' @param recov_curve Recovery curve data frame (columns: Month, Recovery).
-##' @param prbs CDF and density probabilities from abslife (competing risks).
 ##' @param orig_apy Internal loan APY for amortization. Defaults to 0.15.
+##' @param type A character string specifying the interpolation type: either
+##'   `"geometric"` or `"linear"`.
 ##'
 ##' @return A list containing APV, second moment (APV2), standard deviation
 ##'   (SD).
 ##'
 ##' @export
-calculate_apv <- function(cur_age,
+calculate_apv <- function(x,
+                          cur_age,
                           orig_term, orig_loan_amt,
                           mon_pmt, ref_rate, recov_curve,
-                          prbs, orig_apy = 0.15) {
+                          orig_apy = 0.15,
+                          type = "geometric") {
+  stopifnot(inherits(x, "alife_multi"))
   if (cur_age >= orig_term) {
     stop("Current age cannot be greater than or equal to the original term.")
-  }
-  if (!("event_type" %in% colnames(prbs))) {
-    stop("prbs must contain competing risks (multiple event types) in 'event_type' column.")
   }
   if (max(recov_curve$month) < orig_term) {
     stop("Recovery curve must have information (at least) up to the original loan term.")
   }
-  evs <- unique(as.character(prbs$event_type))
+  evs <- unique(as.character(x$event_type))
   if (length(evs) != 2) {
     stop("The number of event types must be exactly 2.")
   }
@@ -66,6 +69,15 @@ calculate_apv <- function(cur_age,
     non_default_name <- setdiff(evs, "1")
   } else {
     stop("Competing risk events must contain either 'Default' or '1' to identify the default event.")
+  }
+  if (max(x$lifetime) < orig_term) {
+    warning("Lifetime observed support does not include the original loan term. Extrapolating hazards.")
+    prbs <- calc_cdf(extend_hazard(x,
+                                   end = orig_term,
+                                   end_event = non_default_name,
+                                   type = type))
+  } else {
+      prbs <- calc_cdf(x)
   }
   N <- orig_term - cur_age
   rem_months <- cur_age:(orig_term - 1)
@@ -105,27 +117,63 @@ calculate_apv <- function(cur_age,
 
 ##' Solve for Risk-Adjusted Internal Rate of Return (IRR)
 ##'
+##' @param x An object of class `acdf`. Typically the output of the
+##'   `estimate_hazard` function.
 ##' @param abs0_bal Current loan balance (to match EPV against).
 ##' @param cur_age Current age of the loan in months.
 ##' @param orig_term Original loan term in months.
 ##' @param orig_loan_amt Original loan amount.
 ##' @param mon_pmt Monthly payment amount.
 ##' @param recov_curve Recovery curve data frame.
-##' @param prbs CDF and density probabilities from abslife.
 ##' @param orig_apy Internal loan APY for amortization. Defaults to 0.15.
+##' @param type A character string specifying the interpolation type: either
+##'   `"geometric"` or `"linear"`.
 ##'
 ##' @return List with risk adjusted monthly rate, annualized rate, and objective
 ##'   value.
 ##' @export
-solve_irr <- function(abs0_bal, cur_age, orig_term, orig_loan_amt, mon_pmt,
-                      recov_curve, prbs, orig_apy = 0.15) {
+solve_irr <- function(x,
+                      abs0_bal,
+                      cur_age,
+                      orig_term,
+                      orig_loan_amt, mon_pmt,
+                      recov_curve,
+                      orig_apy = 0.15,
+                      type = "geometric") {
+  stopifnot(inherits(x, "alife_multi"))
+  evs <- unique(as.character(x$event_type))
+  if (length(evs) != 2) {
+    stop("The number of event types must be exactly 2.")
+  }
+  if ("Default" %in% evs) {
+    default_name <- "Default"
+    non_default_name <- setdiff(evs, "Default")
+  } else if ("1" %in% evs) {
+    default_name <- "1"
+    non_default_name <- setdiff(evs, "1")
+  } else {
+    stop("Competing risk events must contain either 'Default' or '1' to identify the default event.")
+  }
+  if (max(x$lifetime) < orig_term) {
+    warning("Lifetime observed support does not include the original loan term. Extrapolating hazards.")
+    y <- extend_hazard(x,
+                       end = orig_term,
+                       end_event = non_default_name,
+                       type = type)
+  }
   irr_loss <- function(r) {
     ann_rate <- (1 + r)^12 - 1
     apv_res <- tryCatch({
-      calculate_apv(cur_age, orig_term, orig_loan_amt,
-                    mon_pmt, ann_rate, recov_curve, prbs,
-                    orig_apy = orig_apy)
+      calculate_apv(x = y, cur_age, 
+                    orig_term = orig_term, 
+                    orig_loan_amt = orig_loan_amt,
+                    mon_pmt = mon_pmt, 
+                    ref_rate = ann_rate, 
+                    recov_curve = recov_curve, 
+                    orig_apy = orig_apy,
+                    type = type)
     }, error = function(e) {
+      print(e)
       return(list(APV = Inf))
     })
     diff_val <- abs0_bal - apv_res$APV
@@ -135,8 +183,8 @@ solve_irr <- function(abs0_bal, cur_age, orig_term, orig_loan_amt, mon_pmt,
   monthly_rate <- opt$minimum
   annual_rate <- (1 + monthly_rate)^12 - 1
   return(list(
-    monthly_rate = monthly_rate,
-    annualized_rate = annual_rate,
-    objective = opt$objective
+      monthly_rate = monthly_rate,
+      annualized_rate = annual_rate,
+      objective = opt$objective
   ))
 }

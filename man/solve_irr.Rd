@@ -5,17 +5,21 @@
 \title{Solve for Risk-Adjusted Internal Rate of Return (IRR)}
 \usage{
 solve_irr(
+  x,
   abs0_bal,
   cur_age,
   orig_term,
   orig_loan_amt,
   mon_pmt,
   recov_curve,
-  prbs,
-  orig_apy = 0.15
+  orig_apy = 0.15,
+  type = "geometric"
 )
 }
 \arguments{
+\item{x}{An object of class \code{acdf}. Typically the output of the
+\code{estimate_hazard} function.}
+
 \item{abs0_bal}{Current loan balance (to match EPV against).}
 
 \item{cur_age}{Current age of the loan in months.}
@@ -28,9 +32,10 @@ solve_irr(
 
 \item{recov_curve}{Recovery curve data frame.}
 
-\item{prbs}{CDF and density probabilities from abslife.}
-
 \item{orig_apy}{Internal loan APY for amortization. Defaults to 0.15.}
+
+\item{type}{A character string specifying the interpolation type: either
+\code{"geometric"} or \code{"linear"}.}
 }
 \value{
 List with risk adjusted monthly rate, annualized rate, and objective

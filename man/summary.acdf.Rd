@@ -8,7 +8,7 @@
 }
 \arguments{
 \item{object}{An object of class \code{acdf}. Typically the output of the
-\code{estimate_hazard} function.}
+\code{calc_cdf} method.}
 
 \item{by}{an \code{integer} defining the periodicity of the summary.}
 

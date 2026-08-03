@@ -5,17 +5,21 @@
 \title{Calculate Actuarial Present Value (APV) of a Loan}
 \usage{
 calculate_apv(
+  x,
   cur_age,
   orig_term,
   orig_loan_amt,
   mon_pmt,
   ref_rate,
   recov_curve,
-  prbs,
-  orig_apy = 0.15
+  orig_apy = 0.15,
+  type = "geometric"
 )
 }
 \arguments{
+\item{x}{An object of class \code{acdf}. Typically the output of the
+\code{estimate_hazard} function.}
+
 \item{cur_age}{Current age of the loan in months.}
 
 \item{orig_term}{Original loan term in months.}
@@ -28,9 +32,10 @@ calculate_apv(
 
 \item{recov_curve}{Recovery curve data frame (columns: Month, Recovery).}
 
-\item{prbs}{CDF and density probabilities from abslife (competing risks).}
-
 \item{orig_apy}{Internal loan APY for amortization. Defaults to 0.15.}
+
+\item{type}{A character string specifying the interpolation type: either
+\code{"geometric"} or \code{"linear"}.}
 }
 \value{
 A list containing APV, second moment (APV2), standard deviation

@@ -381,7 +381,7 @@ calc_cdf.alife_multi <- function(x, ...) {
 ##' Summary Method for an 'acdf' Object
 ##'
 ##' @param object An object of class `acdf`. Typically the output of the
-##'   `estimate_hazard` function.
+##'   `calc_cdf` method.
 ##' @param by an `integer` defining the periodicity of the summary.
 ##' @param ... Additional arguments passed to the base `print` function (e.g.,
 ##'   `digits`).
@@ -402,8 +402,8 @@ summary.acdf <- function(object, by = 5, ...) {
 
 ##' Summary Method for an 'alife_multi' Object
 ##'
-##' @param object An object of class `alife`. Typically the output of the
-##'   `estimate_hazard` function.
+##' @param object An object of class `acdf_multi`. Typically the output of the
+##'   `calc_cdf` method.
 ##' @param by an `integer` defining the periodicity of the summary.
 ##' @param ... Additional arguments passed to the base `print` function (e.g.,
 ##'   `digits`).
@@ -431,7 +431,7 @@ summary.acdf_multi <- function(object, by = 5, ...) {
 ##'
 ##' @description Uses the estimated density from the 'acdf' output.
 ##'
-##' @param x An object of class `acdf`.
+##' @param x An object of class `acdf`, `acdf_multi`, or `alife`.
 ##' @param digits number of digits for the output.
 ##' @param ... extra arguments to be passed to the `round` function.
 ##'
@@ -722,4 +722,128 @@ plot.acdf_multi <- function(x, ci_level = 0.95,
     }
     points(x_sub$lifetime, x_sub$density, col = col_line, pch = 19)
   }
+}
+
+##' @title Extend Hazard Rates
+##'
+##' @description Extends the estimated hazard rates up to a specified end time
+##'   using linear or geometric interpolation. This is only used for the
+##'   \code{apv} related functions when the observed lifetime support exceeds
+##'   the original loan term.
+##'
+##' @param x An object of class `alife` or `alife_multi`.
+##' @param end A numeric scalar indicating the target end time for the
+##'   support. Typically, the original loan term.
+##' @param type A character string specifying the interpolation type: either
+##'   `"geometric"` or `"linear"`.
+##' @param end_event A string indicating the event that will happen _certainly_
+##'   at _end_. Only used when `x` is of class `alife_multi`.
+##' 
+##' @return An object of the same class as `x` with the extended lifetime
+##'   support.
+##' @export
+extend_hazard <- function(x, end = 72,
+                          type = c("geometric", "linear"),
+                          end_event = "Prepayment") {
+  UseMethod("extend_hazard")
+}
+
+##' @export
+##' @rdname extend_hazard
+extend_hazard.alife <- function(x, end = 72,
+                                type = c("geometric", "linear"),
+                                end_event = "Prepayment") {
+  type <- match.arg(type)
+  end_support <- max(x[["lifetime"]])
+  stopifnot(end_support < end)
+  extent <- seq.int(end_support, end)
+  n_ext <- length(extent)
+  last_row <- x[nrow(x) - 1, ]
+  t0 <- last_row$lifetime
+  h0 <- last_row$hazard
+  tN <- end
+  hN <- 1
+  x_sub2 <- last_row[rep(1, n_ext), ]
+  x_sub2$lifetime <- extent
+  frac <- (extent - t0) / (tN - t0)
+  if (type == "linear") {
+    x_sub2$hazard <- h0 + (hN - h0) * frac
+  } else {
+    eps <- 1e-16
+    h0_safe <- max(h0, eps)
+    hN_safe <- max(hN, eps)
+    log_h <- log(h0_safe) + (log(hN_safe) - log(h0_safe)) * frac
+    x_sub2$hazard <- exp(log_h) 
+    x_sub2$hazard[n_ext] <- 1
+  }
+  x_sub2$se_log_hazard <- NA
+  x_sub2$lower_ci <- NA
+  x_sub2$upper_ci <- NA
+  x_sub2$risk_set <- NA
+  out <- rbind(x[- NROW(x), ], x_sub2)
+  rownames(out) <- NULL
+  class(out) <- class(x)  
+  return(out)
+}
+
+##' @export
+##' @rdname extend_hazard
+extend_hazard.alife_multi <- function(x, end = 72,
+                                      type = c("geometric", "linear"),
+                                      end_event = "Prepayment") {
+  type <- match.arg(type)
+  end_support <- max(x[["lifetime"]])
+  stopifnot(end_support < end)
+  
+  extent <- seq.int(end_support, end)
+  n_ext <- length(extent)
+  etypes <- sort(unique(x$event_type))
+  
+  if (!is.character(end_event) || length(end_event) != 1) {
+    stop("'end_event' must be a single character string.")
+  }
+  if (!(end_event %in% etypes)) {
+    stop(sprintf("The specified 'end_event' ('%s') is not present in the observed event types.", end_event))
+  }
+  
+  out_list <- vector("list", length(etypes))
+  
+  for (i in seq_along(etypes)) {
+    et <- etypes[i]
+    x_sub <- x[x$event_type == et, ]
+    last_row <- x_sub[nrow(x_sub) - 1, ]
+    
+    t0 <- last_row$lifetime
+    h0 <- last_row$hazard
+    tN <- end
+    
+    hN <- ifelse(et == end_event, 1, 0)
+    
+    x_sub2 <- last_row[rep(1, n_ext), ]
+    x_sub2$lifetime <- extent
+    frac <- (extent - t0) / (tN - t0)
+    
+    if (type == "linear") {
+      x_sub2$hazard <- h0 + (hN - h0) * frac
+    } else {
+      eps <- 1e-16
+      h0_safe <- max(h0, eps)
+      hN_safe <- max(hN, eps)
+      log_h <- log(h0_safe) + (log(hN_safe) - log(h0_safe)) * frac
+      x_sub2$hazard <- exp(log_h) 
+      if (hN == 0) x_sub2$hazard[n_ext] <- 0
+      if (hN == 1) x_sub2$hazard[n_ext] <- 1
+    }
+    
+    x_sub2$se_log_hazard <- NA
+    x_sub2$lower_ci <- NA
+    x_sub2$upper_ci <- NA
+    x_sub2$risk_set <- NA
+    
+    out_list[[i]] <- rbind(x_sub[- NROW(x_sub), ], x_sub2)
+  }  
+  out <- do.call(rbind, out_list)
+  rownames(out) <- NULL
+  class(out) <- class(x)  
+  return(out)
 }
