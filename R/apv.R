@@ -160,11 +160,14 @@ solve_irr <- function(x,
                        end = orig_term,
                        end_event = non_default_name,
                        type = type)
+  } else {
+    y <- x
   }
   irr_loss <- function(r) {
     ann_rate <- (1 + r)^12 - 1
     apv_res <- tryCatch({
-      calculate_apv(x = y, cur_age, 
+      calculate_apv(x = y,
+                    cur_age = cur_age, 
                     orig_term = orig_term, 
                     orig_loan_amt = orig_loan_amt,
                     mon_pmt = mon_pmt, 
