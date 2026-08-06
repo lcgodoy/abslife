@@ -1,33 +1,37 @@
-##' Computes the theoretical support of a lifetime variable
+##' Computes the observable support of a lifetime variable
 ##'
 ##' This helper function generates a sequence of evaluation points (Lautier et
 ##' al. 2025, <DOI:10.1214/25-AOAS2103>).
 ##'
-##' @param Delta a scalar denoting the marketing period (in months) during which
-##'   the ABS is marketed to prospective investors after the trust closes to new
-##'   loan originations.
-##' @param m a scalar representing the total number of months over which the
-##'   underlying consumer auto loans are originated. This defines the length of
-##'   the loan origination window before the trust closes.
-##' @param omega a scalar denoting the known, finite upper bound of a loan's
-##'   lifetime (in months), which is fixed by its amortization schedule at
-##'   contract signing (for example, \eqn{\omega = 72} for a 72-month loan).
-##' @param epsilon a scalar (default is \code{NULL}) denoting denotes the
-##'   present time (the current calendar month of observation) of the data
-##'   generation process for an active ABS pool. If larger than \code{omega},
-##'   right-censoring is present because it indicates some active loans are
-##'   still making ongoing payments and have not yet terminated.
+##' @param Delta a nonnegative integer denoting the period of time (in months)
+##'   during which the ABS is marketed to prospective investors.  It is after
+##'   the trust closes to new loan originations but before its first reporting
+##'   month.
+##' @param m is a positive integer representing the total number of months over
+##'   which the underlying consumer auto loans are originated. This defines the
+##'   length of the loan origination window before the trust closes.
+##' @param omega is a positive integer denoting the known, finite upper bound of
+##'   a loan's lifetime (in months), which is nonrandom and observable from its
+##'   amortization schedule at contract signing (for example, for a 72-month
+##'   loan, we likely have \eqn{\omega = 72}).
+##' @param epsilon is a positive integer (default is \code{NULL}) denoting the
+##'   present time (the current calendar month age since the first loan was
+##'   originated) of the data generation process for an active ABS pool. If
+##'   \eqn{\epsilon < \omega + m}, then right-censoring is present because it
+##'   indicates some active loans are still making ongoing payments and have not
+##'   yet terminated.
 ##'
 ##' @note The observed support may not extend all the way to \eqn{omega}
-##'   (\code{omega}). In that scenario, one may want to set \eqn{omega} to the
-##'   age of the oldest contract in the bond (corresponding to \eqn{\min(\omega,
-##'   \varepsilon - 1)} in the notation used in Lautier et al. 2025), with
-##'   \eqn{\varepsilon} denoting the present time.
+##'   (\code{omega}). In that scenario, we set \eqn{omega} to the age of the
+##'   oldest active loan in the ABS bond (corresponding to \eqn{\xi \equiv
+##'   \min(\omega, \varepsilon - 1)} in the notation used in Lautier et
+##'   al. 2025), with \eqn{\varepsilon} denoting the present time.
 ##' 
-##' @return A numeric vector representing the theoretical or observed support
-##'   associated with the inputs.
+##' @return A numeric vector representing the observable support associated with
+##'   the function inputs.
 ##' @export
-retrieve_support <- function(Delta, m, omega, epsilon = NULL) {
+retrieve_support <- function(Delta, m, omega,
+                             epsilon = NULL) {
   stopifnot(length(Delta) == 1)
   stopifnot(length(m) == 1)
   stopifnot(length(omega) == 1)
@@ -44,10 +48,10 @@ retrieve_support <- function(Delta, m, omega, epsilon = NULL) {
 
 ##' Calculate Observed Support
 ##'
-##' This helper function generates the observed support of the lifetime variable
+##' This helper function generates the observable support of the lifetime variable
 ##' based on the study's overall time range (Lautier et al. 2023, <DOI:
 ##' 10.1016/j.ecosta.2023.05.005>). In particular, it calculates \eqn{\Delta}
-##' and \eqn{m} based on left-truncation and time-to-event variables and outputs
+##' and \eqn{m} based on the left-truncation and time-to-event random variables and outputs
 ##' a sequence ranging from \eqn{\Delta + 1} to \eqn{\xi}, where \eqn{\xi =
 ##' \min(\omega, \varepsilon - 1)}, with \eqn{\varepsilon} denoting the present
 ##' time.
