@@ -101,6 +101,11 @@ calculate_apv <- function(x,
   prbs_pre_rem <- prbs[prbs$event_type == non_default_name, ]
   prbs_pre_rem <- prbs_pre_rem[order(prbs_pre_rem$lifetime), ]
   p_pre <- prbs_pre_rem$density[prbs_pre_rem$lifetime %in% rem_months]
+
+  p_denom <- sum(c(p_pre, p_def))
+
+  p_def <- p_def / p_denom
+  p_pre <- p_pre / p_denom
   
   cum_disc <- cumsum(disc_vec)
   def_pv <- mon_pmt * (cum_disc - disc_vec) + recov_cfs * disc_vec

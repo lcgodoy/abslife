@@ -2,32 +2,35 @@
 % Please edit documentation in R/hazard.R
 \name{retrieve_support}
 \alias{retrieve_support}
-\title{Computes the theoretical support of a lifetime variable}
+\title{Computes the observable support of a lifetime variable}
 \usage{
 retrieve_support(Delta, m, omega, epsilon = NULL)
 }
 \arguments{
-\item{Delta}{a scalar denoting the marketing period (in months) during which
-the ABS is marketed to prospective investors after the trust closes to new
-loan originations.}
+\item{Delta}{a nonnegative integer denoting the period of time (in months)
+during which the ABS is marketed to prospective investors.  It is after
+the trust closes to new loan originations but before its first reporting
+month.}
 
-\item{m}{a scalar representing the total number of months over which the
-underlying consumer auto loans are originated. This defines the length of
-the loan origination window before the trust closes.}
+\item{m}{is a positive integer representing the total number of months over
+which the underlying consumer auto loans are originated. This defines the
+length of the loan origination window before the trust closes.}
 
-\item{omega}{a scalar denoting the known, finite upper bound of a loan's
-lifetime (in months), which is fixed by its amortization schedule at
-contract signing (for example, \eqn{\omega = 72} for a 72-month loan).}
+\item{omega}{is a positive integer denoting the known, finite upper bound of
+a loan's lifetime (in months), which is nonrandom and observable from its
+amortization schedule at contract signing (for example, for a 72-month
+loan, we likely have \eqn{\omega = 72}).}
 
-\item{epsilon}{a scalar (default is \code{NULL}) denoting denotes the
-present time (the current calendar month of observation) of the data
-generation process for an active ABS pool. If larger than \code{omega},
-right-censoring is present because it indicates some active loans are
-still making ongoing payments and have not yet terminated.}
+\item{epsilon}{is a positive integer (default is \code{NULL}) denoting the
+present time (the current calendar month age since the first loan was
+originated) of the data generation process for an active ABS pool. If
+\eqn{\epsilon < \omega + m}, then right-censoring is present because it
+indicates some active loans are still making ongoing payments and have not
+yet terminated.}
 }
 \value{
-A numeric vector representing the theoretical or observed support
-associated with the inputs.
+A numeric vector representing the observable support associated with
+the function inputs.
 }
 \description{
 This helper function generates a sequence of evaluation points (Lautier et
@@ -35,8 +38,8 @@ al. 2025, \url{DOI:10.1214/25-AOAS2103}).
 }
 \note{
 The observed support may not extend all the way to \eqn{omega}
-(\code{omega}). In that scenario, one may want to set \eqn{omega} to the
-age of the oldest contract in the bond (corresponding to \eqn{\min(\omega,
-  \varepsilon - 1)} in the notation used in Lautier et al. 2025), with
-\eqn{\varepsilon} denoting the present time.
+(\code{omega}). In that scenario, we set \eqn{omega} to the age of the
+oldest active loan in the ABS bond (corresponding to \eqn{\xi \equiv
+  \min(\omega, \varepsilon - 1)} in the notation used in Lautier et
+al. 2025), with \eqn{\varepsilon} denoting the present time.
 }

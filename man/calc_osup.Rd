@@ -16,10 +16,10 @@ A numeric vector representing the observed support of the lifetime
 variable.
 }
 \description{
-This helper function generates the observed support of the lifetime variable
+This helper function generates the observable support of the lifetime variable
 based on the study's overall time range (Lautier et al. 2023, <DOI:
 10.1016/j.ecosta.2023.05.005>). In particular, it calculates \eqn{\Delta}
-and \eqn{m} based on left-truncation and time-to-event variables and outputs
+and \eqn{m} based on the left-truncation and time-to-event random variables and outputs
 a sequence ranging from \eqn{\Delta + 1} to \eqn{\xi}, where \eqn{\xi =
 \min(\omega, \varepsilon - 1)}, with \eqn{\varepsilon} denoting the present
 time.
