@@ -1,5 +1,7 @@
 # abslife 0.2.1
 
+- Fixed bug on the `retrieve_support` function
+
 - `apv` related functions now have the output of `hazard_estimate` as their
   input and handle the case when the original loan term is beyond the observed
   lifetime support.

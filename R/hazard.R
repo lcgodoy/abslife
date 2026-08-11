@@ -76,7 +76,7 @@ calc_osup <- function(lifetime, trunc_time) {
     warning("There are less than 2 timepoints.")
     return(numeric(0)) 
   }
-  eval_points <- retrieve_support(delta, m, omega)[["X"]]
+  eval_points <- retrieve_support(delta + 1, m, omega)[["X"]]
   return(eval_points)
 }
 
