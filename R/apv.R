@@ -185,12 +185,12 @@ solve_irr <- function(x,
     diff_val <- abs0_bal - apv_res$APV
     return(diff_val * diff_val)
   }  
-  opt <- stats::optimize(irr_loss, interval = c(-1, 1), tol = 1e-07)
+  opt <- stats::optimize(irr_loss, interval = c(-1 + 1e-16,
+                                                1 + 1e-16),
+                         tol = 1e-07)
   monthly_rate <- opt$minimum
   annual_rate <- (1 + monthly_rate)^12 - 1
-  return(list(
-      monthly_rate = monthly_rate,
-      annualized_rate = annual_rate,
-      objective = opt$objective
-  ))
+  return(list(monthly_rate = monthly_rate,
+              annualized_rate = annual_rate,
+              objective = opt$objective))
 }
