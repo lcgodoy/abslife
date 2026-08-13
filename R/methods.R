@@ -805,6 +805,12 @@ extend_hazard.alife_multi <- function(x, end = 72,
   if (!(end_event %in% etypes)) {
     stop(sprintf("The specified 'end_event' ('%s') is not present in the observed event types.", end_event))
   }
+
+  stopifnot(any(etypes %in% c("1", "Default")))
+
+  e_def <- etypes[etypes %in% c("1", "Default")]
+  hN_def <- x[x$event_type == e_def, "hazard"]
+  hN_def <- hN_def[NROW(hN_def)]
   
   out_list <- vector("list", length(etypes))
   
@@ -817,7 +823,7 @@ extend_hazard.alife_multi <- function(x, end = 72,
     h0 <- last_row$hazard
     tN <- end
     
-    hN <- ifelse(et == end_event, 1, 0)
+    hN <- ifelse(et == end_event, 1 - hN_def, hN_def)
     
     x_sub2 <- last_row[rep(1, n_ext), ]
     x_sub2$lifetime <- extent
@@ -831,8 +837,7 @@ extend_hazard.alife_multi <- function(x, end = 72,
       hN_safe <- max(hN, eps)
       log_h <- log(h0_safe) + (log(hN_safe) - log(h0_safe)) * frac
       x_sub2$hazard <- exp(log_h) 
-      if (hN == 0) x_sub2$hazard[n_ext] <- 0
-      if (hN == 1) x_sub2$hazard[n_ext] <- 1
+      x_sub2$hazard[n_ext] <- hN
     }
     
     x_sub2$se_log_hazard <- NA
