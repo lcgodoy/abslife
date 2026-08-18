@@ -72,22 +72,22 @@ calculate_apv <- function(x,
   }
   if (max(x$lifetime) < orig_term) {
     warning("Lifetime observed support does not include the original loan term. Extrapolating hazards.")
-    prbs <- calc_cdf(extend_hazard(x,
-                                   end = orig_term,
-                                   end_event = non_default_name,
-                                   type = type))
-  } else {
-      prbs <- calc_cdf(x)
+    x <- extend_hazard(x,
+                       end = orig_term,
+                       end_event = non_default_name,
+                       type = type)
   }
   N <- orig_term - cur_age
-  rem_months <- cur_age:(orig_term - 1)
+  rec_months <- cur_age:(orig_term - 1)
+  rem_months <- rec_months + 1
+  prbs <- calc_cif(x[x$lifetime %in% rem_months, ])
   orig_ir <- (1 + orig_apy)^(1/12) - 1
   prepay_balances <- amort_bal(1:orig_term,
                                orig_bal = orig_loan_amt,
                                int_rate = orig_ir,
                                payment = mon_pmt)
-  prepay_cfs_rem <- prepay_balances[rem_months]
-  recov_sub <- recov_curve[recov_curve$month %in% rem_months, ]
+  prepay_cfs_rem <- prepay_balances[rec_months]
+  recov_sub <- recov_curve[recov_curve$month %in% rec_months, ]
   recov_sub <- recov_sub[order(recov_sub$month), ]
   recov_cfs <- orig_loan_amt * recov_sub$recovery
   cur_market_rate <- (1 + ref_rate)^(1/12) - 1
@@ -95,15 +95,14 @@ calculate_apv <- function(x,
   
   ## Sub-densities for remaining months
   prbs_def_rem <- prbs[prbs$event_type == default_name, ]
-  p_def <- prbs_def_rem$density[prbs_def_rem$lifetime %in% rem_months]
+  p_def <- prbs_def_rem$cif[prbs_def_rem$lifetime %in% rem_months]
   
   prbs_pre_rem <- prbs[prbs$event_type == non_default_name, ]
-  p_pre <- prbs_pre_rem$density[prbs_pre_rem$lifetime %in% rem_months]
+  p_pre <- prbs_pre_rem$cif[prbs_pre_rem$lifetime %in% rem_months]
 
-  p_denom <- sum(c(p_pre, p_def))
-
-  p_def <- p_def / p_denom
-  p_pre <- p_pre / p_denom
+  ## p_denom <- sum(c(p_pre, p_def))
+  ## p_def <- p_def / p_denom
+  ## p_pre <- p_pre / p_denom
   
   cum_disc <- cumsum(disc_vec)
   def_pv <- mon_pmt * (cum_disc - disc_vec) + recov_cfs * disc_vec

@@ -13,14 +13,14 @@ calc_cdf(x, ...)
 \method{calc_cdf}{alife_multi}(x, ...)
 }
 \arguments{
-\item{x}{An object of class \code{alife} or \code{alife-multi}.}
+\item{x}{An object of class \code{alife}}
 
 \item{...}{Not used.}
 }
 \value{
-The original object \code{x} with a new \code{cdf} column.
+An object of class \code{acdf}.
 }
 \description{
-Adds a 'cdf' column to an 'alife' or 'alife-multi' object based
-on the hazard estimates.
+Returns an object of class \code{acdf}, corresponding to a
+\code{data.frame} with taylored plot, summary and print methods.
 }

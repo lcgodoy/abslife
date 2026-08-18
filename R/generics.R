@@ -84,7 +84,20 @@ validate_acdf <- function(x) {
 new_acdf <- function(x = data.frame()) {
   validate_acdf(x)
   new_class <- c("acdf", class(x))
-  if ("event_type" %in% colnames(x))
-    new_class <- c("acdf_multi", new_class)
   structure(x, class = new_class)
+}
+
+##' Validate an acif Object
+##' @keywords internal
+validate_acif <- function(x) {
+  stopifnot(is.data.frame(x))
+  my_cols <- c("lifetime", "event_type", "all_surv", "cif")
+  stopifnot(all(my_cols %in% colnames(x)))
+}
+
+##' Create an acif Object
+##' @export
+new_acif <- function(x = data.frame()) {
+  validate_acif(x)
+  structure(x, class = c("acif", class(x)))
 }
