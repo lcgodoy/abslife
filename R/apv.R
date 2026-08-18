@@ -80,14 +80,15 @@ calculate_apv <- function(x,
       prbs <- calc_cdf(x)
   }
   N <- orig_term - cur_age
-  rem_months <- cur_age:(orig_term - 1)
+  rec_months <- cur_age:(orig_term - 1)
+  rem_months <- rec_months + 1
   orig_ir <- (1 + orig_apy)^(1/12) - 1
   prepay_balances <- amort_bal(1:orig_term,
                                orig_bal = orig_loan_amt,
                                int_rate = orig_ir,
                                payment = mon_pmt)
-  prepay_cfs_rem <- prepay_balances[rem_months]
-  recov_sub <- recov_curve[recov_curve$month %in% rem_months, ]
+  prepay_cfs_rem <- prepay_balances[rec_months]
+  recov_sub <- recov_curve[recov_curve$month %in% rec_months, ]
   recov_sub <- recov_sub[order(recov_sub$month), ]
   recov_cfs <- orig_loan_amt * recov_sub$recovery
   cur_market_rate <- (1 + ref_rate)^(1/12) - 1

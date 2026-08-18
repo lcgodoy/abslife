@@ -352,7 +352,7 @@ calc_cdf.alife_multi <- function(x, ...) {
   all_haz <-
     with(x, stats::aggregate(hazard ~ lifetime, FUN = sum))
   all_haz$surv <-
-    c(1, cumprod(1 - all_haz$hazard))[seq_len(NROW(all_haz))]
+    c(1, cumprod(1 - all_haz$hazard)[-NROW(all_haz)])
   all_haz <- all_haz[, -2]
   df_list <- split(x, x$event_type)
   df_list_with_cdf <- lapply(df_list, function(df) {
