@@ -109,6 +109,7 @@ build_sigmat <- function(hazard, se_log_hazard) {
 build_pmfvar <- function(hazard, se_log_hazard) {
   sig_sqrt <- build_sigmat(hazard, se_log_hazard)
   kmat <- build_kmat(hazard)
+  kmat <- ifelse(is.infinite(kmat), 0.0, kmat)
   rmat <- build_rmat(hazard)
   amat <- build_amat(length(hazard))
   out <- amat %*% rmat %*% kmat %*% sig_sqrt
