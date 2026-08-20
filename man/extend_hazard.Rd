@@ -16,7 +16,7 @@ extend_hazard(
 \method{extend_hazard}{alife}(
   x,
   end = 72,
-  type = c("geometric", "linear"),
+  type = c("constant", "geometric", "linear"),
   end_event = "Prepayment"
 )
 
@@ -34,7 +34,7 @@ extend_hazard(
 support. Typically, the original loan term.}
 
 \item{type}{A character string specifying the interpolation type: either
-\code{"geometric"} or \code{"linear"}.}
+\code{"constant"}, \code{"geometric"} or \code{"linear"}.}
 
 \item{end_event}{A string indicating the event that will happen \emph{certainly}
 at \emph{end}. Only used when \code{x} is of class \code{alife_multi}.}

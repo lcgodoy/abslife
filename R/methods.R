@@ -349,11 +349,34 @@ calc_cdf.alife <- function(x, ...) {
 ##' @export
 ##' @rdname calc_cdf
 calc_cdf.alife_multi <- function(x, ...) {
-  stop(
-      "calc_cdf() is not supported for competing risks ('alife_multi' objects). ",
-      "Please use calc_cif() to compute cumulative incidence functions instead.",
-      call. = FALSE
+  message(
+      "calc_cdf() for competing risks ('alife_multi' objects) computes cumulative incidence function (cif) instead of the cdf."
   )
+  all_haz <-
+    with(x, stats::aggregate(hazard ~ lifetime, FUN = sum))
+  all_haz$all_surv <-
+    c(1, cumprod(1 - all_haz$hazard)[-NROW(all_haz)])
+  all_haz <- all_haz[, -2]
+  df_list <- split(x, x$event_type)
+  df_list_with_cdf <- lapply(df_list, function(df) {
+    df <-
+      merge(df, all_haz, by = "lifetime", all.x = TRUE)
+    df$density <-
+      df$all_surv * df$hazard
+    df$cumulative <- cumsum(df$density)
+    ## pmfvarcov <- build_pmfvar(df$hazard, df$se_log_hazard)
+    ## cdfvarcov <- build_cdfvar(pmfvarcov)
+    ## df$se_cdf <- sqrt(diag(cdfvarcov))
+    ## df$se_dens <- sqrt(diag(pmfvarcov))
+    df$se_cdf <- NA_real_
+    df$se_dens <- NA_real_
+    return(df)
+  })
+  out <- do.call(rbind, df_list_with_cdf)
+  rownames(out) <- NULL
+  out <- new_acdf(out[, c("event_type", "lifetime", "all_surv",
+                          "cumulative", "density", "risk_set")])
+  return(out)
 }
 
 ##' @title Calculate cumulative incidence functions (CIF) from Hazard estimates
@@ -410,6 +433,32 @@ summary.acdf <- function(object, by = 5, ...) {
   return(out)
 }
 
+##' Summary Method for an 'alife_multi' Object
+##'
+##' @param object An object of class `acdf_multi`. Typically the output of the
+##'   `calc_cdf` method.
+##' @param by an `integer` defining the periodicity of the summary.
+##' @param ... Additional arguments passed to the base `print` function (e.g.,
+##'   `digits`).
+##'
+##' @seealso [estimate_hazard()]
+##' @return A summary of the hazard rate.
+##' @export
+summary.acdf_multi <- function(object, by = 5, ...) {
+  lower <- min(object$lifetime, na.rm = TRUE)
+  upper <- max(object$lifetime, na.rm = TRUE)
+  times <- seq.int(from = lower, to = upper, by = by)
+  cols <- c("event_type", "lifetime", "all_surv", "cumulative", "density")
+  df_list <- split(object, object$event_type)
+  df_list <- lapply(df_list, function(df) {
+    df[df$lifetime %in% times, cols]
+  })
+  out <- do.call(rbind, df_list)
+  rownames(out) <- NULL
+  classes_out <- class(out)
+  class(out) <- classes_out[!grepl("alife", classes_out)]
+  return(out)
+}
 
 ##' Summary Method for an 'acif' Object
 ##'
@@ -463,27 +512,26 @@ ev_life.acdf <- function(x, digits = 2, ...) {
 
 ##' @rdname ev
 ##' @export
-ev_life.acif <- function(x, digits = 2, ...) {
-  warning("temporarily not working.")
-  ## weighted_life <- x$lifetime * x$density
-  ## all_cause_val <- sum(weighted_life)
-  ## cat(sprintf("Expected lifetime (all_cause): %s\n", round(all_cause_val, digits)))
-  ## num <- tapply(weighted_life, x$event_type, sum)
-  ## den <- tapply(x$density, x$event_type, sum)
-  ## event_vals <- num / den
-  ## for (e_name in names(event_vals)) {
-  ##   cat(sprintf("Expected lifetime (%s): %s\n", 
-  ##               e_name, 
-  ##               round(event_vals[e_name], digits)))
-  ## }
-  ## out <- c("all_cause" = all_cause_val, event_vals)
-  ## invisible(out)
+ev_life.acdf_multi <- function(x, digits = 2, ...) {
+  weighted_life <- x$lifetime * x$density
+  all_cause_val <- sum(weighted_life)
+  cat(sprintf("Expected lifetime (all_cause): %s\n", round(all_cause_val, digits)))
+  num <- tapply(weighted_life, x$event_type, sum)
+  den <- tapply(x$density, x$event_type, sum)
+  event_vals <- num / den
+  for (e_name in names(event_vals)) {
+    cat(sprintf("Expected lifetime (%s): %s\n", 
+                e_name, 
+                round(event_vals[e_name], digits)))
+  }
+  out <- c("all_cause" = all_cause_val, event_vals)
+  invisible(out)
 }
 
 ##' @rdname ev
 ##' @export
 ev_life.alife <- function(x, ...) {
-  .cdf <- ifelse("alife_multi" %in% class(x), calc_cif(x, ...), calc_cdf(x, ...))
+  .cdf <- calc_cdf(x, ...)
   ev_life(.cdf)
 }
 
@@ -678,6 +726,106 @@ plot.acif <- function(x, which = c("cif", "all_surv", "both"),
   invisible(x)
 }
 
+##' Plot Method for an 'acdf_multi' Object
+##'
+##' Creates a faceted plot with one row per event type. Each row contains
+##' two panels: one for the Cumulative Distribution Function (CDF) and one
+##' for the Probability Mass Function (Density).
+##'
+##' @param x An object of class `acdf_multi`.
+##' @param ci_level A numeric vector of confidence levels to plot (e.g.,
+##'   \code{c(0.5, 0.95)}). Defaults to \code{0.95}.
+##' @param color The color for the confidence interval polygon/bars.
+##' @param col_line The color for the main estimate line/points.
+##' @param ... Additional arguments passed to the base `plot` function (e.g.,
+##'   `xlab`, `ylab` override).
+##'
+##' @importFrom graphics polygon lines par points arrows
+##' @importFrom grDevices adjustcolor
+##' @seealso [calc_cdf()]
+##' @return A faceted plot of CDFs and Densities.
+##' @export
+plot.acdf_multi <- function(x, ci_level = 0.95,
+                            color = 2,
+                            col_line = 1,
+                            ...) {
+  etypes <- sort(unique(x$event_type))
+  n_types <- length(etypes)
+  old_par <- par(no.readonly = TRUE)
+  on.exit(par(old_par))
+  par(mfrow = c(n_types, 2), 
+      mar = c(4, 4, 2, 1), 
+      oma = c(0, 0, 2, 0))
+  ci_level <- sort(ci_level, decreasing = TRUE)
+  n_ci_level <- length(ci_level)
+  transparency <- if (n_ci_level > 1) {
+    seq(0.2, 0.8, length.out = n_ci_level)
+  } else {
+    1.0
+  }
+  args <- list(...)
+  for (et in etypes) {
+    x_sub <- x[x$event_type == et, ]
+    cis_list <- multiple_cis.acdf(x_sub, ci_level = ci_level)
+    defaults_cdf <- list(
+      xlab = "Lifetime",
+      ylab = "Cause Specific CIF",
+      main = paste("CIF - Event:", et),
+      ylim = c(0, 1),
+      xlim = range(x_sub$lifetime, na.rm = TRUE)
+    )
+    plot_args_cdf <- utils::modifyList(defaults_cdf, args)
+    do.call("plot", c(list(x = x_sub$lifetime, y = x_sub$cdf, type = "n"),
+                      plot_args_cdf))
+    for (i in seq_along(ci_level)) {
+      lvl_name <- as.character(ci_level[i])
+      ci_data <- cis_list[[lvl_name]]
+      xx <- ci_data[["lifetime"]]
+      ## x_poly <- c(xx[1], rep(xx[-1], each = 2))
+      ## yy_low <- ci_data[["cdf_lower"]]
+      ## y_low_poly <- c(rep(yy_low[-length(yy_low)], each = 2),
+      ##                 yy_low[length(yy_low)])
+      ## yy_up <- ci_data[["cdf_upper"]]
+      ## y_up_poly <- c(rep(yy_up[-length(yy_up)], each = 2),
+      ##                yy_up[length(yy_up)])
+      ## polygon(
+      ##   x = c(x_poly, rev(x_poly)),
+      ##   y = c(y_low_poly, rev(y_up_poly)),
+      ##   col = grDevices::adjustcolor(color,
+      ##                                alpha.f =
+      ##                                  if(n_ci_level > 1) 0.2 + (i * 0.1) else 0.4),
+      ##   border = NA
+      ## )
+    }
+    lines(x_sub$lifetime, x_sub$cumulative, col = col_line, type = "s", lwd = 2)
+    all_dens_upper <- unlist(lapply(cis_list, function(d) d$dens_upper))
+    max_dens_y <- max(all_dens_upper, x_sub$density, na.rm = TRUE)
+    defaults_dens <- list(
+      xlab = "Lifetime",
+      ylab = "Probability Mass",
+      main = paste("Density - Event:", et),
+      ylim = c(0, max_dens_y),
+      xlim = range(x_sub$lifetime, na.rm = TRUE)
+    )    
+    plot_args_dens <- utils::modifyList(defaults_dens, args)
+    do.call("plot", c(list(x = x_sub$lifetime, y = x_sub$density, type = "n"),
+                      plot_args_dens))
+    for (i in seq_along(ci_level)) {
+      lvl_name <- as.character(ci_level[i])
+      ci_data <- cis_list[[lvl_name]]
+      arrows(
+        x0 = ci_data$lifetime, y0 = ci_data$dens_lower,
+        x1 = ci_data$lifetime, y1 = ci_data$dens_upper,
+        length = 0.05, angle = 90, code = 3,
+        col = grDevices::adjustcolor(color, alpha.f = transparency[i]),
+        lwd = 1.5
+      )
+    }
+    points(x_sub$lifetime, x_sub$density, col = col_line, pch = 19)
+  }
+}
+
+
 ##' @title Extend Hazard Rates
 ##'
 ##' @description Extends the estimated hazard rates up to a specified end time
@@ -689,7 +837,7 @@ plot.acif <- function(x, which = c("cif", "all_surv", "both"),
 ##' @param end A numeric scalar indicating the target end time for the
 ##'   support. Typically, the original loan term.
 ##' @param type A character string specifying the interpolation type: either
-##'   `"geometric"` or `"linear"`.
+##'   `"constant"`, `"geometric"` or `"linear"`.
 ##' @param end_event A string indicating the event that will happen _certainly_
 ##'   at _end_. Only used when `x` is of class `alife_multi`.
 ##' 
@@ -705,7 +853,8 @@ extend_hazard <- function(x, end = 72,
 ##' @export
 ##' @rdname extend_hazard
 extend_hazard.alife <- function(x, end = 72,
-                                type = c("geometric", "linear"),
+                                type = c("constant",
+                                         "geometric", "linear"),
                                 end_event = "Prepayment") {
   type <- match.arg(type)
   end_support <- max(x[["lifetime"]])
@@ -722,13 +871,16 @@ extend_hazard.alife <- function(x, end = 72,
   frac <- (extent - t0) / (tN - t0)
   if (type == "linear") {
     x_sub2$hazard <- h0 + (hN - h0) * frac
-  } else {
+  } else if (type == "geometric") {
     eps <- 1e-16
     h0_safe <- max(h0, eps)
     hN_safe <- max(hN, eps)
     log_h <- log(h0_safe) + (log(hN_safe) - log(h0_safe)) * frac
-    x_sub2$hazard <- exp(log_h) 
+    x_sub2$hazard <- exp(log_h)
     x_sub2$hazard[n_ext] <- 1
+  } else {
+    x_sub2$hazard <- h0[tN - 1]
+    x_sub2$hazard[NROW(x_sub2$hazard)] <- hN
   }
   x_sub2$se_log_hazard <- NA
   x_sub2$lower_ci <- NA
@@ -748,26 +900,20 @@ extend_hazard.alife_multi <- function(x, end = 72,
   type <- match.arg(type)
   end_support <- max(x[["lifetime"]])
   stopifnot(end_support < end)
-  
   extent <- seq.int(end_support, end)
   n_ext <- length(extent)
   etypes <- sort(unique(x$event_type))
-  
   if (!is.character(end_event) || length(end_event) != 1) {
     stop("'end_event' must be a single character string.")
   }
   if (!(end_event %in% etypes)) {
     stop(sprintf("The specified 'end_event' ('%s') is not present in the observed event types.", end_event))
   }
-
   stopifnot(any(etypes %in% c("1", "Default")))
-
   e_def <- etypes[etypes %in% c("1", "Default")]
   hN_def <- x[x$event_type == e_def, "hazard"]
   hN_def <- hN_def[NROW(hN_def)]
-  
   out_list <- vector("list", length(etypes))
-  
   for (i in seq_along(etypes)) {
     et <- etypes[i]
     x_sub <- x[x$event_type == et, ]
@@ -785,20 +931,21 @@ extend_hazard.alife_multi <- function(x, end = 72,
     
     if (type == "linear") {
       x_sub2$hazard <- h0 + (hN - h0) * frac
-    } else {
+    } else if (type == "geometric") {
       eps <- 1e-16
       h0_safe <- max(h0, eps)
       hN_safe <- max(hN, eps)
       log_h <- log(h0_safe) + (log(hN_safe) - log(h0_safe)) * frac
       x_sub2$hazard <- exp(log_h) 
       x_sub2$hazard[n_ext] <- hN
+    } else {
+      x_sub2$hazard <- h0
+      x_sub2$hazard[NROW(x_sub2$hazard)] <- hN
     }
-    
     x_sub2$se_log_hazard <- NA
     x_sub2$lower_ci <- NA
     x_sub2$upper_ci <- NA
     x_sub2$risk_set <- NA
-    
     out_list[[i]] <- rbind(x_sub[- NROW(x_sub), ], x_sub2)
   }  
   out <- do.call(rbind, out_list)
