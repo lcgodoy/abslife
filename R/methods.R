@@ -350,7 +350,7 @@ calc_cdf.alife <- function(x, ...) {
 ##' @rdname calc_cdf
 calc_cdf.alife_multi <- function(x, ...) {
   stop(
-      call. = "calc_cdf() is not supported for competing risks ('alife_multi' objects). ",
+      "calc_cdf() is not supported for competing risks ('alife_multi' objects). ",
       "Please use calc_cif() to compute cumulative incidence functions instead.",
       call. = FALSE
   )
@@ -375,14 +375,16 @@ calc_cif.alife_multi <- function(x, ...) {
   df_list_with_cdf <- lapply(df_list, function(df) {
     df <-
       merge(df, all_haz, by = "lifetime", all.x = TRUE)
-    df$cif <-
+    df$pr_zx <-
       df$all_surv * df$hazard
+    df$cif <-
+      cumsum(df$pr_zx)
     return(df)
   })
   out <- do.call(rbind, df_list_with_cdf)
   rownames(out) <- NULL
   out <- new_acif(out[, c("event_type", "lifetime", "all_surv",
-                          "cif", "risk_set")])
+                          "pr_zx", "cif", "risk_set")])
   return(out)
 }
 

@@ -95,10 +95,10 @@ calculate_apv <- function(x,
   
   ## Sub-densities for remaining months
   prbs_def_rem <- prbs[prbs$event_type == default_name, ]
-  p_def <- prbs_def_rem$cif[prbs_def_rem$lifetime %in% rem_months]
+  p_def <- prbs_def_rem$pr_zx[prbs_def_rem$lifetime %in% rem_months]
   
   prbs_pre_rem <- prbs[prbs$event_type == non_default_name, ]
-  p_pre <- prbs_pre_rem$cif[prbs_pre_rem$lifetime %in% rem_months]
+  p_pre <- prbs_pre_rem$pr_zx[prbs_pre_rem$lifetime %in% rem_months]
 
   ## p_denom <- sum(c(p_pre, p_def))
   ## p_def <- p_def / p_denom
