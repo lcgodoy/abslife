@@ -49,7 +49,8 @@ aux_kmat <-
   function(hazard, rephaz, support_length) {
     nt <- support_length
     out <- rep(0.0, nt)
-    out[(nt - rephaz + 1):nt] <- rep(- 1 / (1 - hazard), rephaz)
+    rep_out <- ifelse(hazard == 1.0, 0.0, - 1 / (1 - hazard))
+    out[(nt - rephaz + 1):nt] <- rep(rep_out, rephaz)
     return(out)
   }
 
@@ -98,7 +99,7 @@ build_amat <- function(support_length) {
 
 ##' @rdname rmat
 build_sigmat <- function(hazard, se_log_hazard) {
-  se_hazard <- se_log_hazard * hazard
+  se_hazard <- se_log_hazard * hazard * (1 - hazard)
   nt <- length(hazard)
   sigmat <- matrix(0.0, ncol = nt, nrow = nt)
   diag(sigmat) <- se_hazard
@@ -109,7 +110,6 @@ build_sigmat <- function(hazard, se_log_hazard) {
 build_pmfvar <- function(hazard, se_log_hazard) {
   sig_sqrt <- build_sigmat(hazard, se_log_hazard)
   kmat <- build_kmat(hazard)
-  kmat <- ifelse(is.infinite(kmat), 0.0, kmat)
   rmat <- build_rmat(hazard)
   amat <- build_amat(length(hazard))
   out <- amat %*% rmat %*% kmat %*% sig_sqrt
