@@ -210,7 +210,9 @@ check_censored <- function(lifetime, censoring_indicator, support_lifetime_rv) {
 ##' @export
 ##' 
 ##' @return A `data.frame` with the hazard estimate their standard errors and
-##'   asymptotic confidence intervals.
+##'   asymptotic confidence intervals. Importantly, in the output, the column
+##'   called `se_log_hazard` represents the standard error of the `hazard` rate
+##'   at the `logit` scale.
 ##'
 estimate_hazard <- function(lifetime,
                             trunc_time = NULL,

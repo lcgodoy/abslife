@@ -124,6 +124,9 @@ build_cdfvar <- function(pmfvar) {
   astmat[lower.tri(astmat)] <- 0.0
   out <- crossprod(astmat, pmfvar)
   out <- out %*% astmat
+  ## numerical instabilities (perhaps we want to work out some numerically
+  ## stable way to compute this)
+  diag(out) <- ifelse(diag(out) < 0.0, 0.0, diag(out))
   return(out)
 }
 

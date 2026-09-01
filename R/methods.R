@@ -374,8 +374,8 @@ calc_cdf.alife_multi <- function(x, ...) {
   })
   out <- do.call(rbind, df_list_with_cdf)
   rownames(out) <- NULL
-  out <- new_acdf(out[, c("event_type", "lifetime", "all_surv",
-                          "cumulative", "density", "risk_set")])
+  out <- new_acdf_multi(out[, c("event_type", "lifetime", "all_surv",
+                                "cumulative", "density", "risk_set")])
   return(out)
 }
 
@@ -763,10 +763,11 @@ plot.acdf_multi <- function(x, ci_level = 0.95,
   } else {
     1.0
   }
+  max_dens_y <- max(x$density)
   args <- list(...)
   for (et in etypes) {
     x_sub <- x[x$event_type == et, ]
-    cis_list <- multiple_cis.acdf(x_sub, ci_level = ci_level)
+    ## cis_list <- multiple_cis.acdf(x_sub, ci_level = ci_level)
     defaults_cdf <- list(
       xlab = "Lifetime",
       ylab = "Cause Specific CIF",
@@ -775,31 +776,32 @@ plot.acdf_multi <- function(x, ci_level = 0.95,
       xlim = range(x_sub$lifetime, na.rm = TRUE)
     )
     plot_args_cdf <- utils::modifyList(defaults_cdf, args)
-    do.call("plot", c(list(x = x_sub$lifetime, y = x_sub$cdf, type = "n"),
+    do.call("plot", c(list(x = x_sub$lifetime, y = x_sub$cumulative,
+                           type = "n"),
                       plot_args_cdf))
-    for (i in seq_along(ci_level)) {
-      lvl_name <- as.character(ci_level[i])
-      ci_data <- cis_list[[lvl_name]]
-      xx <- ci_data[["lifetime"]]
-      ## x_poly <- c(xx[1], rep(xx[-1], each = 2))
-      ## yy_low <- ci_data[["cdf_lower"]]
-      ## y_low_poly <- c(rep(yy_low[-length(yy_low)], each = 2),
-      ##                 yy_low[length(yy_low)])
-      ## yy_up <- ci_data[["cdf_upper"]]
-      ## y_up_poly <- c(rep(yy_up[-length(yy_up)], each = 2),
-      ##                yy_up[length(yy_up)])
-      ## polygon(
-      ##   x = c(x_poly, rev(x_poly)),
-      ##   y = c(y_low_poly, rev(y_up_poly)),
-      ##   col = grDevices::adjustcolor(color,
-      ##                                alpha.f =
-      ##                                  if(n_ci_level > 1) 0.2 + (i * 0.1) else 0.4),
-      ##   border = NA
-      ## )
-    }
+    ## for (i in seq_along(ci_level)) {
+    ##   lvl_name <- as.character(ci_level[i])
+    ##   ci_data <- cis_list[[lvl_name]]
+    ##   xx <- ci_data[["lifetime"]]
+    ## x_poly <- c(xx[1], rep(xx[-1], each = 2))
+    ## yy_low <- ci_data[["cdf_lower"]]
+    ## y_low_poly <- c(rep(yy_low[-length(yy_low)], each = 2),
+    ##                 yy_low[length(yy_low)])
+    ## yy_up <- ci_data[["cdf_upper"]]
+    ## y_up_poly <- c(rep(yy_up[-length(yy_up)], each = 2),
+    ##                yy_up[length(yy_up)])
+    ## polygon(
+    ##   x = c(x_poly, rev(x_poly)),
+    ##   y = c(y_low_poly, rev(y_up_poly)),
+    ##   col = grDevices::adjustcolor(color,
+    ##                                alpha.f =
+    ##                                  if(n_ci_level > 1) 0.2 + (i * 0.1) else 0.4),
+    ##   border = NA
+    ## )
+    ## }
     lines(x_sub$lifetime, x_sub$cumulative, col = col_line, type = "s", lwd = 2)
-    all_dens_upper <- unlist(lapply(cis_list, function(d) d$dens_upper))
-    max_dens_y <- max(all_dens_upper, x_sub$density, na.rm = TRUE)
+    ## all_dens_upper <- unlist(lapply(cis_list, function(d) d$dens_upper))
+    ## max_dens_y <- max(x_sub$density, na.rm = TRUE)
     defaults_dens <- list(
       xlab = "Lifetime",
       ylab = "Probability Mass",
@@ -810,17 +812,17 @@ plot.acdf_multi <- function(x, ci_level = 0.95,
     plot_args_dens <- utils::modifyList(defaults_dens, args)
     do.call("plot", c(list(x = x_sub$lifetime, y = x_sub$density, type = "n"),
                       plot_args_dens))
-    for (i in seq_along(ci_level)) {
-      lvl_name <- as.character(ci_level[i])
-      ci_data <- cis_list[[lvl_name]]
-      arrows(
-        x0 = ci_data$lifetime, y0 = ci_data$dens_lower,
-        x1 = ci_data$lifetime, y1 = ci_data$dens_upper,
-        length = 0.05, angle = 90, code = 3,
-        col = grDevices::adjustcolor(color, alpha.f = transparency[i]),
-        lwd = 1.5
-      )
-    }
+    ## for (i in seq_along(ci_level)) {
+    ##   lvl_name <- as.character(ci_level[i])
+    ##   ci_data <- cis_list[[lvl_name]]
+    ##   arrows(
+    ##     x0 = ci_data$lifetime, y0 = ci_data$dens_lower,
+    ##     x1 = ci_data$lifetime, y1 = ci_data$dens_upper,
+    ##     length = 0.05, angle = 90, code = 3,
+    ##     col = grDevices::adjustcolor(color, alpha.f = transparency[i]),
+    ##     lwd = 1.5
+    ##   )
+    ## }
     points(x_sub$lifetime, x_sub$density, col = col_line, pch = 19)
   }
 }
@@ -845,7 +847,7 @@ plot.acdf_multi <- function(x, ci_level = 0.95,
 ##'   support.
 ##' @export
 extend_hazard <- function(x, end = 72,
-                          type = c("geometric", "linear"),
+                          type = c("constant", "geometric", "linear"),
                           end_event = "Prepayment") {
   UseMethod("extend_hazard")
 }
@@ -895,7 +897,7 @@ extend_hazard.alife <- function(x, end = 72,
 ##' @export
 ##' @rdname extend_hazard
 extend_hazard.alife_multi <- function(x, end = 72,
-                                      type = c("geometric", "linear"),
+                                      type = c("constant", "geometric", "linear"),
                                       end_event = "Prepayment") {
   type <- match.arg(type)
   end_support <- max(x[["lifetime"]])

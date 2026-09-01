@@ -9,7 +9,7 @@
 extend_hazard(
   x,
   end = 72,
-  type = c("geometric", "linear"),
+  type = c("constant", "geometric", "linear"),
   end_event = "Prepayment"
 )
 
@@ -23,7 +23,7 @@ extend_hazard(
 \method{extend_hazard}{alife_multi}(
   x,
   end = 72,
-  type = c("geometric", "linear"),
+  type = c("constant", "geometric", "linear"),
   end_event = "Prepayment"
 )
 }

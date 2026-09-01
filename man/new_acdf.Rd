@@ -2,9 +2,12 @@
 % Please edit documentation in R/generics.R
 \name{new_acdf}
 \alias{new_acdf}
+\alias{new_acdf_multi}
 \title{Create an acdf Object}
 \usage{
 new_acdf(x = data.frame())
+
+new_acdf_multi(x = data.frame())
 }
 \arguments{
 \item{x}{A \code{data.frame} that has the required columns for an 'alife' object.

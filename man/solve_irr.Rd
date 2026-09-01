@@ -13,7 +13,7 @@ solve_irr(
   mon_pmt,
   recov_curve,
   orig_apy = 0.15,
-  type = "geometric"
+  type = "constant"
 )
 }
 \arguments{
@@ -35,7 +35,7 @@ solve_irr(
 \item{orig_apy}{Internal loan APY for amortization. Defaults to 0.15.}
 
 \item{type}{A character string specifying the interpolation type: either
-\code{"geometric"} or \code{"linear"}.}
+\code{"constant"} (default), \code{"geometric"} or \code{"linear"}.}
 }
 \value{
 List with risk adjusted monthly rate, annualized rate, and objective

@@ -87,6 +87,13 @@ new_acdf <- function(x = data.frame()) {
   structure(x, class = new_class)
 }
 
+##' @rdname new_acdf
+new_acdf_multi <- function(x = data.frame()) {
+  validate_acdf(x)
+  new_class <- c("acdf_multi", class(x))
+  structure(x, class = new_class)
+}
+
 ##' Validate an acif Object
 ##' @keywords internal
 validate_acif <- function(x) {

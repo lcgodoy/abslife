@@ -38,7 +38,7 @@ disc_fac <- function(time, int_rate) {
 ##' @param recov_curve Recovery curve data frame (columns: Month, Recovery).
 ##' @param orig_apy Internal loan APY for amortization. Defaults to 0.15.
 ##' @param type A character string specifying the interpolation type: either
-##'   `"geometric"` or `"linear"`.
+##'   `"constant"` (default), `"geometric"` or `"linear"`.
 ##'
 ##' @return A list containing APV, second moment (APV2), standard deviation
 ##'   (SD).
@@ -49,7 +49,7 @@ calculate_apv <- function(x,
                           orig_term, orig_loan_amt,
                           mon_pmt, ref_rate, recov_curve,
                           orig_apy = 0.15,
-                          type = "geometric") {
+                          type = "constant") {
   stopifnot(inherits(x, "alife_multi"))
   if (cur_age >= orig_term) {
     stop("Current age cannot be greater than or equal to the original term.")
@@ -129,7 +129,7 @@ calculate_apv <- function(x,
 ##' @param recov_curve Recovery curve data frame.
 ##' @param orig_apy Internal loan APY for amortization. Defaults to 0.15.
 ##' @param type A character string specifying the interpolation type: either
-##'   `"geometric"` or `"linear"`.
+##'   `"constant"` (default), `"geometric"` or `"linear"`.
 ##'
 ##' @return List with risk adjusted monthly rate, annualized rate, and objective
 ##'   value.
@@ -141,7 +141,7 @@ solve_irr <- function(x,
                       orig_loan_amt, mon_pmt,
                       recov_curve,
                       orig_apy = 0.15,
-                      type = "geometric") {
+                      type = "constant") {
   stopifnot(inherits(x, "alife_multi"))
   evs <- unique(as.character(x$event_type))
   if (length(evs) != 2) {

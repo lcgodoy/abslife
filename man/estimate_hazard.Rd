@@ -39,7 +39,9 @@ confidence intervals.}
 }
 \value{
 A \code{data.frame} with the hazard estimate their standard errors and
-asymptotic confidence intervals.
+asymptotic confidence intervals. Importantly, in the output, the column
+called \code{se_log_hazard} represents the standard error of the \code{hazard} rate
+at the \code{logit} scale.
 }
 \description{
 Estimate the non-parametric hazard rate for truncated and
