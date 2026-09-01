@@ -1,3 +1,7 @@
+# abslife 0.2.2
+
+- Making cumulative incidence available for the competing risks scenario.
+
 # abslife 0.2.1
 
 - Fixed bug on the `retrieve_support` function

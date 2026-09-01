@@ -127,6 +127,8 @@ build_cdfvar <- function(pmfvar) {
   ## numerical instabilities (perhaps we want to work out some numerically
   ## stable way to compute this)
   diag(out) <- ifelse(diag(out) < 0.0, 0.0, diag(out))
+  ## out <- ifelse(is.na(out), 0.0, out)
+  ## out <- ifelse(is.nan(out), 0.0, out)
   return(out)
 }
 
