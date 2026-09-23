@@ -10,3 +10,4 @@ setup.R
 ^\.github$
 Makefile
 resources_new_functions
+^solve_irr-fixes\.md$
