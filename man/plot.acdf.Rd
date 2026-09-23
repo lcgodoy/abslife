@@ -8,14 +8,15 @@
 }
 \arguments{
 \item{x}{An object of class \code{acdf}. Typically the output of the
-\code{estimate_hazard} function.}
+\code{calc_cdf} function.}
 
-\item{ci_level}{A numeric vector of confidence ci_level to plot (e.g.,
+\item{ci_level}{A numeric vector of confidence levels to plot (e.g.,
 \code{c(0.5, 0.95)}). Defaults to \code{0.95}.}
 
-\item{color}{The color for the confidence interval polygon.}
+\item{color}{The color for the confidence interval polygon (CDF) and error
+bars (density).}
 
-\item{col_line}{The color for the hazard rate line.}
+\item{col_line}{The color for the CDF line and density points.}
 
 \item{...}{Additional arguments passed to the base \code{plot} function (e.g.,
 \code{main}, \code{xlab}, \code{ylab}, \code{ylim}).}

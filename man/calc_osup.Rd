@@ -13,14 +13,15 @@ calc_osup(lifetime, trunc_time)
 }
 \value{
 A numeric vector representing the observed support of the lifetime
-variable.
+variable. An empty vector (with a warning) if fewer than two time points
+are available.
 }
 \description{
 This helper function generates the observable support of the lifetime variable
-based on the study's overall time range (Lautier et al. 2023, <DOI:
-10.1016/j.ecosta.2023.05.005>). In particular, it calculates \eqn{\Delta}
-and \eqn{m} based on the left-truncation and time-to-event random variables and outputs
-a sequence ranging from \eqn{\Delta + 1} to \eqn{\xi}, where \eqn{\xi =
-\min(\omega, \varepsilon - 1)}, with \eqn{\varepsilon} denoting the present
-time.
+based on the study's overall time range (Lautier et al. 2023,
+\doi{10.1016/j.ecosta.2023.05.005}). In particular, it takes \eqn{\Delta}
+as the smallest observed time, \code{min(c(lifetime, trunc_time))}, and
+\eqn{\omega} as the largest observed lifetime, \code{max(lifetime)}, and
+outputs a sequence ranging from \eqn{\Delta + 1} to \eqn{\omega} (see
+\code{\link[=retrieve_support]{retrieve_support()}}).
 }

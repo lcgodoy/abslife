@@ -2,18 +2,18 @@
 % Please edit documentation in R/gg-methods.R
 \name{ggauto}
 \alias{ggauto}
-\title{Plot an 'alife' (or \code{multi_alife}) Object using \code{ggplot2}}
+\title{Plot an \code{alife} (or \code{alife_multi}) Object using \code{ggplot2}}
 \usage{
 ggauto(object, ...)
 }
 \arguments{
-\item{object}{An object of class \code{alife} or \code{alife-multi}.}
+\item{object}{An object of class \code{alife} or \code{alife_multi}.}
 
-\item{...}{Not used.}
+\item{...}{Arguments passed to methods (e.g., \code{ci_level}).}
 }
 \value{
-ggplot.
+A \code{ggplot} object.
 }
 \description{
-Plot an 'alife' (or \code{multi_alife}) Object using \code{ggplot2}
+Plot an \code{alife} (or \code{alife_multi}) Object using \code{ggplot2}
 }

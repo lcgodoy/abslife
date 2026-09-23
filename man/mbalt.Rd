@@ -20,7 +20,7 @@ months when the ABS trust began making payments to investors.}
 \item{\code{co.lessee}}{Co-Lessee indicator}
 \item{\code{credit.score}}{Obligor credit score}
 \item{\code{location}}{State or U.S.\ territory of contract}
-\item{\code{lease.term}}{Original lease term}
+\item{\code{lease.term}}{Original lease term (in months)}
 \item{\code{pti}}{Obligor payment-to-income}
 \item{\code{subvented}}{Subvention type (cash, rate, none)}
 \item{\code{model}}{Vehicle model}
@@ -38,7 +38,7 @@ Retrieval (EDGAR) system of the Securities and Exchange Commission (SEC).
 mbalt
 }
 \description{
-A dataset containing performance records of 47,315 consumer automobile
+A dataset containing performance records of 47,314 consumer automobile
 leases with an original term of 36 months from the Mercedes-Benz Auto Lease
 Trust (MBALT) 2017-A.
 }

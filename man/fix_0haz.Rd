@@ -17,3 +17,4 @@ are present.
 \description{
 Carry Forward Last Observation for Zero-Hazard Estimates (Internal Use)
 }
+\keyword{internal}

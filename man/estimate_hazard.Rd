@@ -16,39 +16,44 @@ estimate_hazard(
 }
 \arguments{
 \item{lifetime}{A numeric vector representing the observed time to
-event.}
+event (or censoring).}
 
-\item{trunc_time}{A numeric vector representing the observed left-truncated
-time.}
+\item{trunc_time}{A numeric vector representing the observed
+left-truncation time. If \code{NULL} (the default), it is set to a vector of
+0s (i.e., no left-truncation).}
 
-\item{censoring_indicator}{An indicator for censoring (1=censored, 0=not). Defaults to
-a vector of 0s if \code{NULL}. An observation is only treated as an event if
-status=1 AND censoring=0.}
+\item{censoring_indicator}{An indicator for censoring (1 = censored, 0 =
+not). Defaults to a vector of 0s if \code{NULL}. An observation is only
+treated as an event (of a given type) if its censoring indicator is 0.}
 
-\item{event_type}{a vector of "events identifies" (experimental)}
+\item{event_type}{An optional vector of event identifiers (e.g.,
+\code{"Default"} and \code{"Prepayment"}) for competing risks (experimental). When
+it has more than one unique value, cause-specific hazards are estimated
+for each event type.}
 
 \item{support_lifetime_rv}{A \code{vector} of time points at which to evaluate
-the hazard.  If \code{NULL} (the default), it is calculated for a sequence from
-\code{Delta + 1} to \code{omega} (that is, \code{max(lifetime)}).}
+the hazard. If \code{NULL} (the default), it is calculated by \code{\link[=calc_osup]{calc_osup()}} as
+a sequence from \code{Delta + 1} to \code{omega} (that is, \code{max(lifetime)}).}
 
-\item{carry_hazard}{A \code{boolean} indicator on whether 0 hazard estimates
-should be replaced by the last non-zero estimate. Defaults to \code{FALSE}}
+\item{carry_hazard}{A \code{logical} indicator on whether 0 hazard estimates
+should be replaced by the last non-zero estimate. Defaults to \code{FALSE}.}
 
 \item{ci_level}{A number between 0 and 1 indicating the level of the
 confidence intervals.}
 }
 \value{
-A \code{data.frame} with the hazard estimate their standard errors and
-asymptotic confidence intervals. Importantly, in the output, the column
-called \code{se_log_hazard} represents the standard error of the \code{hazard} rate
-at the \code{logit} scale.
+An object of class \code{alife} (or \code{alife_multi}, when \code{event_type}
+has more than one unique value), that is, a \code{data.frame} with the hazard
+estimates, their standard errors, and asymptotic confidence intervals.
+Importantly, in the output, the column called \code{se_log_hazard} represents
+the standard error of the \code{hazard} rate at the \code{logit} scale.
 }
 \description{
 Estimate the non-parametric hazard rate for truncated and
-censored data
+censored data.
 }
 \details{
 Point estimate and asymptotic confidence intervals are calculated
-based on \if{html}{\out{<REFERENCES>}} (We can also include some brief notation/definitions
-here)
+based on Lautier et al. 2023, \doi{10.1016/j.ecosta.2023.05.005}; Lautier
+et al. 2025, \doi{10.1214/25-AOAS2103}.
 }

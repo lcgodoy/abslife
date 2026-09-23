@@ -25,23 +25,32 @@ disc_fac <- function(time, int_rate) {
 
 ##' Calculate Actuarial Present Value (APV) of a Loan
 ##'
-##' Calculates the APV of a loan under competing risks (Default vs. Pre-payment)
+##' Calculates the APV of a loan under competing risks (default vs. prepayment)
 ##' and left-truncated survival data.
 ##'
-##' @param x An object of class `acdf`. Typically the output of the
-##'   `estimate_hazard` function.
+##' @details `x` must contain exactly two event types, and the default event
+##'   must be labeled either `"Default"` or `"1"`; the other event type is
+##'   treated as prepayment. If the observed lifetime support does not reach
+##'   `orig_term`, the hazards are extrapolated up to `orig_term` with
+##'   [extend_hazard()] (with a warning).
+##'
+##' @param x An object of class `alife_multi`. Typically the output of the
+##'   `estimate_hazard` function with two event types.
 ##' @param cur_age Current age of the loan in months.
 ##' @param orig_term Original loan term in months.
 ##' @param orig_loan_amt Original loan amount.
 ##' @param mon_pmt Monthly payment amount.
 ##' @param ref_rate Annualized reference discount rate.
-##' @param recov_curve Recovery curve data frame (columns: Month, Recovery).
+##' @param recov_curve Recovery curve `data.frame` with columns `month` and
+##'   `recovery` (the recovery rate as a proportion of `orig_loan_amt`). It must
+##'   cover (at least) up to month `orig_term`.
 ##' @param orig_apy Internal loan APY for amortization. Defaults to 0.15.
-##' @param type A character string specifying the interpolation type: either
-##'   `"constant"` (default), `"geometric"` or `"linear"`.
+##' @param type A character string specifying the extrapolation type passed to
+##'   [extend_hazard()]: either `"constant"` (default), `"geometric"` or
+##'   `"linear"`.
 ##'
-##' @return A list containing APV, second moment (APV2), standard deviation
-##'   (SD).
+##' @return A list containing the APV (`APV`), its second moment (`APV2`), and
+##'   its standard deviation (`SD`).
 ##'
 ##' @export
 calculate_apv <- function(x,
@@ -119,20 +128,16 @@ calculate_apv <- function(x,
 
 ##' Solve for Risk-Adjusted Internal Rate of Return (IRR)
 ##'
-##' @param x An object of class `acdf`. Typically the output of the
-##'   `estimate_hazard` function.
-##' @param abs0_bal Current loan balance (to match EPV against).
-##' @param cur_age Current age of the loan in months.
-##' @param orig_term Original loan term in months.
-##' @param orig_loan_amt Original loan amount.
-##' @param mon_pmt Monthly payment amount.
-##' @param recov_curve Recovery curve data frame.
-##' @param orig_apy Internal loan APY for amortization. Defaults to 0.15.
-##' @param type A character string specifying the interpolation type: either
-##'   `"constant"` (default), `"geometric"` or `"linear"`.
+##' Finds the discount rate at which the APV of the loan (see
+##' [calculate_apv()]) matches `abs0_bal`.
 ##'
-##' @return List with risk adjusted monthly rate, annualized rate, and objective
-##'   value.
+##' @inherit calculate_apv details
+##' @inheritParams calculate_apv
+##' @param abs0_bal Current loan balance (to match the APV against).
+##'
+##' @return A list with the risk-adjusted monthly rate (`monthly_rate`), the
+##'   annualized rate (`annualized_rate`), and the objective value at the
+##'   optimum (`objective`).
 ##' @export
 solve_irr <- function(x,
                       abs0_bal,

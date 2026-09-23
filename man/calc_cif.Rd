@@ -3,12 +3,29 @@
 \name{calc_cif}
 \alias{calc_cif}
 \alias{calc_cif.alife_multi}
-\title{Calculate cumulative incidence functions (CIF) from Hazard estimates}
+\title{Calculate Cumulative Incidence Functions (CIF) from Hazard Estimates}
 \usage{
 calc_cif(x, ...)
 
 \method{calc_cif}{alife_multi}(x, ...)
 }
+\arguments{
+\item{x}{An object of class \code{alife_multi}. Typically the output of the
+\code{estimate_hazard} function with more than one event type.}
+
+\item{...}{Not used.}
+}
+\value{
+An object of class \code{acif}, a \code{data.frame} with columns
+\code{event_type}, \code{lifetime}, \code{all_surv} (all-cause survival up to the
+previous time point), \code{pr_zx} (probability of the event of a given type
+at \code{lifetime}), \code{cif}, and \code{risk_set}.
+}
 \description{
-Calculate cumulative incidence functions (CIF) from Hazard estimates
+Computes the all-cause survival function and the
+cause-specific cumulative incidence functions from cause-specific hazard
+estimates.
+}
+\seealso{
+\code{\link[=plot.acif]{plot.acif()}}, \code{\link[=summary.acif]{summary.acif()}}
 }

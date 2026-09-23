@@ -2,28 +2,31 @@
 % Please edit documentation in R/hazard.R
 \name{check_censored}
 \alias{check_censored}
-\title{Auxiliary function for \code{estimate_hazard}}
+\title{Check for censoring at the end of the support (auxiliary function
+for \code{estimate_hazard})}
 \usage{
 check_censored(lifetime, censoring_indicator, support_lifetime_rv)
 }
 \arguments{
 \item{lifetime}{A numeric vector representing the observed time to
-event.}
+event (or censoring).}
 
-\item{censoring_indicator}{An indicator for censoring (1=censored, 0=not). Defaults to
-a vector of 0s if \code{NULL}. An observation is only treated as an event if
-status=1 AND censoring=0.}
+\item{censoring_indicator}{An indicator for censoring (1 = censored, 0 =
+not). Defaults to a vector of 0s if \code{NULL}. An observation is only
+treated as an event (of a given type) if its censoring indicator is 0.}
 
 \item{support_lifetime_rv}{A \code{vector} of time points at which to evaluate
-the hazard.  If \code{NULL} (the default), it is calculated for a sequence from
-\code{Delta + 1} to \code{omega} (that is, \code{max(lifetime)}).}
+the hazard. If \code{NULL} (the default), it is calculated by \code{\link[=calc_osup]{calc_osup()}} as
+a sequence from \code{Delta + 1} to \code{omega} (that is, \code{max(lifetime)}).}
 }
 \value{
-Nothing
+\code{NULL}, invisibly. Called for its side effect.
 }
 \description{
-Auxiliary function for \code{estimate_hazard}
+Throws a warning when there are censored observations at the
+maximum of \code{support_lifetime_rv}.
 }
 \author{
 lcgodoy
 }
+\keyword{internal}

@@ -6,7 +6,15 @@
 \usage{
 validate_acif(x)
 }
+\arguments{
+\item{x}{An object to validate.}
+}
+\value{
+\code{NULL}, invisibly, if validation is successful. Throws an error on
+failure.
+}
 \description{
-Validate an acif Object
+Checks if an object is a valid \code{acif} object by ensuring it is a data
+frame and contains all required columns.
 }
 \keyword{internal}

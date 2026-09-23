@@ -24,21 +24,24 @@ loan, we likely have \eqn{\omega = 72}).}
 \item{epsilon}{is a positive integer (default is \code{NULL}) denoting the
 present time (the current calendar month age since the first loan was
 originated) of the data generation process for an active ABS pool. If
-\eqn{\epsilon < \omega + m}, then right-censoring is present because it
+\eqn{\varepsilon < \omega + m}, then right-censoring is present because it
 indicates some active loans are still making ongoing payments and have not
 yet terminated.}
 }
 \value{
-A numeric vector representing the observable support associated with
-the function inputs.
+A list with two integer vectors: \code{X}, the observable support
+of the lifetime variable (from \eqn{\Delta + 1} to \eqn{\xi}), and
+\code{Y}, the support of the left-truncation variable (from
+\eqn{\Delta + 1} to \eqn{\Delta + m}).
 }
 \description{
-This helper function generates a sequence of evaluation points (Lautier et
-al. 2025, \url{DOI:10.1214/25-AOAS2103}).
+This helper function generates the observable supports of the lifetime and
+left-truncation random variables (Lautier et al. 2025,
+\doi{10.1214/25-AOAS2103}).
 }
 \note{
-The observed support may not extend all the way to \eqn{omega}
-(\code{omega}). In that scenario, we set \eqn{omega} to the age of the
+The observed support may not extend all the way to \eqn{\omega}
+(\code{omega}). In that scenario, we set \eqn{\omega} to the age of the
 oldest active loan in the ABS bond (corresponding to \eqn{\xi \equiv
   \min(\omega, \varepsilon - 1)} in the notation used in Lautier et
 al. 2025), with \eqn{\varepsilon} denoting the present time.

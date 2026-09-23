@@ -9,10 +9,10 @@
 \arguments{
 \item{x}{An object of class \code{acdf_multi}.}
 
-\item{ci_level}{A numeric vector of confidence levels to plot (e.g.,
-\code{c(0.5, 0.95)}). Defaults to \code{0.95}.}
+\item{ci_level}{Currently ignored: standard errors are not yet available
+for competing risks, so no confidence intervals are drawn.}
 
-\item{color}{The color for the confidence interval polygon/bars.}
+\item{color}{Currently ignored (see \code{ci_level}).}
 
 \item{col_line}{The color for the main estimate line/points.}
 
@@ -20,12 +20,12 @@
 \code{xlab}, \code{ylab} override).}
 }
 \value{
-A faceted plot of CDFs and Densities.
+A faceted plot of CIFs and Densities.
 }
 \description{
 Creates a faceted plot with one row per event type. Each row contains
-two panels: one for the Cumulative Distribution Function (CDF) and one
-for the Probability Mass Function (Density).
+two panels: one for the cause-specific Cumulative Incidence Function (CIF)
+and one for the Probability Mass Function (Density).
 }
 \seealso{
 \code{\link[=calc_cdf]{calc_cdf()}}

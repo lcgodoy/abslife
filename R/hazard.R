@@ -1,7 +1,8 @@
 ##' Computes the observable support of a lifetime variable
 ##'
-##' This helper function generates a sequence of evaluation points (Lautier et
-##' al. 2025, <DOI:10.1214/25-AOAS2103>).
+##' This helper function generates the observable supports of the lifetime and
+##' left-truncation random variables (Lautier et al. 2025,
+##' \doi{10.1214/25-AOAS2103}).
 ##'
 ##' @param Delta a nonnegative integer denoting the period of time (in months)
 ##'   during which the ABS is marketed to prospective investors.  It is after
@@ -17,18 +18,20 @@
 ##' @param epsilon is a positive integer (default is \code{NULL}) denoting the
 ##'   present time (the current calendar month age since the first loan was
 ##'   originated) of the data generation process for an active ABS pool. If
-##'   \eqn{\epsilon < \omega + m}, then right-censoring is present because it
+##'   \eqn{\varepsilon < \omega + m}, then right-censoring is present because it
 ##'   indicates some active loans are still making ongoing payments and have not
 ##'   yet terminated.
 ##'
-##' @note The observed support may not extend all the way to \eqn{omega}
-##'   (\code{omega}). In that scenario, we set \eqn{omega} to the age of the
+##' @note The observed support may not extend all the way to \eqn{\omega}
+##'   (\code{omega}). In that scenario, we set \eqn{\omega} to the age of the
 ##'   oldest active loan in the ABS bond (corresponding to \eqn{\xi \equiv
 ##'   \min(\omega, \varepsilon - 1)} in the notation used in Lautier et
 ##'   al. 2025), with \eqn{\varepsilon} denoting the present time.
 ##' 
-##' @return A numeric vector representing the observable support associated with
-##'   the function inputs.
+##' @return A list with two integer vectors: \code{X}, the observable support
+##'   of the lifetime variable (from \eqn{\Delta + 1} to \eqn{\xi}), and
+##'   \code{Y}, the support of the left-truncation variable (from
+##'   \eqn{\Delta + 1} to \eqn{\Delta + m}).
 ##' @export
 retrieve_support <- function(Delta, m, omega,
                              epsilon = NULL) {
@@ -49,18 +52,19 @@ retrieve_support <- function(Delta, m, omega,
 ##' Calculate Observed Support
 ##'
 ##' This helper function generates the observable support of the lifetime variable
-##' based on the study's overall time range (Lautier et al. 2023, <DOI:
-##' 10.1016/j.ecosta.2023.05.005>). In particular, it calculates \eqn{\Delta}
-##' and \eqn{m} based on the left-truncation and time-to-event random variables and outputs
-##' a sequence ranging from \eqn{\Delta + 1} to \eqn{\xi}, where \eqn{\xi =
-##' \min(\omega, \varepsilon - 1)}, with \eqn{\varepsilon} denoting the present
-##' time.
+##' based on the study's overall time range (Lautier et al. 2023,
+##' \doi{10.1016/j.ecosta.2023.05.005}). In particular, it takes \eqn{\Delta}
+##' as the smallest observed time, \code{min(c(lifetime, trunc_time))}, and
+##' \eqn{\omega} as the largest observed lifetime, \code{max(lifetime)}, and
+##' outputs a sequence ranging from \eqn{\Delta + 1} to \eqn{\omega} (see
+##' [retrieve_support()]).
 ##'
 ##' @param lifetime The vector of event or censoring times.
 ##' @param trunc_time The vector of left-truncation times.
 ##'
 ##' @return A numeric vector representing the observed support of the lifetime
-##'   variable.
+##'   variable. An empty vector (with a warning) if fewer than two time points
+##'   are available.
 ##' @export
 calc_osup <- function(lifetime, trunc_time) {
   delta <- min(c(lifetime, trunc_time), na.rm = TRUE) - 1
@@ -84,6 +88,7 @@ calc_osup <- function(lifetime, trunc_time) {
 ##' @inheritParams single_t_hazard
 ##' @return a scalar
 ##' @author lcgodoy
+##' @keywords internal
 f_hat <- function(t, lifetime,
                   event,
                   censoring_indicator) {
@@ -95,6 +100,7 @@ f_hat <- function(t, lifetime,
 ##' @inheritParams single_t_hazard
 ##' @return a scalar
 ##' @author lcgodoy
+##' @keywords internal
 u_hat <- function(t,
                   lifetime,
                   trunc_time) {
@@ -102,12 +108,13 @@ u_hat <- function(t,
 }
 
 ##' @title Variance of the log-transformed hazard estimate
-##' @param lambda hazard rate
-##' @param risk_set \eqn{hat{U}}
-##' @param fh \eqn{hat{f}}
+##' @param lambda hazard rate (currently unused).
+##' @param risk_set \eqn{\hat{U}}
+##' @param fh \eqn{\hat{f}}
 ##' @param n sample size (or number of timepoints)
 ##' @return a scalar
 ##' @author lcgodoy
+##' @keywords internal
 var_hat <- function(lambda, risk_set, fh, n) {
   uh <- risk_set
   lfh <- log(fh)
@@ -115,16 +122,19 @@ var_hat <- function(lambda, risk_set, fh, n) {
   exp(log(uh - fh) -  log(n) - luh - lfh)
 }
 
-##' @title Hazard estimate for a single time-point.
+##' @title Hazard estimate for a single time-point
 ##'
 ##' @description Internal use.
 ##' 
 ##' @param t A time point at which hazard estimates are sought.
 ##' @inheritParams estimate_hazard
 ##' @param event event indicator
-##' @return A vector containing the time to event, \eqn{\hat{C}_n}, the number
-##'   of events, and the hazard estimate along with its standard error.
+##' @return A named vector containing the time point (`lifetime`), the risk
+##'   set estimate \eqn{\hat{U}(t)} (`risk_set`), the hazard estimate
+##'   (`hazard`), and the standard error of the hazard estimate at the logit
+##'   scale (`se_log_hazard`).
 ##' @author lcgodoy
+##' @keywords internal
 single_t_hazard <- function(t,
                             trunc_time,
                             lifetime,
@@ -143,12 +153,16 @@ single_t_hazard <- function(t,
                            0.0))
 }
 
-##' @title Auxiliary function for `estimate_hazard`
+##' @title Hazard estimates over a support (auxiliary function for
+##'   `estimate_hazard`)
 ##' @param support where to calculate the hazards
-##' @param event_indicator legacy.
+##' @param event_indicator A binary vector flagging the observations whose
+##'   event is of the type being estimated (all ones when there are no
+##'   competing risks).
 ##' @inheritParams estimate_hazard
 ##' @return a `data.frame`
 ##' @author lcgodoy
+##' @keywords internal
 .hazard_core <- function(support, trunc_time,
                          lifetime, censoring_indicator,
                          event_indicator,
@@ -166,10 +180,14 @@ single_t_hazard <- function(t,
   return(out)
 }
 
-##' @title Auxiliary function for `estimate_hazard`
+##' @title Check for censoring at the end of the support (auxiliary function
+##'   for `estimate_hazard`)
+##' @description Throws a warning when there are censored observations at the
+##'   maximum of `support_lifetime_rv`.
 ##' @inheritParams estimate_hazard
-##' @return Nothing
+##' @return `NULL`, invisibly. Called for its side effect.
 ##' @author lcgodoy
+##' @keywords internal
 check_censored <- function(lifetime, censoring_indicator, support_lifetime_rv) {
   max_support <- max(support_lifetime_rv, na.rm = TRUE)
   is_problematic <- (lifetime == max_support) & (censoring_indicator == 1)
@@ -185,34 +203,39 @@ check_censored <- function(lifetime, censoring_indicator, support_lifetime_rv) {
 ##' @title Hazard rate
 ##'
 ##' @description Estimate the non-parametric hazard rate for truncated and
-##'   censored data
+##'   censored data.
 ##'
 ##' @details Point estimate and asymptotic confidence intervals are calculated
-##'   based on <REFERENCES> (We can also include some brief notation/definitions
-##'   here)
+##'   based on Lautier et al. 2023, \doi{10.1016/j.ecosta.2023.05.005}; Lautier
+##'   et al. 2025, \doi{10.1214/25-AOAS2103}.
 ##' 
 ##' @param lifetime A numeric vector representing the observed time to
-##'   event.
-##' @param trunc_time A numeric vector representing the observed left-truncated
-##'   time.
-##' @param censoring_indicator An indicator for censoring (1=censored, 0=not). Defaults to
-##'   a vector of 0s if `NULL`. An observation is only treated as an event if
-##'   status=1 AND censoring=0.
-##' @param event_type a vector of "events identifies" (experimental)
+##'   event (or censoring).
+##' @param trunc_time A numeric vector representing the observed
+##'   left-truncation time. If `NULL` (the default), it is set to a vector of
+##'   0s (i.e., no left-truncation).
+##' @param censoring_indicator An indicator for censoring (1 = censored, 0 =
+##'   not). Defaults to a vector of 0s if `NULL`. An observation is only
+##'   treated as an event (of a given type) if its censoring indicator is 0.
+##' @param event_type An optional vector of event identifiers (e.g.,
+##'   `"Default"` and `"Prepayment"`) for competing risks (experimental). When
+##'   it has more than one unique value, cause-specific hazards are estimated
+##'   for each event type.
 ##' @param support_lifetime_rv A `vector` of time points at which to evaluate
-##'   the hazard.  If `NULL` (the default), it is calculated for a sequence from
-##'   `Delta + 1` to `omega` (that is, `max(lifetime)`).
-##' @param carry_hazard A `boolean` indicator on whether 0 hazard estimates
-##'   should be replaced by the last non-zero estimate. Defaults to `FALSE`
+##'   the hazard. If `NULL` (the default), it is calculated by [calc_osup()] as
+##'   a sequence from `Delta + 1` to `omega` (that is, `max(lifetime)`).
+##' @param carry_hazard A `logical` indicator on whether 0 hazard estimates
+##'   should be replaced by the last non-zero estimate. Defaults to `FALSE`.
 ##' @param ci_level A number between 0 and 1 indicating the level of the
 ##'   confidence intervals.
 ##'
 ##' @export
 ##' 
-##' @return A `data.frame` with the hazard estimate their standard errors and
-##'   asymptotic confidence intervals. Importantly, in the output, the column
-##'   called `se_log_hazard` represents the standard error of the `hazard` rate
-##'   at the `logit` scale.
+##' @return An object of class `alife` (or `alife_multi`, when `event_type`
+##'   has more than one unique value), that is, a `data.frame` with the hazard
+##'   estimates, their standard errors, and asymptotic confidence intervals.
+##'   Importantly, in the output, the column called `se_log_hazard` represents
+##'   the standard error of the `hazard` rate at the `logit` scale.
 ##'
 estimate_hazard <- function(lifetime,
                             trunc_time = NULL,

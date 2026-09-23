@@ -10,7 +10,7 @@
 \item{x}{An object of class \code{alife}. Typically the output of the
 \code{estimate_hazard} function.}
 
-\item{ci_level}{A numeric vector of confidence ci_level to plot (e.g.,
+\item{ci_level}{A numeric vector of confidence levels to plot (e.g.,
 \code{c(0.5, 0.95)}). Defaults to \code{0.95}.}
 
 \item{color}{The color for the confidence interval polygon.}

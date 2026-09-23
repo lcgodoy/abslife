@@ -2,7 +2,7 @@
 % Please edit documentation in R/methods.R
 \name{summary.acdf_multi}
 \alias{summary.acdf_multi}
-\title{Summary Method for an 'alife_multi' Object}
+\title{Summary Method for an 'acdf_multi' Object}
 \usage{
 \method{summary}{acdf_multi}(object, by = 5, ...)
 }
@@ -12,15 +12,15 @@
 
 \item{by}{an \code{integer} defining the periodicity of the summary.}
 
-\item{...}{Additional arguments passed to the base \code{print} function (e.g.,
-\code{digits}).}
+\item{...}{Not used.}
 }
 \value{
-A summary of the hazard rate.
+A \code{data.frame} with the all-cause survival, cause-specific
+cumulative incidence, and density at every \code{by} time points.
 }
 \description{
-Summary Method for an 'alife_multi' Object
+Summary Method for an 'acdf_multi' Object
 }
 \seealso{
-\code{\link[=estimate_hazard]{estimate_hazard()}}
+\code{\link[=calc_cdf]{calc_cdf()}}
 }

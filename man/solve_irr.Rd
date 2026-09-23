@@ -17,10 +17,10 @@ solve_irr(
 )
 }
 \arguments{
-\item{x}{An object of class \code{acdf}. Typically the output of the
-\code{estimate_hazard} function.}
+\item{x}{An object of class \code{alife_multi}. Typically the output of the
+\code{estimate_hazard} function with two event types.}
 
-\item{abs0_bal}{Current loan balance (to match EPV against).}
+\item{abs0_bal}{Current loan balance (to match the APV against).}
 
 \item{cur_age}{Current age of the loan in months.}
 
@@ -30,17 +30,29 @@ solve_irr(
 
 \item{mon_pmt}{Monthly payment amount.}
 
-\item{recov_curve}{Recovery curve data frame.}
+\item{recov_curve}{Recovery curve \code{data.frame} with columns \code{month} and
+\code{recovery} (the recovery rate as a proportion of \code{orig_loan_amt}). It must
+cover (at least) up to month \code{orig_term}.}
 
 \item{orig_apy}{Internal loan APY for amortization. Defaults to 0.15.}
 
-\item{type}{A character string specifying the interpolation type: either
-\code{"constant"} (default), \code{"geometric"} or \code{"linear"}.}
+\item{type}{A character string specifying the extrapolation type passed to
+\code{\link[=extend_hazard]{extend_hazard()}}: either \code{"constant"} (default), \code{"geometric"} or
+\code{"linear"}.}
 }
 \value{
-List with risk adjusted monthly rate, annualized rate, and objective
-value.
+A list with the risk-adjusted monthly rate (\code{monthly_rate}), the
+annualized rate (\code{annualized_rate}), and the objective value at the
+optimum (\code{objective}).
 }
 \description{
-Solve for Risk-Adjusted Internal Rate of Return (IRR)
+Finds the discount rate at which the APV of the loan (see
+\code{\link[=calculate_apv]{calculate_apv()}}) matches \code{abs0_bal}.
+}
+\details{
+\code{x} must contain exactly two event types, and the default event
+must be labeled either \code{"Default"} or \code{"1"}; the other event type is
+treated as prepayment. If the observed lifetime support does not reach
+\code{orig_term}, the hazards are extrapolated up to \code{orig_term} with
+\code{\link[=extend_hazard]{extend_hazard()}} (with a warning).
 }

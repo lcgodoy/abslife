@@ -6,6 +6,15 @@
 \usage{
 new_acif(x = data.frame())
 }
+\arguments{
+\item{x}{A \code{data.frame} that has the required columns for an \code{acif}
+object: \code{lifetime}, \code{event_type}, \code{all_surv}, and \code{cif}. Defaults to an
+empty \code{data.frame}.}
+}
+\value{
+An object of class \code{acif}.
+}
 \description{
-Create an acif Object
+Constructs an object of class \code{acif} from a data frame, after validating
+its structure. Note that this function is mostly for internal usage.
 }

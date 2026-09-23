@@ -29,7 +29,7 @@
 ##' loans terminate), and it features competing risks of default and prepayment.
 ##'
 ##' @format ## `aloans`
-##' A data frame with 58,118 rows and 12 columns:
+##' A data frame with 58,118 rows and 13 columns:
 ##' \describe{
 ##' \item{risk.cat}{Credit risk band based on the loan's Annual Percentage Rate
 ##' (APR). Categories include "super_prime" (0-5%), "prime" (5-10%), "near_prime"
@@ -39,13 +39,16 @@
 ##'   when the ABS trust began making payments to investors.}
 ##' \item{C}{Right-censoring indicator (1 = right-censored, 0 = exact
 ##' termination observed).}
-##' \item{D}{Default indicator for competing risks (1 = default, 0 = prepayment).}
-##' \item{bond}{Categorical variable specifying the source ABS bond: CARMX
-##' (CarMax Auto Owner Trust 2017-2), AART (Ally Auto Receivables Trust 2017-3),
-##' SDART (Santander Drive Auto Receivables Trust 2017-2), or DRIVE (Drive Auto
-##' Receivables Trust 2017-1).}
+##' \item{D}{Default indicator for competing risks (1 = default observed, 0 =
+##' prepayment observed or right-censored).}
+##' \item{R}{Prepayment indicator for competing risks (1 = prepayment observed,
+##' 0 = default observed or right-censored).}
+##' \item{bond}{Categorical variable specifying the source ABS bond:
+##' \code{"carmax"} (CarMax Auto Owner Trust 2017-2), \code{"aart"} (Ally Auto
+##' Receivables Trust 2017-3), \code{"sdart"} (Santander Drive Auto Receivables
+##' Trust 2017-2), or \code{"drive"} (Drive Auto Receivables Trust 2017-1).}
 ##' \item{orig.apr}{Obligor annual percentage rate}
-##' \item{orig.term}{Original loan term}
+##' \item{orig.term}{Original loan term (in months)}
 ##' \item{orig.loan.amt}{Original loan amount}
 ##' \item{abs0.age}{Loan age as of the start of the asset-backed security}
 ##' \item{abs0.balance}{Outstanding loan balance as of the start of the
@@ -53,9 +56,9 @@
 ##' \item{calc.pmt}{Calculated monthly payment}
 ##' }
 ##'
-##' @source Data was originally compiled from the the Electronic Data Gathering,
+##' @source Data was originally compiled from the Electronic Data Gathering,
 ##'   Analysis, and Retrieval (EDGAR) system of the Securities and Exchange
-##'   Comission (SEC).. The replication data repository is available at
+##'   Commission (SEC). The replication data repository is available at
 ##'   <https://github.com/jackson-lautier/credit-risk-convergence/>.
 ##' 
 ##' @references Lautier, J. P., Pozdnyakov, V., & Yan, J. (2024). On the
@@ -68,8 +71,8 @@
 ##'
 ##' A dataset containing time-to-event and left-truncation times for consumer
 ##' automobile loans from the Ally Auto Receivables Trust (AART). The data were
-##' compiled from the the Electronic Data Gathering, Analysis, and Retrieval
-##' (EDGAR) system of the Securities and Exchange Comission (SEC).
+##' compiled from the Electronic Data Gathering, Analysis, and Retrieval
+##' (EDGAR) system of the Securities and Exchange Commission (SEC).
 ##'
 ##' @format ## `aart`
 ##' A data frame with 2,756 rows and 12 columns:
@@ -81,11 +84,11 @@
 ##'   \item{\code{credit.score}}{Obligor credit score}
 ##'   \item{\code{interest.rate}}{Obligor annual percentage rate}
 ##'   \item{\code{pti}}{Obligor payment-to-income}
-##'   \item{\code{veh.value}}{Estimated vehicle value at signing (\eqn{\\log} scale)}
+##'   \item{\code{veh.value}}{Estimated vehicle value at signing (\eqn{\log} scale)}
 ##'   \item{\code{co.sign}}{Co-Obligor indicator (1 = \code{TRUE})}
 ##'   \item{\code{new.used}}{New-Used indicator (1 = \code{NEW})}
 ##'   \item{\code{subvent.rate}}{Subvented interest rate indicator (1 = \code{TRUE})}
-##'   \item{\code{subvent.cash}}{Cash rebate indicator (1 = \code{TRUE})\\}
+##'   \item{\code{subvent.cash}}{Cash rebate indicator (1 = \code{TRUE})}
 ##'   \item{\code{veh.pick.up}}{Pick-up truck indicator (1 = \code{TRUE})}
 ##'   \item{\code{veh.suv}}{Sport-Utility-Vehicle indicator (1 = \code{TRUE})}
 ##' }
@@ -105,7 +108,7 @@
 
 ##' Consumer automobile leases from Mercedes-Benz Auto Lease Trust 2017-A
 ##'
-##' A dataset containing performance records of 47,315 consumer automobile
+##' A dataset containing performance records of 47,314 consumer automobile
 ##' leases with an original term of 36 months from the Mercedes-Benz Auto Lease
 ##' Trust (MBALT) 2017-A.
 ##'
@@ -123,7 +126,7 @@
 ##'   \item{\code{co.lessee}}{Co-Lessee indicator}
 ##'   \item{\code{credit.score}}{Obligor credit score}
 ##'   \item{\code{location}}{State or U.S.\ territory of contract}
-##'   \item{\code{lease.term}}{Original lease term}
+##'   \item{\code{lease.term}}{Original lease term (in months)}
 ##'   \item{\code{pti}}{Obligor payment-to-income}
 ##'   \item{\code{subvented}}{Subvention type (cash, rate, none)}
 ##'   \item{\code{model}}{Vehicle model}

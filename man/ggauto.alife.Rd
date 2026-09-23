@@ -2,7 +2,7 @@
 % Please edit documentation in R/gg-methods.R
 \name{ggauto.alife}
 \alias{ggauto.alife}
-\title{Plot an 'alife' Object using ggplot2}
+\title{Plot an \code{alife} Object using \code{ggplot2}}
 \usage{
 \method{ggauto}{alife}(object, ci_level = 0.95, ...)
 }
@@ -18,5 +18,5 @@ to display (e.g., \code{0.95} or \code{c(0.80, 0.95)}).}
 A \code{ggplot} object.
 }
 \description{
-Plot an 'alife' Object using ggplot2
+Plot an \code{alife} Object using \code{ggplot2}
 }

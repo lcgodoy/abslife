@@ -7,15 +7,17 @@
 new_alife(x = data.frame())
 }
 \arguments{
-\item{x}{A \code{data.frame} that has the required columns for an 'alife' object.
-Defaults to an empty \code{data.frame}.}
+\item{x}{A \code{data.frame} that has the required columns for an \code{alife}
+object: \code{lifetime}, \code{risk_set}, \code{hazard}, \code{se_log_hazard}, \code{lower_ci},
+and \code{upper_ci}. Defaults to an empty \code{data.frame}.}
 }
 \value{
-An object of class \code{alife}.
+An object of class \code{alife}. If \code{x} has an \code{event_type} column, the
+object also inherits from \code{alife_multi}.
 }
 \description{
 Constructs an object of class \code{alife} from a data frame, after validating
-its structure. Note that, this function is mostly for internal usage.
+its structure. Note that this function is mostly for internal usage.
 }
 \examples{
 # Create a minimal data frame with the required columns

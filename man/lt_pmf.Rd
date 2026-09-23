@@ -3,7 +3,7 @@
 \name{lt_pmf}
 \alias{lt_pmf}
 \alias{.lt_core}
-\title{Core for left-truncation PMF computation}
+\title{PMF of the left-truncation random variable}
 \usage{
 .lt_core(lifetime, denom, trunc_time, rc = TRUE)
 
@@ -11,25 +11,29 @@ lt_pmf(x, trunc_time, rc = TRUE)
 }
 \arguments{
 \item{lifetime}{A numeric vector representing the observed time to
-event.}
+event (or censoring).}
 
 \item{denom}{A \code{numeric} vector representing the denominator for the
 calculation of the pmf}
 
-\item{trunc_time}{A numeric vector representing the observed left-truncated
-time.}
+\item{trunc_time}{A numeric vector representing the observed
+left-truncation time. If \code{NULL} (the default), it is set to a vector of
+0s (i.e., no left-truncation).}
 
-\item{rc}{a \code{numeric} boolean indicating whether right-censoring is to
-be considered.}
+\item{rc}{a \code{logical} indicating whether right-censoring is to be
+considered.}
 
-\item{x}{is the output of an \code{estimate_hazard} call.}
+\item{x}{the output of an \code{\link[=estimate_hazard]{estimate_hazard()}} call (an \code{alife} object) or
+of a \code{\link[=calc_cdf]{calc_cdf()}} call (an \code{acdf} object). Competing risks are not
+supported.}
 }
 \value{
 A \code{numeric} vector of estimates of the PMF for the
 left-truncation random variable.
 }
 \description{
-Internal use
+Estimates the probability mass function of the
+left-truncation random variable. \code{.lt_core} is the internal workhorse.
 }
 \author{
 lcgodoy

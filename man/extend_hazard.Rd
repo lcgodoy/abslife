@@ -31,13 +31,16 @@ extend_hazard(
 \item{x}{An object of class \code{alife} or \code{alife_multi}.}
 
 \item{end}{A numeric scalar indicating the target end time for the
-support. Typically, the original loan term.}
+support. Typically, the original loan term. Must be greater than the
+largest observed lifetime.}
 
-\item{type}{A character string specifying the interpolation type: either
-\code{"constant"}, \code{"geometric"} or \code{"linear"}.}
+\item{type}{A character string specifying the extrapolation type: either
+\code{"constant"} (default), \code{"geometric"} or \code{"linear"}.}
 
-\item{end_event}{A string indicating the event that will happen \emph{certainly}
-at \emph{end}. Only used when \code{x} is of class \code{alife_multi}.}
+\item{end_event}{A string indicating the event that absorbs the remaining
+probability at \code{end} (i.e., its hazard at \code{end} is one minus the default
+hazard, so that termination at \code{end} is certain). Only used when \code{x} is
+of class \code{alife_multi}.}
 }
 \value{
 An object of the same class as \code{x} with the extended lifetime
@@ -45,7 +48,12 @@ support.
 }
 \description{
 Extends the estimated hazard rates up to a specified end time
-using linear or geometric interpolation. This is only used for the
-\code{apv} related functions when the observed lifetime support exceeds
-the original loan term.
+using constant, geometric, or linear extrapolation, with the (all-cause)
+hazard at \code{end} set to 1. It is used by \code{\link[=calculate_apv]{calculate_apv()}} and
+\code{\link[=solve_irr]{solve_irr()}} when the observed lifetime support does not reach the
+original loan term.
+}
+\details{
+The last observed time point is replaced: the extrapolation
+starts from the hazard at the second-to-last observed time point.
 }

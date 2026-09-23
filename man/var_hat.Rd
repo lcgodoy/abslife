@@ -7,11 +7,11 @@
 var_hat(lambda, risk_set, fh, n)
 }
 \arguments{
-\item{lambda}{hazard rate}
+\item{lambda}{hazard rate (currently unused).}
 
-\item{risk_set}{\eqn{hat{U}}}
+\item{risk_set}{\eqn{\hat{U}}}
 
-\item{fh}{\eqn{hat{f}}}
+\item{fh}{\eqn{\hat{f}}}
 
 \item{n}{sample size (or number of timepoints)}
 }
@@ -24,3 +24,4 @@ Variance of the log-transformed hazard estimate
 \author{
 lcgodoy
 }
+\keyword{internal}

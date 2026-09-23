@@ -7,8 +7,8 @@
 \method{summary}{alife_multi}(object, by = 5, ...)
 }
 \arguments{
-\item{object}{An object of class \code{alife}. Typically the output of the
-\code{estimate_hazard} function.}
+\item{object}{An object of class \code{alife_multi}. Typically the output of
+the \code{estimate_hazard} function.}
 
 \item{by}{an \code{integer} defining the periodicity of the summary.}
 
@@ -16,7 +16,8 @@
 \code{digits}).}
 }
 \value{
-A summary of the hazard rate.
+Prints the cause-specific hazard estimates at every \code{by} time
+points and invisibly returns them as a \code{data.frame}.
 }
 \description{
 Summary Method for an 'alife_multi' Object

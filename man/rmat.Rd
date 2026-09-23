@@ -32,10 +32,11 @@ build_cdfvar(pmfvar)
 
 \item{support_length}{length of \code{hazard}.}
 
-\item{se_log_hazard}{A \code{vector} of SE estimates for the log-hazards.}
+\item{se_log_hazard}{A \code{vector} of SE estimates for the hazards at the
+logit scale.}
 
-\item{pmfvar}{a square \code{matrix} corresponding to the output of a \code{build_pmf}
-call.}
+\item{pmfvar}{a square \code{matrix} corresponding to the output of a
+\code{build_pmfvar} call.}
 }
 \value{
 A square \code{matrix} with number of rows (and columns) matching the
@@ -47,3 +48,4 @@ Build the auxiliary matrix K
 \author{
 lcgodoy
 }
+\keyword{internal}

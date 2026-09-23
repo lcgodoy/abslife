@@ -12,11 +12,11 @@
 
 \item{by}{an \code{integer} defining the periodicity of the summary.}
 
-\item{...}{Additional arguments passed to the base \code{print} function (e.g.,
-\code{digits}).}
+\item{...}{Not used.}
 }
 \value{
-A summary of the CDF function.
+A \code{data.frame} with the CDF and density at every \code{by} time
+points.
 }
 \description{
 Summary Method for an 'acdf' Object

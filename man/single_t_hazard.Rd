@@ -2,28 +2,31 @@
 % Please edit documentation in R/hazard.R
 \name{single_t_hazard}
 \alias{single_t_hazard}
-\title{Hazard estimate for a single time-point.}
+\title{Hazard estimate for a single time-point}
 \usage{
 single_t_hazard(t, trunc_time, lifetime, event, censoring_indicator)
 }
 \arguments{
 \item{t}{A time point at which hazard estimates are sought.}
 
-\item{trunc_time}{A numeric vector representing the observed left-truncated
-time.}
+\item{trunc_time}{A numeric vector representing the observed
+left-truncation time. If \code{NULL} (the default), it is set to a vector of
+0s (i.e., no left-truncation).}
 
 \item{lifetime}{A numeric vector representing the observed time to
-event.}
+event (or censoring).}
 
 \item{event}{event indicator}
 
-\item{censoring_indicator}{An indicator for censoring (1=censored, 0=not). Defaults to
-a vector of 0s if \code{NULL}. An observation is only treated as an event if
-status=1 AND censoring=0.}
+\item{censoring_indicator}{An indicator for censoring (1 = censored, 0 =
+not). Defaults to a vector of 0s if \code{NULL}. An observation is only
+treated as an event (of a given type) if its censoring indicator is 0.}
 }
 \value{
-A vector containing the time to event, \eqn{\hat{C}_n}, the number
-of events, and the hazard estimate along with its standard error.
+A named vector containing the time point (\code{lifetime}), the risk
+set estimate \eqn{\hat{U}(t)} (\code{risk_set}), the hazard estimate
+(\code{hazard}), and the standard error of the hazard estimate at the logit
+scale (\code{se_log_hazard}).
 }
 \description{
 Internal use.
@@ -31,3 +34,4 @@ Internal use.
 \author{
 lcgodoy
 }
+\keyword{internal}

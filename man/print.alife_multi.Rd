@@ -10,8 +10,7 @@
 \item{x}{An object of class \code{alife_multi}. Typically the output of the
 \code{estimate_hazard} function.}
 
-\item{...}{Additional arguments passed to the base \code{print} function (e.g.,
-\code{digits}).}
+\item{...}{Not used.}
 }
 \value{
 Prints information about \code{x} and invisibly returns it.

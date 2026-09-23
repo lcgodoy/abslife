@@ -16,7 +16,8 @@
 \code{digits}).}
 }
 \value{
-A summary of the hazard rate.
+Prints the hazard estimates at every \code{by} time points and
+invisibly returns them as a \code{data.frame}.
 }
 \description{
 Summary Method for an 'alife' Object

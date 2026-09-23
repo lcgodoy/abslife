@@ -7,14 +7,16 @@
 prep_ggplot(x, ci_level = 0.95)
 }
 \arguments{
-\item{x}{An object of class 'alife' or 'alife-multi'}
+\item{x}{An object of class \code{alife} or \code{alife_multi}.}
 
-\item{ci_level}{A numeric vector of confidence levels (e.g., c(0.80, 0.95))}
+\item{ci_level}{A numeric vector of confidence levels (e.g.,
+\code{c(0.80, 0.95)}).}
 }
 \value{
-A long-form data.frame with CI columns.
+A long-form \code{data.frame} with CI columns.
 }
 \description{
-Internal helper to create a long-form data frame with multiple
-confidence intervals for plotting.
+Helper (used by \code{\link[=ggauto]{ggauto()}}) to create a long-form data frame
+with multiple confidence intervals for plotting. As in
+\code{\link[=estimate_hazard]{estimate_hazard()}}, the intervals are computed at the logit scale.
 }

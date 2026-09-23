@@ -1,5 +1,5 @@
 Package: abslife
-Title: Estimating the lifetime distribution for left-truncated, discrete-time data with applications to Asset-Backed Securities
+Title: Estimating the Lifetime Distribution for Left-Truncated, Discrete-Time Data with Applications to Asset-Backed Securities
 Version: 0.2.2
 Date: 2026-09-01
 Authors@R:
@@ -15,7 +15,15 @@ Authors@R:
            role = c("aut"),
            comment = c(ORCID = "0000-0003-0294-0314"))
   )
-Description: What the package does (one paragraph).
+Description: Estimation of the lifetime distribution of
+    discrete-time data subject to random left-truncation and right-censoring,
+    including competing risks, with applications to loan-level data from
+    asset-backed securities (ABS). Provides hazard rate, distribution, and
+    cumulative incidence function estimates with asymptotic confidence
+    intervals, plotting methods, and tools for computing the actuarial present
+    value and risk-adjusted internal rate of return of a loan, following
+    Lautier, Pozdnyakov, and Yan (2023) <doi:10.1016/j.ecosta.2023.05.005>
+    and Lautier, Pozdnyakov, and Yan (2025) <doi:10.1214/25-AOAS2103>.
 License: MIT + file LICENSE
 Suggests: 
     testthat (>= 3.0.0),
@@ -26,10 +34,10 @@ Imports: rlang
 Config/testthat/edition: 3
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.3
 Depends: 
     R (>= 4.1),
     graphics
 LazyData: true
 URL: http://lcgodoy.me/abslife/
 VignetteBuilder: knitr
+Config/roxygen2/version: 8.1.0

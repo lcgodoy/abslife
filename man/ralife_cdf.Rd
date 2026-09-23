@@ -2,20 +2,22 @@
 % Please edit documentation in R/utils.R
 \name{ralife_cdf}
 \alias{ralife_cdf}
-\title{Samples from a "abslife" object}
+\title{Samples from an \code{acdf} (or \code{acdf_multi}) object}
 \usage{
 ralife_cdf(n, x)
 }
 \arguments{
 \item{n}{number of samples}
 
-\item{x}{the output of a \code{calc_cdf} function}
+\item{x}{the output of a \code{\link[=calc_cdf]{calc_cdf()}} call (an \code{acdf} or \code{acdf_multi}
+object).}
 }
 \value{
-a vector of "time to event" samples
+a vector of "time to event" samples or, if \code{x} is an \code{acdf_multi}
+object, a \code{data.frame} with the sampled \code{event_type} and \code{lifetime}.
 }
 \description{
-Samples from a "abslife" object
+Samples from an \code{acdf} (or \code{acdf_multi}) object
 }
 \author{
 lcgodoy

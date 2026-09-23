@@ -2,7 +2,8 @@
 % Please edit documentation in R/hazard.R
 \name{.hazard_core}
 \alias{.hazard_core}
-\title{Auxiliary function for \code{estimate_hazard}}
+\title{Hazard estimates over a support (auxiliary function for
+\code{estimate_hazard})}
 \usage{
 .hazard_core(
   support,
@@ -16,27 +17,32 @@
 \arguments{
 \item{support}{where to calculate the hazards}
 
-\item{trunc_time}{A numeric vector representing the observed left-truncated
-time.}
+\item{trunc_time}{A numeric vector representing the observed
+left-truncation time. If \code{NULL} (the default), it is set to a vector of
+0s (i.e., no left-truncation).}
 
 \item{lifetime}{A numeric vector representing the observed time to
-event.}
+event (or censoring).}
 
-\item{censoring_indicator}{An indicator for censoring (1=censored, 0=not). Defaults to
-a vector of 0s if \code{NULL}. An observation is only treated as an event if
-status=1 AND censoring=0.}
+\item{censoring_indicator}{An indicator for censoring (1 = censored, 0 =
+not). Defaults to a vector of 0s if \code{NULL}. An observation is only
+treated as an event (of a given type) if its censoring indicator is 0.}
 
-\item{event_indicator}{legacy.}
+\item{event_indicator}{A binary vector flagging the observations whose
+event is of the type being estimated (all ones when there are no
+competing risks).}
 
-\item{carry_hazard}{A \code{boolean} indicator on whether 0 hazard estimates
-should be replaced by the last non-zero estimate. Defaults to \code{FALSE}}
+\item{carry_hazard}{A \code{logical} indicator on whether 0 hazard estimates
+should be replaced by the last non-zero estimate. Defaults to \code{FALSE}.}
 }
 \value{
 a \code{data.frame}
 }
 \description{
-Auxiliary function for \code{estimate_hazard}
+Hazard estimates over a support (auxiliary function for
+\code{estimate_hazard})
 }
 \author{
 lcgodoy
 }
+\keyword{internal}

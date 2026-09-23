@@ -10,10 +10,11 @@ u_hat(t, lifetime, trunc_time)
 \item{t}{A time point at which hazard estimates are sought.}
 
 \item{lifetime}{A numeric vector representing the observed time to
-event.}
+event (or censoring).}
 
-\item{trunc_time}{A numeric vector representing the observed left-truncated
-time.}
+\item{trunc_time}{A numeric vector representing the observed
+left-truncation time. If \code{NULL} (the default), it is set to a vector of
+0s (i.e., no left-truncation).}
 }
 \value{
 a scalar
@@ -24,3 +25,4 @@ a scalar
 \author{
 lcgodoy
 }
+\keyword{internal}

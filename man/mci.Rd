@@ -7,7 +7,7 @@
 \alias{multiple_cis.alife_multi}
 \alias{multiple_cis.acdf}
 \alias{multiple_cis.acdf_multi}
-\title{Computing multiple CIs at once.}
+\title{Computing multiple CIs at once}
 \usage{
 multiple_cis(x, ci_level = 0.95)
 
@@ -20,18 +20,20 @@ multiple_cis(x, ci_level = 0.95)
 \method{multiple_cis}{acdf_multi}(x, ci_level = 0.95)
 }
 \arguments{
-\item{x}{An object of class \code{alife}. Typically the output of the
-\code{estimate_hazard} function.}
+\item{x}{An object of class \code{alife}, \code{alife_multi}, \code{acdf}, or
+\code{acdf_multi}.}
 
-\item{ci_level}{A numeric vector of confidence ci_level to plot (e.g.,
+\item{ci_level}{A numeric vector of confidence levels (e.g.,
 \code{c(0.5, 0.95)}). Defaults to \code{0.95}.}
 }
 \value{
-a \code{list}
+a \code{list} with one \code{data.frame} of confidence limits per
+element of \code{ci_level}.
 }
 \description{
-Computing multiple CIs at once.
+Computing multiple CIs at once
 }
 \author{
 lcgodoy
 }
+\keyword{internal}

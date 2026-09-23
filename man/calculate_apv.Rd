@@ -17,8 +17,8 @@ calculate_apv(
 )
 }
 \arguments{
-\item{x}{An object of class \code{acdf}. Typically the output of the
-\code{estimate_hazard} function.}
+\item{x}{An object of class \code{alife_multi}. Typically the output of the
+\code{estimate_hazard} function with two event types.}
 
 \item{cur_age}{Current age of the loan in months.}
 
@@ -30,18 +30,28 @@ calculate_apv(
 
 \item{ref_rate}{Annualized reference discount rate.}
 
-\item{recov_curve}{Recovery curve data frame (columns: Month, Recovery).}
+\item{recov_curve}{Recovery curve \code{data.frame} with columns \code{month} and
+\code{recovery} (the recovery rate as a proportion of \code{orig_loan_amt}). It must
+cover (at least) up to month \code{orig_term}.}
 
 \item{orig_apy}{Internal loan APY for amortization. Defaults to 0.15.}
 
-\item{type}{A character string specifying the interpolation type: either
-\code{"constant"} (default), \code{"geometric"} or \code{"linear"}.}
+\item{type}{A character string specifying the extrapolation type passed to
+\code{\link[=extend_hazard]{extend_hazard()}}: either \code{"constant"} (default), \code{"geometric"} or
+\code{"linear"}.}
 }
 \value{
-A list containing APV, second moment (APV2), standard deviation
-(SD).
+A list containing the APV (\code{APV}), its second moment (\code{APV2}), and
+its standard deviation (\code{SD}).
 }
 \description{
-Calculates the APV of a loan under competing risks (Default vs. Pre-payment)
+Calculates the APV of a loan under competing risks (default vs. prepayment)
 and left-truncated survival data.
+}
+\details{
+\code{x} must contain exactly two event types, and the default event
+must be labeled either \code{"Default"} or \code{"1"}; the other event type is
+treated as prepayment. If the observed lifetime support does not reach
+\code{orig_term}, the hazards are extrapolated up to \code{orig_term} with
+\code{\link[=extend_hazard]{extend_hazard()}} (with a warning).
 }

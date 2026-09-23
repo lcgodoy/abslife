@@ -14,17 +14,19 @@ ev_life(x, digits = 2, ...)
 
 \method{ev_life}{acdf_multi}(x, digits = 2, ...)
 
-\method{ev_life}{alife}(x, ...)
+\method{ev_life}{alife}(x, digits = 2, ...)
 }
 \arguments{
 \item{x}{An object of class \code{acdf}, \code{acdf_multi}, or \code{alife}.}
 
-\item{digits}{number of digits for the output.}
+\item{digits}{number of digits for the printed output.}
 
-\item{...}{extra arguments to be passed to the \code{round} function.}
+\item{...}{Not used.}
 }
 \value{
-The expected value associated with the object \code{x}.
+The expected value associated with the object \code{x} (printed and
+returned invisibly). For \code{acdf_multi} objects, a named vector with the
+all-cause and the cause-specific expected lifetimes.
 }
 \description{
 Uses the estimated density from the 'acdf' output.

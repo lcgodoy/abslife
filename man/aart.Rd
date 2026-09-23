@@ -16,11 +16,11 @@ months when the ABS trust began making payments to investors.}
 \item{\code{credit.score}}{Obligor credit score}
 \item{\code{interest.rate}}{Obligor annual percentage rate}
 \item{\code{pti}}{Obligor payment-to-income}
-\item{\code{veh.value}}{Estimated vehicle value at signing (\eqn{\\log} scale)}
+\item{\code{veh.value}}{Estimated vehicle value at signing (\eqn{\log} scale)}
 \item{\code{co.sign}}{Co-Obligor indicator (1 = \code{TRUE})}
 \item{\code{new.used}}{New-Used indicator (1 = \code{NEW})}
 \item{\code{subvent.rate}}{Subvented interest rate indicator (1 = \code{TRUE})}
-\item{\code{subvent.cash}}{Cash rebate indicator (1 = \code{TRUE})\\}
+\item{\code{subvent.cash}}{Cash rebate indicator (1 = \code{TRUE})}
 \item{\code{veh.pick.up}}{Pick-up truck indicator (1 = \code{TRUE})}
 \item{\code{veh.suv}}{Sport-Utility-Vehicle indicator (1 = \code{TRUE})}
 }
@@ -38,8 +38,8 @@ aart
 \description{
 A dataset containing time-to-event and left-truncation times for consumer
 automobile loans from the Ally Auto Receivables Trust (AART). The data were
-compiled from the the Electronic Data Gathering, Analysis, and Retrieval
-(EDGAR) system of the Securities and Exchange Comission (SEC).
+compiled from the Electronic Data Gathering, Analysis, and Retrieval
+(EDGAR) system of the Securities and Exchange Commission (SEC).
 }
 \references{
 Lautier, J. P., Pozdnyakov, V., & Yan, J. (2025). Estimating the

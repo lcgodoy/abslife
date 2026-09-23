@@ -10,8 +10,8 @@ validate_alife(x)
 \item{x}{An object to validate.}
 }
 \value{
-The input \code{x}, invisibly, if validation is successful. Throws an
-error on failure.
+\code{NULL}, invisibly, if validation is successful. Throws an error on
+failure.
 }
 \description{
 Checks if an object is a valid \code{alife} object by ensuring it is a data

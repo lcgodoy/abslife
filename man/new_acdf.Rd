@@ -2,32 +2,28 @@
 % Please edit documentation in R/generics.R
 \name{new_acdf}
 \alias{new_acdf}
-\alias{new_acdf_multi}
 \title{Create an acdf Object}
 \usage{
 new_acdf(x = data.frame())
-
-new_acdf_multi(x = data.frame())
 }
 \arguments{
-\item{x}{A \code{data.frame} that has the required columns for an 'alife' object.
-Defaults to an empty \code{data.frame}.}
+\item{x}{A \code{data.frame} that has the required columns for an \code{acdf}
+object: \code{lifetime} and \code{density}. Defaults to an empty \code{data.frame}.}
 }
 \value{
 An object of class \code{acdf}.
 }
 \description{
 Constructs an object of class \code{acdf} from a data frame, after validating
-its structure. Note that, this function is mostly for internal usage.
+its structure. Note that this function is mostly for internal usage.
 }
 \examples{
 # Create a minimal data frame with the required columns
-df <- data.frame(lifetime = 1:2, risk_set = c(.8, .20),
-                 hazard = c(0.1, 0.125), se_log_hazard = c(0.1, 0.1),
-                 lower_ci = c(0.08, 0.1), upper_ci = c(0.12, 0.15))
+df <- data.frame(lifetime = 1:2, cdf = c(0.1, 1),
+                 density = c(0.1, 0.9))
 
-# Construct the alife object
-my_alife_obj <- new_alife(df)
-class(my_alife_obj)
+# Construct the acdf object
+my_acdf_obj <- new_acdf(df)
+class(my_acdf_obj)
 
 }

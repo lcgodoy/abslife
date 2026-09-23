@@ -5,6 +5,7 @@
 ##'
 ##' @return A \code{data.frame} with hazard estimates carried forward when zeros
 ##'   are present.
+##' @keywords internal
 fix_0haz <- function(haz_est) {
   is_zero <- haz_est$hazard == 0 | is.na(haz_est$hazard)
   valid_idx <- which(!is_zero)
@@ -22,11 +23,13 @@ fix_0haz <- function(haz_est) {
   return(haz_est)
 }
 
-##' @title Samples from a "abslife" object
+##' @title Samples from an `acdf` (or `acdf_multi`) object
 ##' @param n number of samples
-##' @param x the output of a `calc_cdf` function
+##' @param x the output of a [calc_cdf()] call (an `acdf` or `acdf_multi`
+##'   object).
 ##'
-##' @return a vector of "time to event" samples
+##' @return a vector of "time to event" samples or, if `x` is an `acdf_multi`
+##'   object, a `data.frame` with the sampled `event_type` and `lifetime`.
 ##' @author lcgodoy
 ##' @export
 ralife_cdf <- function(n, x) {
@@ -57,16 +60,18 @@ aux_kmat <-
 ##' @title Build the auxiliary matrix K
 ##' 
 ##' @param hazard A `vector` of estimated hazards at every timepoint.
-##' @param se_log_hazard A `vector` of SE estimates for the log-hazards.
+##' @param se_log_hazard A `vector` of SE estimates for the hazards at the
+##'   logit scale.
 ##' @param rephaz number of times `hazard` must be repeated (auxiliary)
 ##' @param support_length length of `hazard`.
-##' @param pmfvar a square `matrix` corresponding to the output of a `build_pmf`
-##'   call.
+##' @param pmfvar a square `matrix` corresponding to the output of a
+##'   `build_pmfvar` call.
 ##'
 ##' @return A square `matrix` with number of rows (and columns) matching the
 ##'   dimension of `hazard`.
 ##' @name rmat
 ##' @author lcgodoy
+##' @keywords internal
 build_kmat <- function(hazard) {
   nt <- length(hazard)
   reps <- rev(seq_len(nt))
@@ -153,14 +158,16 @@ build_cdfvar <- function(pmfvar) {
 ##   return(cbind(cdf_se, pmf_se))
 ## }
 
-##' Internal use
+##' @title PMF of the left-truncation random variable
 ##'
-##' @title Core for left-truncation PMF computation
+##' @description Estimates the probability mass function of the
+##'   left-truncation random variable. `.lt_core` is the internal workhorse.
+##'
 ##' @inheritParams estimate_hazard
 ##' @param denom A \code{numeric} vector representing the denominator for the
 ##'   calculation of the pmf
-##' @param rc a \code{numeric} boolean indicating whether right-censoring is to
-##'   be considered.
+##' @param rc a \code{logical} indicating whether right-censoring is to be
+##'   considered.
 ##' @return A \code{numeric} vector of estimates of the PMF for the
 ##'   left-truncation random variable.
 ##' @author lcgodoy
@@ -177,10 +184,18 @@ build_cdfvar <- function(pmfvar) {
 }
 
 ##' @rdname lt_pmf
-##' @param x is the output of an \code{estimate_hazard} call.
+##' @param x the output of an [estimate_hazard()] call (an `alife` object) or
+##'   of a [calc_cdf()] call (an `acdf` object). Competing risks are not
+##'   supported.
 ##' @export
 lt_pmf <- function(x, trunc_time, rc = TRUE) {
-  validate_alife(x)
+  if (inherits(x, c("alife_multi", "acdf_multi")))
+    stop("'lt_pmf' does not support competing risks.")
+  ## `acdf` objects also inherit from `alife`
+  if (!inherits(x, "acdf"))
+    x <- calc_cdf(x)
+  validate_acdf(x)
+  stopifnot("risk_set" %in% colnames(x))
   lt <- x$lifetime
   denom <- ifelse(rep(rc, length(lt)), x$density, x$risk_set)
   .lt_core(lt, denom, trunc_time, rc)

@@ -2,12 +2,12 @@
 % Please edit documentation in R/gg-methods.R
 \name{ggauto.alife_multi}
 \alias{ggauto.alife_multi}
-\title{Plot an 'alife-multi' Object using \code{ggplot2}}
+\title{Plot an \code{alife_multi} Object using \code{ggplot2}}
 \usage{
 \method{ggauto}{alife_multi}(object, ci_level = 0.95, ...)
 }
 \arguments{
-\item{object}{An object of class \code{alife-multi}.}
+\item{object}{An object of class \code{alife_multi}.}
 
 \item{ci_level}{A single number or numeric vector of confidence levels
 to display (e.g., \code{0.95} or \code{c(0.80, 0.95)}).}

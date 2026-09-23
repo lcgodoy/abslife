@@ -1,11 +1,17 @@
-##' @title Computing multiple CIs at once.
-##' @inheritParams plot.alife
-##' @return a \code{list}
+##' @title Computing multiple CIs at once
+##' @param x An object of class `alife`, `alife_multi`, `acdf`, or
+##'   `acdf_multi`.
+##' @param ci_level A numeric vector of confidence levels (e.g.,
+##'   \code{c(0.5, 0.95)}). Defaults to \code{0.95}.
+##' @return a \code{list} with one \code{data.frame} of confidence limits per
+##'   element of \code{ci_level}.
 ##' @name mci
 ##' @author lcgodoy
+##' @keywords internal
 multiple_cis <- function(x, ci_level = .95) UseMethod("multiple_cis", x)
 
 ##' @rdname mci
+##' @export
 multiple_cis.alife <- function(x, ci_level = .95) {
   nci_level <- length(ci_level)
   out <- vector(mode = "list", length = length(ci_level))
@@ -29,6 +35,7 @@ multiple_cis.alife <- function(x, ci_level = .95) {
 }
 
 ##' @rdname mci
+##' @export
 multiple_cis.alife_multi <- function(x, ci_level = .95) {
   out <- vector(mode = "list", length = length(ci_level))
   for (i in seq_along(out)) {
@@ -52,6 +59,7 @@ multiple_cis.alife_multi <- function(x, ci_level = .95) {
 }
 
 ##' @rdname mci
+##' @export
 multiple_cis.acdf <- function(x, ci_level = .95) {
   out <- vector(mode = "list", length = length(ci_level))
   for (i in seq_along(out)) {
@@ -105,7 +113,7 @@ multiple_cis.acdf_multi <- function(x, ci_level = .95) {
 ##'
 ##' @param x An object of class `alife`. Typically the output of the
 ##'   `estimate_hazard` function.
-##' @param ci_level A numeric vector of confidence ci_level to plot (e.g.,
+##' @param ci_level A numeric vector of confidence levels to plot (e.g.,
 ##'   \code{c(0.5, 0.95)}). Defaults to \code{0.95}.
 ##' @param color The color for the confidence interval polygon.
 ##' @param col_line The color for the hazard rate line.
@@ -157,8 +165,8 @@ plot.alife <- function(x, ci_level = 0.95,
 ##'
 ##' Creates a faceted plot, with one panel per event type.
 ##'
-##' @param x An object of class `alife-multi`.
-##' @param ci_level A numeric vector of confidence ci_level to plot (e.g.,
+##' @param x An object of class `alife_multi`.
+##' @param ci_level A numeric vector of confidence levels to plot (e.g.,
 ##'   \code{c(0.5, 0.95)}). Defaults to \code{0.95}.
 ##' @param color The color for the confidence interval polygon.
 ##' @param col_line The color for the hazard rate line.
@@ -222,8 +230,7 @@ plot.alife_multi <- function(x, ci_level = 0.95,
 ##'
 ##' @param x An object of class `alife`. Typically the output of the
 ##'   `estimate_hazard` function.
-##' @param ... Additional arguments passed to the base `print` function (e.g.,
-##'   `digits`).
+##' @param ... Not used.
 ##'
 ##' @seealso [estimate_hazard()]
 ##' @return Prints information about `x` and invisibly returns it.
@@ -241,8 +248,7 @@ print.alife <- function(x, ...) {
 ##'
 ##' @param x An object of class `alife_multi`. Typically the output of the
 ##'   `estimate_hazard` function.
-##' @param ... Additional arguments passed to the base `print` function (e.g.,
-##'   `digits`).
+##' @param ... Not used.
 ##'
 ##' @seealso [estimate_hazard()]
 ##' @return Prints information about `x` and invisibly returns it.
@@ -271,7 +277,8 @@ print.alife_multi <- function(x, ...) {
 ##'   `digits`).
 ##'
 ##' @seealso [estimate_hazard()]
-##' @return A summary of the hazard rate.
+##' @return Prints the hazard estimates at every `by` time points and
+##'   invisibly returns them as a `data.frame`.
 ##' @export
 summary.alife <- function(object, by = 5, ...) {
   lower <- min(object$lifetime, na.rm = TRUE)
@@ -282,19 +289,20 @@ summary.alife <- function(object, by = 5, ...) {
             "se_log_hazard",
             "lower_ci",
             "upper_ci")
-  print.data.frame(object[object$lifetime %in% times, cols])
+  print.data.frame(object[object$lifetime %in% times, cols], ...)
 }
 
 ##' Summary Method for an 'alife_multi' Object
 ##'
-##' @param object An object of class `alife`. Typically the output of the
-##'   `estimate_hazard` function.
+##' @param object An object of class `alife_multi`. Typically the output of
+##'   the `estimate_hazard` function.
 ##' @param by an `integer` defining the periodicity of the summary.
 ##' @param ... Additional arguments passed to the base `print` function (e.g.,
 ##'   `digits`).
 ##'
 ##' @seealso [estimate_hazard()]
-##' @return A summary of the hazard rate.
+##' @return Prints the cause-specific hazard estimates at every `by` time
+##'   points and invisibly returns them as a `data.frame`.
 ##' @export
 summary.alife_multi <- function(object, by = 5, ...) {
   lower <- min(object$lifetime, na.rm = TRUE)
@@ -312,18 +320,24 @@ summary.alife_multi <- function(object, by = 5, ...) {
   })
   out <- do.call(rbind, df_list)
   rownames(out) <- NULL
-  print.data.frame(out)
+  print.data.frame(out, ...)
 }
 
 ##' @title Calculate CDF from Hazard Estimates
 ##'
 ##' @description Returns an object of class `acdf`, corresponding to a
-##'   `data.frame` with taylored plot, summary and print methods.
+##'   `data.frame` with tailored plot and summary methods. For competing risks
+##'   (`alife_multi` objects), the cause-specific cumulative incidence functions
+##'   are computed instead and an object of class `acdf_multi` is returned (see
+##'   also [calc_cif()]).
 ##'
-##' @param x An object of class `alife`
+##' @param x An object of class `alife` or `alife_multi`.
 ##' @param ... Not used.
 ##'
-##' @return An object of class `acdf`.
+##' @return An object of class `acdf` (columns `lifetime`, `cdf`, `se_cdf`,
+##'   `density`, `se_dens`, and `risk_set`) or, if `x` is an `alife_multi`
+##'   object, of class `acdf_multi` (columns `event_type`, `lifetime`,
+##'   `all_surv`, `cumulative`, `density`, and `risk_set`).
 ##' @export
 calc_cdf <- function(x, ...) {
   UseMethod("calc_cdf")
@@ -344,6 +358,7 @@ calc_cdf.alife <- function(x, ...) {
   y$se_dens <- sqrt(diag(pmfvarcov))
   out <- new_acdf(y[, c("lifetime", "cdf", "se_cdf", "density", "se_dens",
                         "risk_set")])
+  return(out)
 }
 
 ##' @export
@@ -379,7 +394,21 @@ calc_cdf.alife_multi <- function(x, ...) {
   return(out)
 }
 
-##' @title Calculate cumulative incidence functions (CIF) from Hazard estimates
+##' @title Calculate Cumulative Incidence Functions (CIF) from Hazard Estimates
+##'
+##' @description Computes the all-cause survival function and the
+##'   cause-specific cumulative incidence functions from cause-specific hazard
+##'   estimates.
+##'
+##' @param x An object of class `alife_multi`. Typically the output of the
+##'   `estimate_hazard` function with more than one event type.
+##' @param ... Not used.
+##'
+##' @return An object of class `acif`, a `data.frame` with columns
+##'   `event_type`, `lifetime`, `all_surv` (all-cause survival up to the
+##'   previous time point), `pr_zx` (probability of the event of a given type
+##'   at `lifetime`), `cif`, and `risk_set`.
+##' @seealso [plot.acif()], [summary.acif()]
 ##' @export
 calc_cif <- function(x, ...) {
   UseMethod("calc_cif")
@@ -416,11 +445,11 @@ calc_cif.alife_multi <- function(x, ...) {
 ##' @param object An object of class `acdf`. Typically the output of the
 ##'   `calc_cdf` method.
 ##' @param by an `integer` defining the periodicity of the summary.
-##' @param ... Additional arguments passed to the base `print` function (e.g.,
-##'   `digits`).
+##' @param ... Not used.
 ##'
 ##' @seealso [calc_cdf()]
-##' @return A summary of the CDF function.
+##' @return A `data.frame` with the CDF and density at every `by` time
+##'   points.
 ##' @export
 summary.acdf <- function(object, by = 5, ...) {
   lower <- min(object$lifetime, na.rm = TRUE)
@@ -433,16 +462,16 @@ summary.acdf <- function(object, by = 5, ...) {
   return(out)
 }
 
-##' Summary Method for an 'alife_multi' Object
+##' Summary Method for an 'acdf_multi' Object
 ##'
 ##' @param object An object of class `acdf_multi`. Typically the output of the
 ##'   `calc_cdf` method.
 ##' @param by an `integer` defining the periodicity of the summary.
-##' @param ... Additional arguments passed to the base `print` function (e.g.,
-##'   `digits`).
+##' @param ... Not used.
 ##'
-##' @seealso [estimate_hazard()]
-##' @return A summary of the hazard rate.
+##' @seealso [calc_cdf()]
+##' @return A `data.frame` with the all-cause survival, cause-specific
+##'   cumulative incidence, and density at every `by` time points.
 ##' @export
 summary.acdf_multi <- function(object, by = 5, ...) {
   lower <- min(object$lifetime, na.rm = TRUE)
@@ -465,13 +494,13 @@ summary.acdf_multi <- function(object, by = 5, ...) {
 ##' @param object An object of class `acif`. Typically the output of the
 ##'   `calc_cif` method.
 ##' @param by an `integer` defining the periodicity of the summary.
-##' @param ... Additional arguments passed to the base `print` function (e.g.,
-##'   `digits`).
+##' @param ... Not used.
 ##'
 ##' @seealso [calc_cif()]
-##' @return A summary of the CIF function.
+##' @return A `data.frame` with the cause-specific CIFs and the all-cause
+##'   survival at every `by` time points.
 ##' @export
-summary.acif_multi <- function(object, by = 5, ...) {
+summary.acif <- function(object, by = 5, ...) {
   lower <- min(object$lifetime, na.rm = TRUE)
   upper <- max(object$lifetime, na.rm = TRUE)
   times <- seq.int(from = lower, to = upper, by = by)
@@ -492,10 +521,12 @@ summary.acif_multi <- function(object, by = 5, ...) {
 ##' @description Uses the estimated density from the 'acdf' output.
 ##'
 ##' @param x An object of class `acdf`, `acdf_multi`, or `alife`.
-##' @param digits number of digits for the output.
-##' @param ... extra arguments to be passed to the `round` function.
+##' @param digits number of digits for the printed output.
+##' @param ... Not used.
 ##'
-##' @return The expected value associated with the object `x`.
+##' @return The expected value associated with the object `x` (printed and
+##'   returned invisibly). For `acdf_multi` objects, a named vector with the
+##'   all-cause and the cause-specific expected lifetimes.
 ##' @name ev
 ##' @export
 ev_life <- function(x, digits = 2, ...) {
@@ -530,20 +561,21 @@ ev_life.acdf_multi <- function(x, digits = 2, ...) {
 
 ##' @rdname ev
 ##' @export
-ev_life.alife <- function(x, ...) {
-  .cdf <- calc_cdf(x, ...)
-  ev_life(.cdf)
+ev_life.alife <- function(x, digits = 2, ...) {
+  .cdf <- calc_cdf(x)
+  ev_life(.cdf, digits = digits)
 }
 
 
 ##' Plot Method for an 'acdf' Object
 ##'
 ##' @param x An object of class `acdf`. Typically the output of the
-##'   `estimate_hazard` function.
-##' @param ci_level A numeric vector of confidence ci_level to plot (e.g.,
+##'   `calc_cdf` function.
+##' @param ci_level A numeric vector of confidence levels to plot (e.g.,
 ##'   \code{c(0.5, 0.95)}). Defaults to \code{0.95}.
-##' @param color The color for the confidence interval polygon.
-##' @param col_line The color for the hazard rate line.
+##' @param color The color for the confidence interval polygon (CDF) and error
+##'   bars (density).
+##' @param col_line The color for the CDF line and density points.
 ##' @param ... Additional arguments passed to the base `plot` function (e.g.,
 ##'   `main`, `xlab`, `ylab`, `ylim`).
 ##'
@@ -729,13 +761,13 @@ plot.acif <- function(x, which = c("cif", "all_surv", "both"),
 ##' Plot Method for an 'acdf_multi' Object
 ##'
 ##' Creates a faceted plot with one row per event type. Each row contains
-##' two panels: one for the Cumulative Distribution Function (CDF) and one
-##' for the Probability Mass Function (Density).
+##' two panels: one for the cause-specific Cumulative Incidence Function (CIF)
+##' and one for the Probability Mass Function (Density).
 ##'
 ##' @param x An object of class `acdf_multi`.
-##' @param ci_level A numeric vector of confidence levels to plot (e.g.,
-##'   \code{c(0.5, 0.95)}). Defaults to \code{0.95}.
-##' @param color The color for the confidence interval polygon/bars.
+##' @param ci_level Currently ignored: standard errors are not yet available
+##'   for competing risks, so no confidence intervals are drawn.
+##' @param color Currently ignored (see `ci_level`).
 ##' @param col_line The color for the main estimate line/points.
 ##' @param ... Additional arguments passed to the base `plot` function (e.g.,
 ##'   `xlab`, `ylab` override).
@@ -743,7 +775,7 @@ plot.acif <- function(x, which = c("cif", "all_surv", "both"),
 ##' @importFrom graphics polygon lines par points arrows
 ##' @importFrom grDevices adjustcolor
 ##' @seealso [calc_cdf()]
-##' @return A faceted plot of CDFs and Densities.
+##' @return A faceted plot of CIFs and Densities.
 ##' @export
 plot.acdf_multi <- function(x, ci_level = 0.95,
                             color = 2,
@@ -831,17 +863,24 @@ plot.acdf_multi <- function(x, ci_level = 0.95,
 ##' @title Extend Hazard Rates
 ##'
 ##' @description Extends the estimated hazard rates up to a specified end time
-##'   using linear or geometric interpolation. This is only used for the
-##'   \code{apv} related functions when the observed lifetime support exceeds
-##'   the original loan term.
+##'   using constant, geometric, or linear extrapolation, with the (all-cause)
+##'   hazard at `end` set to 1. It is used by [calculate_apv()] and
+##'   [solve_irr()] when the observed lifetime support does not reach the
+##'   original loan term.
+##'
+##' @details The last observed time point is replaced: the extrapolation
+##'   starts from the hazard at the second-to-last observed time point.
 ##'
 ##' @param x An object of class `alife` or `alife_multi`.
 ##' @param end A numeric scalar indicating the target end time for the
-##'   support. Typically, the original loan term.
-##' @param type A character string specifying the interpolation type: either
-##'   `"constant"`, `"geometric"` or `"linear"`.
-##' @param end_event A string indicating the event that will happen _certainly_
-##'   at _end_. Only used when `x` is of class `alife_multi`.
+##'   support. Typically, the original loan term. Must be greater than the
+##'   largest observed lifetime.
+##' @param type A character string specifying the extrapolation type: either
+##'   `"constant"` (default), `"geometric"` or `"linear"`.
+##' @param end_event A string indicating the event that absorbs the remaining
+##'   probability at `end` (i.e., its hazard at `end` is one minus the default
+##'   hazard, so that termination at `end` is certain). Only used when `x` is
+##'   of class `alife_multi`.
 ##' 
 ##' @return An object of the same class as `x` with the extended lifetime
 ##'   support.
@@ -881,7 +920,7 @@ extend_hazard.alife <- function(x, end = 72,
     x_sub2$hazard <- exp(log_h)
     x_sub2$hazard[n_ext] <- 1
   } else {
-    x_sub2$hazard <- h0[tN - 1]
+    x_sub2$hazard <- h0
     x_sub2$hazard[NROW(x_sub2$hazard)] <- hN
   }
   x_sub2$se_log_hazard <- NA

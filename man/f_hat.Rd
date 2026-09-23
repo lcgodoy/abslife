@@ -10,13 +10,13 @@ f_hat(t, lifetime, event, censoring_indicator)
 \item{t}{A time point at which hazard estimates are sought.}
 
 \item{lifetime}{A numeric vector representing the observed time to
-event.}
+event (or censoring).}
 
 \item{event}{event indicator}
 
-\item{censoring_indicator}{An indicator for censoring (1=censored, 0=not). Defaults to
-a vector of 0s if \code{NULL}. An observation is only treated as an event if
-status=1 AND censoring=0.}
+\item{censoring_indicator}{An indicator for censoring (1 = censored, 0 =
+not). Defaults to a vector of 0s if \code{NULL}. An observation is only
+treated as an event (of a given type) if its censoring indicator is 0.}
 }
 \value{
 a scalar
@@ -27,3 +27,4 @@ a scalar
 \author{
 lcgodoy
 }
+\keyword{internal}

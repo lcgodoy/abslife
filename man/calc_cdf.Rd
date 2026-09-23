@@ -13,14 +13,20 @@ calc_cdf(x, ...)
 \method{calc_cdf}{alife_multi}(x, ...)
 }
 \arguments{
-\item{x}{An object of class \code{alife}}
+\item{x}{An object of class \code{alife} or \code{alife_multi}.}
 
 \item{...}{Not used.}
 }
 \value{
-An object of class \code{acdf}.
+An object of class \code{acdf} (columns \code{lifetime}, \code{cdf}, \code{se_cdf},
+\code{density}, \code{se_dens}, and \code{risk_set}) or, if \code{x} is an \code{alife_multi}
+object, of class \code{acdf_multi} (columns \code{event_type}, \code{lifetime},
+\code{all_surv}, \code{cumulative}, \code{density}, and \code{risk_set}).
 }
 \description{
 Returns an object of class \code{acdf}, corresponding to a
-\code{data.frame} with taylored plot, summary and print methods.
+\code{data.frame} with tailored plot and summary methods. For competing risks
+(\code{alife_multi} objects), the cause-specific cumulative incidence functions
+are computed instead and an object of class \code{acdf_multi} is returned (see
+also \code{\link[=calc_cif]{calc_cif()}}).
 }
