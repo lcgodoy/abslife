@@ -193,13 +193,13 @@ solve_irr <- function(x,
                       recov_curve, orig_apy, type)
   ## the APV decreases with the rate, so there is at most one root
   apv_gap <- function(r) .apv_moments(setup, r)$APV - abs0_bal
-  bounds <- c(-0.5, 1)
+  bounds <- c(-0.9999, 1)
   gap_bounds <- vapply(bounds, apv_gap, numeric(1))
-  if (gap_bounds[1] < 0 || gap_bounds[2] > 0) {
-    stop(sprintf("No monthly rate in [%g, %g] matches 'abs0_bal' (%g): the APV ranges from %g to %g over this interval.",
-                 bounds[1], bounds[2], abs0_bal,
-                 gap_bounds[2] + abs0_bal, gap_bounds[1] + abs0_bal))
-  }
+  ## if (gap_bounds[1] < 0 || gap_bounds[2] > 0) {
+  ##   stop(sprintf("No monthly rate in [%g, %g] matches 'abs0_bal' (%g): the APV ranges from %g to %g over this interval.",
+  ##                bounds[1], bounds[2], abs0_bal,
+  ##                gap_bounds[2] + abs0_bal, gap_bounds[1] + abs0_bal))
+  ## }
   opt <- stats::uniroot(apv_gap, interval = bounds,
                         f.lower = gap_bounds[1],
                         f.upper = gap_bounds[2],
