@@ -200,7 +200,8 @@ solve_irr <- function(x,
   ##                bounds[1], bounds[2], abs0_bal,
   ##                gap_bounds[2] + abs0_bal, gap_bounds[1] + abs0_bal))
   ## }
-  opt <- stats::uniroot(apv_gap, interval = bounds,
+  opt <- stats::uniroot(apv_gap,
+                        interval = bounds,
                         f.lower = gap_bounds[1],
                         f.upper = gap_bounds[2],
                         tol = 1e-10)
