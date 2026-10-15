@@ -5,6 +5,7 @@ S3method(calc_cdf,alife_multi)
 S3method(calc_cif,alife_multi)
 S3method(ev_life,acdf)
 S3method(ev_life,acdf_multi)
+S3method(ev_life,acif)
 S3method(ev_life,alife)
 S3method(extend_hazard,alife)
 S3method(extend_hazard,alife_multi)
@@ -42,14 +43,13 @@ export(new_acif)
 export(new_alife)
 export(prep_ggplot)
 export(ralife_cdf)
+export(ralife_cif)
 export(retrieve_support)
 export(solve_irr)
 importFrom(grDevices,adjustcolor)
-importFrom(graphics,
-  arrows,
-  lines,
-  par,
-  points,
-  polygon
-)
+importFrom(graphics,arrows)
+importFrom(graphics,lines)
+importFrom(graphics,par)
+importFrom(graphics,points)
+importFrom(graphics,polygon)
 importFrom(rlang,.data)
