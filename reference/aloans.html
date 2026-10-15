@@ -23,7 +23,7 @@ loans terminate), and it features competing risks of default and prepayment."></
 
     <a class="navbar-brand me-2" href="../index.html">abslife</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -74,7 +74,7 @@ loans terminate), and it features competing risks of default and prepayment.</p>
 <h3 id="aloans"><code>aloans</code><a class="anchor" aria-label="anchor" href="#aloans"></a></h3>
 
 
-<p>A data frame with 58,118 rows and 12 columns:</p><dl><dt>risk.cat</dt>
+<p>A data frame with 58,118 rows and 13 columns:</p><dl><dt>risk.cat</dt>
 <dd><p>Credit risk band based on the loan's Annual Percentage Rate
 (APR). Categories include "super_prime" (0-5%), "prime" (5-10%), "near_prime"
 (10-15%), "subprime" (15-20%), and "deep_subprime" (20%+).</p></dd>
@@ -91,19 +91,24 @@ when the ABS trust began making payments to investors.</p></dd>
 termination observed).</p></dd>
 
 <dt>D</dt>
-<dd><p>Default indicator for competing risks (1 = default, 0 = prepayment).</p></dd>
+<dd><p>Default indicator for competing risks (1 = default observed, 0 =
+prepayment observed or right-censored).</p></dd>
+
+<dt>R</dt>
+<dd><p>Prepayment indicator for competing risks (1 = prepayment observed,
+0 = default observed or right-censored).</p></dd>
 
 <dt>bond</dt>
-<dd><p>Categorical variable specifying the source ABS bond: CARMX
-(CarMax Auto Owner Trust 2017-2), AART (Ally Auto Receivables Trust 2017-3),
-SDART (Santander Drive Auto Receivables Trust 2017-2), or DRIVE (Drive Auto
-Receivables Trust 2017-1).</p></dd>
+<dd><p>Categorical variable specifying the source ABS bond:
+<code>"carmax"</code> (CarMax Auto Owner Trust 2017-2), <code>"aart"</code> (Ally Auto
+Receivables Trust 2017-3), <code>"sdart"</code> (Santander Drive Auto Receivables
+Trust 2017-2), or <code>"drive"</code> (Drive Auto Receivables Trust 2017-1).</p></dd>
 
 <dt>orig.apr</dt>
 <dd><p>Obligor annual percentage rate</p></dd>
 
 <dt>orig.term</dt>
-<dd><p>Original loan term</p></dd>
+<dd><p>Original loan term (in months)</p></dd>
 
 <dt>orig.loan.amt</dt>
 <dd><p>Original loan amount</p></dd>
@@ -124,9 +129,9 @@ asset-backed security</p></dd>
     </div>
     <div class="section level2">
     <h2 id="source">Source<a class="anchor" aria-label="anchor" href="#source"></a></h2>
-    <p>Data was originally compiled from the the Electronic Data Gathering,
+    <p>Data was originally compiled from the Electronic Data Gathering,
 Analysis, and Retrieval (EDGAR) system of the Securities and Exchange
-Comission (SEC).. The replication data repository is available at
+Commission (SEC). The replication data repository is available at
 <a href="https://github.com/jackson-lautier/credit-risk-convergence/" class="external-link">https://github.com/jackson-lautier/credit-risk-convergence/</a>.</p>
     </div>
     <div class="section level2">

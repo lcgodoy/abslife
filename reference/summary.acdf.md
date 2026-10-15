@@ -13,8 +13,8 @@ summary(object, by = 5, ...)
 
 - object:
 
-  An object of class `acdf`. Typically the output of the
-  `estimate_hazard` function.
+  An object of class `acdf`. Typically the output of the `calc_cdf`
+  method.
 
 - by:
 
@@ -22,12 +22,11 @@ summary(object, by = 5, ...)
 
 - ...:
 
-  Additional arguments passed to the base `print` function (e.g.,
-  `digits`).
+  Not used.
 
 ## Value
 
-A summary of the CDF function.
+A `data.frame` with the CDF and density at every `by` time points.
 
 ## See also
 

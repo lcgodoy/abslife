@@ -18,7 +18,7 @@ aloans
 
 ### `aloans`
 
-A data frame with 58,118 rows and 12 columns:
+A data frame with 58,118 rows and 13 columns:
 
 - risk.cat:
 
@@ -42,14 +42,20 @@ A data frame with 58,118 rows and 12 columns:
 
 - D:
 
-  Default indicator for competing risks (1 = default, 0 = prepayment).
+  Default indicator for competing risks (1 = default observed, 0 =
+  prepayment observed or right-censored).
+
+- R:
+
+  Prepayment indicator for competing risks (1 = prepayment observed, 0 =
+  default observed or right-censored).
 
 - bond:
 
-  Categorical variable specifying the source ABS bond: CARMX (CarMax
-  Auto Owner Trust 2017-2), AART (Ally Auto Receivables Trust 2017-3),
-  SDART (Santander Drive Auto Receivables Trust 2017-2), or DRIVE (Drive
-  Auto Receivables Trust 2017-1).
+  Categorical variable specifying the source ABS bond: `"carmax"`
+  (CarMax Auto Owner Trust 2017-2), `"aart"` (Ally Auto Receivables
+  Trust 2017-3), `"sdart"` (Santander Drive Auto Receivables Trust
+  2017-2), or `"drive"` (Drive Auto Receivables Trust 2017-1).
 
 - orig.apr:
 
@@ -57,7 +63,7 @@ A data frame with 58,118 rows and 12 columns:
 
 - orig.term:
 
-  Original loan term
+  Original loan term (in months)
 
 - orig.loan.amt:
 
@@ -77,9 +83,9 @@ A data frame with 58,118 rows and 12 columns:
 
 ## Source
 
-Data was originally compiled from the the Electronic Data Gathering,
+Data was originally compiled from the Electronic Data Gathering,
 Analysis, and Retrieval (EDGAR) system of the Securities and Exchange
-Comission (SEC).. The replication data repository is available at
+Commission (SEC). The replication data repository is available at
 <https://github.com/jackson-lautier/credit-risk-convergence/>.
 
 ## References

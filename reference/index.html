@@ -13,7 +13,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">abslife</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -88,10 +88,17 @@
 
         <dt>
 
-          <code><a href="calc_tp.html">calc_tp()</a></code>
+          <code><a href="calc_cif.html">calc_cif()</a></code>
 
         </dt>
-        <dd>Calculate Default Time Points</dd>
+        <dd>Calculate Cumulative Incidence Functions (CIF) from Hazard Estimates</dd>
+
+        <dt>
+
+          <code><a href="calc_osup.html">calc_osup()</a></code>
+
+        </dt>
+        <dd>Calculate Observed Support</dd>
 
         <dt>
 
@@ -102,24 +109,10 @@
 
         <dt>
 
-          <code><a href="check_censored.html">check_censored()</a></code>
-
-        </dt>
-        <dd>Auxiliary function for <code>estimate_hazard</code></dd>
-
-        <dt>
-
           <code><a href="disc_fac.html">disc_fac()</a></code>
 
         </dt>
         <dd>Calculate Discount Factors</dd>
-
-        <dt>
-
-          <code><a href="dot-hazard_core.html">.hazard_core()</a></code>
-
-        </dt>
-        <dd>Auxiliary function for <code>estimate_hazard</code></dd>
 
         <dt>
 
@@ -137,45 +130,38 @@
 
         <dt>
 
-          <code><a href="f_hat.html">f_hat()</a></code>
+          <code><a href="extend_hazard.html">extend_hazard()</a></code>
 
         </dt>
-        <dd>\(\hat{f}(x)\)</dd>
-
-        <dt>
-
-          <code><a href="fix_0haz.html">fix_0haz()</a></code>
-
-        </dt>
-        <dd>Carry Forward Last Observation for Zero-Hazard Estimates (Internal Use)</dd>
+        <dd>Extend Hazard Rates</dd>
 
         <dt>
 
           <code><a href="ggauto.html">ggauto()</a></code>
 
         </dt>
-        <dd>Plot an 'alife' (or <code>multi_alife</code>) Object using <code>ggplot2</code></dd>
+        <dd>Plot an <code>alife</code> (or <code>alife_multi</code>) Object using <code>ggplot2</code></dd>
 
         <dt>
 
           <code><a href="ggauto.alife.html">ggauto(<i>&lt;alife&gt;</i>)</a></code>
 
         </dt>
-        <dd>Plot an 'alife' Object using ggplot2</dd>
+        <dd>Plot an <code>alife</code> Object using <code>ggplot2</code></dd>
 
         <dt>
 
           <code><a href="ggauto.alife_multi.html">ggauto(<i>&lt;alife_multi&gt;</i>)</a></code>
 
         </dt>
-        <dd>Plot an 'alife-multi' Object using <code>ggplot2</code></dd>
+        <dd>Plot an <code>alife_multi</code> Object using <code>ggplot2</code></dd>
 
         <dt>
 
           <code><a href="lt_pmf.html">.lt_core()</a></code> <code><a href="lt_pmf.html">lt_pmf()</a></code>
 
         </dt>
-        <dd>Core for left-truncation PMF computation</dd>
+        <dd>PMF of the left-truncation random variable</dd>
 
         <dt>
 
@@ -186,17 +172,17 @@
 
         <dt>
 
-          <code><a href="mci.html">multiple_cis()</a></code>
-
-        </dt>
-        <dd>Computing multiple CIs at once.</dd>
-
-        <dt>
-
           <code><a href="new_acdf.html">new_acdf()</a></code>
 
         </dt>
         <dd>Create an acdf Object</dd>
+
+        <dt>
+
+          <code><a href="new_acif.html">new_acif()</a></code>
+
+        </dt>
+        <dd>Create an acif Object</dd>
 
         <dt>
 
@@ -218,6 +204,13 @@
 
         </dt>
         <dd>Plot Method for an 'acdf_multi' Object</dd>
+
+        <dt>
+
+          <code><a href="plot.acif.html">plot(<i>&lt;acif&gt;</i>)</a></code>
+
+        </dt>
+        <dd>Plot Method for an 'acif' Object</dd>
 
         <dt>
 
@@ -259,21 +252,14 @@
           <code><a href="ralife_cdf.html">ralife_cdf()</a></code>
 
         </dt>
-        <dd>Samples from a "abslife" object</dd>
+        <dd>Samples from an <code>acdf</code> (or <code>acdf_multi</code>) object</dd>
 
         <dt>
 
-          <code><a href="rmat.html">aux_kmat()</a></code> <code><a href="rmat.html">build_kmat()</a></code> <code><a href="rmat.html">build_rmat()</a></code> <code><a href="rmat.html">build_amat()</a></code> <code><a href="rmat.html">build_sigmat()</a></code> <code><a href="rmat.html">build_pmfvar()</a></code> <code><a href="rmat.html">build_cdfvar()</a></code>
+          <code><a href="retrieve_support.html">retrieve_support()</a></code>
 
         </dt>
-        <dd>Build the auxiliary matrix K</dd>
-
-        <dt>
-
-          <code><a href="single_t_hazard.html">single_t_hazard()</a></code>
-
-        </dt>
-        <dd>Hazard estimate for a single time-point.</dd>
+        <dd>Computes the observable support of a lifetime variable</dd>
 
         <dt>
 
@@ -294,7 +280,14 @@
           <code><a href="summary.acdf_multi.html">summary(<i>&lt;acdf_multi&gt;</i>)</a></code>
 
         </dt>
-        <dd>Summary Method for an 'alife_multi' Object</dd>
+        <dd>Summary Method for an 'acdf_multi' Object</dd>
+
+        <dt>
+
+          <code><a href="summary.acif.html">summary(<i>&lt;acif&gt;</i>)</a></code>
+
+        </dt>
+        <dd>Summary Method for an 'acif' Object</dd>
 
         <dt>
 
@@ -309,20 +302,6 @@
 
         </dt>
         <dd>Summary Method for an 'alife_multi' Object</dd>
-
-        <dt>
-
-          <code><a href="u_hat.html">u_hat()</a></code>
-
-        </dt>
-        <dd>\(\hat{U}(x)\)</dd>
-
-        <dt>
-
-          <code><a href="var_hat.html">var_hat()</a></code>
-
-        </dt>
-        <dd>Variance of the log-transformed hazard estimate</dd>
       </dl></div>
   </main></div>
 

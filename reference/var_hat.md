@@ -12,15 +12,15 @@ var_hat(lambda, risk_set, fh, n)
 
 - lambda:
 
-  hazard rate
+  hazard rate (currently unused).
 
 - risk_set:
 
-  \\hat{U}\\
+  \\\hat{U}\\
 
 - fh:
 
-  \\hat{f}\\
+  \\\hat{f}\\
 
 - n:
 

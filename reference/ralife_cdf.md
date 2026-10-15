@@ -1,6 +1,6 @@
-# Samples from a "abslife" object
+# Samples from an `acdf` (or `acdf_multi`) object
 
-Samples from a "abslife" object
+Samples from an `acdf` (or `acdf_multi`) object
 
 ## Usage
 
@@ -16,11 +16,14 @@ ralife_cdf(n, x)
 
 - x:
 
-  the output of a `calc_cdf` function
+  the output of a
+  [`calc_cdf()`](http://lcgodoy.me/abslife/reference/calc_cdf.md) call
+  (an `acdf` or `acdf_multi` object).
 
 ## Value
 
-a vector of "time to event" samples
+a vector of "time to event" samples or, if `x` is an `acdf_multi`
+object, a `data.frame` with the sampled `event_type` and `lifetime`.
 
 ## Author
 

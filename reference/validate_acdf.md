@@ -17,5 +17,5 @@ validate_acdf(x)
 
 ## Value
 
-The input `x`, invisibly, if validation is successful. Throws an error
-on failure.
+`NULL`, invisibly, if validation is successful. Throws an error on
+failure.

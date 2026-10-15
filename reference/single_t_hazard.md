@@ -1,4 +1,4 @@
-# Hazard estimate for a single time-point.
+# Hazard estimate for a single time-point
 
 Internal use.
 
@@ -16,11 +16,14 @@ single_t_hazard(t, trunc_time, lifetime, event, censoring_indicator)
 
 - trunc_time:
 
-  A numeric vector representing the observed left-truncated time.
+  A numeric vector representing the observed left-truncation time. If
+  `NULL` (the default), it is set to a vector of 0s (i.e., no
+  left-truncation).
 
 - lifetime:
 
-  A numeric vector representing the observed time to event.
+  A numeric vector representing the observed time to event (or
+  censoring).
 
 - event:
 
@@ -28,14 +31,16 @@ single_t_hazard(t, trunc_time, lifetime, event, censoring_indicator)
 
 - censoring_indicator:
 
-  An indicator for censoring (1=censored, 0=not). Defaults to a vector
-  of 0s if `NULL`. An observation is only treated as an event if
-  status=1 AND censoring=0.
+  An indicator for censoring (1 = censored, 0 = not). Defaults to a
+  vector of 0s if `NULL`. An observation is only treated as an event (of
+  a given type) if its censoring indicator is 0.
 
 ## Value
 
-A vector containing the time to event, \\\hat{C}\_n\\, the number of
-events, and the hazard estimate along with its standard error.
+A named vector containing the time point (`lifetime`), the risk set
+estimate \\\hat{U}(t)\\ (`risk_set`), the hazard estimate (`hazard`),
+and the standard error of the hazard estimate at the logit scale
+(`se_log_hazard`).
 
 ## Author
 

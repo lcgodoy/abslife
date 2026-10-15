@@ -13,7 +13,7 @@ summary(object, by = 5, ...)
 
 - object:
 
-  An object of class `alife`. Typically the output of the
+  An object of class `alife_multi`. Typically the output of the
   `estimate_hazard` function.
 
 - by:
@@ -27,7 +27,8 @@ summary(object, by = 5, ...)
 
 ## Value
 
-A summary of the hazard rate.
+Prints the cause-specific hazard estimates at every `by` time points and
+invisibly returns them as a `data.frame`.
 
 ## See also
 

@@ -1,6 +1,6 @@
 # Consumer automobile leases from Mercedes-Benz Auto Lease Trust 2017-A
 
-A dataset containing performance records of 47,315 consumer automobile
+A dataset containing performance records of 47,314 consumer automobile
 leases with an original term of 36 months from the Mercedes-Benz Auto
 Lease Trust (MBALT) 2017-A.
 
@@ -52,7 +52,7 @@ A data frame with 47,314 rows and 15 columns:
 
 - `lease.term`:
 
-  Original lease term
+  Original lease term (in months)
 
 - `pti`:
 

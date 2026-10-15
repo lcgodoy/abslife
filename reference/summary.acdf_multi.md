@@ -1,6 +1,6 @@
-# Summary Method for an 'alife_multi' Object
+# Summary Method for an 'acdf_multi' Object
 
-Summary Method for an 'alife_multi' Object
+Summary Method for an 'acdf_multi' Object
 
 ## Usage
 
@@ -13,8 +13,8 @@ summary(object, by = 5, ...)
 
 - object:
 
-  An object of class `alife`. Typically the output of the
-  `estimate_hazard` function.
+  An object of class `acdf_multi`. Typically the output of the
+  `calc_cdf` method.
 
 - by:
 
@@ -22,13 +22,13 @@ summary(object, by = 5, ...)
 
 - ...:
 
-  Additional arguments passed to the base `print` function (e.g.,
-  `digits`).
+  Not used.
 
 ## Value
 
-A summary of the hazard rate.
+A `data.frame` with the all-cause survival, cause-specific cumulative
+incidence, and density at every `by` time points.
 
 ## See also
 
-[`estimate_hazard()`](http://lcgodoy.me/abslife/reference/estimate_hazard.md)
+[`calc_cdf()`](http://lcgodoy.me/abslife/reference/calc_cdf.md)

@@ -1,6 +1,6 @@
-# Plot an 'alife' Object using ggplot2
+# Plot an `alife` Object using `ggplot2`
 
-Plot an 'alife' Object using ggplot2
+Plot an `alife` Object using `ggplot2`
 
 ## Usage
 

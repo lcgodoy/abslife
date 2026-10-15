@@ -2,8 +2,8 @@
 
 A dataset containing time-to-event and left-truncation times for
 consumer automobile loans from the Ally Auto Receivables Trust (AART).
-The data were compiled from the the Electronic Data Gathering, Analysis,
-and Retrieval (EDGAR) system of the Securities and Exchange Comission
+The data were compiled from the Electronic Data Gathering, Analysis, and
+Retrieval (EDGAR) system of the Securities and Exchange Commission
 (SEC).
 
 ## Usage
@@ -41,7 +41,7 @@ A data frame with 2,756 rows and 12 columns:
 
 - `veh.value`:
 
-  Estimated vehicle value at signing (\\\\log\\ scale)
+  Estimated vehicle value at signing (\\\log\\ scale)
 
 - `co.sign`:
 
@@ -57,7 +57,7 @@ A data frame with 2,756 rows and 12 columns:
 
 - `subvent.cash`:
 
-  Cash rebate indicator (1 = `TRUE`)\\
+  Cash rebate indicator (1 = `TRUE`)
 
 - `veh.pick.up`:
 

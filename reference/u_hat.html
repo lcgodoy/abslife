@@ -13,7 +13,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">abslife</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -62,12 +62,13 @@
 
 <dt id="arg-lifetime">lifetime<a class="anchor" aria-label="anchor" href="#arg-lifetime"></a></dt>
 <dd><p>A numeric vector representing the observed time to
-event.</p></dd>
+event (or censoring).</p></dd>
 
 
 <dt id="arg-trunc-time">trunc_time<a class="anchor" aria-label="anchor" href="#arg-trunc-time"></a></dt>
-<dd><p>A numeric vector representing the observed left-truncated
-time.</p></dd>
+<dd><p>A numeric vector representing the observed
+left-truncation time. If <code>NULL</code> (the default), it is set to a vector of
+0s (i.e., no left-truncation).</p></dd>
 
 </dl></div>
     <div class="section level2">

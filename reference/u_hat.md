@@ -16,11 +16,14 @@ u_hat(t, lifetime, trunc_time)
 
 - lifetime:
 
-  A numeric vector representing the observed time to event.
+  A numeric vector representing the observed time to event (or
+  censoring).
 
 - trunc_time:
 
-  A numeric vector representing the observed left-truncated time.
+  A numeric vector representing the observed left-truncation time. If
+  `NULL` (the default), it is set to a vector of 0s (i.e., no
+  left-truncation).
 
 ## Value
 

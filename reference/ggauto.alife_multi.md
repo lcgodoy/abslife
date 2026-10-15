@@ -1,4 +1,4 @@
-# Plot an 'alife-multi' Object using `ggplot2`
+# Plot an `alife_multi` Object using `ggplot2`
 
 Creates a faceted plot, with one panel per event type.
 
@@ -13,7 +13,7 @@ ggauto(object, ci_level = 0.95, ...)
 
 - object:
 
-  An object of class `alife-multi`.
+  An object of class `alife_multi`.
 
 - ci_level:
 

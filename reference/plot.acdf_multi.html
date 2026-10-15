@@ -5,13 +5,11 @@
       fontURL: "https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/output/chtml/fonts/woff-v2"
     }
   };
-</script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet"><script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Plot Method for an 'acdf_multi' Object — plot.acdf_multi"><meta name="description" content="Creates a faceted plot, with one panel per event type.
-Creates a faceted plot with one row per event type. Each row contains
-two panels: one for the Cumulative Distribution Function (CDF) and one
-for the Probability Mass Function (Density)."><meta property="og:description" content="Creates a faceted plot, with one panel per event type.
-Creates a faceted plot with one row per event type. Each row contains
-two panels: one for the Cumulative Distribution Function (CDF) and one
-for the Probability Mass Function (Density)."></head><body>
+</script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet"><script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Plot Method for an 'acdf_multi' Object — plot.acdf_multi"><meta name="description" content="Creates a faceted plot with one row per event type. Each row contains
+two panels: one for the cause-specific Cumulative Incidence Function (CIF)
+and one for the Probability Mass Function (Density)."><meta property="og:description" content="Creates a faceted plot with one row per event type. Each row contains
+two panels: one for the cause-specific Cumulative Incidence Function (CIF)
+and one for the Probability Mass Function (Density)."></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
@@ -19,7 +17,7 @@ for the Probability Mass Function (Density)."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">abslife</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -50,18 +48,14 @@ for the Probability Mass Function (Density)."></head><body>
     </div>
 
     <div class="ref-description section level2">
-    <p>Creates a faceted plot, with one panel per event type.</p>
-<p>Creates a faceted plot with one row per event type. Each row contains
-two panels: one for the Cumulative Distribution Function (CDF) and one
-for the Probability Mass Function (Density).</p>
+    <p>Creates a faceted plot with one row per event type. Each row contains
+two panels: one for the cause-specific Cumulative Incidence Function (CIF)
+and one for the Probability Mass Function (Density).</p>
     </div>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="co"># S3 method for class 'acdf_multi'</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">x</span>, ci_level <span class="op">=</span> <span class="fl">0.95</span>, color <span class="op">=</span> <span class="fl">2</span>, col_line <span class="op">=</span> <span class="fl">1</span>, <span class="va">...</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># S3 method for class 'acdf_multi'</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">x</span>, ci_level <span class="op">=</span> <span class="fl">0.95</span>, color <span class="op">=</span> <span class="fl">2</span>, col_line <span class="op">=</span> <span class="fl">1</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -74,12 +68,12 @@ for the Probability Mass Function (Density).</p>
 
 
 <dt id="arg-ci-level">ci_level<a class="anchor" aria-label="anchor" href="#arg-ci-level"></a></dt>
-<dd><p>A numeric vector of confidence levels to plot (e.g.,
-<code>c(0.5, 0.95)</code>). Defaults to <code>0.95</code>.</p></dd>
+<dd><p>Currently ignored: standard errors are not yet available
+for competing risks, so no confidence intervals are drawn.</p></dd>
 
 
 <dt id="arg-color">color<a class="anchor" aria-label="anchor" href="#arg-color"></a></dt>
-<dd><p>The color for the confidence interval polygon/bars.</p></dd>
+<dd><p>Currently ignored (see <code>ci_level</code>).</p></dd>
 
 
 <dt id="arg-col-line">col_line<a class="anchor" aria-label="anchor" href="#arg-col-line"></a></dt>
@@ -93,13 +87,11 @@ for the Probability Mass Function (Density).</p>
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A faceted plot of the CDFs.</p>
-<p>A faceted plot of CDFs and Densities.</p>
+    <p>A faceted plot of CIFs and Densities.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
-    <div class="dont-index"><p><code><a href="calc_cdf.html">calc_cdf()</a></code></p>
-<p><code><a href="calc_cdf.html">calc_cdf()</a></code></p></div>
+    <div class="dont-index"><p><code><a href="calc_cdf.html">calc_cdf()</a></code></p></div>
     </div>
 
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

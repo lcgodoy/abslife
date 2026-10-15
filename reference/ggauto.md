@@ -1,6 +1,6 @@
-# Plot an 'alife' (or `multi_alife`) Object using `ggplot2`
+# Plot an `alife` (or `alife_multi`) Object using `ggplot2`
 
-Plot an 'alife' (or `multi_alife`) Object using `ggplot2`
+Plot an `alife` (or `alife_multi`) Object using `ggplot2`
 
 ## Usage
 
@@ -12,12 +12,12 @@ ggauto(object, ...)
 
 - object:
 
-  An object of class `alife` or `alife-multi`.
+  An object of class `alife` or `alife_multi`.
 
 - ...:
 
-  Not used.
+  Arguments passed to methods (e.g., `ci_level`).
 
 ## Value
 
-ggplot.
+A `ggplot` object.

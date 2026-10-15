@@ -13,7 +13,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">abslife</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -58,7 +58,7 @@
 <span><span class="fu">ev_life</span><span class="op">(</span><span class="va">x</span>, digits <span class="op">=</span> <span class="fl">2</span>, <span class="va">...</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S3 method for class 'alife'</span></span>
-<span><span class="fu">ev_life</span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">ev_life</span><span class="op">(</span><span class="va">x</span>, digits <span class="op">=</span> <span class="fl">2</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -66,20 +66,22 @@
 
 
 <dl><dt id="arg-x">x<a class="anchor" aria-label="anchor" href="#arg-x"></a></dt>
-<dd><p>An object of class <code>acdf</code>.</p></dd>
+<dd><p>An object of class <code>acdf</code>, <code>acdf_multi</code>, or <code>alife</code>.</p></dd>
 
 
 <dt id="arg-digits">digits<a class="anchor" aria-label="anchor" href="#arg-digits"></a></dt>
-<dd><p>number of digits for the output.</p></dd>
+<dd><p>number of digits for the printed output.</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
-<dd><p>extra arguments to be passed to the <code>round</code> function.</p></dd>
+<dd><p>Not used.</p></dd>
 
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>The expected value associated with the object <code>x</code>.</p>
+    <p>The expected value associated with the object <code>x</code> (printed and
+returned invisibly). For <code>acdf_multi</code> objects, a named vector with the
+all-cause and the cause-specific expected lifetimes.</p>
     </div>
 
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

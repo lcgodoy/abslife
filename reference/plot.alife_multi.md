@@ -13,12 +13,12 @@ plot(x, ci_level = 0.95, color = 2, col_line = 1, ...)
 
 - x:
 
-  An object of class `alife-multi`.
+  An object of class `alife_multi`.
 
 - ci_level:
 
-  A numeric vector of confidence ci_level to plot (e.g.,
-  `c(0.5, 0.95)`). Defaults to `0.95`.
+  A numeric vector of confidence levels to plot (e.g., `c(0.5, 0.95)`).
+  Defaults to `0.95`.
 
 - color:
 

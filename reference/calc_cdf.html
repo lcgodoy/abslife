@@ -5,9 +5,15 @@
       fontURL: "https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/output/chtml/fonts/woff-v2"
     }
   };
-</script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet"><script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Calculate CDF from Hazard Estimates — calc_cdf"><meta name="description" content="Adds a 'cdf' column to an 'alife' or 'alife-multi' object based
-on the hazard estimates."><meta property="og:description" content="Adds a 'cdf' column to an 'alife' or 'alife-multi' object based
-on the hazard estimates."></head><body>
+</script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet"><script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Calculate CDF from Hazard Estimates — calc_cdf"><meta name="description" content="Returns an object of class acdf, corresponding to a
+data.frame with tailored plot and summary methods. For competing risks
+(alife_multi objects), the cause-specific cumulative incidence functions
+are computed instead and an object of class acdf_multi is returned (see
+also calc_cif())."><meta property="og:description" content="Returns an object of class acdf, corresponding to a
+data.frame with tailored plot and summary methods. For competing risks
+(alife_multi objects), the cause-specific cumulative incidence functions
+are computed instead and an object of class acdf_multi is returned (see
+also calc_cif())."></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
@@ -15,7 +21,7 @@ on the hazard estimates."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">abslife</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -46,8 +52,11 @@ on the hazard estimates."></head><body>
     </div>
 
     <div class="ref-description section level2">
-    <p>Adds a 'cdf' column to an 'alife' or 'alife-multi' object based
-on the hazard estimates.</p>
+    <p>Returns an object of class <code>acdf</code>, corresponding to a
+<code>data.frame</code> with tailored plot and summary methods. For competing risks
+(<code>alife_multi</code> objects), the cause-specific cumulative incidence functions
+are computed instead and an object of class <code>acdf_multi</code> is returned (see
+also <code><a href="calc_cif.html">calc_cif()</a></code>).</p>
     </div>
 
     <div class="section level2">
@@ -66,7 +75,7 @@ on the hazard estimates.</p>
 
 
 <dl><dt id="arg-x">x<a class="anchor" aria-label="anchor" href="#arg-x"></a></dt>
-<dd><p>An object of class <code>alife</code> or <code>alife-multi</code>.</p></dd>
+<dd><p>An object of class <code>alife</code> or <code>alife_multi</code>.</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
@@ -75,7 +84,10 @@ on the hazard estimates.</p>
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>The original object <code>x</code> with a new <code>cdf</code> column.</p>
+    <p>An object of class <code>acdf</code> (columns <code>lifetime</code>, <code>cdf</code>, <code>se_cdf</code>,
+<code>density</code>, <code>se_dens</code>, and <code>risk_set</code>) or, if <code>x</code> is an <code>alife_multi</code>
+object, of class <code>acdf_multi</code> (columns <code>event_type</code>, <code>lifetime</code>,
+<code>all_surv</code>, <code>cumulative</code>, <code>density</code>, and <code>risk_set</code>).</p>
     </div>
 
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

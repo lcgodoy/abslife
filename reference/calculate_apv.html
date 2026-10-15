@@ -5,8 +5,8 @@
       fontURL: "https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/output/chtml/fonts/woff-v2"
     }
   };
-</script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet"><script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Calculate Actuarial Present Value (APV) of a Loan — calculate_apv"><meta name="description" content="Calculates the APV of a loan under competing risks (Default vs. Pre-payment)
-and left-truncated survival data."><meta property="og:description" content="Calculates the APV of a loan under competing risks (Default vs. Pre-payment)
+</script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet"><script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Calculate Actuarial Present Value (APV) of a Loan — calculate_apv"><meta name="description" content="Calculates the APV of a loan under competing risks (default vs. prepayment)
+and left-truncated survival data."><meta property="og:description" content="Calculates the APV of a loan under competing risks (default vs. prepayment)
 and left-truncated survival data."></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
@@ -15,7 +15,7 @@ and left-truncated survival data."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">abslife</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -46,21 +46,22 @@ and left-truncated survival data."></head><body>
     </div>
 
     <div class="ref-description section level2">
-    <p>Calculates the APV of a loan under competing risks (Default vs. Pre-payment)
+    <p>Calculates the APV of a loan under competing risks (default vs. prepayment)
 and left-truncated survival data.</p>
     </div>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">calculate_apv</span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
 <span>  <span class="va">cur_age</span>,</span>
 <span>  <span class="va">orig_term</span>,</span>
 <span>  <span class="va">orig_loan_amt</span>,</span>
 <span>  <span class="va">mon_pmt</span>,</span>
 <span>  <span class="va">ref_rate</span>,</span>
 <span>  <span class="va">recov_curve</span>,</span>
-<span>  <span class="va">prbs</span>,</span>
-<span>  orig_apy <span class="op">=</span> <span class="fl">0.15</span></span>
+<span>  orig_apy <span class="op">=</span> <span class="fl">0.15</span>,</span>
+<span>  type <span class="op">=</span> <span class="st">"constant"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -68,7 +69,12 @@ and left-truncated survival data.</p>
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
 
 
-<dl><dt id="arg-cur-age">cur_age<a class="anchor" aria-label="anchor" href="#arg-cur-age"></a></dt>
+<dl><dt id="arg-x">x<a class="anchor" aria-label="anchor" href="#arg-x"></a></dt>
+<dd><p>An object of class <code>alife_multi</code>. Typically the output of the
+<code>estimate_hazard</code> function with two event types.</p></dd>
+
+
+<dt id="arg-cur-age">cur_age<a class="anchor" aria-label="anchor" href="#arg-cur-age"></a></dt>
 <dd><p>Current age of the loan in months.</p></dd>
 
 
@@ -89,21 +95,35 @@ and left-truncated survival data.</p>
 
 
 <dt id="arg-recov-curve">recov_curve<a class="anchor" aria-label="anchor" href="#arg-recov-curve"></a></dt>
-<dd><p>Recovery curve data frame (columns: Month, Recovery).</p></dd>
-
-
-<dt id="arg-prbs">prbs<a class="anchor" aria-label="anchor" href="#arg-prbs"></a></dt>
-<dd><p>CDF and density probabilities from abslife (competing risks).</p></dd>
+<dd><p>Recovery curve <code>data.frame</code> with columns <code>month</code> and
+<code>recovery</code> (the recovery rate as a proportion of <code>orig_loan_amt</code>). It must
+contain every month from <code>cur_age</code> to <code>orig_term - 1</code>.</p></dd>
 
 
 <dt id="arg-orig-apy">orig_apy<a class="anchor" aria-label="anchor" href="#arg-orig-apy"></a></dt>
 <dd><p>Internal loan APY for amortization. Defaults to 0.15.</p></dd>
 
+
+<dt id="arg-type">type<a class="anchor" aria-label="anchor" href="#arg-type"></a></dt>
+<dd><p>A character string specifying the extrapolation type passed to
+<code><a href="extend_hazard.html">extend_hazard()</a></code>: either <code>"constant"</code> (default), <code>"geometric"</code> or
+<code>"linear"</code>.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A list containing APV, second moment (APV2), standard deviation
-(SD).</p>
+    <p>A list containing the APV (<code>APV</code>), its second moment (<code>APV2</code>), and
+its standard deviation (<code>SD</code>).</p>
+    </div>
+    <div class="section level2">
+    <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
+    <p><code>x</code> must contain exactly two event types, and the default event
+must be labeled either <code>"Default"</code> or <code>"1"</code>; the other event type is
+treated as prepayment. If the observed lifetime support does not reach
+<code>orig_term</code>, the hazards are extrapolated up to <code>orig_term</code> with
+<code><a href="extend_hazard.html">extend_hazard()</a></code> (with a warning). After that, hazard estimates must be
+available for every lifetime from <code>cur_age + 1</code> to <code>orig_term</code>;
+otherwise, an error is thrown.</p>
     </div>
 
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

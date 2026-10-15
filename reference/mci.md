@@ -1,6 +1,6 @@
-# Computing multiple CIs at once.
+# Computing multiple CIs at once
 
-Computing multiple CIs at once.
+Computing multiple CIs at once
 
 ## Usage
 
@@ -24,17 +24,17 @@ multiple_cis(x, ci_level = 0.95)
 
 - x:
 
-  An object of class `alife`. Typically the output of the
-  `estimate_hazard` function.
+  An object of class `alife`, `alife_multi`, `acdf`, or `acdf_multi`.
 
 - ci_level:
 
-  A numeric vector of confidence ci_level to plot (e.g.,
-  `c(0.5, 0.95)`). Defaults to `0.95`.
+  A numeric vector of confidence levels (e.g., `c(0.5, 0.95)`). Defaults
+  to `0.95`.
 
 ## Value
 
-a `list`
+a `list` with one `data.frame` of confidence limits per element of
+`ci_level`.
 
 ## Author
 

@@ -1,27 +1,38 @@
 # Solve for Risk-Adjusted Internal Rate of Return (IRR)
 
-Solve for Risk-Adjusted Internal Rate of Return (IRR)
+Finds the monthly discount rate at which the APV of the loan (see
+[`calculate_apv()`](http://lcgodoy.me/abslife/reference/calculate_apv.md))
+matches `abs0_bal`. The rate is found with
+[`stats::uniroot()`](https://rdrr.io/r/stats/uniroot.html) over monthly
+rates between -0.5 and 1; an error is thrown if no rate in this range
+matches `abs0_bal`.
 
 ## Usage
 
 ``` r
 solve_irr(
+  x,
   abs0_bal,
   cur_age,
   orig_term,
   orig_loan_amt,
   mon_pmt,
   recov_curve,
-  prbs,
-  orig_apy = 0.15
+  orig_apy = 0.15,
+  type = "constant"
 )
 ```
 
 ## Arguments
 
+- x:
+
+  An object of class `alife_multi`. Typically the output of the
+  `estimate_hazard` function with two event types.
+
 - abs0_bal:
 
-  Current loan balance (to match EPV against).
+  Current loan balance (to match the APV against).
 
 - cur_age:
 
@@ -41,17 +52,33 @@ solve_irr(
 
 - recov_curve:
 
-  Recovery curve data frame.
-
-- prbs:
-
-  CDF and density probabilities from abslife.
+  Recovery curve `data.frame` with columns `month` and `recovery` (the
+  recovery rate as a proportion of `orig_loan_amt`). It must contain
+  every month from `cur_age` to `orig_term - 1`.
 
 - orig_apy:
 
   Internal loan APY for amortization. Defaults to 0.15.
 
+- type:
+
+  A character string specifying the extrapolation type passed to
+  [`extend_hazard()`](http://lcgodoy.me/abslife/reference/extend_hazard.md):
+  either `"constant"` (default), `"geometric"` or `"linear"`.
+
 ## Value
 
-List with risk adjusted monthly rate, annualized rate, and objective
-value.
+A list with the risk-adjusted monthly rate (`monthly_rate`), the
+annualized rate (`annualized_rate`), and the squared difference between
+`abs0_bal` and the APV at the solution (`objective`).
+
+## Details
+
+`x` must contain exactly two event types, and the default event must be
+labeled either `"Default"` or `"1"`; the other event type is treated as
+prepayment. If the observed lifetime support does not reach `orig_term`,
+the hazards are extrapolated up to `orig_term` with
+[`extend_hazard()`](http://lcgodoy.me/abslife/reference/extend_hazard.md)
+(with a warning). After that, hazard estimates must be available for
+every lifetime from `cur_age + 1` to `orig_term`; otherwise, an error is
+thrown.

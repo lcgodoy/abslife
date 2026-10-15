@@ -1,6 +1,7 @@
-# Core for left-truncation PMF computation
+# PMF of the left-truncation random variable
 
-Internal use
+Estimates the probability mass function of the left-truncation random
+variable. `.lt_core` is the internal workhorse.
 
 ## Usage
 
@@ -14,7 +15,8 @@ lt_pmf(x, trunc_time, rc = TRUE)
 
 - lifetime:
 
-  A numeric vector representing the observed time to event.
+  A numeric vector representing the observed time to event (or
+  censoring).
 
 - denom:
 
@@ -23,16 +25,21 @@ lt_pmf(x, trunc_time, rc = TRUE)
 
 - trunc_time:
 
-  A numeric vector representing the observed left-truncated time.
+  A numeric vector representing the observed left-truncation time. If
+  `NULL` (the default), it is set to a vector of 0s (i.e., no
+  left-truncation).
 
 - rc:
 
-  a `numeric` boolean indicating whether right-censoring is to be
-  considered.
+  a `logical` indicating whether right-censoring is to be considered.
 
 - x:
 
-  is the output of an `estimate_hazard` call.
+  the output of an
+  [`estimate_hazard()`](http://lcgodoy.me/abslife/reference/estimate_hazard.md)
+  call (an `alife` object) or of a
+  [`calc_cdf()`](http://lcgodoy.me/abslife/reference/calc_cdf.md) call
+  (an `acdf` object). Competing risks are not supported.
 
 ## Value
 

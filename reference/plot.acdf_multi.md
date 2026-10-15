@@ -1,17 +1,12 @@
 # Plot Method for an 'acdf_multi' Object
 
-Creates a faceted plot, with one panel per event type.
-
 Creates a faceted plot with one row per event type. Each row contains
-two panels: one for the Cumulative Distribution Function (CDF) and one
-for the Probability Mass Function (Density).
+two panels: one for the cause-specific Cumulative Incidence Function
+(CIF) and one for the Probability Mass Function (Density).
 
 ## Usage
 
 ``` r
-# S3 method for class 'acdf_multi'
-plot(x, ci_level = 0.95, color = 2, col_line = 1, ...)
-
 # S3 method for class 'acdf_multi'
 plot(x, ci_level = 0.95, color = 2, col_line = 1, ...)
 ```
@@ -24,12 +19,12 @@ plot(x, ci_level = 0.95, color = 2, col_line = 1, ...)
 
 - ci_level:
 
-  A numeric vector of confidence levels to plot (e.g., `c(0.5, 0.95)`).
-  Defaults to `0.95`.
+  Currently ignored: standard errors are not yet available for competing
+  risks, so no confidence intervals are drawn.
 
 - color:
 
-  The color for the confidence interval polygon/bars.
+  Currently ignored (see `ci_level`).
 
 - col_line:
 
@@ -42,12 +37,8 @@ plot(x, ci_level = 0.95, color = 2, col_line = 1, ...)
 
 ## Value
 
-A faceted plot of the CDFs.
-
-A faceted plot of CDFs and Densities.
+A faceted plot of CIFs and Densities.
 
 ## See also
-
-[`calc_cdf()`](http://lcgodoy.me/abslife/reference/calc_cdf.md)
 
 [`calc_cdf()`](http://lcgodoy.me/abslife/reference/calc_cdf.md)

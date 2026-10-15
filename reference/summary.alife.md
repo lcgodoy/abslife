@@ -27,7 +27,8 @@ summary(object, by = 5, ...)
 
 ## Value
 
-A summary of the hazard rate.
+Prints the hazard estimates at every `by` time points and invisibly
+returns them as a `data.frame`.
 
 ## See also
 

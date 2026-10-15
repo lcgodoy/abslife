@@ -18,8 +18,7 @@ print(x, ...)
 
 - ...:
 
-  Additional arguments passed to the base `print` function (e.g.,
-  `digits`).
+  Not used.
 
 ## Value
 

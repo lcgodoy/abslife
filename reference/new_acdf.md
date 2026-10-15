@@ -1,7 +1,7 @@
 # Create an acdf Object
 
 Constructs an object of class `acdf` from a data frame, after validating
-its structure. Note that, this function is mostly for internal usage.
+its structure. Note that this function is mostly for internal usage.
 
 ## Usage
 
@@ -13,8 +13,8 @@ new_acdf(x = data.frame())
 
 - x:
 
-  A `data.frame` that has the required columns for an 'alife' object.
-  Defaults to an empty `data.frame`.
+  A `data.frame` that has the required columns for an `acdf` object:
+  `lifetime` and `density`. Defaults to an empty `data.frame`.
 
 ## Value
 
@@ -24,12 +24,11 @@ An object of class `acdf`.
 
 ``` r
 # Create a minimal data frame with the required columns
-df <- data.frame(lifetime = 1:2, risk_set = c(.8, .20),
-                 hazard = c(0.1, 0.125), se_log_hazard = c(0.1, 0.1),
-                 lower_ci = c(0.08, 0.1), upper_ci = c(0.12, 0.15))
+df <- data.frame(lifetime = 1:2, cdf = c(0.1, 1),
+                 density = c(0.1, 0.9))
 
-# Construct the alife object
-my_alife_obj <- new_alife(df)
-class(my_alife_obj)
-#> [1] "alife"      "data.frame"
+# Construct the acdf object
+my_acdf_obj <- new_acdf(df)
+class(my_acdf_obj)
+#> [1] "acdf"       "data.frame"
 ```

@@ -17,24 +17,17 @@
 - [`calc_cdf()`](http://lcgodoy.me/abslife/reference/calc_cdf.md) :
   Calculate CDF from Hazard Estimates
 
-- [`calc_tp()`](http://lcgodoy.me/abslife/reference/calc_tp.md) :
-  Calculate Default Time Points
+- [`calc_cif()`](http://lcgodoy.me/abslife/reference/calc_cif.md) :
+  Calculate Cumulative Incidence Functions (CIF) from Hazard Estimates
+
+- [`calc_osup()`](http://lcgodoy.me/abslife/reference/calc_osup.md) :
+  Calculate Observed Support
 
 - [`calculate_apv()`](http://lcgodoy.me/abslife/reference/calculate_apv.md)
   : Calculate Actuarial Present Value (APV) of a Loan
 
-- [`check_censored()`](http://lcgodoy.me/abslife/reference/check_censored.md)
-  :
-
-  Auxiliary function for `estimate_hazard`
-
 - [`disc_fac()`](http://lcgodoy.me/abslife/reference/disc_fac.md) :
   Calculate Discount Factors
-
-- [`.hazard_core()`](http://lcgodoy.me/abslife/reference/dot-hazard_core.md)
-  :
-
-  Auxiliary function for `estimate_hazard`
 
 - [`estimate_hazard()`](http://lcgodoy.me/abslife/reference/estimate_hazard.md)
   : Hazard rate
@@ -42,37 +35,35 @@
 - [`ev_life()`](http://lcgodoy.me/abslife/reference/ev.md) : Calculate
   expected value for the time to event of interest
 
-- [`f_hat()`](http://lcgodoy.me/abslife/reference/f_hat.md) :
-  \\\hat{f}(x)\\
-
-- [`fix_0haz()`](http://lcgodoy.me/abslife/reference/fix_0haz.md) :
-  Carry Forward Last Observation for Zero-Hazard Estimates (Internal
-  Use)
+- [`extend_hazard()`](http://lcgodoy.me/abslife/reference/extend_hazard.md)
+  : Extend Hazard Rates
 
 - [`ggauto()`](http://lcgodoy.me/abslife/reference/ggauto.md) :
 
-  Plot an 'alife' (or `multi_alife`) Object using `ggplot2`
+  Plot an `alife` (or `alife_multi`) Object using `ggplot2`
 
 - [`ggauto(`*`<alife>`*`)`](http://lcgodoy.me/abslife/reference/ggauto.alife.md)
-  : Plot an 'alife' Object using ggplot2
+  :
+
+  Plot an `alife` Object using `ggplot2`
 
 - [`ggauto(`*`<alife_multi>`*`)`](http://lcgodoy.me/abslife/reference/ggauto.alife_multi.md)
   :
 
-  Plot an 'alife-multi' Object using `ggplot2`
+  Plot an `alife_multi` Object using `ggplot2`
 
 - [`.lt_core()`](http://lcgodoy.me/abslife/reference/lt_pmf.md)
-  [`lt_pmf()`](http://lcgodoy.me/abslife/reference/lt_pmf.md) : Core for
-  left-truncation PMF computation
+  [`lt_pmf()`](http://lcgodoy.me/abslife/reference/lt_pmf.md) : PMF of
+  the left-truncation random variable
 
 - [`mbalt`](http://lcgodoy.me/abslife/reference/mbalt.md) : Consumer
   automobile leases from Mercedes-Benz Auto Lease Trust 2017-A
 
-- [`multiple_cis()`](http://lcgodoy.me/abslife/reference/mci.md) :
-  Computing multiple CIs at once.
-
 - [`new_acdf()`](http://lcgodoy.me/abslife/reference/new_acdf.md) :
   Create an acdf Object
+
+- [`new_acif()`](http://lcgodoy.me/abslife/reference/new_acif.md) :
+  Create an acif Object
 
 - [`new_alife()`](http://lcgodoy.me/abslife/reference/new_alife.md) :
   Create an alife Object
@@ -82,6 +73,9 @@
 
 - [`plot(`*`<acdf_multi>`*`)`](http://lcgodoy.me/abslife/reference/plot.acdf_multi.md)
   : Plot Method for an 'acdf_multi' Object
+
+- [`plot(`*`<acif>`*`)`](http://lcgodoy.me/abslife/reference/plot.acif.md)
+  : Plot Method for an 'acif' Object
 
 - [`plot(`*`<alife>`*`)`](http://lcgodoy.me/abslife/reference/plot.alife.md)
   : Plot Method for an 'alife' Object
@@ -99,19 +93,11 @@
   : Print Method for an 'alife_multi' Object
 
 - [`ralife_cdf()`](http://lcgodoy.me/abslife/reference/ralife_cdf.md) :
-  Samples from a "abslife" object
 
-- [`aux_kmat()`](http://lcgodoy.me/abslife/reference/rmat.md)
-  [`build_kmat()`](http://lcgodoy.me/abslife/reference/rmat.md)
-  [`build_rmat()`](http://lcgodoy.me/abslife/reference/rmat.md)
-  [`build_amat()`](http://lcgodoy.me/abslife/reference/rmat.md)
-  [`build_sigmat()`](http://lcgodoy.me/abslife/reference/rmat.md)
-  [`build_pmfvar()`](http://lcgodoy.me/abslife/reference/rmat.md)
-  [`build_cdfvar()`](http://lcgodoy.me/abslife/reference/rmat.md) :
-  Build the auxiliary matrix K
+  Samples from an `acdf` (or `acdf_multi`) object
 
-- [`single_t_hazard()`](http://lcgodoy.me/abslife/reference/single_t_hazard.md)
-  : Hazard estimate for a single time-point.
+- [`retrieve_support()`](http://lcgodoy.me/abslife/reference/retrieve_support.md)
+  : Computes the observable support of a lifetime variable
 
 - [`solve_irr()`](http://lcgodoy.me/abslife/reference/solve_irr.md) :
   Solve for Risk-Adjusted Internal Rate of Return (IRR)
@@ -120,16 +106,13 @@
   : Summary Method for an 'acdf' Object
 
 - [`summary(`*`<acdf_multi>`*`)`](http://lcgodoy.me/abslife/reference/summary.acdf_multi.md)
-  : Summary Method for an 'alife_multi' Object
+  : Summary Method for an 'acdf_multi' Object
+
+- [`summary(`*`<acif>`*`)`](http://lcgodoy.me/abslife/reference/summary.acif.md)
+  : Summary Method for an 'acif' Object
 
 - [`summary(`*`<alife>`*`)`](http://lcgodoy.me/abslife/reference/summary.alife.md)
   : Summary Method for an 'alife' Object
 
 - [`summary(`*`<alife_multi>`*`)`](http://lcgodoy.me/abslife/reference/summary.alife_multi.md)
   : Summary Method for an 'alife_multi' Object
-
-- [`u_hat()`](http://lcgodoy.me/abslife/reference/u_hat.md) :
-  \\\hat{U}(x)\\
-
-- [`var_hat()`](http://lcgodoy.me/abslife/reference/var_hat.md) :
-  Variance of the log-transformed hazard estimate

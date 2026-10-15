@@ -36,11 +36,12 @@ build_cdfvar(pmfvar)
 
 - se_log_hazard:
 
-  A `vector` of SE estimates for the log-hazards.
+  A `vector` of SE estimates for the hazards at the logit scale.
 
 - pmfvar:
 
-  a square `matrix` corresponding to the output of a `build_pmf` call.
+  a square `matrix` corresponding to the output of a `build_pmfvar`
+  call.
 
 ## Value
 

@@ -13,21 +13,22 @@ plot(x, ci_level = 0.95, color = 2, col_line = 1, ...)
 
 - x:
 
-  An object of class `acdf`. Typically the output of the
-  `estimate_hazard` function.
+  An object of class `acdf`. Typically the output of the `calc_cdf`
+  function.
 
 - ci_level:
 
-  A numeric vector of confidence ci_level to plot (e.g.,
-  `c(0.5, 0.95)`). Defaults to `0.95`.
+  A numeric vector of confidence levels to plot (e.g., `c(0.5, 0.95)`).
+  Defaults to `0.95`.
 
 - color:
 
-  The color for the confidence interval polygon.
+  The color for the confidence interval polygon (CDF) and error bars
+  (density).
 
 - col_line:
 
-  The color for the hazard rate line.
+  The color for the CDF line and density points.
 
 - ...:
 

@@ -43,17 +43,7 @@ hazards <-
 #> identifiability issues or unstable hazard estimates at the tail.
 ```
 
-## Step 2: Compute CDF and Densities
-
-Next, we convert these hazard rates into cumulative distribution
-functions (CDF) and sub-density values using `calc_cdf`.
-
-``` r
-
-prbs <- calc_cdf(hazards)
-```
-
-## Step 3: Setup Recovery Curve
+## Step 2: Setup Recovery Curve
 
 We define a recovery curve mapping the recovery percentage to each
 remaining month of the loan’s term. In this example, we construct a
@@ -68,7 +58,7 @@ recov_curve <- data.frame(
 )
 ```
 
-## Step 4: Calculate Actuarial Present Value (APV)
+## Step 3: Calculate Actuarial Present Value (APV)
 
 We set the loan parameters (original amount, monthly payment, and
 reference market rate) and compute the APV:
@@ -79,32 +69,24 @@ orig_loan_amt <- 50000
 mon_pmt <- 1031.84
 ref_rate <- 0.05 # Annual market discount rate
 
-## getting warning because prob does not go all the way to the original term:
-## THIS NEEDS TO BE FIXED. SOLUTION: WARNING and extrapolating hazard at
-## geometric rate.
 apv_res <- calculate_apv(
-  cur_age = cur_age,
-  orig_term = orig_term,
-  orig_loan_amt = orig_loan_amt,
-  mon_pmt = mon_pmt,
-  ref_rate = ref_rate,
-  recov_curve = recov_curve,
-  prbs = prbs,
-  orig_apy = 0.15
+    x = hazards,
+    cur_age = cur_age,
+    orig_term = orig_term,
+    orig_loan_amt = orig_loan_amt,
+    mon_pmt = mon_pmt,
+    ref_rate = ref_rate,
+    recov_curve = recov_curve,
+    orig_apy = 0.15
 )
-#> Warning in def_pv * p_def: longer object length is not a multiple of shorter
-#> object length
-#> Warning in rep_pv * p_pre: longer object length is not a multiple of shorter
-#> object length
-#> Warning in def_pv^2 * p_def: longer object length is not a multiple of shorter
-#> object length
-#> Warning in rep_pv^2 * p_pre: longer object length is not a multiple of shorter
-#> object length
+#> Warning in .apv_setup(x, cur_age, orig_term, orig_loan_amt, mon_pmt,
+#> recov_curve, : Lifetime observed support does not include the original loan
+#> term. Extrapolating hazards.
 ```
 
-- Estimated APV: \$45681.66 (13557.79)
+- Estimated APV: \$43659.65 (13677.69)
 
-## Step 5: Solve for Risk-Adjusted IRR
+## Step 4: Solve for Risk-Adjusted IRR
 
 Assuming a current loan price/balance of `$37,719.47`, we calculate the
 risk-adjusted monthly and annualized Internal Rate of Return (IRR) that
@@ -115,176 +97,19 @@ equates the loan price to its expected present value:
 cur_bal <- 37719.47
 
 irr_res <- solve_irr(
-  abs0_bal = cur_bal,
-  cur_age = cur_age,
-  orig_term = orig_term,
-  orig_loan_amt = orig_loan_amt,
-  mon_pmt = mon_pmt,
-  recov_curve = recov_curve,
-  prbs = prbs,
-  orig_apy = 0.15
+    x = hazards,
+    abs0_bal = cur_bal,
+    cur_age = cur_age,
+    orig_term = orig_term,
+    orig_loan_amt = orig_loan_amt,
+    mon_pmt = mon_pmt,
+    recov_curve = recov_curve,
+    orig_apy = 0.15
 )
-#> Warning in def_pv * p_def: longer object length is not a multiple of shorter
-#> object length
-#> Warning in rep_pv * p_pre: longer object length is not a multiple of shorter
-#> object length
-#> Warning in def_pv^2 * p_def: longer object length is not a multiple of shorter
-#> object length
-#> Warning in rep_pv^2 * p_pre: longer object length is not a multiple of shorter
-#> object length
-#> Warning in def_pv * p_def: longer object length is not a multiple of shorter
-#> object length
-#> Warning in rep_pv * p_pre: longer object length is not a multiple of shorter
-#> object length
-#> Warning in def_pv^2 * p_def: longer object length is not a multiple of shorter
-#> object length
-#> Warning in rep_pv^2 * p_pre: longer object length is not a multiple of shorter
-#> object length
-#> Warning in def_pv * p_def: longer object length is not a multiple of shorter
-#> object length
-#> Warning in rep_pv * p_pre: longer object length is not a multiple of shorter
-#> object length
-#> Warning in def_pv^2 * p_def: longer object length is not a multiple of shorter
-#> object length
-#> Warning in rep_pv^2 * p_pre: longer object length is not a multiple of shorter
-#> object length
-#> Warning in def_pv * p_def: longer object length is not a multiple of shorter
-#> object length
-#> Warning in rep_pv * p_pre: longer object length is not a multiple of shorter
-#> object length
-#> Warning in def_pv^2 * p_def: longer object length is not a multiple of shorter
-#> object length
-#> Warning in rep_pv^2 * p_pre: longer object length is not a multiple of shorter
-#> object length
-#> Warning in def_pv * p_def: longer object length is not a multiple of shorter
-#> object length
-#> Warning in rep_pv * p_pre: longer object length is not a multiple of shorter
-#> object length
-#> Warning in def_pv^2 * p_def: longer object length is not a multiple of shorter
-#> object length
-#> Warning in rep_pv^2 * p_pre: longer object length is not a multiple of shorter
-#> object length
-#> Warning in def_pv * p_def: longer object length is not a multiple of shorter
-#> object length
-#> Warning in rep_pv * p_pre: longer object length is not a multiple of shorter
-#> object length
-#> Warning in def_pv^2 * p_def: longer object length is not a multiple of shorter
-#> object length
-#> Warning in rep_pv^2 * p_pre: longer object length is not a multiple of shorter
-#> object length
-#> Warning in def_pv * p_def: longer object length is not a multiple of shorter
-#> object length
-#> Warning in rep_pv * p_pre: longer object length is not a multiple of shorter
-#> object length
-#> Warning in def_pv^2 * p_def: longer object length is not a multiple of shorter
-#> object length
-#> Warning in rep_pv^2 * p_pre: longer object length is not a multiple of shorter
-#> object length
-#> Warning in def_pv * p_def: longer object length is not a multiple of shorter
-#> object length
-#> Warning in rep_pv * p_pre: longer object length is not a multiple of shorter
-#> object length
-#> Warning in def_pv^2 * p_def: longer object length is not a multiple of shorter
-#> object length
-#> Warning in rep_pv^2 * p_pre: longer object length is not a multiple of shorter
-#> object length
-#> Warning in def_pv * p_def: longer object length is not a multiple of shorter
-#> object length
-#> Warning in rep_pv * p_pre: longer object length is not a multiple of shorter
-#> object length
-#> Warning in def_pv^2 * p_def: longer object length is not a multiple of shorter
-#> object length
-#> Warning in rep_pv^2 * p_pre: longer object length is not a multiple of shorter
-#> object length
-#> Warning in def_pv * p_def: longer object length is not a multiple of shorter
-#> object length
-#> Warning in rep_pv * p_pre: longer object length is not a multiple of shorter
-#> object length
-#> Warning in def_pv^2 * p_def: longer object length is not a multiple of shorter
-#> object length
-#> Warning in rep_pv^2 * p_pre: longer object length is not a multiple of shorter
-#> object length
-#> Warning in def_pv * p_def: longer object length is not a multiple of shorter
-#> object length
-#> Warning in rep_pv * p_pre: longer object length is not a multiple of shorter
-#> object length
-#> Warning in def_pv^2 * p_def: longer object length is not a multiple of shorter
-#> object length
-#> Warning in rep_pv^2 * p_pre: longer object length is not a multiple of shorter
-#> object length
-#> Warning in def_pv * p_def: longer object length is not a multiple of shorter
-#> object length
-#> Warning in rep_pv * p_pre: longer object length is not a multiple of shorter
-#> object length
-#> Warning in def_pv^2 * p_def: longer object length is not a multiple of shorter
-#> object length
-#> Warning in rep_pv^2 * p_pre: longer object length is not a multiple of shorter
-#> object length
-#> Warning in def_pv * p_def: longer object length is not a multiple of shorter
-#> object length
-#> Warning in rep_pv * p_pre: longer object length is not a multiple of shorter
-#> object length
-#> Warning in def_pv^2 * p_def: longer object length is not a multiple of shorter
-#> object length
-#> Warning in rep_pv^2 * p_pre: longer object length is not a multiple of shorter
-#> object length
-#> Warning in def_pv * p_def: longer object length is not a multiple of shorter
-#> object length
-#> Warning in rep_pv * p_pre: longer object length is not a multiple of shorter
-#> object length
-#> Warning in def_pv^2 * p_def: longer object length is not a multiple of shorter
-#> object length
-#> Warning in rep_pv^2 * p_pre: longer object length is not a multiple of shorter
-#> object length
-#> Warning in def_pv * p_def: longer object length is not a multiple of shorter
-#> object length
-#> Warning in rep_pv * p_pre: longer object length is not a multiple of shorter
-#> object length
-#> Warning in def_pv^2 * p_def: longer object length is not a multiple of shorter
-#> object length
-#> Warning in rep_pv^2 * p_pre: longer object length is not a multiple of shorter
-#> object length
-#> Warning in def_pv * p_def: longer object length is not a multiple of shorter
-#> object length
-#> Warning in rep_pv * p_pre: longer object length is not a multiple of shorter
-#> object length
-#> Warning in def_pv^2 * p_def: longer object length is not a multiple of shorter
-#> object length
-#> Warning in rep_pv^2 * p_pre: longer object length is not a multiple of shorter
-#> object length
-#> Warning in def_pv * p_def: longer object length is not a multiple of shorter
-#> object length
-#> Warning in rep_pv * p_pre: longer object length is not a multiple of shorter
-#> object length
-#> Warning in def_pv^2 * p_def: longer object length is not a multiple of shorter
-#> object length
-#> Warning in rep_pv^2 * p_pre: longer object length is not a multiple of shorter
-#> object length
-#> Warning in def_pv * p_def: longer object length is not a multiple of shorter
-#> object length
-#> Warning in rep_pv * p_pre: longer object length is not a multiple of shorter
-#> object length
-#> Warning in def_pv^2 * p_def: longer object length is not a multiple of shorter
-#> object length
-#> Warning in rep_pv^2 * p_pre: longer object length is not a multiple of shorter
-#> object length
-#> Warning in def_pv * p_def: longer object length is not a multiple of shorter
-#> object length
-#> Warning in rep_pv * p_pre: longer object length is not a multiple of shorter
-#> object length
-#> Warning in def_pv^2 * p_def: longer object length is not a multiple of shorter
-#> object length
-#> Warning in rep_pv^2 * p_pre: longer object length is not a multiple of shorter
-#> object length
-#> Warning in def_pv * p_def: longer object length is not a multiple of shorter
-#> object length
-#> Warning in rep_pv * p_pre: longer object length is not a multiple of shorter
-#> object length
-#> Warning in def_pv^2 * p_def: longer object length is not a multiple of shorter
-#> object length
-#> Warning in rep_pv^2 * p_pre: longer object length is not a multiple of shorter
-#> object length
+#> Warning in .apv_setup(x, cur_age, orig_term, orig_loan_amt, mon_pmt,
+#> recov_curve, : Lifetime observed support does not include the original loan
+#> term. Extrapolating hazards.
 ```
 
-- Calculated monthly rate: 0.013859 (1.3859%)
-- Calculated annualized rate: 0.179590 (17.9590%)
+- Calculated monthly rate: 0.012147 (1.2147%)
+- Calculated annualized rate: 0.155909 (15.5909%)

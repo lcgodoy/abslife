@@ -1,5 +1,24 @@
 # Changelog
 
+## abslife 0.2.2
+
+- Making cumulative incidence available for the competing risks
+  scenario.
+
+## abslife 0.2.1
+
+- Fixed bug on the `retrieve_support` function
+
+- `apv` related functions now have the output of `hazard_estimate` as
+  their input and handle the case when the original loan term is beyond
+  the observed lifetime support.
+
+- Updating how the observed support is handled.
+
+- `retrieve_support` function included in the package.
+
+- Not using events that are “completely censored”.
+
 ## abslife 0.2.0
 
 - Function `ralife_cdf` now works with competing risks as well.

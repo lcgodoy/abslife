@@ -14,23 +14,25 @@ ev_life(x, digits = 2, ...)
 ev_life(x, digits = 2, ...)
 
 # S3 method for class 'alife'
-ev_life(x, ...)
+ev_life(x, digits = 2, ...)
 ```
 
 ## Arguments
 
 - x:
 
-  An object of class `acdf`.
+  An object of class `acdf`, `acdf_multi`, or `alife`.
 
 - digits:
 
-  number of digits for the output.
+  number of digits for the printed output.
 
 - ...:
 
-  extra arguments to be passed to the `round` function.
+  Not used.
 
 ## Value
 
-The expected value associated with the object `x`.
+The expected value associated with the object `x` (printed and returned
+invisibly). For `acdf_multi` objects, a named vector with the all-cause
+and the cause-specific expected lifetimes.
