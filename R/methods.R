@@ -561,6 +561,24 @@ ev_life.acdf_multi <- function(x, digits = 2, ...) {
 
 ##' @rdname ev
 ##' @export
+ev_life.acif <- function(x, digits = 2, ...) {
+  weighted_life <- x$lifetime * x$pr_zx
+  all_cause_val <- sum(weighted_life)
+  cat(sprintf("Expected lifetime (all_cause): %s\n", round(all_cause_val, digits)))
+  num <- tapply(weighted_life, x$event_type, sum)
+  den <- tapply(x$pr_zx, x$event_type, sum)
+  event_vals <- num / den
+  for (e_name in names(event_vals)) {
+    cat(sprintf("Expected lifetime (%s): %s\n", 
+                e_name, 
+                round(event_vals[e_name], digits)))
+  }
+  out <- c("all_cause" = all_cause_val, event_vals)
+  invisible(out)
+}
+
+##' @rdname ev
+##' @export
 ev_life.alife <- function(x, digits = 2, ...) {
   .cdf <- calc_cdf(x)
   ev_life(.cdf, digits = digits)

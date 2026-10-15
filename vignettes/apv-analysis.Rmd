@@ -1,9 +1,9 @@
 ---
 title: "Actuarial Present Value and IRR Analysis"
-output: rmarkdown::html_vignette
+output: rmarkdown::pdf_vignette
 vignette: >
   %\VignetteIndexEntry{Actuarial Present Value and IRR Analysis}
-  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEngine{knitr::asis}
   %\VignetteEncoding{UTF-8}
 ---
 
