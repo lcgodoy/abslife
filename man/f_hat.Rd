@@ -2,29 +2,52 @@
 % Please edit documentation in R/hazard.R
 \name{f_hat}
 \alias{f_hat}
-\title{\eqn{\hat{f}(x)}}
+\title{Empirical frequencies, unadjusted}
 \usage{
 f_hat(t, lifetime, event, censoring_indicator)
 }
 \arguments{
-\item{t}{A time point at which hazard estimates are sought.}
+\item{t}{The desired estimation time point.}
 
-\item{lifetime}{A numeric vector representing the observed time to
-event (or censoring).}
+\item{lifetime}{A numeric vector representing the minimum of the observed
+termination time or right-censoring time.}
 
-\item{event}{event indicator}
+\item{event}{An event indicator for each competing risk.}
 
-\item{censoring_indicator}{An indicator for censoring (1 = censored, 0 =
-not). Defaults to a vector of 0s if \code{NULL}. An observation is only
-treated as an event (of a given type) if its censoring indicator is 0.}
+\item{censoring_indicator}{An indicator to identify if an observation is
+right-censored (1) or complete (0). Defaults to a zero vector if \code{NULL}
+(i.e., there are no right-censored observations).
+An observation is only treated as an event (of a given type) if its
+right-censoring indicator is 0.}
 }
 \value{
-a scalar
+a scalar probability between 0 and 1
 }
 \description{
-\eqn{\hat{f}(x)}
+This function calculates \eqn{\hat{f}}, which is the numerator of the
+cause-specific hazard rate estimator from Lautier et al. (2026a).
 }
-\author{
-lcgodoy
+\note{
+The \eqn{\hat{f}} estimator simplifies to its equivalent in Lautier et
+al. (2023) if there is only one event type (i.e., no competing risks).  If
+there is both only one event type and no right-censoring, then the
+\eqn{\hat{f}} estimator further simplifies to its equivalent in Lautier et
+al. (2026b).
+}
+\references{
+{Lautier, J. P., Pozdnyakov, V., Yan, J. (2023). Pricing time-to-event
+contingent cash-flows: A discrete-time survival analysis approach.
+\emph{Insurance: Mathematics and Economics}, 110, 53-71.
+\url{https://doi.org/10.1016/j.insmatheco.2023.02.003} }
+
+{Lautier, J. P., Pozdnyakov, V., Yan, J. (2026a). On the convergence of
+credit risk in current consumer automobile loans.  \emph{Journal of the Royal
+Statistical Society Series A: Statistics in Society}, 189 (1), 196-221.
+\url{https://doi.org/10.1093/jrsssa/qnae137}}
+
+{Lautier, J. P., Pozdnyakov, V., Yan, J. (2026b). Estimating a discrete
+distribution subject to random left-truncation with an application to
+structured finance. \emph{Econometrics and Statistics}, 37, 174-198.
+\url{https://doi.org/10.1016/j.ecosta.2023.05.005} }
 }
 \keyword{internal}

@@ -10,15 +10,15 @@
 lt_pmf(x, trunc_time, rc = TRUE)
 }
 \arguments{
-\item{lifetime}{A numeric vector representing the observed time to
-event (or censoring).}
+\item{lifetime}{A numeric vector representing the minimum of the observed
+termination time or right-censoring time.}
 
 \item{denom}{A \code{numeric} vector representing the denominator for the
 calculation of the pmf}
 
 \item{trunc_time}{A numeric vector representing the observed
-left-truncation time. If \code{NULL} (the default), it is set to a vector of
-0s (i.e., no left-truncation).}
+left-truncation time. If \code{NULL} (the default), this becomes a zero vector
+(i.e., there is no left-truncation).}
 
 \item{rc}{a \code{logical} indicating whether right-censoring is to be
 considered.}

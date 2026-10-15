@@ -2,26 +2,51 @@
 % Please edit documentation in R/hazard.R
 \name{var_hat}
 \alias{var_hat}
-\title{Variance of the log-transformed hazard estimate}
+\title{Asymptotic variance for log-transformed confidence intervals}
 \usage{
 var_hat(lambda, risk_set, fh, n)
 }
 \arguments{
 \item{lambda}{hazard rate (currently unused).}
 
-\item{risk_set}{\eqn{\hat{U}}}
+\item{risk_set}{The estimated risk set, \eqn{\hat{U}} (see \code{\link[=u_hat]{u_hat()}}).}
 
-\item{fh}{\eqn{\hat{f}}}
+\item{fh}{The estimated, unadjusted event probabilities, \eqn{\hat{f}}
+(see \code{\link[=f_hat]{f_hat()}}).}
 
-\item{n}{sample size (or number of timepoints)}
+\item{n}{The sample size.}
 }
 \value{
-a scalar
+a positive scalar
 }
 \description{
-Variance of the log-transformed hazard estimate
+This function calculates the estimated asymptotic variance of the
+log-transformed hazard rate estimates.  It is used to construct the
+asymptotic confidence intervals for the hazard rate estimates.
+The log-transformation ensures the estimated confidence intervals are
+bounded between 0 and 1 (Lautier et al., 2026a).
 }
-\author{
-lcgodoy
+\note{
+The asymptotic, log-transformed variance estimator simplifies to its
+equivalent in Lautier et al. (2023) if there is only one event type (i.e.,
+no competing risks).  If there is both only one event type and no
+right-censoring, then the asymptotic, log-transformed variance estimator
+further simplifies to its equivalent in Lautier et al. (2026b).
+}
+\references{
+{Lautier, J. P., Pozdnyakov, V., Yan, J. (2023). Pricing time-to-event
+contingent cash-flows: A discrete-time survival analysis approach.
+\emph{Insurance: Mathematics and Economics}, 110, 53-71.
+\url{https://doi.org/10.1016/j.insmatheco.2023.02.003} }
+
+{Lautier, J. P., Pozdnyakov, V., Yan, J. (2026a). On the convergence of
+credit risk in current consumer automobile loans.  \emph{Journal of the Royal
+Statistical Society Series A: Statistics in Society}, 189 (1), 196-221.
+\url{https://doi.org/10.1093/jrsssa/qnae137}}
+
+{Lautier, J. P., Pozdnyakov, V., Yan, J. (2026b). Estimating a discrete
+distribution subject to random left-truncation with an application to
+structured finance. \emph{Econometrics and Statistics}, 37, 174-198.
+\url{https://doi.org/10.1016/j.ecosta.2023.05.005} }
 }
 \keyword{internal}

@@ -2,31 +2,42 @@
 % Please edit documentation in R/hazard.R
 \name{check_censored}
 \alias{check_censored}
-\title{Check for censoring at the end of the support (auxiliary function
-for \code{estimate_hazard})}
+\title{Boundary point verification}
 \usage{
 check_censored(lifetime, censoring_indicator, support_lifetime_rv)
 }
 \arguments{
-\item{lifetime}{A numeric vector representing the observed time to
-event (or censoring).}
+\item{lifetime}{A numeric vector representing the minimum of the observed
+termination time or right-censoring time.}
 
-\item{censoring_indicator}{An indicator for censoring (1 = censored, 0 =
-not). Defaults to a vector of 0s if \code{NULL}. An observation is only
-treated as an event (of a given type) if its censoring indicator is 0.}
+\item{censoring_indicator}{An indicator to identify if an observation is
+right-censored (1) or complete (0). Defaults to a zero vector if \code{NULL}
+(i.e., there are no right-censored observations).
+An observation is only treated as an event (of a given type) if its
+right-censoring indicator is 0.}
 
 \item{support_lifetime_rv}{A \code{vector} of time points at which to evaluate
 the hazard. If \code{NULL} (the default), it is calculated by \code{\link[=calc_osup]{calc_osup()}} as
-a sequence from \code{Delta + 1} to \code{omega} (that is, \code{max(lifetime)}).}
+a sequence from \eqn{\Delta + 1} to \eqn{\xi} (that is, \code{max(lifetime)}).}
 }
 \value{
-\code{NULL}, invisibly. Called for its side effect.
+\code{NULL}.  This is an invisible function called for its connection to
+a potential warning message within \code{\link[=estimate_hazard]{estimate_hazard()}}.
 }
 \description{
-Throws a warning when there are censored observations at the
-maximum of \code{support_lifetime_rv}.
+The support conditions of Lautier et al. (2026) require that any
+observations at the maximum observed lifetime time point are complete (i.e.,
+there are no right-censored observations at the maximum of
+\code{support_lifetime_rv}).  If
+this is not true, then a user will need to decide on how to extrapolate
+beyond the final observed time point.  As such, this function triggers a
+warning message for users within \code{\link[=estimate_hazard]{estimate_hazard()}}.  Hence, it is an
+auxiliary function for use within \code{\link[=estimate_hazard]{estimate_hazard()}}.
 }
-\author{
-lcgodoy
+\references{
+{Lautier, J. P., Pozdnyakov, V., Yan, J. (2026). On the convergence of
+credit risk in current consumer automobile loans.  \emph{Journal of the Royal
+Statistical Society Series A: Statistics in Society}, 189 (1), 196-221.
+\url{https://doi.org/10.1093/jrsssa/qnae137}}
 }
 \keyword{internal}
