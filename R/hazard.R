@@ -180,7 +180,6 @@ u_hat <- function(t,
 ##' The logit-transformation ensures the estimated confidence intervals are
 ##' bounded between 0 and 1 (Lautier et al., 2026a).
 ##'  
-##' @param lambda hazard rate (currently unused).
 ##' @param risk_set The estimated risk set, \eqn{\hat{U}} (see [u_hat()]).
 ##' @param fh The estimated, unadjusted event probabilities, \eqn{\hat{f}}
 ##' (see [f_hat()]).
@@ -211,7 +210,7 @@ u_hat <- function(t,
 ##' \url{https://doi.org/10.1016/j.ecosta.2023.05.005} }
 ##' 
 ##' @keywords internal
-var_hat <- function(lambda, risk_set, fh, n) {
+var_hat <- function(risk_set, fh, n) {
   uh <- risk_set
   lfh <- log(fh)
   luh <- log(uh)
