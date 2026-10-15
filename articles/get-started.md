@@ -79,7 +79,7 @@ corresponding to the `ci_level` argument (in this case, set to 0.95).
 
 tail(aart_hazard)
 #> Observed lifetime support: [36, 41] 
-#> Total number of timepoints observed: 6
+#> Total number of time points observed: 6
 ```
 
 #### Summarizing and plotting
