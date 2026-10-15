@@ -172,12 +172,12 @@ u_hat <- function(t,
   mean(t >= trunc_time & t <= lifetime)
 }
 
-##' Asymptotic variance for log-transformed confidence intervals
+##' Asymptotic variance for logit-transformed confidence intervals
 ##' 
 ##' This function calculates the estimated asymptotic variance of the
-##' log-transformed hazard rate estimates.  It is used to construct the
+##' logit-transformed hazard rate estimates.  It is used to construct the
 ##' asymptotic confidence intervals for the hazard rate estimates.
-##' The log-transformation ensures the estimated confidence intervals are
+##' The logit-transformation ensures the estimated confidence intervals are
 ##' bounded between 0 and 1 (Lautier et al., 2026a).
 ##'  
 ##' @param lambda hazard rate (currently unused).
@@ -186,10 +186,10 @@ u_hat <- function(t,
 ##' (see [f_hat()]).
 ##' @param n The sample size.
 ##' 
-##' @note The asymptotic, log-transformed variance estimator simplifies to its
+##' @note The asymptotic, logit-transformed variance estimator simplifies to its
 ##' equivalent in Lautier et al. (2023) if there is only one event type (i.e.,
 ##' no competing risks).  If there is both only one event type and no
-##' right-censoring, then the asymptotic, log-transformed variance estimator
+##' right-censoring, then the asymptotic, logit-transformed variance estimator
 ##' further simplifies to its equivalent in Lautier et al. (2026b).
 ##' 
 ##' @return a positive scalar
@@ -238,7 +238,7 @@ var_hat <- function(lambda, risk_set, fh, n) {
 ##' @return A named vector containing the desired estimation time point
 ##' (`lifetime`), the risk set estimate, \eqn{\hat{U}} (`risk_set`), the hazard
 ##' rate estimate, \eqn{\hat{\lambda}} (`hazard`), and the standard error of the
-##' hazard estimate on the log scale (`se_log_hazard`).
+##' hazard estimate on the logit scale (`se_log_hazard`).
 ##' 
 ##' @references
 ##' {Lautier, J. P., Pozdnyakov, V., Yan, J. (2023). Pricing time-to-event
@@ -390,7 +390,7 @@ check_censored <- function(lifetime, censoring_indicator, support_lifetime_rv) {
 ##'   with the time point, hazard estimate, standard error, and asymptotic
 ##'   confidence interval for all time points in the support.  We emphasize that
 ##'   the column called `se_log_hazard` represents the standard error of the
-##'   `hazard` rate on the log scale.
+##'   `hazard` rate on the logit scale.
 ##'   
 ##' @references
 ##' {Lautier, J. P., Pozdnyakov, V., Yan, J. (2023). Pricing time-to-event
