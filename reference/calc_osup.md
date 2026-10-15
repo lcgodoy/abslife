@@ -1,12 +1,11 @@
 # Calculate Observed Support
 
 This helper function generates the observable support of the lifetime
-variable based on the study's overall time range (Lautier et al. 2023,
-[doi:10.1016/j.ecosta.2023.05.005](https://doi.org/10.1016/j.ecosta.2023.05.005)
-). In particular, it takes \\\Delta\\ as the smallest observed time,
+random variable based on the sample data (Lautier et al., 2023). In
+particular, we assign \\\Delta\\ as the smallest observed time,
 `min(c(lifetime, trunc_time))`, and \\\omega\\ as the largest observed
-lifetime, `max(lifetime)`, and outputs a sequence ranging from
-\\\Delta + 1\\ to \\\omega\\ (see
+lifetime, `max(lifetime)`. The output is a sequence ranging from
+\\\Delta + 1\\ to \\\xi\\ (see
 [`retrieve_support()`](http://lcgodoy.me/abslife/reference/retrieve_support.md)).
 
 ## Usage
@@ -19,14 +18,21 @@ calc_osup(lifetime, trunc_time)
 
 - lifetime:
 
-  The vector of event or censoring times.
+  The vector of observed event and/or right-censoring times.
 
 - trunc_time:
 
-  The vector of left-truncation times.
+  The vector of observed left-truncation times.
 
 ## Value
 
 A numeric vector representing the observed support of the lifetime
 variable. An empty vector (with a warning) if fewer than two time points
 are available.
+
+## References
+
+Lautier, J. P., Pozdnyakov, V., Yan, J. (2023). Pricing time-to-event
+contingent cash-flows: A discrete-time survival analysis approach.
+*Insurance: Mathematics and Economics*, 110, 53-71.
+<https://doi.org/10.1016/j.insmatheco.2023.02.003>

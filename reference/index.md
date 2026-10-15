@@ -30,7 +30,7 @@
   Calculate Discount Factors
 
 - [`estimate_hazard()`](http://lcgodoy.me/abslife/reference/estimate_hazard.md)
-  : Hazard rate
+  : Estimating the discrete time, hazard rate subject to left-truncation
 
 - [`ev_life()`](http://lcgodoy.me/abslife/reference/ev.md) : Calculate
   expected value for the time to event of interest
@@ -97,7 +97,7 @@
   Samples from an `acdf` (or `acdf_multi`) object
 
 - [`retrieve_support()`](http://lcgodoy.me/abslife/reference/retrieve_support.md)
-  : Computes the observable support of a lifetime variable
+  : Dimensions of Observable Support
 
 - [`solve_irr()`](http://lcgodoy.me/abslife/reference/solve_irr.md) :
   Solve for Risk-Adjusted Internal Rate of Return (IRR)

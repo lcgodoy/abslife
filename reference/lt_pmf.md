@@ -15,8 +15,8 @@ lt_pmf(x, trunc_time, rc = TRUE)
 
 - lifetime:
 
-  A numeric vector representing the observed time to event (or
-  censoring).
+  A numeric vector representing the minimum of the observed termination
+  time or right-censoring time.
 
 - denom:
 
@@ -26,7 +26,7 @@ lt_pmf(x, trunc_time, rc = TRUE)
 - trunc_time:
 
   A numeric vector representing the observed left-truncation time. If
-  `NULL` (the default), it is set to a vector of 0s (i.e., no
+  `NULL` (the default), this becomes a zero vector (i.e., there is no
   left-truncation).
 
 - rc:

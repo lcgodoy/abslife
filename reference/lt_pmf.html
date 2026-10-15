@@ -62,8 +62,8 @@ left-truncation random variable. <code>.lt_core</code> is the internal workhorse
 
 
 <dl><dt id="arg-lifetime">lifetime<a class="anchor" aria-label="anchor" href="#arg-lifetime"></a></dt>
-<dd><p>A numeric vector representing the observed time to
-event (or censoring).</p></dd>
+<dd><p>A numeric vector representing the minimum of the observed
+termination time or right-censoring time.</p></dd>
 
 
 <dt id="arg-denom">denom<a class="anchor" aria-label="anchor" href="#arg-denom"></a></dt>
@@ -73,8 +73,8 @@ calculation of the pmf</p></dd>
 
 <dt id="arg-trunc-time">trunc_time<a class="anchor" aria-label="anchor" href="#arg-trunc-time"></a></dt>
 <dd><p>A numeric vector representing the observed
-left-truncation time. If <code>NULL</code> (the default), it is set to a vector of
-0s (i.e., no left-truncation).</p></dd>
+left-truncation time. If <code>NULL</code> (the default), this becomes a zero vector
+(i.e., there is no left-truncation).</p></dd>
 
 
 <dt id="arg-rc">rc<a class="anchor" aria-label="anchor" href="#arg-rc"></a></dt>
