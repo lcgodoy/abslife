@@ -240,7 +240,7 @@ print.alife <- function(x, ...) {
   upper <- max(x$lifetime, na.rm = TRUE)
   ntimes <- length(unique(x$lifetime))
   cat(sprintf("Observed lifetime support: [%d, %d]", lower, upper), "\n")
-  cat("Total number of timepoints observed:", ntimes, "\n")
+  cat("Total number of time points observed:", ntimes, "\n")
   invisible(x)
 }
 
@@ -261,7 +261,7 @@ print.alife_multi <- function(x, ...) {
   events <- events[!is.na(events)]
   n_events <- length(events)
   cat(sprintf("Observed lifetime support: [%d, %d]", lower, upper), "\n")
-  cat("Total number of timepoints observed:", ntimes, "\n")
+  cat("Total number of time points observed:", ntimes, "\n")
   cat("Total number of event types:", n_events, "\n")
   cat("Event types observed:", paste(sort(events), collapse = ", "), "\n")
   invisible(x)
@@ -365,7 +365,7 @@ calc_cdf.alife <- function(x, ...) {
 ##' @rdname calc_cdf
 calc_cdf.alife_multi <- function(x, ...) {
   message(
-      "calc_cdf() for competing risks ('alife_multi' objects) computes cumulative incidence function (cif) instead of the cdf."
+      "calc_cdf() for competing risks ('alife_multi' objects) computes the cumulative incidence function (cif) instead of the cdf."
   )
   all_haz <-
     with(x, stats::aggregate(hazard ~ lifetime, FUN = sum))
