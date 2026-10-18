@@ -6,7 +6,6 @@
 ##' @return a \code{list} with one \code{data.frame} of confidence limits per
 ##'   element of \code{ci_level}.
 ##' @name mci
-##' @author lcgodoy
 ##' @keywords internal
 multiple_cis <- function(x, ci_level = .95) UseMethod("multiple_cis", x)
 
@@ -226,14 +225,6 @@ plot.alife_multi <- function(x, ci_level = 0.95,
   }
 }
 
-##' Print Method for an 'alife' Object
-##'
-##' @param x An object of class `alife`. Typically the output of the
-##'   `estimate_hazard` function.
-##' @param ... Not used.
-##'
-##' @seealso [estimate_hazard()]
-##' @return Prints information about `x` and invisibly returns it.
 ##' @export
 print.alife <- function(x, ...) {
   lower <- min(x$lifetime, na.rm = TRUE)
@@ -244,14 +235,6 @@ print.alife <- function(x, ...) {
   invisible(x)
 }
 
-##' Print Method for an 'alife_multi' Object
-##'
-##' @param x An object of class `alife_multi`. Typically the output of the
-##'   `estimate_hazard` function.
-##' @param ... Not used.
-##'
-##' @seealso [estimate_hazard()]
-##' @return Prints information about `x` and invisibly returns it.
 ##' @export
 print.alife_multi <- function(x, ...) {
   lower <- min(x$lifetime, na.rm = TRUE)
@@ -267,18 +250,34 @@ print.alife_multi <- function(x, ...) {
   invisible(x)
 }
 
+##' @export
+print.apv <- function(x, ...) {
+  cat("Actuarial present value (APV)\n")
+  print.data.frame(x, ...)
+  invisible(x)
+}
 
-##' Summary Method for an 'alife' Object
-##'
-##' @param object An object of class `alife`. Typically the output of the
-##'   `estimate_hazard` function.
-##' @param by an `integer` defining the periodicity of the summary.
-##' @param ... Additional arguments passed to the base `print` function (e.g.,
-##'   `digits`).
-##'
-##' @seealso [estimate_hazard()]
-##' @return Prints the hazard estimates at every `by` time points and
-##'   invisibly returns them as a `data.frame`.
+##' @export
+print.irr <- function(x, ...) {
+  cat("Risk-adjusted internal rate of return (IRR)\n")
+  print.data.frame(x, ...)
+  if (any(!x$converged)) {
+    cat("\nThe root finder did not converge.\n")
+  }
+  invisible(x)
+}
+
+##' @export
+rbind.apv <- function(..., deparse.level = 1) {
+  as.data.frame(rbind.data.frame(..., deparse.level = deparse.level))
+}
+
+##' @export
+rbind.irr <- function(..., deparse.level = 1) {
+  as.data.frame(rbind.data.frame(..., deparse.level = deparse.level))
+}
+
+
 ##' @export
 summary.alife <- function(object, by = 5, ...) {
   lower <- min(object$lifetime, na.rm = TRUE)
@@ -292,17 +291,6 @@ summary.alife <- function(object, by = 5, ...) {
   print.data.frame(object[object$lifetime %in% times, cols], ...)
 }
 
-##' Summary Method for an 'alife_multi' Object
-##'
-##' @param object An object of class `alife_multi`. Typically the output of
-##'   the `estimate_hazard` function.
-##' @param by an `integer` defining the periodicity of the summary.
-##' @param ... Additional arguments passed to the base `print` function (e.g.,
-##'   `digits`).
-##'
-##' @seealso [estimate_hazard()]
-##' @return Prints the cause-specific hazard estimates at every `by` time
-##'   points and invisibly returns them as a `data.frame`.
 ##' @export
 summary.alife_multi <- function(object, by = 5, ...) {
   lower <- min(object$lifetime, na.rm = TRUE)
@@ -338,6 +326,7 @@ summary.alife_multi <- function(object, by = 5, ...) {
 ##'   `density`, `se_dens`, and `risk_set`) or, if `x` is an `alife_multi`
 ##'   object, of class `acdf_multi` (columns `event_type`, `lifetime`,
 ##'   `all_surv`, `cumulative`, `density`, and `risk_set`).
+##' @name calc_cdf
 ##' @export
 calc_cdf <- function(x, ...) {
   UseMethod("calc_cdf")
@@ -408,7 +397,7 @@ calc_cdf.alife_multi <- function(x, ...) {
 ##'   `event_type`, `lifetime`, `all_surv` (all-cause survival up to the
 ##'   previous time point), `pr_zx` (probability of the event of a given type
 ##'   at `lifetime`), `cif`, and `risk_set`.
-##' @seealso [plot.acif()], [summary.acif()]
+##' @seealso [plot.acif()]
 ##' @export
 calc_cif <- function(x, ...) {
   UseMethod("calc_cif")
@@ -440,16 +429,6 @@ calc_cif.alife_multi <- function(x, ...) {
   return(out)
 }
 
-##' Summary Method for an 'acdf' Object
-##'
-##' @param object An object of class `acdf`. Typically the output of the
-##'   `calc_cdf` method.
-##' @param by an `integer` defining the periodicity of the summary.
-##' @param ... Not used.
-##'
-##' @seealso [calc_cdf()]
-##' @return A `data.frame` with the CDF and density at every `by` time
-##'   points.
 ##' @export
 summary.acdf <- function(object, by = 5, ...) {
   lower <- min(object$lifetime, na.rm = TRUE)
@@ -462,16 +441,6 @@ summary.acdf <- function(object, by = 5, ...) {
   return(out)
 }
 
-##' Summary Method for an 'acdf_multi' Object
-##'
-##' @param object An object of class `acdf_multi`. Typically the output of the
-##'   `calc_cdf` method.
-##' @param by an `integer` defining the periodicity of the summary.
-##' @param ... Not used.
-##'
-##' @seealso [calc_cdf()]
-##' @return A `data.frame` with the all-cause survival, cause-specific
-##'   cumulative incidence, and density at every `by` time points.
 ##' @export
 summary.acdf_multi <- function(object, by = 5, ...) {
   lower <- min(object$lifetime, na.rm = TRUE)
@@ -489,16 +458,6 @@ summary.acdf_multi <- function(object, by = 5, ...) {
   return(out)
 }
 
-##' Summary Method for an 'acif' Object
-##'
-##' @param object An object of class `acif`. Typically the output of the
-##'   `calc_cif` method.
-##' @param by an `integer` defining the periodicity of the summary.
-##' @param ... Not used.
-##'
-##' @seealso [calc_cif()]
-##' @return A `data.frame` with the cause-specific CIFs and the all-cause
-##'   survival at every `by` time points.
 ##' @export
 summary.acif <- function(object, by = 5, ...) {
   lower <- min(object$lifetime, na.rm = TRUE)

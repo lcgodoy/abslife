@@ -41,15 +41,21 @@ contain every month from \code{cur_age} to \code{orig_term - 1}.}
 \code{"linear"}.}
 }
 \value{
-A list with the risk-adjusted monthly rate (\code{monthly_rate}), the
-annualized rate (\code{annualized_rate}), and the squared difference between
-\code{abs0_bal} and the APV at the solution (\code{objective}).
+An object of class \code{irr}: a one-row \code{data.frame} with the
+risk-adjusted monthly rate (\code{monthly_rate}), the annualized rate
+(\code{annualized_rate}), the squared difference between \code{abs0_bal} and the
+APV at the solution (\code{objective}), and a flag that tells if the root
+finder converged (\code{converged}). \code{\link[=rbind]{rbind()}} stacks several \code{irr} objects
+into a \code{data.frame}; named arguments become row names.
 }
 \description{
 Finds the monthly discount rate at which the APV of the loan (see
 \code{\link[=calculate_apv]{calculate_apv()}}) matches \code{abs0_bal}. The rate is found with
-\code{\link[stats:uniroot]{stats::uniroot()}} over monthly rates between -0.5 and 1; an error is
-thrown if no rate in this range matches \code{abs0_bal}.
+\code{\link[stats:uniroot]{stats::uniroot()}} over monthly rates between -0.9999 and 1; an error is
+thrown if no rate in this range matches \code{abs0_bal}. If
+\code{\link[stats:uniroot]{stats::uniroot()}} does not reach a tolerance of \code{1e-10} within 1000
+iterations, \code{\link[stats:uniroot]{stats::uniroot()}} gives a warning and the \code{converged}
+column is \code{FALSE}.
 }
 \details{
 \code{x} must contain exactly two event types, and the default event

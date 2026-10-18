@@ -48,8 +48,8 @@ contain every month from \code{cur_age} to \code{orig_term - 1}.}
 \value{
 \code{.apv_setup()} returns a list with the number of remaining months,
 the default and prepayment probabilities, and the cash flows for each
-remaining month. \code{.apv_moments()} returns the same list as
-\code{\link[=calculate_apv]{calculate_apv()}}.
+remaining month. \code{.apv_moments()} returns a list with the APV (\code{APV})
+and its standard deviation (\code{SD}).
 }
 \description{
 \code{.apv_setup()} checks the inputs of \code{\link[=calculate_apv]{calculate_apv()}} and

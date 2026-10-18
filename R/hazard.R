@@ -87,7 +87,6 @@ calc_osup <- function(lifetime, trunc_time) {
 ##' @title \eqn{\hat{f}(x)}
 ##' @inheritParams single_t_hazard
 ##' @return a scalar
-##' @author lcgodoy
 ##' @keywords internal
 f_hat <- function(t, lifetime,
                   event,
@@ -99,7 +98,6 @@ f_hat <- function(t, lifetime,
 ##' @title \eqn{\hat{U}(x)}
 ##' @inheritParams single_t_hazard
 ##' @return a scalar
-##' @author lcgodoy
 ##' @keywords internal
 u_hat <- function(t,
                   lifetime,
@@ -113,7 +111,6 @@ u_hat <- function(t,
 ##' @param fh \eqn{\hat{f}}
 ##' @param n sample size (or number of timepoints)
 ##' @return a scalar
-##' @author lcgodoy
 ##' @keywords internal
 var_hat <- function(lambda, risk_set, fh, n) {
   uh <- risk_set

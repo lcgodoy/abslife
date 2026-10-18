@@ -24,7 +24,4 @@ a scalar
 \description{
 \eqn{\hat{f}(x)}
 }
-\author{
-lcgodoy
-}
 \keyword{internal}

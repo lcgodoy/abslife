@@ -22,7 +22,4 @@ a scalar
 \description{
 \eqn{\hat{U}(x)}
 }
-\author{
-lcgodoy
-}
 \keyword{internal}

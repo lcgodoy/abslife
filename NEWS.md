@@ -1,5 +1,11 @@
 # abslife 0.2.2
 
+- `calculate_apv()` and `solve_irr()` now return objects of class `apv` and
+  `irr`, with `print()` and `rbind()` methods. The `solve_irr()` output has a
+  `converged` flag.
+
+- Cleaning documentation
+
 - Making cumulative incidence available for the competing risks scenario.
 
 # abslife 0.2.1

@@ -21,7 +21,4 @@ a scalar
 \description{
 Variance of the log-transformed hazard estimate
 }
-\author{
-lcgodoy
-}
 \keyword{internal}

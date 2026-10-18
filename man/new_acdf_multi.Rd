@@ -14,6 +14,6 @@ object: \code{lifetime} and \code{density}. Defaults to an empty \code{data.fram
 An object of class \code{acdf_multi}.
 }
 \description{
-Competing-risks counterpart of \code{\link[=new_acdf]{new_acdf()}}. Internal use.
+Competing-risks counterpart of \code{new_acdf()}. Internal use.
 }
 \keyword{internal}

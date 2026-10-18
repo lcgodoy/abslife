@@ -1,6 +1,6 @@
 ##' Validate an alife Object
 ##'
-##' Checks if an object is a valid `alife` object by ensuring it is a data
+##' Checks if an object is a valid `alife` object by checking if it is a data
 ##' frame and contains all required columns.
 ##'
 ##' @param x An object to validate.
@@ -28,18 +28,8 @@ validate_alife <- function(x) {
 ##'
 ##' @return An object of class `alife`. If `x` has an `event_type` column, the
 ##'   object also inherits from `alife_multi`.
-##' @export
-##' @examples
-##' # Create a minimal data frame with the required columns
-##' df <- data.frame(lifetime = 1:2, risk_set = c(.8, .20),
-##'                  hazard = c(0.1, 0.125), se_log_hazard = c(0.1, 0.1),
-##'                  lower_ci = c(0.08, 0.1), upper_ci = c(0.12, 0.15))
-##'
-##' # Construct the alife object
-##' my_alife_obj <- new_alife(df)
-##' class(my_alife_obj)
-##'
-new_alife <- function(x = data.frame()) {
+##' @keywords internal
+new_alife <-function(x = data.frame()) {
   validate_alife(x)
   new_class <- c("alife", class(x))
   if ("event_type" %in% colnames(x))
@@ -72,17 +62,8 @@ validate_acdf <- function(x) {
 ##'   object: `lifetime` and `density`. Defaults to an empty `data.frame`.
 ##'
 ##' @return An object of class `acdf`.
-##' @export
-##' @examples
-##' # Create a minimal data frame with the required columns
-##' df <- data.frame(lifetime = 1:2, cdf = c(0.1, 1),
-##'                  density = c(0.1, 0.9))
-##'
-##' # Construct the acdf object
-##' my_acdf_obj <- new_acdf(df)
-##' class(my_acdf_obj)
-##'
-new_acdf <- function(x = data.frame()) {
+##' @keywords internal
+new_acdf <-function(x = data.frame()) {
   validate_acdf(x)
   new_class <- c("acdf", class(x))
   structure(x, class = new_class)
@@ -90,7 +71,7 @@ new_acdf <- function(x = data.frame()) {
 
 ##' Create an acdf_multi Object
 ##'
-##' Competing-risks counterpart of [new_acdf()]. Internal use.
+##' Competing-risks counterpart of \code{new_acdf()}. Internal use.
 ##'
 ##' @inheritParams new_acdf
 ##'
@@ -128,8 +109,72 @@ validate_acif <- function(x) {
 ##'   empty `data.frame`.
 ##'
 ##' @return An object of class `acif`.
-##' @export
-new_acif <- function(x = data.frame()) {
+##' @keywords internal
+new_acif <-function(x = data.frame()) {
   validate_acif(x)
   structure(x, class = c("acif", class(x)))
+}
+
+##' Validate an apv Object
+##'
+##' Checks if an object is a valid `apv` object by checking if it is a data
+##' frame and contains all required columns.
+##'
+##' @param x An object to validate.
+##'
+##' @return `NULL`, invisibly, if validation is successful. Throws an error on
+##'   failure.
+##' @keywords internal
+validate_apv <- function(x) {
+  stopifnot(is.data.frame(x))
+  my_cols <- c("APV", "SD")
+  stopifnot(all(my_cols %in% colnames(x)))
+}
+
+##' Create an apv Object
+##'
+##' Constructs an object of class `apv` from a data frame, after validating
+##' its structure. Note that this function is mostly for internal usage.
+##'
+##' @param x A `data.frame` that has the required columns for an `apv`
+##'   object: `APV` and `SD`. Defaults to an empty `data.frame`.
+##'
+##' @return An object of class `apv`.
+##' @keywords internal
+new_apv <- function(x = data.frame()) {
+  validate_apv(x)
+  structure(x, class = c("apv", class(x)))
+}
+
+##' Validate an irr Object
+##'
+##' Checks if an object is a valid `irr` object by checking if it is a data
+##' frame and contains all required columns.
+##'
+##' @param x An object to validate.
+##'
+##' @return `NULL`, invisibly, if validation is successful. Throws an error on
+##'   failure.
+##' @keywords internal
+validate_irr <- function(x) {
+  stopifnot(is.data.frame(x))
+  my_cols <- c("monthly_rate", "annualized_rate", "objective", "converged")
+  stopifnot(all(my_cols %in% colnames(x)))
+  stopifnot(is.logical(x$converged))
+}
+
+##' Create an irr Object
+##'
+##' Constructs an object of class `irr` from a data frame, after validating
+##' its structure. Note that this function is mostly for internal usage.
+##'
+##' @param x A `data.frame` that has the required columns for an `irr`
+##'   object: `monthly_rate`, `annualized_rate`, `objective`, and `converged`.
+##'   Defaults to an empty `data.frame`.
+##'
+##' @return An object of class `irr`.
+##' @keywords internal
+new_irr <- function(x = data.frame()) {
+  validate_irr(x)
+  structure(x, class = c("irr", class(x)))
 }

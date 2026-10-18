@@ -27,5 +27,5 @@ cause-specific cumulative incidence functions from cause-specific hazard
 estimates.
 }
 \seealso{
-\code{\link[=plot.acif]{plot.acif()}}, \code{\link[=summary.acif]{summary.acif()}}
+\code{\link[=plot.acif]{plot.acif()}}
 }

@@ -41,8 +41,9 @@ contain every month from \code{cur_age} to \code{orig_term - 1}.}
 \code{"linear"}.}
 }
 \value{
-A list containing the APV (\code{APV}), its second moment (\code{APV2}), and
-its standard deviation (\code{SD}).
+An object of class \code{apv}: a one-row \code{data.frame} with the APV
+(\code{APV}), and its standard deviation (\code{SD}).  \code{\link[=rbind]{rbind()}} stacks several
+\code{apv} objects into a \code{data.frame}; named arguments become row names.
 }
 \description{
 Calculates the APV of a loan under competing risks (default vs. prepayment)
