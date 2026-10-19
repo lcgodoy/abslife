@@ -33,7 +33,4 @@ element of \code{ci_level}.
 \description{
 Computing multiple CIs at once
 }
-\author{
-lcgodoy
-}
 \keyword{internal}

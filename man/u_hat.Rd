@@ -18,6 +18,8 @@ left-truncation time. If \code{NULL} (the default), this becomes a zero vector
 }
 \value{
 a scalar probability between 0 and 1
+
+a scalar
 }
 \description{
 This function calculates \eqn{\hat{U}}, which is the denominator of the

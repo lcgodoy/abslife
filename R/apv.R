@@ -37,8 +37,8 @@ disc_fac <- function(time, int_rate) {
 ##'
 ##' @return `.apv_setup()` returns a list with the number of remaining months,
 ##'   the default and prepayment probabilities, and the cash flows for each
-##'   remaining month. `.apv_moments()` returns the same list as
-##'   [calculate_apv()].
+##'   remaining month. `.apv_moments()` returns a list with the APV (`APV`)
+##'   and its standard deviation (`SD`).
 ##' @name apv_helpers
 ##' @keywords internal
 .apv_setup <- function(x, cur_age, orig_term, orig_loan_amt, mon_pmt,
@@ -116,9 +116,34 @@ disc_fac <- function(time, int_rate) {
   variance <- APV2 - APV^2
   return(list(
     APV = APV,
-    APV2 = APV2,
+    ## APV2 = APV2,
     SD = sqrt(variance)
   ))
+}
+
+## evaluates 'expr', a call to an internal function, and re-signals the errors
+## and warnings raised by that function with 'call', so that the messages name
+## the exported function; other conditions (e.g., from evaluating the
+## arguments of 'expr') keep their own call
+.with_call <- function(expr, call) {
+  fun <- substitute(expr)[[1]]
+  raised_by_fun <- function(cond) {
+    cl <- conditionCall(cond)
+    is.call(cl) && identical(cl[[1]], fun)
+  }
+  withCallingHandlers(
+    tryCatch(expr, error = function(e) {
+      if (raised_by_fun(e)) e <- simpleError(conditionMessage(e), call)
+      stop(e)
+    }),
+    ## a calling handler (unlike tryCatch) lets 'expr' run to the end
+    warning = function(w) {
+      if (raised_by_fun(w)) {
+        warning(simpleWarning(conditionMessage(w), call))
+        invokeRestart("muffleWarning")
+      }
+    }
+  )
 }
 
 ##' Calculate Actuarial Present Value (APV) of a Loan
@@ -149,8 +174,9 @@ disc_fac <- function(time, int_rate) {
 ##'   [extend_hazard()]: either `"constant"` (default), `"geometric"` or
 ##'   `"linear"`.
 ##'
-##' @return A list containing the APV (`APV`), its second moment (`APV2`), and
-##'   its standard deviation (`SD`).
+##' @return An object of class `apv`: a one-row `data.frame` with the APV
+##'   (`APV`), and its standard deviation (`SD`).  [rbind()] stacks several
+##'   `apv` objects into a `data.frame`; named arguments become row names.
 ##'
 ##' @export
 calculate_apv <- function(x,
@@ -159,26 +185,34 @@ calculate_apv <- function(x,
                           mon_pmt, ref_rate, recov_curve,
                           orig_apy = 0.15,
                           type = "constant") {
-  setup <- .apv_setup(x, cur_age, orig_term, orig_loan_amt, mon_pmt,
-                      recov_curve, orig_apy, type)
+  setup <- .with_call(.apv_setup(x, cur_age, orig_term, orig_loan_amt,
+                                 mon_pmt, recov_curve, orig_apy, type),
+                      sys.call())
   cur_market_rate <- (1 + ref_rate)^(1/12) - 1
-  return(.apv_moments(setup, cur_market_rate))
+  out <- .apv_moments(setup, cur_market_rate)
+  return(new_apv(as.data.frame(out)))
 }
 
 ##' Solve for Risk-Adjusted Internal Rate of Return (IRR)
 ##'
 ##' Finds the monthly discount rate at which the APV of the loan (see
 ##' [calculate_apv()]) matches `abs0_bal`. The rate is found with
-##' [stats::uniroot()] over monthly rates between -0.5 and 1; an error is
-##' thrown if no rate in this range matches `abs0_bal`.
+##' [stats::uniroot()] over monthly rates between -0.9999 and 1; an error is
+##' thrown if no rate in this range matches `abs0_bal`. If
+##' [stats::uniroot()] does not reach a tolerance of `1e-10` within 1000
+##' iterations, [stats::uniroot()] gives a warning and the `converged`
+##' column is `FALSE`.
 ##'
 ##' @inherit calculate_apv details
 ##' @inheritParams calculate_apv
 ##' @param abs0_bal Current loan balance (to match the APV against).
 ##'
-##' @return A list with the risk-adjusted monthly rate (`monthly_rate`), the
-##'   annualized rate (`annualized_rate`), and the squared difference between
-##'   `abs0_bal` and the APV at the solution (`objective`).
+##' @return An object of class `irr`: a one-row `data.frame` with the
+##'   risk-adjusted monthly rate (`monthly_rate`), the annualized rate
+##'   (`annualized_rate`), the squared difference between `abs0_bal` and the
+##'   APV at the solution (`objective`), and a flag that tells if the root
+##'   finder converged (`converged`). [rbind()] stacks several `irr` objects
+##'   into a `data.frame`; named arguments become row names.
 ##' @export
 solve_irr <- function(x,
                       abs0_bal,
@@ -189,25 +223,31 @@ solve_irr <- function(x,
                       orig_apy = 0.15,
                       type = "constant") {
   ## the inputs are checked (and the probabilities computed) only once
-  setup <- .apv_setup(x, cur_age, orig_term, orig_loan_amt, mon_pmt,
-                      recov_curve, orig_apy, type)
+  setup <- .with_call(.apv_setup(x, cur_age, orig_term, orig_loan_amt,
+                                 mon_pmt, recov_curve, orig_apy, type),
+                      sys.call())
   ## the APV decreases with the rate, so there is at most one root
   apv_gap <- function(r) .apv_moments(setup, r)$APV - abs0_bal
   bounds <- c(-0.9999, 1)
   gap_bounds <- vapply(bounds, apv_gap, numeric(1))
-  ## if (gap_bounds[1] < 0 || gap_bounds[2] > 0) {
-  ##   stop(sprintf("No monthly rate in [%g, %g] matches 'abs0_bal' (%g): the APV ranges from %g to %g over this interval.",
-  ##                bounds[1], bounds[2], abs0_bal,
-  ##                gap_bounds[2] + abs0_bal, gap_bounds[1] + abs0_bal))
-  ## }
+  if (gap_bounds[1] < 0 || gap_bounds[2] > 0) {
+    stop(sprintf("No monthly rate in [%g, %g] matches 'abs0_bal' (%g): the APV ranges from %g to %g over this interval.",
+                 bounds[1], bounds[2], abs0_bal,
+                 gap_bounds[2] + abs0_bal,
+                 gap_bounds[1] + abs0_bal))
+  }
+  maxiter <- 1000
   opt <- stats::uniroot(apv_gap,
                         interval = bounds,
                         f.lower = gap_bounds[1],
                         f.upper = gap_bounds[2],
-                        tol = 1e-10)
+                        tol = 1e-10,
+                        maxiter = maxiter)
   monthly_rate <- opt$root
   annual_rate <- (1 + monthly_rate)^12 - 1
-  return(list(monthly_rate = monthly_rate,
-              annualized_rate = annual_rate,
-              objective = opt$f.root^2))
+  ## uniroot() sets 'iter' to 'maxiter' when it does not converge
+  return(new_irr(data.frame(monthly_rate = monthly_rate,
+                            annualized_rate = annual_rate,
+                            objective = opt$f.root^2,
+                            converged = opt$iter < maxiter)))
 }

@@ -14,7 +14,7 @@ validate_alife(x)
 failure.
 }
 \description{
-Checks if an object is a valid \code{alife} object by ensuring it is a data
+Checks if an object is a valid \code{alife} object by checking if it is a data
 frame and contains all required columns.
 }
 \keyword{internal}

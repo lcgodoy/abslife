@@ -165,6 +165,7 @@ f_hat <- function(t, lifetime,
 ##' structured finance. *Econometrics and Statistics*, 37, 174-198.
 ##' \url{https://doi.org/10.1016/j.ecosta.2023.05.005} }
 ##' 
+##' @return a scalar
 ##' @keywords internal
 u_hat <- function(t,
                   lifetime,
@@ -210,12 +211,13 @@ u_hat <- function(t,
 ##' \url{https://doi.org/10.1016/j.ecosta.2023.05.005} }
 ##' 
 ##' @keywords internal
-var_hat <- function(risk_set, fh, n) {
-  uh <- risk_set
-  lfh <- log(fh)
-  luh <- log(uh)
-  exp(log(uh - fh) -  log(n) - luh - lfh)
-}
+## This function is obsolete
+## var_hat <- function(risk_set, fh, n) {
+##   uh <- risk_set
+##   lfh <- log(fh)
+##   luh <- log(uh)
+##   exp(log(uh - fh) -  log(n) - luh - lfh)
+## }
 
 ##' Estimates the hazard rate for a single time point
 ##' 

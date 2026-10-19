@@ -181,20 +181,10 @@ build_cdfvar <- function(pmfvar) {
 ##   return(cbind(cdf_se, pmf_se))
 ## }
 
-##' @title PMF of the left-truncation random variable
-##'
-##' @description Estimates the probability mass function of the
-##'   left-truncation random variable. `.lt_core` is the internal workhorse.
-##'
-##' @inheritParams estimate_hazard
-##' @param denom A \code{numeric} vector representing the denominator for the
-##'   calculation of the pmf
-##' @param rc a \code{logical} indicating whether right-censoring is to be
-##'   considered.
-##' @return A \code{numeric} vector of estimates of the PMF for the
-##'   left-truncation random variable.
-##' @author lcgodoy
-##' @name lt_pmf
+
+## @param denom A \code{numeric} vector representing the denominator for the
+##   calculation of the pmf
+##' @keywords internal
 .lt_core <- function(lifetime, denom, trunc_time, rc = TRUE) {
   gamma <- sapply(lifetime, \(k, Y, rc) {
     ifelse(rc, mean(Y == k), sum(Y == k))
@@ -206,10 +196,18 @@ build_cdfvar <- function(pmfvar) {
   gamma_dens / sum(gamma_dens)
 }
 
-##' @rdname lt_pmf
-##' @param x the output of an [estimate_hazard()] call (an `alife` object) or
-##'   of a [calc_cdf()] call (an `acdf` object). Competing risks are not
-##'   supported.
+##' @title PMF of the left-truncation random variable
+##'
+##' @description Estimates the probability mass function of the
+##'   left-truncation random variable.
+##'
+##' @inheritParams estimate_hazard
+##' @param x the output of an [estimate_hazard()] call (an `alife` object) or of
+##'   a [calc_cdf()] call (an `acdf` object). Competing risks are not supported.
+##' @param rc a \code{logical} indicating whether right-censoring is to be
+##'   considered.
+##' @return A \code{numeric} vector of estimates of the PMF for the
+##'   left-truncation random variable.
 ##' @export
 lt_pmf <- function(x, trunc_time, rc = TRUE) {
   if (inherits(x, c("alife_multi", "acdf_multi")))

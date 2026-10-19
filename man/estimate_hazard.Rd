@@ -50,7 +50,7 @@ has more than one unique value). These objects are each a \code{data.frame}
 with the time point, hazard estimate, standard error, and asymptotic
 confidence interval for all time points in the support.  We emphasize that
 the column called \code{se_log_hazard} represents the standard error of the
-\code{hazard} rate on the log scale.
+\code{hazard} rate on the logit scale.
 }
 \description{
 This function calculates the estimated hazard rate, \eqn{\hat{\lambda}}, for

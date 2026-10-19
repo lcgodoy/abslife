@@ -18,3 +18,4 @@ An object of class \code{acif}.
 Constructs an object of class \code{acif} from a data frame, after validating
 its structure. Note that this function is mostly for internal usage.
 }
+\keyword{internal}
