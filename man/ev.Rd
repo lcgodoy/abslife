@@ -5,6 +5,7 @@
 \alias{ev_life}
 \alias{ev_life.acdf}
 \alias{ev_life.acdf_multi}
+\alias{ev_life.acif}
 \alias{ev_life.alife}
 \title{Calculate expected value for the time to event of interest}
 \usage{
@@ -13,6 +14,8 @@ ev_life(x, digits = 2, ...)
 \method{ev_life}{acdf}(x, digits = 2, ...)
 
 \method{ev_life}{acdf_multi}(x, digits = 2, ...)
+
+\method{ev_life}{acif}(x, digits = 2, ...)
 
 \method{ev_life}{alife}(x, digits = 2, ...)
 }

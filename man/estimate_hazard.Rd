@@ -2,7 +2,7 @@
 % Please edit documentation in R/hazard.R
 \name{estimate_hazard}
 \alias{estimate_hazard}
-\title{Hazard rate}
+\title{Estimating the discrete time, hazard rate subject to left-truncation}
 \usage{
 estimate_hazard(
   lifetime,
@@ -15,45 +15,71 @@ estimate_hazard(
 )
 }
 \arguments{
-\item{lifetime}{A numeric vector representing the observed time to
-event (or censoring).}
+\item{lifetime}{A numeric vector representing the minimum of the observed
+termination time or right-censoring time.}
 
 \item{trunc_time}{A numeric vector representing the observed
-left-truncation time. If \code{NULL} (the default), it is set to a vector of
-0s (i.e., no left-truncation).}
+left-truncation time. If \code{NULL} (the default), this becomes a zero vector
+(i.e., there is no left-truncation).}
 
-\item{censoring_indicator}{An indicator for censoring (1 = censored, 0 =
-not). Defaults to a vector of 0s if \code{NULL}. An observation is only
-treated as an event (of a given type) if its censoring indicator is 0.}
+\item{censoring_indicator}{An indicator to identify if an observation is
+right-censored (1) or complete (0). Defaults to a zero vector if \code{NULL}
+(i.e., there are no right-censored observations).
+An observation is only treated as an event (of a given type) if its
+right-censoring indicator is 0.}
 
 \item{event_type}{An optional vector of event identifiers (e.g.,
-\code{"Default"} and \code{"Prepayment"}) for competing risks (experimental). When
-it has more than one unique value, cause-specific hazards are estimated
-for each event type.}
+\code{"Default"} and \code{"Prepayment"}) for the case of competing risks. When
+this field has more than one unique value, cause-specific hazards are
+estimated for each unique event type.}
 
 \item{support_lifetime_rv}{A \code{vector} of time points at which to evaluate
 the hazard. If \code{NULL} (the default), it is calculated by \code{\link[=calc_osup]{calc_osup()}} as
-a sequence from \code{Delta + 1} to \code{omega} (that is, \code{max(lifetime)}).}
+a sequence from \eqn{\Delta + 1} to \eqn{\xi} (that is, \code{max(lifetime)}).}
 
-\item{carry_hazard}{A \code{logical} indicator on whether 0 hazard estimates
-should be replaced by the last non-zero estimate. Defaults to \code{FALSE}.}
+\item{carry_hazard}{A \code{logical} indicator to determine whether or not zero
+hazard rate estimates should be replaced by the last non-zero hazard rate
+estimate (i.e., ``carried-forward''). Defaults to \code{FALSE}.}
 
-\item{ci_level}{A number between 0 and 1 indicating the level of the
-confidence intervals.}
+\item{ci_level}{A number between 0 and 1 indicating the desired confidence
+interval width.  Defaults to 0.95.}
 }
 \value{
 An object of class \code{alife} (or \code{alife_multi}, when \code{event_type}
-has more than one unique value), that is, a \code{data.frame} with the hazard
-estimates, their standard errors, and asymptotic confidence intervals.
-Importantly, in the output, the column called \code{se_log_hazard} represents
-the standard error of the \code{hazard} rate at the \code{logit} scale.
+has more than one unique value). These objects are each a \code{data.frame}
+with the time point, hazard estimate, standard error, and asymptotic
+confidence interval for all time points in the support.  We emphasize that
+the column called \code{se_log_hazard} represents the standard error of the
+\code{hazard} rate on the logit scale.
 }
 \description{
-Estimate the non-parametric hazard rate for truncated and
-censored data.
+This function calculates the estimated hazard rate, \eqn{\hat{\lambda}}, for
+the entire vector of observable support.  It is the discrete time, hazard
+rate estimator adjusted for random left-truncation, right-censoring, and
+competing risks (Lautier et al., 2026a).
 }
 \details{
-Point estimate and asymptotic confidence intervals are calculated
-based on Lautier et al. 2023, \doi{10.1016/j.ecosta.2023.05.005}; Lautier
-et al. 2025, \doi{10.1214/25-AOAS2103}.
+Returns the vector of hazard rate estimates from Lautier et al.
+(2026a, Theorem 2.1) with asymptotic confidence intervals from Lautier et
+al. (2026a, Lemma 1).  When there are no competing risks, this function
+returns the equivalent estimates and asymptotic confidence intervals from
+Lautier et al. (2023).  When there are no competing risks and no
+right-censoring, the estimates and asymptotic confidence intervals follow
+from Lautier et al. (2026b).
+}
+\references{
+{Lautier, J. P., Pozdnyakov, V., Yan, J. (2023). Pricing time-to-event
+contingent cash-flows: A discrete-time survival analysis approach.
+\emph{Insurance: Mathematics and Economics}, 110, 53-71.
+\url{https://doi.org/10.1016/j.insmatheco.2023.02.003} }
+
+{Lautier, J. P., Pozdnyakov, V., Yan, J. (2026a). On the convergence of
+credit risk in current consumer automobile loans.  \emph{Journal of the Royal
+Statistical Society Series A: Statistics in Society}, 189 (1), 196-221.
+\url{https://doi.org/10.1093/jrsssa/qnae137}}
+
+{Lautier, J. P., Pozdnyakov, V., Yan, J. (2026b). Estimating a discrete
+distribution subject to random left-truncation with an application to
+structured finance. \emph{Econometrics and Statistics}, 37, 174-198.
+\url{https://doi.org/10.1016/j.ecosta.2023.05.005} }
 }

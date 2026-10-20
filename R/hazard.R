@@ -1,32 +1,42 @@
-##' Computes the observable support of a lifetime variable
+##' Dimensions of Observable Support
 ##'
-##' This helper function generates the observable supports of the lifetime and
-##' left-truncation random variables (Lautier et al. 2025,
-##' \doi{10.1214/25-AOAS2103}).
+##' This helper function returns the observable support of the lifetime and
+##' left-truncation random variables (e.g., Lautier et al., 2026).
 ##'
-##' @param Delta a nonnegative integer denoting the period of time (in months)
+##' @param Delta A nonnegative integer denoting the period of time (in months)
 ##'   during which the ABS is marketed to prospective investors.  It is after
 ##'   the trust closes to new loan originations but before its first reporting
 ##'   month.
-##' @param m is a positive integer representing the total number of months over
+##' @param m A positive integer representing the total number of months over
 ##'   which the underlying consumer auto loans are originated. This defines the
 ##'   length of the loan origination window before the trust closes.
-##' @param omega is a positive integer denoting the known, finite upper bound of
+##' @param omega A positive integer denoting the known, finite upper bound of
 ##'   a loan's lifetime (in months), which is nonrandom and observable from its
 ##'   amortization schedule at contract signing (for example, for a 72-month
 ##'   loan, we likely have \eqn{\omega = 72}).
-##' @param epsilon is a positive integer (default is \code{NULL}) denoting the
+##' @param epsilon A positive integer (default is \code{NULL}) denoting the
 ##'   present time (the current calendar month age since the first loan was
 ##'   originated) of the data generation process for an active ABS pool. If
 ##'   \eqn{\varepsilon < \omega + m}, then right-censoring is present because it
 ##'   indicates some active loans are still making ongoing payments and have not
-##'   yet terminated.
+##'   yet terminated (Lautier et al., 2023)
 ##'
 ##' @note The observed support may not extend all the way to \eqn{\omega}
 ##'   (\code{omega}). In that scenario, we set \eqn{\omega} to the age of the
 ##'   oldest active loan in the ABS bond (corresponding to \eqn{\xi \equiv
 ##'   \min(\omega, \varepsilon - 1)} in the notation used in Lautier et
-##'   al. 2025), with \eqn{\varepsilon} denoting the present time.
+##'   al., 2023), with \eqn{\varepsilon} denoting the present time.
+##'   
+##' @references
+##' {Lautier, J. P., Pozdnyakov, V., Yan, J. (2023). Pricing time-to-event
+##' contingent cash-flows: A discrete-time survival analysis approach.
+##' *Insurance: Mathematics and Economics*, 110, 53-71.
+##' \url{https://doi.org/10.1016/j.insmatheco.2023.02.003} }
+##' 
+##' {Lautier, J. P., Pozdnyakov, V., Yan, J. (2026). Estimating a discrete
+##' distribution subject to random left-truncation with an application to
+##' structured finance. *Econometrics and Statistics*, 37, 174-198.
+##' \url{https://doi.org/10.1016/j.ecosta.2023.05.005} }
 ##' 
 ##' @return A list with two integer vectors: \code{X}, the observable support
 ##'   of the lifetime variable (from \eqn{\Delta + 1} to \eqn{\xi}), and
@@ -51,16 +61,22 @@ retrieve_support <- function(Delta, m, omega,
 
 ##' Calculate Observed Support
 ##'
-##' This helper function generates the observable support of the lifetime variable
-##' based on the study's overall time range (Lautier et al. 2023,
-##' \doi{10.1016/j.ecosta.2023.05.005}). In particular, it takes \eqn{\Delta}
+##' This helper function generates the observable support of the lifetime
+##' random variable based on the sample data (Lautier et al., 2023).
+##' In particular, we assign \eqn{\Delta}
 ##' as the smallest observed time, \code{min(c(lifetime, trunc_time))}, and
-##' \eqn{\omega} as the largest observed lifetime, \code{max(lifetime)}, and
-##' outputs a sequence ranging from \eqn{\Delta + 1} to \eqn{\omega} (see
+##' \eqn{\omega} as the largest observed lifetime, \code{max(lifetime)}.  The
+##' output is a sequence ranging from \eqn{\Delta + 1} to \eqn{\xi} (see
 ##' [retrieve_support()]).
 ##'
-##' @param lifetime The vector of event or censoring times.
-##' @param trunc_time The vector of left-truncation times.
+##' @param lifetime The vector of observed event and/or right-censoring times.
+##' @param trunc_time The vector of observed left-truncation times.
+##' 
+##' @references
+##' {Lautier, J. P., Pozdnyakov, V., Yan, J. (2023). Pricing time-to-event
+##' contingent cash-flows: A discrete-time survival analysis approach.
+##' *Insurance: Mathematics and Economics*, 110, 53-71.
+##' \url{https://doi.org/10.1016/j.insmatheco.2023.02.003} }
 ##'
 ##' @return A numeric vector representing the observed support of the lifetime
 ##'   variable. An empty vector (with a warning) if fewer than two time points
@@ -84,9 +100,37 @@ calc_osup <- function(lifetime, trunc_time) {
   return(eval_points)
 }
 
-##' @title \eqn{\hat{f}(x)}
+##' Empirical frequencies, unadjusted
+##' 
+##' This function calculates \eqn{\hat{f}}, which is the numerator of the
+##' cause-specific hazard rate estimator from Lautier et al. (2026a).
+##' 
 ##' @inheritParams single_t_hazard
-##' @return a scalar
+##' 
+##' @note The \eqn{\hat{f}} estimator simplifies to its equivalent in Lautier et
+##' al. (2023) if there is only one event type (i.e., no competing risks).  If
+##' there is both only one event type and no right-censoring, then the
+##' \eqn{\hat{f}} estimator further simplifies to its equivalent in Lautier et
+##' al. (2026b).
+##'
+##' @references
+##' {Lautier, J. P., Pozdnyakov, V., Yan, J. (2023). Pricing time-to-event
+##' contingent cash-flows: A discrete-time survival analysis approach.
+##' *Insurance: Mathematics and Economics*, 110, 53-71.
+##' \url{https://doi.org/10.1016/j.insmatheco.2023.02.003} }
+##' 
+##' {Lautier, J. P., Pozdnyakov, V., Yan, J. (2026a). On the convergence of
+##' credit risk in current consumer automobile loans.  *Journal of the Royal
+##' Statistical Society Series A: Statistics in Society*, 189 (1), 196-221.
+##' \url{https://doi.org/10.1093/jrsssa/qnae137}}
+##' 
+##' {Lautier, J. P., Pozdnyakov, V., Yan, J. (2026b). Estimating a discrete
+##' distribution subject to random left-truncation with an application to
+##' structured finance. *Econometrics and Statistics*, 37, 174-198.
+##' \url{https://doi.org/10.1016/j.ecosta.2023.05.005} }
+##' 
+##' @return a scalar probability between 0 and 1
+##' 
 ##' @keywords internal
 f_hat <- function(t, lifetime,
                   event,
@@ -95,8 +139,32 @@ f_hat <- function(t, lifetime,
        lifetime == t)
 }
 
-##' @title \eqn{\hat{U}(x)}
+##' Empirical risk set
+##' 
+##' This function calculates \eqn{\hat{U}}, which is the denominator of the
+##' cause-specific hazard rate estimator from Lautier et al. (2026a).  This
+##' quantity adjusts \eqn{\hat{f}} (see [f_hat()]) for the inherent survival
+##' bias due to left-truncation.  In survival analysis, \eqn{\hat{U}} is
+##' commonly referred to as the *risk set*.
+##' 
 ##' @inheritParams single_t_hazard
+##' 
+##' @note The \eqn{\hat{U}} estimator simplifies to its equivalent in Lautier et
+##' al. (2026b) if there is no right-censoring present in the data.
+##' 
+##' @return a scalar probability between 0 and 1
+##' 
+##' @references
+##' {Lautier, J. P., Pozdnyakov, V., Yan, J. (2026a). On the convergence of
+##' credit risk in current consumer automobile loans.  *Journal of the Royal
+##' Statistical Society Series A: Statistics in Society*, 189 (1), 196-221.
+##' \url{https://doi.org/10.1093/jrsssa/qnae137}}
+##' 
+##' {Lautier, J. P., Pozdnyakov, V., Yan, J. (2026b). Estimating a discrete
+##' distribution subject to random left-truncation with an application to
+##' structured finance. *Econometrics and Statistics*, 37, 174-198.
+##' \url{https://doi.org/10.1016/j.ecosta.2023.05.005} }
+##' 
 ##' @return a scalar
 ##' @keywords internal
 u_hat <- function(t,
@@ -105,32 +173,91 @@ u_hat <- function(t,
   mean(t >= trunc_time & t <= lifetime)
 }
 
-##' @title Variance of the log-transformed hazard estimate
-##' @param lambda hazard rate (currently unused).
-##' @param risk_set \eqn{\hat{U}}
-##' @param fh \eqn{\hat{f}}
-##' @param n sample size (or number of timepoints)
-##' @return a scalar
-##' @keywords internal
-var_hat <- function(lambda, risk_set, fh, n) {
-  uh <- risk_set
-  lfh <- log(fh)
-  luh <- log(uh)
-  exp(log(uh - fh) -  log(n) - luh - lfh)
-}
-
-##' @title Hazard estimate for a single time-point
-##'
-##' @description Internal use.
+##' Asymptotic variance for logit-transformed confidence intervals
 ##' 
-##' @param t A time point at which hazard estimates are sought.
+##' This function calculates the estimated asymptotic variance of the
+##' logit-transformed hazard rate estimates.  It is used to construct the
+##' asymptotic confidence intervals for the hazard rate estimates.
+##' The logit-transformation ensures the estimated confidence intervals are
+##' bounded between 0 and 1 (Lautier et al., 2026a).
+##'  
+##' @param risk_set The estimated risk set, \eqn{\hat{U}} (see [u_hat()]).
+##' @param fh The estimated, unadjusted event probabilities, \eqn{\hat{f}}
+##' (see [f_hat()]).
+##' @param n The sample size.
+##' 
+##' @note The asymptotic, logit-transformed variance estimator simplifies to its
+##' equivalent in Lautier et al. (2023) if there is only one event type (i.e.,
+##' no competing risks).  If there is both only one event type and no
+##' right-censoring, then the asymptotic, logit-transformed variance estimator
+##' further simplifies to its equivalent in Lautier et al. (2026b).
+##' 
+##' @return a positive scalar
+##' 
+##' @references
+##' {Lautier, J. P., Pozdnyakov, V., Yan, J. (2023). Pricing time-to-event
+##' contingent cash-flows: A discrete-time survival analysis approach.
+##' *Insurance: Mathematics and Economics*, 110, 53-71.
+##' \url{https://doi.org/10.1016/j.insmatheco.2023.02.003} }
+##' 
+##' {Lautier, J. P., Pozdnyakov, V., Yan, J. (2026a). On the convergence of
+##' credit risk in current consumer automobile loans.  *Journal of the Royal
+##' Statistical Society Series A: Statistics in Society*, 189 (1), 196-221.
+##' \url{https://doi.org/10.1093/jrsssa/qnae137}}
+##' 
+##' {Lautier, J. P., Pozdnyakov, V., Yan, J. (2026b). Estimating a discrete
+##' distribution subject to random left-truncation with an application to
+##' structured finance. *Econometrics and Statistics*, 37, 174-198.
+##' \url{https://doi.org/10.1016/j.ecosta.2023.05.005} }
+##' 
+##' @keywords internal
+##'
+
+##  var_hat <- function(risk_set, fh, n) {
+##   uh <- risk_set
+##   lfh <- log(fh)
+##   luh <- log(uh)
+##   exp(log(uh - fh) -  log(n) - luh - lfh)
+## }
+
+##' Estimates the hazard rate for a single time point
+##' 
+##' This function calculates the estimated hazard rate, \eqn{\hat{\lambda}}, for
+##' a single, desired time point.  It is the discrete time, hazard rate
+##' estimator adjusted for random left-truncation, right-censoring, and
+##' competing risks (Lautier et al., 2026a).
+##' 
+##' @param t The desired estimation time point.
 ##' @inheritParams estimate_hazard
-##' @param event event indicator
-##' @return A named vector containing the time point (`lifetime`), the risk
-##'   set estimate \eqn{\hat{U}(t)} (`risk_set`), the hazard estimate
-##'   (`hazard`), and the standard error of the hazard estimate at the logit
-##'   scale (`se_log_hazard`).
-##' @author lcgodoy
+##' @param event An event indicator for each competing risk.
+##' 
+##' @note The \eqn{\hat{\lambda}} estimator simplifies to its equivalent in
+##' Lautier et al. (2023) if there is only one event type (i.e., no competing
+##' risks).  If there is both only one event type and no right-censoring, then
+##' the \eqn{\hat{\lambda}} estimator further simplifies to its equivalent in
+##' Lautier et al. (2026b).
+##' 
+##' @return A named vector containing the desired estimation time point
+##' (`lifetime`), the risk set estimate, \eqn{\hat{U}} (`risk_set`), the hazard
+##' rate estimate, \eqn{\hat{\lambda}} (`hazard`), and the standard error of the
+##' hazard estimate on the logit scale (`se_log_hazard`).
+##' 
+##' @references
+##' {Lautier, J. P., Pozdnyakov, V., Yan, J. (2023). Pricing time-to-event
+##' contingent cash-flows: A discrete-time survival analysis approach.
+##' *Insurance: Mathematics and Economics*, 110, 53-71.
+##' \url{https://doi.org/10.1016/j.insmatheco.2023.02.003} }
+##' 
+##' {Lautier, J. P., Pozdnyakov, V., Yan, J. (2026a). On the convergence of
+##' credit risk in current consumer automobile loans.  *Journal of the Royal
+##' Statistical Society Series A: Statistics in Society*, 189 (1), 196-221.
+##' \url{https://doi.org/10.1093/jrsssa/qnae137}}
+##' 
+##' {Lautier, J. P., Pozdnyakov, V., Yan, J. (2026b). Estimating a discrete
+##' distribution subject to random left-truncation with an application to
+##' structured finance. *Econometrics and Statistics*, 37, 174-198.
+##' \url{https://doi.org/10.1016/j.ecosta.2023.05.005} }
+##' 
 ##' @keywords internal
 single_t_hazard <- function(t,
                             trunc_time,
@@ -150,15 +277,23 @@ single_t_hazard <- function(t,
                            0.0))
 }
 
-##' @title Hazard estimates over a support (auxiliary function for
-##'   `estimate_hazard`)
-##' @param support where to calculate the hazards
-##' @param event_indicator A binary vector flagging the observations whose
-##'   event is of the type being estimated (all ones when there are no
-##'   competing risks).
+##' Estimates the vector of hazard rates over the lifetime support (auxiliary)
+##' 
+##' This function calculates the estimated hazard rate, \eqn{\hat{\lambda}}, for
+##' the entire observable lifetime.  It is an auxiliary function for the main
+##' user function, [estimate_hazard()].  (Please see [estimate_hazard()] for more
+##' detailed user support.)
+##' 
+##' @param support A vector of all time points to estimate \eqn{\hat{\lambda}}.
+##' @param event_indicator A binary vector that is set to 1 for all observations
+##' with a terminating event type that matches the desired cause for the
+##' hazard rate estimate and 0 otherwise.  When no competing events are present,
+##' this vector is set to 1 for all observations.
+##'   
 ##' @inheritParams estimate_hazard
-##' @return a `data.frame`
-##' @author lcgodoy
+##' 
+##' @return a `data.frame` used within [estimate_hazard()].
+##' 
 ##' @keywords internal
 .hazard_core <- function(support, trunc_time,
                          lifetime, censoring_indicator,
@@ -177,13 +312,28 @@ single_t_hazard <- function(t,
   return(out)
 }
 
-##' @title Check for censoring at the end of the support (auxiliary function
-##'   for `estimate_hazard`)
-##' @description Throws a warning when there are censored observations at the
-##'   maximum of `support_lifetime_rv`.
+##' Boundary point verification
+##' 
+##' The support conditions of Lautier et al. (2026) require that any
+##' observations at the maximum observed lifetime time point are complete (i.e.,
+##' there are no right-censored observations at the maximum of
+##' `support_lifetime_rv`).  If
+##' this is not true, then a user will need to decide on how to extrapolate
+##' beyond the final observed time point.  As such, this function triggers a
+##' warning message for users within [estimate_hazard()].  Hence, it is an
+##' auxiliary function for use within [estimate_hazard()].
+##' 
 ##' @inheritParams estimate_hazard
-##' @return `NULL`, invisibly. Called for its side effect.
-##' @author lcgodoy
+##' 
+##' @return `NULL`.  This is an invisible function called for its connection to
+##' a potential warning message within [estimate_hazard()].
+##' 
+##' @references
+##' {Lautier, J. P., Pozdnyakov, V., Yan, J. (2026). On the convergence of
+##' credit risk in current consumer automobile loans.  *Journal of the Royal
+##' Statistical Society Series A: Statistics in Society*, 189 (1), 196-221.
+##' \url{https://doi.org/10.1093/jrsssa/qnae137}}
+##' 
 ##' @keywords internal
 check_censored <- function(lifetime, censoring_indicator, support_lifetime_rv) {
   max_support <- max(support_lifetime_rv, na.rm = TRUE)
@@ -197,42 +347,68 @@ check_censored <- function(lifetime, censoring_indicator, support_lifetime_rv) {
   }
 }
 
-##' @title Hazard rate
+##' Estimating the discrete time, hazard rate subject to left-truncation
 ##'
-##' @description Estimate the non-parametric hazard rate for truncated and
-##'   censored data.
+##' This function calculates the estimated hazard rate, \eqn{\hat{\lambda}}, for
+##' the entire vector of observable support.  It is the discrete time, hazard
+##' rate estimator adjusted for random left-truncation, right-censoring, and
+##' competing risks (Lautier et al., 2026a).
 ##'
-##' @details Point estimate and asymptotic confidence intervals are calculated
-##'   based on Lautier et al. 2023, \doi{10.1016/j.ecosta.2023.05.005}; Lautier
-##'   et al. 2025, \doi{10.1214/25-AOAS2103}.
+##' @details Returns the vector of hazard rate estimates from Lautier et al.
+##' (2026a, Theorem 2.1) with asymptotic confidence intervals from Lautier et
+##' al. (2026a, Lemma 1).  When there are no competing risks, this function
+##' returns the equivalent estimates and asymptotic confidence intervals from
+##' Lautier et al. (2023).  When there are no competing risks and no
+##' right-censoring, the estimates and asymptotic confidence intervals follow
+##' from Lautier et al. (2026b).
 ##' 
-##' @param lifetime A numeric vector representing the observed time to
-##'   event (or censoring).
+##' @param lifetime A numeric vector representing the minimum of the observed
+##'   termination time or right-censoring time.
 ##' @param trunc_time A numeric vector representing the observed
-##'   left-truncation time. If `NULL` (the default), it is set to a vector of
-##'   0s (i.e., no left-truncation).
-##' @param censoring_indicator An indicator for censoring (1 = censored, 0 =
-##'   not). Defaults to a vector of 0s if `NULL`. An observation is only
-##'   treated as an event (of a given type) if its censoring indicator is 0.
+##'   left-truncation time. If `NULL` (the default), this becomes a zero vector
+##'   (i.e., there is no left-truncation).
+##' @param censoring_indicator An indicator to identify if an observation is
+##'   right-censored (1) or complete (0). Defaults to a zero vector if `NULL`
+##'   (i.e., there are no right-censored observations).
+##'   An observation is only treated as an event (of a given type) if its
+##'   right-censoring indicator is 0.
 ##' @param event_type An optional vector of event identifiers (e.g.,
-##'   `"Default"` and `"Prepayment"`) for competing risks (experimental). When
-##'   it has more than one unique value, cause-specific hazards are estimated
-##'   for each event type.
+##'   `"Default"` and `"Prepayment"`) for the case of competing risks. When
+##'   this field has more than one unique value, cause-specific hazards are
+##'   estimated for each unique event type.
 ##' @param support_lifetime_rv A `vector` of time points at which to evaluate
 ##'   the hazard. If `NULL` (the default), it is calculated by [calc_osup()] as
-##'   a sequence from `Delta + 1` to `omega` (that is, `max(lifetime)`).
-##' @param carry_hazard A `logical` indicator on whether 0 hazard estimates
-##'   should be replaced by the last non-zero estimate. Defaults to `FALSE`.
-##' @param ci_level A number between 0 and 1 indicating the level of the
-##'   confidence intervals.
+##'   a sequence from \eqn{\Delta + 1} to \eqn{\xi} (that is, `max(lifetime)`).
+##' @param carry_hazard A `logical` indicator to determine whether or not zero
+##'   hazard rate estimates should be replaced by the last non-zero hazard rate
+##'   estimate (i.e., ``carried-forward''). Defaults to `FALSE`.
+##' @param ci_level A number between 0 and 1 indicating the desired confidence
+##'   interval width.  Defaults to 0.95.
 ##'
 ##' @export
 ##' 
 ##' @return An object of class `alife` (or `alife_multi`, when `event_type`
-##'   has more than one unique value), that is, a `data.frame` with the hazard
-##'   estimates, their standard errors, and asymptotic confidence intervals.
-##'   Importantly, in the output, the column called `se_log_hazard` represents
-##'   the standard error of the `hazard` rate at the `logit` scale.
+##'   has more than one unique value). These objects are each a `data.frame`
+##'   with the time point, hazard estimate, standard error, and asymptotic
+##'   confidence interval for all time points in the support.  We emphasize that
+##'   the column called `se_log_hazard` represents the standard error of the
+##'   `hazard` rate on the logit scale.
+##'   
+##' @references
+##' {Lautier, J. P., Pozdnyakov, V., Yan, J. (2023). Pricing time-to-event
+##' contingent cash-flows: A discrete-time survival analysis approach.
+##' *Insurance: Mathematics and Economics*, 110, 53-71.
+##' \url{https://doi.org/10.1016/j.insmatheco.2023.02.003} }
+##' 
+##' {Lautier, J. P., Pozdnyakov, V., Yan, J. (2026a). On the convergence of
+##' credit risk in current consumer automobile loans.  *Journal of the Royal
+##' Statistical Society Series A: Statistics in Society*, 189 (1), 196-221.
+##' \url{https://doi.org/10.1093/jrsssa/qnae137}}
+##' 
+##' {Lautier, J. P., Pozdnyakov, V., Yan, J. (2026b). Estimating a discrete
+##' distribution subject to random left-truncation with an application to
+##' structured finance. *Econometrics and Statistics*, 37, 174-198.
+##' \url{https://doi.org/10.1016/j.ecosta.2023.05.005} }
 ##'
 estimate_hazard <- function(lifetime,
                             trunc_time = NULL,

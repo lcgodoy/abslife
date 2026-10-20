@@ -123,7 +123,7 @@ multiple_cis.acdf_multi <- function(x, ci_level = .95) {
 ##' @seealso [estimate_hazard()]
 ##' @return A plot of the hazard rate.
 ##' @export
-##'
+##' @name plots
 plot.alife <- function(x, ci_level = 0.95,
                        color = 2,
                        col_line = 1,
@@ -176,7 +176,7 @@ plot.alife <- function(x, ci_level = 0.95,
 ##' @seealso [estimate_hazard()]
 ##' @return A faceted plot of the hazard rates.
 ##' @export
-##'
+##' @rdname plots
 plot.alife_multi <- function(x, ci_level = 0.95,
                              color = 2, col_line = 1, ...) {
   ci_level <- sort(ci_level, decreasing = TRUE)
@@ -231,7 +231,7 @@ print.alife <- function(x, ...) {
   upper <- max(x$lifetime, na.rm = TRUE)
   ntimes <- length(unique(x$lifetime))
   cat(sprintf("Observed lifetime support: [%d, %d]", lower, upper), "\n")
-  cat("Total number of timepoints observed:", ntimes, "\n")
+  cat("Total number of time points observed:", ntimes, "\n")
   invisible(x)
 }
 
@@ -244,7 +244,7 @@ print.alife_multi <- function(x, ...) {
   events <- events[!is.na(events)]
   n_events <- length(events)
   cat(sprintf("Observed lifetime support: [%d, %d]", lower, upper), "\n")
-  cat("Total number of timepoints observed:", ntimes, "\n")
+  cat("Total number of time points observed:", ntimes, "\n")
   cat("Total number of event types:", n_events, "\n")
   cat("Event types observed:", paste(sort(events), collapse = ", "), "\n")
   invisible(x)
@@ -354,7 +354,7 @@ calc_cdf.alife <- function(x, ...) {
 ##' @rdname calc_cdf
 calc_cdf.alife_multi <- function(x, ...) {
   message(
-      "calc_cdf() for competing risks ('alife_multi' objects) computes cumulative incidence function (cif) instead of the cdf."
+      "calc_cdf() for competing risks ('alife_multi' objects) computes the cumulative incidence function (cif) instead of the cdf."
   )
   all_haz <-
     with(x, stats::aggregate(hazard ~ lifetime, FUN = sum))
@@ -520,6 +520,24 @@ ev_life.acdf_multi <- function(x, digits = 2, ...) {
 
 ##' @rdname ev
 ##' @export
+ev_life.acif <- function(x, digits = 2, ...) {
+  weighted_life <- x$lifetime * x$pr_zx
+  all_cause_val <- sum(weighted_life)
+  cat(sprintf("Expected lifetime (all_cause): %s\n", round(all_cause_val, digits)))
+  num <- tapply(weighted_life, x$event_type, sum)
+  den <- tapply(x$pr_zx, x$event_type, sum)
+  event_vals <- num / den
+  for (e_name in names(event_vals)) {
+    cat(sprintf("Expected lifetime (%s): %s\n", 
+                e_name, 
+                round(event_vals[e_name], digits)))
+  }
+  out <- c("all_cause" = all_cause_val, event_vals)
+  invisible(out)
+}
+
+##' @rdname ev
+##' @export
 ev_life.alife <- function(x, digits = 2, ...) {
   .cdf <- calc_cdf(x)
   ev_life(.cdf, digits = digits)
@@ -542,6 +560,7 @@ ev_life.alife <- function(x, digits = 2, ...) {
 ##' @seealso [calc_cdf()]
 ##' @return A plot of the CDF.
 ##' @export
+##' @name plot_cdf
 plot.acdf <- function(x, ci_level = 0.95,
                       color = 2,
                       col_line = 1,
@@ -636,6 +655,7 @@ plot.acdf <- function(x, ci_level = 0.95,
 ##' @seealso [calc_cif()]
 ##' @return Invisibly returns the input object `x`.
 ##' @export
+##' @rdname plot_cdf
 plot.acif <- function(x, which = c("cif", "all_surv", "both"),
                       col_line = 1, lwd = 2,
                       ...) {
@@ -736,6 +756,7 @@ plot.acif <- function(x, which = c("cif", "all_surv", "both"),
 ##' @seealso [calc_cdf()]
 ##' @return A faceted plot of CIFs and Densities.
 ##' @export
+##' @rdname plot_cdf
 plot.acdf_multi <- function(x, ci_level = 0.95,
                             color = 2,
                             col_line = 1,

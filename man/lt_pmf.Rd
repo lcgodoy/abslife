@@ -11,8 +11,8 @@ lt_pmf(x, trunc_time, rc = TRUE)
 a \code{\link[=calc_cdf]{calc_cdf()}} call (an \code{acdf} object). Competing risks are not supported.}
 
 \item{trunc_time}{A numeric vector representing the observed
-left-truncation time. If \code{NULL} (the default), it is set to a vector of
-0s (i.e., no left-truncation).}
+left-truncation time. If \code{NULL} (the default), this becomes a zero vector
+(i.e., there is no left-truncation).}
 
 \item{rc}{a \code{logical} indicating whether right-censoring is to be
 considered.}

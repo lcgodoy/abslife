@@ -47,6 +47,29 @@ ralife_cdf <- function(n, x) {
   return(out)
 }
 
+##' @title Samples from an `acif` object
+##' @param n number of samples
+##' @param x the output of a [calc_cif()] call (an `acif` object).
+##'
+##' @return a `data.frame` with the sampled `event_type` and `lifetime`.
+##' @author lcgodoy
+##' @export
+ralife_cif <- function(n, x) {
+  if ("event_type" %in% names(x)) {
+    lookup <- seq_len(NROW(x))
+    id_samples <- sample(x = lookup, size = n, prob = x$pr_zx,
+                         replace = TRUE)
+    out <- data.frame(event_type = x$event_type[id_samples],
+                      lifetime   = x$lifetime[id_samples])
+  } else {
+    u <- stats::runif(n)
+    indices <- pmin(findInterval(u, x$cdf) + 1, NROW(x))
+    out <- x$lifetime[indices]
+  }
+  return(out)
+}
+
+
 ##' @rdname rmat
 aux_kmat <-
   function(hazard, rephaz, support_length) {

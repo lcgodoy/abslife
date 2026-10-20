@@ -2,8 +2,7 @@
 % Please edit documentation in R/hazard.R
 \name{.hazard_core}
 \alias{.hazard_core}
-\title{Hazard estimates over a support (auxiliary function for
-\code{estimate_hazard})}
+\title{Estimates the vector of hazard rates over the lifetime support (auxiliary)}
 \usage{
 .hazard_core(
   support,
@@ -15,34 +14,37 @@
 )
 }
 \arguments{
-\item{support}{where to calculate the hazards}
+\item{support}{A vector of all time points to estimate \eqn{\hat{\lambda}}.}
 
 \item{trunc_time}{A numeric vector representing the observed
-left-truncation time. If \code{NULL} (the default), it is set to a vector of
-0s (i.e., no left-truncation).}
+left-truncation time. If \code{NULL} (the default), this becomes a zero vector
+(i.e., there is no left-truncation).}
 
-\item{lifetime}{A numeric vector representing the observed time to
-event (or censoring).}
+\item{lifetime}{A numeric vector representing the minimum of the observed
+termination time or right-censoring time.}
 
-\item{censoring_indicator}{An indicator for censoring (1 = censored, 0 =
-not). Defaults to a vector of 0s if \code{NULL}. An observation is only
-treated as an event (of a given type) if its censoring indicator is 0.}
+\item{censoring_indicator}{An indicator to identify if an observation is
+right-censored (1) or complete (0). Defaults to a zero vector if \code{NULL}
+(i.e., there are no right-censored observations).
+An observation is only treated as an event (of a given type) if its
+right-censoring indicator is 0.}
 
-\item{event_indicator}{A binary vector flagging the observations whose
-event is of the type being estimated (all ones when there are no
-competing risks).}
+\item{event_indicator}{A binary vector that is set to 1 for all observations
+with a terminating event type that matches the desired cause for the
+hazard rate estimate and 0 otherwise.  When no competing events are present,
+this vector is set to 1 for all observations.}
 
-\item{carry_hazard}{A \code{logical} indicator on whether 0 hazard estimates
-should be replaced by the last non-zero estimate. Defaults to \code{FALSE}.}
+\item{carry_hazard}{A \code{logical} indicator to determine whether or not zero
+hazard rate estimates should be replaced by the last non-zero hazard rate
+estimate (i.e., ``carried-forward''). Defaults to \code{FALSE}.}
 }
 \value{
-a \code{data.frame}
+a \code{data.frame} used within \code{\link[=estimate_hazard]{estimate_hazard()}}.
 }
 \description{
-Hazard estimates over a support (auxiliary function for
-\code{estimate_hazard})
-}
-\author{
-lcgodoy
+This function calculates the estimated hazard rate, \eqn{\hat{\lambda}}, for
+the entire observable lifetime.  It is an auxiliary function for the main
+user function, \code{\link[=estimate_hazard]{estimate_hazard()}}.  (Please see \code{\link[=estimate_hazard]{estimate_hazard()}} for more
+detailed user support.)
 }
 \keyword{internal}

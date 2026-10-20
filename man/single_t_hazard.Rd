@@ -2,36 +2,126 @@
 % Please edit documentation in R/hazard.R
 \name{single_t_hazard}
 \alias{single_t_hazard}
-\title{Hazard estimate for a single time-point}
+\title{Asymptotic variance for logit-transformed confidence intervals}
 \usage{
 single_t_hazard(t, trunc_time, lifetime, event, censoring_indicator)
 }
 \arguments{
-\item{t}{A time point at which hazard estimates are sought.}
+\item{t}{The desired estimation time point.}
 
 \item{trunc_time}{A numeric vector representing the observed
-left-truncation time. If \code{NULL} (the default), it is set to a vector of
-0s (i.e., no left-truncation).}
+left-truncation time. If \code{NULL} (the default), this becomes a zero vector
+(i.e., there is no left-truncation).}
 
-\item{lifetime}{A numeric vector representing the observed time to
-event (or censoring).}
+\item{lifetime}{A numeric vector representing the minimum of the observed
+termination time or right-censoring time.}
 
-\item{event}{event indicator}
+\item{event}{An event indicator for each competing risk.}
 
-\item{censoring_indicator}{An indicator for censoring (1 = censored, 0 =
-not). Defaults to a vector of 0s if \code{NULL}. An observation is only
-treated as an event (of a given type) if its censoring indicator is 0.}
+\item{censoring_indicator}{An indicator to identify if an observation is
+right-censored (1) or complete (0). Defaults to a zero vector if \code{NULL}
+(i.e., there are no right-censored observations).
+An observation is only treated as an event (of a given type) if its
+right-censoring indicator is 0.}
+
+\item{risk_set}{The estimated risk set, \eqn{\hat{U}} (see \code{\link[=u_hat]{u_hat()}}).}
+
+\item{fh}{The estimated, unadjusted event probabilities, \eqn{\hat{f}}
+(see \code{\link[=f_hat]{f_hat()}}).}
+
+\item{n}{The sample size.}
 }
 \value{
-A named vector containing the time point (\code{lifetime}), the risk
-set estimate \eqn{\hat{U}(t)} (\code{risk_set}), the hazard estimate
-(\code{hazard}), and the standard error of the hazard estimate at the logit
-scale (\code{se_log_hazard}).
+a positive scalar
+
+A named vector containing the desired estimation time point
+(\code{lifetime}), the risk set estimate, \eqn{\hat{U}} (\code{risk_set}), the hazard
+rate estimate, \eqn{\hat{\lambda}} (\code{hazard}), and the standard error of the
+hazard estimate on the logit scale (\code{se_log_hazard}).
 }
 \description{
-Internal use.
+This function calculates the estimated asymptotic variance of the
+logit-transformed hazard rate estimates.  It is used to construct the
+asymptotic confidence intervals for the hazard rate estimates.
+The logit-transformation ensures the estimated confidence intervals are
+bounded between 0 and 1 (Lautier et al., 2026a).
 }
-\author{
-lcgodoy
+\note{
+The asymptotic, logit-transformed variance estimator simplifies to its
+equivalent in Lautier et al. (2023) if there is only one event type (i.e.,
+no competing risks).  If there is both only one event type and no
+right-censoring, then the asymptotic, logit-transformed variance estimator
+further simplifies to its equivalent in Lautier et al. (2026b).
+
+The \eqn{\hat{\lambda}} estimator simplifies to its equivalent in
+Lautier et al. (2023) if there is only one event type (i.e., no competing
+risks).  If there is both only one event type and no right-censoring, then
+the \eqn{\hat{\lambda}} estimator further simplifies to its equivalent in
+Lautier et al. (2026b).
 }
+\references{
+{Lautier, J. P., Pozdnyakov, V., Yan, J. (2023). Pricing time-to-event
+contingent cash-flows: A discrete-time survival analysis approach.
+\emph{Insurance: Mathematics and Economics}, 110, 53-71.
+\url{https://doi.org/10.1016/j.insmatheco.2023.02.003} }
+
+{Lautier, J. P., Pozdnyakov, V., Yan, J. (2026a). On the convergence of
+credit risk in current consumer automobile loans.  \emph{Journal of the Royal
+Statistical Society Series A: Statistics in Society}, 189 (1), 196-221.
+\url{https://doi.org/10.1093/jrsssa/qnae137}}
+
+{Lautier, J. P., Pozdnyakov, V., Yan, J. (2026b). Estimating a discrete
+distribution subject to random left-truncation with an application to
+structured finance. \emph{Econometrics and Statistics}, 37, 174-198.
+\url{https://doi.org/10.1016/j.ecosta.2023.05.005} }
+
+{Lautier, J. P., Pozdnyakov, V., Yan, J. (2023). Pricing time-to-event
+contingent cash-flows: A discrete-time survival analysis approach.
+\emph{Insurance: Mathematics and Economics}, 110, 53-71.
+\url{https://doi.org/10.1016/j.insmatheco.2023.02.003} }
+
+{Lautier, J. P., Pozdnyakov, V., Yan, J. (2026a). On the convergence of
+credit risk in current consumer automobile loans.  \emph{Journal of the Royal
+Statistical Society Series A: Statistics in Society}, 189 (1), 196-221.
+\url{https://doi.org/10.1093/jrsssa/qnae137}}
+
+{Lautier, J. P., Pozdnyakov, V., Yan, J. (2026b). Estimating a discrete
+distribution subject to random left-truncation with an application to
+structured finance. \emph{Econometrics and Statistics}, 37, 174-198.
+\url{https://doi.org/10.1016/j.ecosta.2023.05.005} }
+}
+\keyword{(Lautier}
+\keyword{2026a).}
+\keyword{Estimates}
+\keyword{It}
+\keyword{This}
+\keyword{\eqn{\hat{\lambda}},}
+\keyword{a}
+\keyword{adjusted}
+\keyword{al.,}
+\keyword{and}
+\keyword{calculates}
+\keyword{competing}
+\keyword{desired}
+\keyword{discrete}
+\keyword{estimated}
+\keyword{estimator}
+\keyword{et}
+\keyword{for}
+\keyword{function}
+\keyword{hazard}
 \keyword{internal}
+\keyword{is}
+\keyword{left-truncation,}
+\keyword{point}
+\keyword{point.}
+\keyword{random}
+\keyword{rate}
+\keyword{rate,}
+\keyword{right-censoring,}
+\keyword{risks}
+\keyword{single}
+\keyword{single,}
+\keyword{the}
+\keyword{time}
+\keyword{time,}
