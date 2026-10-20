@@ -13,6 +13,9 @@ ev_life(x, digits = 2, ...)
 # S3 method for class 'acdf_multi'
 ev_life(x, digits = 2, ...)
 
+# S3 method for class 'acif'
+ev_life(x, digits = 2, ...)
+
 # S3 method for class 'alife'
 ev_life(x, digits = 2, ...)
 ```

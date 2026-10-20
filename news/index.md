@@ -2,6 +2,16 @@
 
 ## abslife 0.2.2
 
+- [`calculate_apv()`](http://lcgodoy.me/abslife/reference/calculate_apv.md)
+  and [`solve_irr()`](http://lcgodoy.me/abslife/reference/solve_irr.md)
+  now return objects of class `apv` and `irr`, with
+  [`print()`](https://rdrr.io/r/base/print.html) and
+  [`rbind()`](https://rdrr.io/r/base/cbind.html) methods. The
+  [`solve_irr()`](http://lcgodoy.me/abslife/reference/solve_irr.md)
+  output has a `converged` flag.
+
+- Cleaning documentation
+
 - Making cumulative incidence available for the competing risks
   scenario.
 

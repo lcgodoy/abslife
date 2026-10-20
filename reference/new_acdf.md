@@ -19,16 +19,3 @@ new_acdf(x = data.frame())
 ## Value
 
 An object of class `acdf`.
-
-## Examples
-
-``` r
-# Create a minimal data frame with the required columns
-df <- data.frame(lifetime = 1:2, cdf = c(0.1, 1),
-                 density = c(0.1, 0.9))
-
-# Construct the acdf object
-my_acdf_obj <- new_acdf(df)
-class(my_acdf_obj)
-#> [1] "acdf"       "data.frame"
-```

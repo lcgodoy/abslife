@@ -1,7 +1,7 @@
 # Validate an alife Object
 
-Checks if an object is a valid `alife` object by ensuring it is a data
-frame and contains all required columns.
+Checks if an object is a valid `alife` object by checking if it is a
+data frame and contains all required columns.
 
 ## Usage
 

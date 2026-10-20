@@ -79,9 +79,9 @@ apv_res <- calculate_apv(
     recov_curve = recov_curve,
     orig_apy = 0.15
 )
-#> Warning in .apv_setup(x, cur_age, orig_term, orig_loan_amt, mon_pmt,
-#> recov_curve, : Lifetime observed support does not include the original loan
-#> term. Extrapolating hazards.
+#> Warning in calculate_apv(x = hazards, cur_age = cur_age, orig_term = orig_term,
+#> : Lifetime observed support does not include the original loan term.
+#> Extrapolating hazards.
 ```
 
 - Estimated APV: \$43659.65 (13677.69)
@@ -106,9 +106,9 @@ irr_res <- solve_irr(
     recov_curve = recov_curve,
     orig_apy = 0.15
 )
-#> Warning in .apv_setup(x, cur_age, orig_term, orig_loan_amt, mon_pmt,
-#> recov_curve, : Lifetime observed support does not include the original loan
-#> term. Extrapolating hazards.
+#> Warning in solve_irr(x = hazards, abs0_bal = cur_bal, cur_age = cur_age, :
+#> Lifetime observed support does not include the original loan term.
+#> Extrapolating hazards.
 ```
 
 - Calculated monthly rate: 0.012147 (1.2147%)

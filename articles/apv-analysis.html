@@ -147,9 +147,9 @@ reference market rate) and compute the APV:</p>
 <span>    recov_curve <span class="op">=</span> <span class="va">recov_curve</span>,</span>
 <span>    orig_apy <span class="op">=</span> <span class="fl">0.15</span></span>
 <span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning in .apv_setup(x, cur_age, orig_term, orig_loan_amt, mon_pmt,</span></span>
-<span><span class="co">#&gt; recov_curve, : Lifetime observed support does not include the original loan</span></span>
-<span><span class="co">#&gt; term. Extrapolating hazards.</span></span></code></pre></div>
+<span><span class="co">#&gt; Warning in calculate_apv(x = hazards, cur_age = cur_age, orig_term = orig_term,</span></span>
+<span><span class="co">#&gt; : Lifetime observed support does not include the original loan term.</span></span>
+<span><span class="co">#&gt; Extrapolating hazards.</span></span></code></pre></div>
 <ul>
 <li>Estimated APV: $43659.65 (13677.69)</li>
 </ul>
@@ -174,9 +174,9 @@ value:</p>
 <span>    recov_curve <span class="op">=</span> <span class="va">recov_curve</span>,</span>
 <span>    orig_apy <span class="op">=</span> <span class="fl">0.15</span></span>
 <span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning in .apv_setup(x, cur_age, orig_term, orig_loan_amt, mon_pmt,</span></span>
-<span><span class="co">#&gt; recov_curve, : Lifetime observed support does not include the original loan</span></span>
-<span><span class="co">#&gt; term. Extrapolating hazards.</span></span></code></pre></div>
+<span><span class="co">#&gt; Warning in solve_irr(x = hazards, abs0_bal = cur_bal, cur_age = cur_age, :</span></span>
+<span><span class="co">#&gt; Lifetime observed support does not include the original loan term.</span></span>
+<span><span class="co">#&gt; Extrapolating hazards.</span></span></code></pre></div>
 <ul>
 <li>Calculated monthly rate: 0.012147 (1.2147%)</li>
 <li>Calculated annualized rate: 0.155909 (15.5909%)</li>

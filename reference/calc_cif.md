@@ -32,5 +32,4 @@ point), `pr_zx` (probability of the event of a given type at
 
 ## See also
 
-[`plot.acif()`](http://lcgodoy.me/abslife/reference/plot.acif.md),
-[`summary.acif()`](http://lcgodoy.me/abslife/reference/summary.acif.md)
+[`plot.acif()`](http://lcgodoy.me/abslife/reference/plot_cdf.md)

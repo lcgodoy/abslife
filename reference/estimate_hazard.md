@@ -71,7 +71,7 @@ than one unique value). These objects are each a `data.frame` with the
 time point, hazard estimate, standard error, and asymptotic confidence
 interval for all time points in the support. We emphasize that the
 column called `se_log_hazard` represents the standard error of the
-`hazard` rate on the log scale.
+`hazard` rate on the logit scale.
 
 ## Details
 

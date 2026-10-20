@@ -34,6 +34,8 @@ u_hat(t, lifetime, trunc_time)
 
 a scalar probability between 0 and 1
 
+a scalar
+
 ## Note
 
 The \\\hat{U}\\ estimator simplifies to its equivalent in Lautier et al.

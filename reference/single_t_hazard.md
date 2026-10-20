@@ -44,7 +44,7 @@ single_t_hazard(t, trunc_time, lifetime, event, censoring_indicator)
 A named vector containing the desired estimation time point
 (`lifetime`), the risk set estimate, \\\hat{U}\\ (`risk_set`), the
 hazard rate estimate, \\\hat{\lambda}\\ (`hazard`), and the standard
-error of the hazard estimate on the log scale (`se_log_hazard`).
+error of the hazard estimate on the logit scale (`se_log_hazard`).
 
 ## Note
 

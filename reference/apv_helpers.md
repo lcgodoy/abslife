@@ -76,5 +76,5 @@ rate.
 
 `.apv_setup()` returns a list with the number of remaining months, the
 default and prepayment probabilities, and the cash flows for each
-remaining month. `.apv_moments()` returns the same list as
-[`calculate_apv()`](http://lcgodoy.me/abslife/reference/calculate_apv.md).
+remaining month. `.apv_moments()` returns a list with the APV (`APV`)
+and its standard deviation (`SD`).

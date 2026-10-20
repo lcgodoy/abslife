@@ -35,7 +35,3 @@ multiple_cis(x, ci_level = 0.95)
 
 a `list` with one `data.frame` of confidence limits per element of
 `ci_level`.
-
-## Author
-
-lcgodoy

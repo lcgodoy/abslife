@@ -64,8 +64,10 @@ calculate_apv(
 
 ## Value
 
-A list containing the APV (`APV`), its second moment (`APV2`), and its
-standard deviation (`SD`).
+An object of class `apv`: a one-row `data.frame` with the APV (`APV`),
+and its standard deviation (`SD`).
+[`rbind()`](https://rdrr.io/r/base/cbind.html) stacks several `apv`
+objects into a `data.frame`; named arguments become row names.
 
 ## Details
 

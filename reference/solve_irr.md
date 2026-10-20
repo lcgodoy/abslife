@@ -4,8 +4,12 @@ Finds the monthly discount rate at which the APV of the loan (see
 [`calculate_apv()`](http://lcgodoy.me/abslife/reference/calculate_apv.md))
 matches `abs0_bal`. The rate is found with
 [`stats::uniroot()`](https://rdrr.io/r/stats/uniroot.html) over monthly
-rates between -0.5 and 1; an error is thrown if no rate in this range
-matches `abs0_bal`.
+rates between -0.9999 and 1; an error is thrown if no rate in this range
+matches `abs0_bal`. If
+[`stats::uniroot()`](https://rdrr.io/r/stats/uniroot.html) does not
+reach a tolerance of `1e-10` within 1000 iterations,
+[`stats::uniroot()`](https://rdrr.io/r/stats/uniroot.html) gives a
+warning and the `converged` column is `FALSE`.
 
 ## Usage
 
@@ -68,9 +72,13 @@ solve_irr(
 
 ## Value
 
-A list with the risk-adjusted monthly rate (`monthly_rate`), the
-annualized rate (`annualized_rate`), and the squared difference between
-`abs0_bal` and the APV at the solution (`objective`).
+An object of class `irr`: a one-row `data.frame` with the risk-adjusted
+monthly rate (`monthly_rate`), the annualized rate (`annualized_rate`),
+the squared difference between `abs0_bal` and the APV at the solution
+(`objective`), and a flag that tells if the root finder converged
+(`converged`). [`rbind()`](https://rdrr.io/r/base/cbind.html) stacks
+several `irr` objects into a `data.frame`; named arguments become row
+names.
 
 ## Details
 
