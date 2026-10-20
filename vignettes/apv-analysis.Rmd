@@ -1,6 +1,6 @@
 ---
 title: "Actuarial Present Value and IRR Analysis"
-output: rmarkdown::pdf_vignette
+output: rmarkdown::pdf_document
 vignette: >
   %\VignetteIndexEntry{Actuarial Present Value and IRR Analysis}
   %\VignetteEngine{knitr::asis}
