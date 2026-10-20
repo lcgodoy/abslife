@@ -123,7 +123,7 @@ multiple_cis.acdf_multi <- function(x, ci_level = .95) {
 ##' @seealso [estimate_hazard()]
 ##' @return A plot of the hazard rate.
 ##' @export
-##'
+##' @name plots
 plot.alife <- function(x, ci_level = 0.95,
                        color = 2,
                        col_line = 1,
@@ -176,7 +176,7 @@ plot.alife <- function(x, ci_level = 0.95,
 ##' @seealso [estimate_hazard()]
 ##' @return A faceted plot of the hazard rates.
 ##' @export
-##'
+##' @rdname plots
 plot.alife_multi <- function(x, ci_level = 0.95,
                              color = 2, col_line = 1, ...) {
   ci_level <- sort(ci_level, decreasing = TRUE)
@@ -560,6 +560,7 @@ ev_life.alife <- function(x, digits = 2, ...) {
 ##' @seealso [calc_cdf()]
 ##' @return A plot of the CDF.
 ##' @export
+##' @name plot_cdf
 plot.acdf <- function(x, ci_level = 0.95,
                       color = 2,
                       col_line = 1,
@@ -654,6 +655,7 @@ plot.acdf <- function(x, ci_level = 0.95,
 ##' @seealso [calc_cif()]
 ##' @return Invisibly returns the input object `x`.
 ##' @export
+##' @rdname plot_cdf
 plot.acif <- function(x, which = c("cif", "all_surv", "both"),
                       col_line = 1, lwd = 2,
                       ...) {
@@ -754,6 +756,7 @@ plot.acif <- function(x, which = c("cif", "all_surv", "both"),
 ##' @seealso [calc_cdf()]
 ##' @return A faceted plot of CIFs and Densities.
 ##' @export
+##' @rdname plot_cdf
 plot.acdf_multi <- function(x, ci_level = 0.95,
                             color = 2,
                             col_line = 1,

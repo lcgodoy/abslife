@@ -211,8 +211,9 @@ u_hat <- function(t,
 ##' \url{https://doi.org/10.1016/j.ecosta.2023.05.005} }
 ##' 
 ##' @keywords internal
-## This function is obsolete
-## var_hat <- function(risk_set, fh, n) {
+##'
+
+##  var_hat <- function(risk_set, fh, n) {
 ##   uh <- risk_set
 ##   lfh <- log(fh)
 ##   luh <- log(uh)
