@@ -1,7 +1,7 @@
 ##' Consumer automobile loans recovery curves
 ##'
 ##' A dataset containing the recovery curves associated with the automobile
-##' loans analyzed in Lautier et al. 2024.
+##' loans analyzed in Lautier et al. 2026.
 ##'
 ##' @format ## `aloans_recov`
 ##' A data frame with 365 rows and 3 columns:
@@ -13,10 +13,10 @@
 ##' \item{recovery}{The estimated recovery rate for a given month and credit risk band.}
 ##' }
 ##'
-##' @references Lautier, J. P., Pozdnyakov, V., & Yan, J. (2024). On the
+##' @references Lautier, J. P., Pozdnyakov, V., & Yan, J. (2026). On the
 ##'   convergence of credit risk in current consumer automobile
 ##'   loans. \emph{Journal of the Royal Statistical Society Series A: Statistics
-##'   in Society}, qnae137. \doi{10.1093/jrsssa/qnae137}.
+##'   in Society}, 189 (1), 196-221. \doi{10.1093/jrsssa/qnae137}.
 "aloans_recov"
 
 ##' Consumer automobile loans dataset
@@ -61,10 +61,10 @@
 ##'   Commission (SEC). The replication data repository is available at
 ##'   <https://github.com/jackson-lautier/credit-risk-convergence/>.
 ##' 
-##' @references Lautier, J. P., Pozdnyakov, V., & Yan, J. (2024). On the
+##' @references Lautier, J. P., Pozdnyakov, V., & Yan, J. (2026). On the
 ##'   convergence of credit risk in current consumer automobile
 ##'   loans. \emph{Journal of the Royal Statistical Society Series A: Statistics
-##'   in Society}, qnae137. \doi{10.1093/jrsssa/qnae137}.
+##'   in Society}, 189 (1), 196-221. \doi{10.1093/jrsssa/qnae137}.
 "aloans"
 
 ##' Consumer automobile loans from Ally Auto Receivables Trust
@@ -102,8 +102,12 @@
 ##' @references
 ##' Lautier, J. P., Pozdnyakov, V., & Yan, J. (2025). Estimating the 
 ##' time-to-event distribution for loan-level data within a consumer auto loan 
-##' asset-backed security. \emph{The Annals of Applied Statistics}. 
+##' asset-backed security. \emph{The Annals of Applied Statistics}. 19 (4), 2831-2851 
 ##' \doi{10.1214/25-AOAS2103}.
+##' 
+##' Lautier, J. P., Pozdnyakov, V., & Yan, J. (2026+). Discrete time-to-event
+##' regression analysis under left-truncation with applications to consumer
+##' finance. \emph{Journal of Business & Economic Statistics}. To Appear.
 "aart"
 
 ##' Consumer automobile leases from Mercedes-Benz Auto Lease Trust 2017-A
@@ -125,7 +129,7 @@
 ##'   \item{\code{contract.resid}}{Lessee purchase price option value.}
 ##'   \item{\code{co.lessee}}{Co-Lessee indicator}
 ##'   \item{\code{credit.score}}{Obligor credit score}
-##'   \item{\code{location}}{State or U.S.\ territory of contract}
+##'   \item{\code{location}}{State or U.S. territory of contract}
 ##'   \item{\code{lease.term}}{Original lease term (in months)}
 ##'   \item{\code{pti}}{Obligor payment-to-income}
 ##'   \item{\code{subvented}}{Subvention type (cash, rate, none)}
@@ -141,7 +145,7 @@
 ##' @references Lautier, J. P., Pozdnyakov, V., & Yan, J. (2023). Estimating a
 ##'   discrete distribution subject to random left-truncation with an
 ##'   application to structured finance. \emph{Econometrics and Statistics}.
-##'   \doi{10.1016/j.ecosta.2023.05.005}.
+##'   37, 174-198. \doi{10.1016/j.ecosta.2023.05.005}.
 ##'
 ##'   Lautier, J. P., Pozdnyakov, V., & Yan, J. (2023). Pricing time-to-event
 ##'   contingent cash flows: A discrete-time survival analysis

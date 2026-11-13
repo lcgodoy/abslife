@@ -3,7 +3,7 @@
 \name{calc_cif}
 \alias{calc_cif}
 \alias{calc_cif.alife_multi}
-\title{Calculate Cumulative Incidence Functions (CIF) from Hazard Estimates}
+\title{Calculate Cumulative Incidence Functions (CIF) from estimated hazard rates}
 \usage{
 calc_cif(x, ...)
 
@@ -24,8 +24,10 @@ at \code{lifetime}), \code{cif}, and \code{risk_set}.
 \description{
 Computes the all-cause survival function and the
 cause-specific cumulative incidence functions from cause-specific hazard
-estimates.
+estimates. An object of class \code{acdf_multi} is returned.
+Using \code{calc_cif()} with \code{alife} object will generate an error.  Instead,
+use \code{calc_cdf()} when no competing risks are present.
 }
 \seealso{
-\code{\link[=plot.acif]{plot.acif()}}
+\code{\link[=calc_cdf]{calc_cdf()}}
 }

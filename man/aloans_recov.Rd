@@ -22,12 +22,12 @@ aloans_recov
 }
 \description{
 A dataset containing the recovery curves associated with the automobile
-loans analyzed in Lautier et al. 2024.
+loans analyzed in Lautier et al. 2026.
 }
 \references{
-Lautier, J. P., Pozdnyakov, V., & Yan, J. (2024). On the
+Lautier, J. P., Pozdnyakov, V., & Yan, J. (2026). On the
 convergence of credit risk in current consumer automobile
 loans. \emph{Journal of the Royal Statistical Society Series A: Statistics
-in Society}, qnae137. \doi{10.1093/jrsssa/qnae137}.
+in Society}, 189 (1), 196-221. \doi{10.1093/jrsssa/qnae137}.
 }
 \keyword{datasets}

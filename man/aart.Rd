@@ -44,7 +44,11 @@ compiled from the Electronic Data Gathering, Analysis, and Retrieval
 \references{
 Lautier, J. P., Pozdnyakov, V., & Yan, J. (2025). Estimating the
 time-to-event distribution for loan-level data within a consumer auto loan
-asset-backed security. \emph{The Annals of Applied Statistics}.
+asset-backed security. \emph{The Annals of Applied Statistics}. 19 (4), 2831-2851
 \doi{10.1214/25-AOAS2103}.
+
+Lautier, J. P., Pozdnyakov, V., & Yan, J. (2026+). Discrete time-to-event
+regression analysis under left-truncation with applications to consumer
+finance. \emph{Journal of Business & Economic Statistics}. To Appear.
 }
 \keyword{datasets}

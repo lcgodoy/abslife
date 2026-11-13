@@ -7,7 +7,7 @@
 \alias{ev_life.acdf_multi}
 \alias{ev_life.acif}
 \alias{ev_life.alife}
-\title{Calculate expected value for the time to event of interest}
+\title{Calculates expected value from an estimated lifetime distribution}
 \usage{
 ev_life(x, digits = 2, ...)
 
@@ -32,5 +32,10 @@ returned invisibly). For \code{acdf_multi} objects, a named vector with the
 all-cause and the cause-specific expected lifetimes.
 }
 \description{
-Uses the estimated density from the 'acdf' output.
+For a \code{\link[=calc_cdf]{calc_cdf()}} estimated density function (an \code{acdf}
+object), this function computes the expected value of a lifetime.  For a
+\code{\link[=calc_cif]{calc_cif()}} estimated cause-specific density function (an \code{acdf_multi})
+object, this function computes the cause-specific and all-cause expected
+lifetimes.  Alternatively, a user may directly input an a \code{alife} object
+from \code{\link[=estimate_hazard]{estimate_hazard()}}.
 }

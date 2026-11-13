@@ -4,14 +4,15 @@
 \alias{plots}
 \alias{plot.alife}
 \alias{plot.alife_multi}
-\title{Plot Method for an 'alife' Object}
+\title{Plot method for an \code{alife} or \code{alife_multi} object}
 \usage{
 \method{plot}{alife}(x, ci_level = 0.95, color = 2, col_line = 1, ...)
 
 \method{plot}{alife_multi}(x, ci_level = 0.95, color = 2, col_line = 1, ...)
 }
 \arguments{
-\item{x}{An object of class \code{alife_multi}.}
+\item{x}{An object of class \code{alife} or \code{alife_multi}. Typically the output
+of the \code{estimate_hazard} function.}
 
 \item{ci_level}{A numeric vector of confidence levels to plot (e.g.,
 \code{c(0.5, 0.95)}). Defaults to \code{0.95}.}
@@ -24,12 +25,13 @@
 \code{xlab}, \code{ylab}, \code{ylim}).}
 }
 \value{
-A plot of the hazard rate.
-
-A faceted plot of the hazard rates.
+A plot of the hazard rate (\code{alife}) or a faceted plot of the hazard
+rates (\code{alife_multi}).
 }
 \description{
-Creates a faceted plot, with one panel per event type.
+This function allows for an \code{alife} object to be fed into \code{\link[=plot]{plot()}}.
+For \code{alife_multi} objects, it creates a faceted plot, with one panel per
+event type.
 }
 \seealso{
 \code{\link[=estimate_hazard]{estimate_hazard()}}

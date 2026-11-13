@@ -19,7 +19,7 @@ months when the ABS trust began making payments to investors.}
 \item{\code{contract.resid}}{Lessee purchase price option value.}
 \item{\code{co.lessee}}{Co-Lessee indicator}
 \item{\code{credit.score}}{Obligor credit score}
-\item{\code{location}}{State or U.S.\ territory of contract}
+\item{\code{location}}{State or U.S. territory of contract}
 \item{\code{lease.term}}{Original lease term (in months)}
 \item{\code{pti}}{Obligor payment-to-income}
 \item{\code{subvented}}{Subvention type (cash, rate, none)}
@@ -46,7 +46,7 @@ Trust (MBALT) 2017-A.
 Lautier, J. P., Pozdnyakov, V., & Yan, J. (2023). Estimating a
 discrete distribution subject to random left-truncation with an
 application to structured finance. \emph{Econometrics and Statistics}.
-\doi{10.1016/j.ecosta.2023.05.005}.
+37, 174-198. \doi{10.1016/j.ecosta.2023.05.005}.
 
 Lautier, J. P., Pozdnyakov, V., & Yan, J. (2023). Pricing time-to-event
 contingent cash flows: A discrete-time survival analysis

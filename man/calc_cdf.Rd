@@ -4,7 +4,7 @@
 \alias{calc_cdf}
 \alias{calc_cdf.alife}
 \alias{calc_cdf.alife_multi}
-\title{Calculate CDF from Hazard Estimates}
+\title{Calculates the cumulative distribution function (CDF) from estimated hazard rates}
 \usage{
 calc_cdf(x, ...)
 
@@ -13,7 +13,8 @@ calc_cdf(x, ...)
 \method{calc_cdf}{alife_multi}(x, ...)
 }
 \arguments{
-\item{x}{An object of class \code{alife} or \code{alife_multi}.}
+\item{x}{An object of class \code{alife} or \code{alife_multi}. Typically the output
+of the \code{\link[=estimate_hazard]{estimate_hazard()}} function.}
 
 \item{...}{Not used.}
 }
@@ -24,9 +25,14 @@ object, of class \code{acdf_multi} (columns \code{event_type}, \code{lifetime},
 \code{all_surv}, \code{cumulative}, \code{density}, and \code{risk_set}).
 }
 \description{
-Returns an object of class \code{acdf}, corresponding to a
+The calculated cumulative density function (CDF) is an
+object of class \code{acdf}, corresponding to a
 \code{data.frame} with tailored plot and summary methods. For competing risks
 (\code{alife_multi} objects), the cause-specific cumulative incidence functions
-are computed instead and an object of class \code{acdf_multi} is returned (see
-also \code{\link[=calc_cif]{calc_cif()}}).
+(CIF) are instead computed and an object of class \code{acdf_multi} is returned.
+Using \code{calc_cdf()} with \code{alife_multi} objects will generate a warning
+message, though the output will be equivalent to \code{calc_cif()}.
+}
+\seealso{
+\code{\link[=calc_cif]{calc_cif()}}
 }
