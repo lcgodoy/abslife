@@ -1,7 +1,7 @@
 # Consumer automobile loans recovery curves
 
 A dataset containing the recovery curves associated with the automobile
-loans analyzed in Lautier et al. 2024.
+loans analyzed in Lautier et al. 2026.
 
 ## Usage
 
@@ -31,7 +31,7 @@ A data frame with 365 rows and 3 columns:
 
 ## References
 
-Lautier, J. P., Pozdnyakov, V., & Yan, J. (2024). On the convergence of
+Lautier, J. P., Pozdnyakov, V., & Yan, J. (2026). On the convergence of
 credit risk in current consumer automobile loans. *Journal of the Royal
-Statistical Society Series A: Statistics in Society*, qnae137.
+Statistical Society Series A: Statistics in Society*, 189 (1), 196-221.
 [doi:10.1093/jrsssa/qnae137](https://doi.org/10.1093/jrsssa/qnae137) .

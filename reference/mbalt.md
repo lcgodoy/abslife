@@ -48,7 +48,7 @@ A data frame with 47,314 rows and 15 columns:
 
 - `location`:
 
-  State or U.S.\\ territory of contract
+  State or U.S. territory of contract
 
 - `lease.term`:
 
@@ -88,7 +88,7 @@ Retrieval (EDGAR) system of the Securities and Exchange Commission
 
 Lautier, J. P., Pozdnyakov, V., & Yan, J. (2023). Estimating a discrete
 distribution subject to random left-truncation with an application to
-structured finance. *Econometrics and Statistics*.
+structured finance. *Econometrics and Statistics*. 37, 174-198.
 [doi:10.1016/j.ecosta.2023.05.005](https://doi.org/10.1016/j.ecosta.2023.05.005)
 .
 

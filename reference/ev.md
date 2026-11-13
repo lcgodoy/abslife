@@ -1,6 +1,13 @@
-# Calculate expected value for the time to event of interest
+# Calculates expected value from an estimated lifetime distribution
 
-Uses the estimated density from the 'acdf' output.
+For a [`calc_cdf()`](http://lcgodoy.me/abslife/reference/calc_cdf.md)
+estimated density function (an `acdf` object), this function computes
+the expected value of a lifetime. For a
+[`calc_cif()`](http://lcgodoy.me/abslife/reference/calc_cif.md)
+estimated cause-specific density function (an `acdf_multi`) object, this
+function computes the cause-specific and all-cause expected lifetimes.
+Alternatively, a user may directly input an a `alife` object from
+[`estimate_hazard()`](http://lcgodoy.me/abslife/reference/estimate_hazard.md).
 
 ## Usage
 

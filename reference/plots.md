@@ -1,6 +1,9 @@
-# Plot Method for an 'alife' Object
+# Plot method for an `alife` or `alife_multi` object
 
-Creates a faceted plot, with one panel per event type.
+This function allows for an `alife` object to be fed into
+[`plot()`](https://rdrr.io/r/graphics/plot.default.html). For
+`alife_multi` objects, it creates a faceted plot, with one panel per
+event type.
 
 ## Usage
 
@@ -16,7 +19,8 @@ plot(x, ci_level = 0.95, color = 2, col_line = 1, ...)
 
 - x:
 
-  An object of class `alife_multi`.
+  An object of class `alife` or `alife_multi`. Typically the output of
+  the `estimate_hazard` function.
 
 - ci_level:
 
@@ -38,9 +42,8 @@ plot(x, ci_level = 0.95, color = 2, col_line = 1, ...)
 
 ## Value
 
-A plot of the hazard rate.
-
-A faceted plot of the hazard rates.
+A plot of the hazard rate (`alife`) or a faceted plot of the hazard
+rates (`alife_multi`).
 
 ## See also
 

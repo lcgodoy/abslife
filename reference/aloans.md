@@ -90,7 +90,7 @@ Commission (SEC). The replication data repository is available at
 
 ## References
 
-Lautier, J. P., Pozdnyakov, V., & Yan, J. (2024). On the convergence of
+Lautier, J. P., Pozdnyakov, V., & Yan, J. (2026). On the convergence of
 credit risk in current consumer automobile loans. *Journal of the Royal
-Statistical Society Series A: Statistics in Society*, qnae137.
+Statistical Society Series A: Statistics in Society*, 189 (1), 196-221.
 [doi:10.1093/jrsssa/qnae137](https://doi.org/10.1093/jrsssa/qnae137) .

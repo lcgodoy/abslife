@@ -1,7 +1,11 @@
-# Calculate Cumulative Incidence Functions (CIF) from Hazard Estimates
+# Calculate Cumulative Incidence Functions (CIF) from estimated hazard rates
 
 Computes the all-cause survival function and the cause-specific
-cumulative incidence functions from cause-specific hazard estimates.
+cumulative incidence functions from cause-specific hazard estimates. An
+object of class `acdf_multi` is returned. Using `calc_cif()` with
+`alife` object will generate an error. Instead, use
+[`calc_cdf()`](http://lcgodoy.me/abslife/reference/calc_cdf.md) when no
+competing risks are present.
 
 ## Usage
 
@@ -32,4 +36,4 @@ point), `pr_zx` (probability of the event of a given type at
 
 ## See also
 
-[`plot.acif()`](http://lcgodoy.me/abslife/reference/plot_cdf.md)
+[`calc_cdf()`](http://lcgodoy.me/abslife/reference/calc_cdf.md)

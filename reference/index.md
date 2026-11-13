@@ -15,10 +15,12 @@
   Calculate Loan Amortization Schedule
 
 - [`calc_cdf()`](http://lcgodoy.me/abslife/reference/calc_cdf.md) :
-  Calculate CDF from Hazard Estimates
+  Calculates the cumulative distribution function (CDF) from estimated
+  hazard rates
 
 - [`calc_cif()`](http://lcgodoy.me/abslife/reference/calc_cif.md) :
-  Calculate Cumulative Incidence Functions (CIF) from Hazard Estimates
+  Calculate Cumulative Incidence Functions (CIF) from estimated hazard
+  rates
 
 - [`calc_osup()`](http://lcgodoy.me/abslife/reference/calc_osup.md) :
   Calculate Observed Support
@@ -32,8 +34,8 @@
 - [`estimate_hazard()`](http://lcgodoy.me/abslife/reference/estimate_hazard.md)
   : Estimating the discrete time, hazard rate subject to left-truncation
 
-- [`ev_life()`](http://lcgodoy.me/abslife/reference/ev.md) : Calculate
-  expected value for the time to event of interest
+- [`ev_life()`](http://lcgodoy.me/abslife/reference/ev.md) : Calculates
+  expected value from an estimated lifetime distribution
 
 - [`extend_hazard()`](http://lcgodoy.me/abslife/reference/extend_hazard.md)
   : Extend Hazard Rates
@@ -65,7 +67,9 @@
 
 - [`plot(`*`<alife>`*`)`](http://lcgodoy.me/abslife/reference/plots.md)
   [`plot(`*`<alife_multi>`*`)`](http://lcgodoy.me/abslife/reference/plots.md)
-  : Plot Method for an 'alife' Object
+  :
+
+  Plot method for an `alife` or `alife_multi` object
 
 - [`prep_ggplot()`](http://lcgodoy.me/abslife/reference/prep_ggplot.md)
   : Prepare alife object for ggplot

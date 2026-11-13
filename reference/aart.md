@@ -78,5 +78,11 @@ Retrieval (EDGAR) system of the Securities and Exchange Commission
 
 Lautier, J. P., Pozdnyakov, V., & Yan, J. (2025). Estimating the
 time-to-event distribution for loan-level data within a consumer auto
-loan asset-backed security. *The Annals of Applied Statistics*.
-[doi:10.1214/25-AOAS2103](https://doi.org/10.1214/25-AOAS2103) .
+loan asset-backed security. *The Annals of Applied Statistics*. 19 (4),
+2831-2851 [doi:10.1214/25-AOAS2103](https://doi.org/10.1214/25-AOAS2103)
+.
+
+Lautier, J. P., Pozdnyakov, V., & Yan, J. (2026+). Discrete
+time-to-event regression analysis under left-truncation with
+applications to consumer finance. *Journal of Business & Economic
+Statistics*. To Appear.
