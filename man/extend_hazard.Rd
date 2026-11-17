@@ -4,7 +4,7 @@
 \alias{extend_hazard}
 \alias{extend_hazard.alife}
 \alias{extend_hazard.alife_multi}
-\title{Extend Hazard Rates}
+\title{Extrapolate hazard rates beyond observable region}
 \usage{
 extend_hazard(
   x,
@@ -43,17 +43,20 @@ hazard, so that termination at \code{end} is certain). Only used when \code{x} i
 of class \code{alife_multi}.}
 }
 \value{
-An object of the same class as \code{x} with the extended lifetime
+An object of the same class as \code{x} with the extrapolated lifetime
 support.
 }
 \description{
-Extends the estimated hazard rates up to a specified end time
-using constant, geometric, or linear extrapolation, with the (all-cause)
-hazard at \code{end} set to 1. It is used by \code{\link[=calculate_apv]{calculate_apv()}} and
-\code{\link[=solve_irr]{solve_irr()}} when the observed lifetime support does not reach the
-original loan term.
+This function will extrapolate an estimated hazard rate object
+from \code{\link[=estimate_hazard]{estimate_hazard()}} (i.e., an \code{alife} or \code{alife_multi} object) up to a
+specified \code{end} time using a constant, geometric, or linear extrapolation. Also
+sets the (all-cause) hazard at the specified \code{end} time to 1.  This function
+is used by \code{\link[=calculate_apv]{calculate_apv()}} and \code{\link[=solve_irr]{solve_irr()}} when the observed lifetime
+support does not reach the original loan term and an assumption is needed.
 }
 \details{
 The last observed time point is replaced: the extrapolation
-starts from the hazard at the second-to-last observed time point.
+starts from the hazard at the second-to-last observed time point. In a
+discrete setting, a \code{geometric} extrapolation is a constant hazard rate,
+similar to an expontential extrapolation in a continuous setting.
 }

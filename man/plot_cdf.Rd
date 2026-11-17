@@ -5,7 +5,7 @@
 \alias{plot.acdf}
 \alias{plot.acif}
 \alias{plot.acdf_multi}
-\title{Plot Method for an 'acdf' Object}
+\title{Plot method for an \code{acdf}, \code{acdf_multi}, or \code{acif} object}
 \usage{
 \method{plot}{acdf}(x, ci_level = 0.95, color = 2, col_line = 1, ...)
 
@@ -14,17 +14,22 @@
 \method{plot}{acdf_multi}(x, ci_level = 0.95, color = 2, col_line = 1, ...)
 }
 \arguments{
-\item{x}{An object of class \code{acdf_multi}.}
+\item{x}{An object of class \code{acdf}, \code{acdf_multi}, or \code{acif}. Typically the
+output of the \code{calc_cdf} or \code{calc_cif} functions.}
 
-\item{ci_level}{Currently ignored: standard errors are not yet available
-for competing risks, so no confidence intervals are drawn.}
+\item{ci_level}{A numeric vector of confidence levels to plot (e.g.,
+\code{c(0.5, 0.95)}). Defaults to \code{0.95}.  For \code{acdf_mult} or \code{acif}
+objects, confidence intervals are not returned.}
 
-\item{color}{Currently ignored (see \code{ci_level}).}
+\item{color}{The color for the confidence interval polygon for the cumulative
+density function and error bars for the density function. For \code{acdf_mult}
+or \code{acif} objects, confidence intervals are not returned.}
 
-\item{col_line}{The color for the main estimate line/points.}
+\item{col_line}{The color for the CDF (CIF) line(s) and density points.
+Defaults to \code{1} (black).}
 
 \item{...}{Additional arguments passed to the base \code{plot} function (e.g.,
-\code{xlab}, \code{ylab} override).}
+\code{main}, \code{xlab}, \code{ylab}, \code{ylim}).}
 
 \item{which}{A character string specifying what to plot: \code{"cif"} for
 cause-specific cumulative incidence functions (one panel per event type),
@@ -34,19 +39,19 @@ survival and cause-specific CIFs. Defaults to \code{"cif"}.}
 \item{lwd}{Line width. Defaults to \code{2}.}
 }
 \value{
-A plot of the CDF.
-
-Invisibly returns the input object \code{x}.
-
-A faceted plot of CIFs and Densities.
+For \code{acdf} objects, returns the CDF and PMF with associated
+confidence bands.  For \code{acdf_multi} objects, returns the CIF and associated
+density for each event type.  For \code{acif} objects, returns the CIF for each
+event type.  Also invisibly returns the input object \code{x}.
 }
 \description{
-Creates plots for cause-specific cumulative incidence functions (CIF),
-all-cause survival function, or both.
-
-Creates a faceted plot with one row per event type. Each row contains
-two panels: one for the cause-specific Cumulative Incidence Function (CIF)
-and one for the Probability Mass Function (Density).
+This function allows for an \code{acdf} object to be fed into \code{\link[=plot]{plot()}}. The
+default display is the estimated cumulative density function (CDF) and
+probability mass function (PMF) with associated confidence bands. For
+\code{acdf_multi} objects, it creates a faceted plot, with one panel for
+cause-specific cumulative incidence functions (CIF) and estimated density
+functions for each event type.  For \code{acif} objects, it returns a faceted
+plot with the CIF function for each event type.
 }
 \seealso{
 \code{\link[=calc_cdf]{calc_cdf()}}

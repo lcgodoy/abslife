@@ -2,7 +2,7 @@
 % Please edit documentation in R/apv.R
 \name{solve_irr}
 \alias{solve_irr}
-\title{Solve for Risk-Adjusted Internal Rate of Return (IRR)}
+\title{Solves for the risk-adjusted internal rate of return (IRR)}
 \usage{
 solve_irr(
   x,
@@ -20,7 +20,9 @@ solve_irr(
 \item{x}{An object of class \code{alife_multi}. Typically the output of the
 \code{estimate_hazard} function with two event types.}
 
-\item{abs0_bal}{Current loan balance (to match the APV against).}
+\item{abs0_bal}{Current loan balance, interpreted as the price of the
+loan (i.e., we find the risk-adjusted rate such that the current loan
+balance matches the calculated APV).}
 
 \item{cur_age}{Current age of the loan in months.}
 
@@ -34,35 +36,43 @@ solve_irr(
 \code{recovery} (the recovery rate as a proportion of \code{orig_loan_amt}). It must
 contain every month from \code{cur_age} to \code{orig_term - 1}.}
 
-\item{orig_apy}{Internal loan APY for amortization. Defaults to 0.15.}
+\item{orig_apy}{Internal loan annual percentage yield (APY) for
+amortization. Defaults to 0.15.}
 
 \item{type}{A character string specifying the extrapolation type passed to
-\code{\link[=extend_hazard]{extend_hazard()}}: either \code{"constant"} (default), \code{"geometric"} or
-\code{"linear"}.}
+\code{\link[=extend_hazard]{extend_hazard()}}: \code{constant} (default), \code{geometric} or \code{linear}.}
 }
 \value{
 An object of class \code{irr}: a one-row \code{data.frame} with the
 risk-adjusted monthly rate (\code{monthly_rate}), the annualized rate
 (\code{annualized_rate}), the squared difference between \code{abs0_bal} and the
-APV at the solution (\code{objective}), and a flag that tells if the root
-finder converged (\code{converged}). \code{\link[=rbind]{rbind()}} stacks several \code{irr} objects
-into a \code{data.frame}; named arguments become row names.
+APV at the solution (\code{objective}), and a flag indicating if the root
+finder converged (\code{converged}). Note that \code{\link[=rbind]{rbind()}} stacks several \code{irr}
+objects into a \code{data.frame}, and its named arguments become its row names.
 }
 \description{
-Finds the monthly discount rate at which the APV of the loan (see
-\code{\link[=calculate_apv]{calculate_apv()}}) matches \code{abs0_bal}. The rate is found with
-\code{\link[stats:uniroot]{stats::uniroot()}} over monthly rates between -0.9999 and 1; an error is
-thrown if no rate in this range matches \code{abs0_bal}. If
-\code{\link[stats:uniroot]{stats::uniroot()}} does not reach a tolerance of \code{1e-10} within 1000
-iterations, \code{\link[stats:uniroot]{stats::uniroot()}} gives a warning and the \code{converged}
-column is \code{FALSE}.
+Finds the monthly discount rate such that the actuarial
+present value (APV) of the loan (see \code{\link[=calculate_apv]{calculate_apv()}}) matches \code{abs0_bal}.
+For theoretical details, see Lautier et al. (2026).  Because this
+calculation must solve a polynomial of high-degree, the rate is found by
+using \code{\link[stats:uniroot]{stats::uniroot()}} and searching over monthly effective rates between
+-0.9999 and 1.  If no solution can be found, an \code{error} will be thrown. If
+\code{\link[stats:uniroot]{stats::uniroot()}} does not reach a tolerance of \code{1e-10} within 1,000
+iterations, \code{\link[stats:uniroot]{stats::uniroot()}} will produce a warning and the \code{converged}
+column of the resulting \code{irr} object will be \code{FALSE}.
 }
 \details{
 \code{x} must contain exactly two event types, and the default event
-must be labeled either \code{"Default"} or \code{"1"}; the other event type is
-treated as prepayment. If the observed lifetime support does not reach
-\code{orig_term}, the hazards are extrapolated up to \code{orig_term} with
-\code{\link[=extend_hazard]{extend_hazard()}} (with a warning). After that, hazard estimates must be
-available for every lifetime from \code{cur_age + 1} to \code{orig_term};
-otherwise, an error is thrown.
+must be labeled either \code{Default} or \code{1}; the other event type will be
+treated as a prepayment. If the observed lifetime support does not reach
+\code{orig_term}, the hazard rates are extrapolated up to \code{orig_term} with
+\code{\link[=extend_hazard]{extend_hazard()}}.  If this occurs, a \code{warning} message will be thrown.
+Hazard rate estimates must be available for every lifetime from
+\code{cur_age + 1} to \code{orig_term}; otherwise, an \code{error} will be thrown.
+}
+\references{
+{Lautier, J. P., Pozdnyakov, V., Yan, J. (2026). On the convergence of
+credit risk in current consumer automobile loans.  \emph{Journal of the Royal
+Statistical Society Series A: Statistics in Society}, 189 (1), 196-221.
+\url{https://doi.org/10.1093/jrsssa/qnae137}}
 }

@@ -2,18 +2,32 @@
 % Please edit documentation in R/gg-methods.R
 \name{ggauto}
 \alias{ggauto}
-\title{Plot an \code{alife} (or \code{alife_multi}) Object using \code{ggplot2}}
+\alias{ggauto.alife}
+\alias{ggauto.alife_multi}
+\title{Plots an \code{alife} (or \code{alife_multi}) object with \code{ggplot2}}
 \usage{
 ggauto(object, ...)
+
+\method{ggauto}{alife}(object, ci_level = 0.95, ...)
+
+\method{ggauto}{alife_multi}(object, ci_level = 0.95, ...)
 }
 \arguments{
-\item{object}{An object of class \code{alife} or \code{alife_multi}.}
+\item{object}{An object of class \code{alife} or \code{alife_multi} produced by
+\code{\link[=estimate_hazard]{estimate_hazard()}}.}
 
-\item{...}{Arguments passed to methods (e.g., \code{ci_level}).}
+\item{...}{Additional arguments (not used).}
+
+\item{ci_level}{A single number or numeric vector of confidence levels
+to display (e.g., \code{0.95} or \code{c(0.80, 0.95)}).}
 }
 \value{
-A \code{ggplot} object.
+A \code{ggplot} object that may be customized accordingly (see
+\code{\link[ggplot2:ggplot]{ggplot()}}).
 }
 \description{
-Plot an \code{alife} (or \code{alife_multi}) Object using \code{ggplot2}
+Reproduces plotting functionality from \code{\link[=plots]{plots()}} but with the
+\code{ggplot2} package for an alternative plotting device.  The output is a plot
+of the hazard rate (if an \code{alife} object) or a faceted plot of the hazard
+rates (if an \code{alife_multi} object).
 }

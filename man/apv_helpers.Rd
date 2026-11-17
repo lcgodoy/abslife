@@ -35,11 +35,11 @@
 \code{recovery} (the recovery rate as a proportion of \code{orig_loan_amt}). It must
 contain every month from \code{cur_age} to \code{orig_term - 1}.}
 
-\item{orig_apy}{Internal loan APY for amortization. Defaults to 0.15.}
+\item{orig_apy}{Internal loan annual percentage yield (APY) for
+amortization. Defaults to 0.15.}
 
 \item{type}{A character string specifying the extrapolation type passed to
-\code{\link[=extend_hazard]{extend_hazard()}}: either \code{"constant"} (default), \code{"geometric"} or
-\code{"linear"}.}
+\code{\link[=extend_hazard]{extend_hazard()}}: \code{constant} (default), \code{geometric} or \code{linear}.}
 
 \item{setup}{The output of \code{.apv_setup()}.}
 

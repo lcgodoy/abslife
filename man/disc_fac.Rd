@@ -2,18 +2,27 @@
 % Please edit documentation in R/apv.R
 \name{disc_fac}
 \alias{disc_fac}
-\title{Calculate Discount Factors}
+\title{Calculate discount factors for an effective interest rate}
 \usage{
 disc_fac(time, int_rate)
 }
 \arguments{
-\item{time}{Vector of months}
+\item{time}{A complete vector of payment periods (e.g., for a 60-month loan,
+input \code{c(1:60)}).}
 
-\item{int_rate}{Monthly discount rate}
+\item{int_rate}{The effective interest rate that compounds at the same
+frequency of the payment periods.}
 }
 \value{
-Discount factor for each month
+A vector of discount factors corresponding to \code{time}.
 }
 \description{
-Calculate Discount Factors
+This function produces a vector of discount factors from a
+timeline and effective interest rate.  It is used within
+\code{\link[=calculate_apv]{calculate_apv()}} to discount future payments, but it may be used as a
+standalone function.
+}
+\details{
+For a 12\% annual percentage rate (APR) on a loan with monthly payments,
+\code{int_rate} should be \code{(1.12)^(1/12) - 1}.
 }

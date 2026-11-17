@@ -2,7 +2,7 @@
 % Please edit documentation in R/apv.R
 \name{calculate_apv}
 \alias{calculate_apv}
-\title{Calculate Actuarial Present Value (APV) of a Loan}
+\title{Calculates the actuarial present value (APV) of a loan}
 \usage{
 calculate_apv(
   x,
@@ -34,27 +34,37 @@ calculate_apv(
 \code{recovery} (the recovery rate as a proportion of \code{orig_loan_amt}). It must
 contain every month from \code{cur_age} to \code{orig_term - 1}.}
 
-\item{orig_apy}{Internal loan APY for amortization. Defaults to 0.15.}
+\item{orig_apy}{Internal loan annual percentage yield (APY) for
+amortization. Defaults to 0.15.}
 
 \item{type}{A character string specifying the extrapolation type passed to
-\code{\link[=extend_hazard]{extend_hazard()}}: either \code{"constant"} (default), \code{"geometric"} or
-\code{"linear"}.}
+\code{\link[=extend_hazard]{extend_hazard()}}: \code{constant} (default), \code{geometric} or \code{linear}.}
 }
 \value{
 An object of class \code{apv}: a one-row \code{data.frame} with the APV
-(\code{APV}), and its standard deviation (\code{SD}).  \code{\link[=rbind]{rbind()}} stacks several
-\code{apv} objects into a \code{data.frame}; named arguments become row names.
+(\code{APV}), and its standard deviation (\code{SD}).  Note that \code{\link[=rbind]{rbind()}} can stack
+several \code{apv} objects into a \code{data.frame}, and the named arguments become
+its row names.
 }
 \description{
-Calculates the APV of a loan under competing risks (default vs. prepayment)
-and left-truncated survival data.
+This function calculates the APV of a loan under competing
+risks (default vs. prepayment).  It combines an estimated lifetime
+distribution (payment uncertainty) with discounting.  It is designed to
+be used with an \code{\link[=estimate_hazard]{estimate_hazard()}} object.  The method follows the
+design in Lautier et al. (2026).
 }
 \details{
 \code{x} must contain exactly two event types, and the default event
-must be labeled either \code{"Default"} or \code{"1"}; the other event type is
-treated as prepayment. If the observed lifetime support does not reach
-\code{orig_term}, the hazards are extrapolated up to \code{orig_term} with
-\code{\link[=extend_hazard]{extend_hazard()}} (with a warning). After that, hazard estimates must be
-available for every lifetime from \code{cur_age + 1} to \code{orig_term};
-otherwise, an error is thrown.
+must be labeled either \code{Default} or \code{1}; the other event type will be
+treated as a prepayment. If the observed lifetime support does not reach
+\code{orig_term}, the hazard rates are extrapolated up to \code{orig_term} with
+\code{\link[=extend_hazard]{extend_hazard()}}.  If this occurs, a \code{warning} message will be thrown.
+Hazard rate estimates must be available for every lifetime from
+\code{cur_age + 1} to \code{orig_term}; otherwise, an \code{error} will be thrown.
+}
+\references{
+{Lautier, J. P., Pozdnyakov, V., Yan, J. (2026). On the convergence of
+credit risk in current consumer automobile loans.  \emph{Journal of the Royal
+Statistical Society Series A: Statistics in Society}, 189 (1), 196-221.
+\url{https://doi.org/10.1093/jrsssa/qnae137}}
 }

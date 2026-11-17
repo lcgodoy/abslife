@@ -1,13 +1,15 @@
-##' @title Prepare alife object for ggplot
+##' @title Prepares an `alife` or `alife_multi` object for `ggauto`
 ##'
-##' @description Helper (used by [ggauto()]) to create a long-form data frame
-##'   with multiple confidence intervals for plotting. As in
-##'   [estimate_hazard()], the intervals are computed at the logit scale.
+##' @description This is a helper function that is used by [ggauto()]) to create
+##' a long-form data frame with multiple confidence intervals suitable for
+##' plotting.  To be consistent with [estimate_hazard()], the confidence
+##' intervals are computed on the logit scale.
 ##'
-##' @param x An object of class `alife` or `alife_multi`.
+##' @param x An object of class `alife` or `alife_multi` produced by
+##' [estimate_hazard()].
 ##' @param ci_level A numeric vector of confidence levels (e.g.,
 ##'   `c(0.80, 0.95)`).
-##' @return A long-form `data.frame` with CI columns.
+##' @return A long-form `data.frame` with confidence interval columns.
 ##' @export
 prep_ggplot <- function(x, ci_level = 0.95) {
   sorted_levels <- rev(sort(ci_level))
@@ -32,28 +34,30 @@ prep_ggplot <- function(x, ci_level = 0.95) {
   return(long_df)
 }
 
-##' @title Plot an `alife` (or `alife_multi`) Object using `ggplot2`
+##' @title Plots an `alife` (or `alife_multi`) object with `ggplot2`
+##' 
+##' @description Reproduces plotting functionality from [plots()] but with the
+##' `ggplot2` package for an alternative plotting device.  The output is a plot
+##' of the hazard rate (if an `alife` object) or a faceted plot of the hazard
+##' rates (if an `alife_multi` object).
 ##'
-##' @param object An object of class `alife` or `alife_multi`.
-##' @param ... Arguments passed to methods (e.g., `ci_level`).
+##' @param object An object of class `alife` or `alife_multi` produced by
+##' [estimate_hazard()].
+##' @param ci_level A single number or numeric vector of confidence levels 
+##'   to display (e.g., `0.95` or `c(0.80, 0.95)`).
+##' @param ... Additional arguments (not used).
 ##'
-##' @return A `ggplot` object.
+##' @return A `ggplot` object that may be customized accordingly (see
+##' [ggplot()]).
 ##' @export
 ggauto <- function(object, ...) {
   UseMethod("ggauto")
 }
 
 
-##' @title Plot an `alife` Object using `ggplot2`
-##'
-##' @param object An object of class `alife`.
-##' @param ci_level A single number or numeric vector of confidence levels 
-##'   to display (e.g., `0.95` or `c(0.80, 0.95)`).
-##' @param ... Additional arguments (not used).
-##'
-##' @return A `ggplot` object.
 ##' @importFrom rlang .data
 ##' @export
+##' @rdname ggauto
 ggauto.alife <- function(object, ci_level = 0.95, ...) {  
   if (!requireNamespace("ggplot2", quietly = TRUE)) {
     stop(
@@ -88,18 +92,9 @@ ggauto.alife <- function(object, ci_level = 0.95, ...) {
   return(p)
 }
 
-##' @title Plot an `alife_multi` Object using `ggplot2`
-##'
-##' @description Creates a faceted plot, with one panel per event type.
-##'
-##' @param object An object of class `alife_multi`.
-##' @param ci_level A single number or numeric vector of confidence levels 
-##'   to display (e.g., `0.95` or `c(0.80, 0.95)`).
-##' @param ... Additional arguments (not used).
-##'
 ##' @importFrom rlang .data
-##' @return A `ggplot` object.
 ##' @export
+##' @rdname ggauto
 ggauto.alife_multi <- function(object, ci_level = 0.95, ...) {
   if (!requireNamespace("ggplot2", quietly = TRUE)) {
     stop(

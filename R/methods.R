@@ -560,21 +560,40 @@ ev_life.alife <- function(x, digits = 2, ...) {
 }
 
 
-##' Plot Method for an 'acdf' Object
+##' Plot method for an `acdf`, `acdf_multi`, or `acif` object
+##' 
+##' This function allows for an `acdf` object to be fed into [plot()]. The
+##' default display is the estimated cumulative density function (CDF) and
+##' probability mass function (PMF) with associated confidence bands. For
+##' `acdf_multi` objects, it creates a faceted plot, with one panel for
+##' cause-specific cumulative incidence functions (CIF) and estimated density
+##' functions for each event type.  For `acif` objects, it returns a faceted
+##' plot with the CIF function for each event type.
 ##'
-##' @param x An object of class `acdf`. Typically the output of the
-##'   `calc_cdf` function.
+##' @param x An object of class `acdf`, `acdf_multi`, or `acif`. Typically the
+##'   output of the `calc_cdf` or `calc_cif` functions.
+##' @param which A character string specifying what to plot: `"cif"` for
+##'   cause-specific cumulative incidence functions (one panel per event type),
+##'   `"all_surv"` for the all-cause survival function, or `"both"` for all-cause
+##'   survival and cause-specific CIFs. Defaults to `"cif"`.
 ##' @param ci_level A numeric vector of confidence levels to plot (e.g.,
-##'   \code{c(0.5, 0.95)}). Defaults to \code{0.95}.
-##' @param color The color for the confidence interval polygon (CDF) and error
-##'   bars (density).
-##' @param col_line The color for the CDF line and density points.
+##'   \code{c(0.5, 0.95)}). Defaults to \code{0.95}.  For `acdf_mult` or `acif`
+##'   objects, confidence intervals are not returned.
+##' @param color The color for the confidence interval polygon for the cumulative
+##'   density function and error bars for the density function. For `acdf_mult`
+##'   or `acif` objects, confidence intervals are not returned.
+##' @param col_line The color for the CDF (CIF) line(s) and density points.
+##'   Defaults to `1` (black).
+##' @param lwd Line width. Defaults to `2`.
 ##' @param ... Additional arguments passed to the base `plot` function (e.g.,
 ##'   `main`, `xlab`, `ylab`, `ylim`).
 ##'
 ##' @importFrom graphics polygon lines points arrows
 ##' @seealso [calc_cdf()]
-##' @return A plot of the CDF.
+##' @return For `acdf` objects, returns the CDF and PMF with associated
+##' confidence bands.  For `acdf_multi` objects, returns the CIF and associated
+##' density for each event type.  For `acif` objects, returns the CIF for each
+##' event type.  Also invisibly returns the input object `x`.
 ##' @export
 ##' @name plot_cdf
 plot.acdf <- function(x, ci_level = 0.95,
@@ -651,25 +670,11 @@ plot.acdf <- function(x, ci_level = 0.95,
   points(x$lifetime, x$density, col = col_line, pch = 19)
 }
 
-##' Plot Method for an 'acif' Object
-##'
-##' Creates plots for cause-specific cumulative incidence functions (CIF),
-##' all-cause survival function, or both.
-##'
-##' @param x An object of class `acif`. Typically the output of the
-##'   `calc_cif` function.
-##' @param which A character string specifying what to plot: `"cif"` for
-##'   cause-specific cumulative incidence functions (one panel per event type),
-##'   `"all_surv"` for the all-cause survival function, or `"both"` for all-cause
-##'   survival and cause-specific CIFs. Defaults to `"cif"`.
-##' @param col_line Color for the lines. Defaults to `1` (black).
-##' @param lwd Line width. Defaults to `2`.
-##' @param ... Additional arguments passed to the base `plot` function (e.g.,
-##'   `xlab`, `ylab`, `ylim`, `xlim`).
+##' Plot method for an `acdf`, `acdf_multi`, or `acif` object
+##' 
 ##'
 ##' @importFrom graphics lines par
 ##' @seealso [calc_cif()]
-##' @return Invisibly returns the input object `x`.
 ##' @export
 ##' @rdname plot_cdf
 plot.acif <- function(x, which = c("cif", "all_surv", "both"),
@@ -753,24 +758,13 @@ plot.acif <- function(x, which = c("cif", "all_surv", "both"),
   invisible(x)
 }
 
-##' Plot Method for an 'acdf_multi' Object
+##' Plot method for an `acdf`, `acdf_multi`, or `acif` object
 ##'
-##' Creates a faceted plot with one row per event type. Each row contains
-##' two panels: one for the cause-specific Cumulative Incidence Function (CIF)
-##' and one for the Probability Mass Function (Density).
 ##'
-##' @param x An object of class `acdf_multi`.
-##' @param ci_level Currently ignored: standard errors are not yet available
-##'   for competing risks, so no confidence intervals are drawn.
-##' @param color Currently ignored (see `ci_level`).
-##' @param col_line The color for the main estimate line/points.
-##' @param ... Additional arguments passed to the base `plot` function (e.g.,
-##'   `xlab`, `ylab` override).
 ##'
 ##' @importFrom graphics polygon lines par points arrows
 ##' @importFrom grDevices adjustcolor
 ##' @seealso [calc_cdf()]
-##' @return A faceted plot of CIFs and Densities.
 ##' @export
 ##' @rdname plot_cdf
 plot.acdf_multi <- function(x, ci_level = 0.95,
@@ -856,16 +850,19 @@ plot.acdf_multi <- function(x, ci_level = 0.95,
 }
 
 
-##' @title Extend Hazard Rates
+##' @title Extrapolate hazard rates beyond observable region
 ##'
-##' @description Extends the estimated hazard rates up to a specified end time
-##'   using constant, geometric, or linear extrapolation, with the (all-cause)
-##'   hazard at `end` set to 1. It is used by [calculate_apv()] and
-##'   [solve_irr()] when the observed lifetime support does not reach the
-##'   original loan term.
+##' @description This function will extrapolate an estimated hazard rate object
+##' from [estimate_hazard()] (i.e., an `alife` or `alife_multi` object) up to a
+##' specified `end` time using a constant, geometric, or linear extrapolation. Also
+##' sets the (all-cause) hazard at the specified `end` time to 1.  This function
+##' is used by [calculate_apv()] and [solve_irr()] when the observed lifetime
+##' support does not reach the original loan term and an assumption is needed.
 ##'
 ##' @details The last observed time point is replaced: the extrapolation
-##'   starts from the hazard at the second-to-last observed time point.
+##'   starts from the hazard at the second-to-last observed time point. In a
+##'   discrete setting, a `geometric` extrapolation is a constant hazard rate,
+##'   similar to an expontential extrapolation in a continuous setting.
 ##'
 ##' @param x An object of class `alife` or `alife_multi`.
 ##' @param end A numeric scalar indicating the target end time for the
@@ -878,7 +875,7 @@ plot.acdf_multi <- function(x, ci_level = 0.95,
 ##'   hazard, so that termination at `end` is certain). Only used when `x` is
 ##'   of class `alife_multi`.
 ##' 
-##' @return An object of the same class as `x` with the extended lifetime
+##' @return An object of the same class as `x` with the extrapolated lifetime
 ##'   support.
 ##' @export
 extend_hazard <- function(x, end = 72,

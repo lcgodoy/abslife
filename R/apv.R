@@ -1,10 +1,23 @@
-##' Calculate Loan Amortization Schedule
+##' Calculates a full loan amortization schedule
+##' 
+##' @description This function produces a complete amortization schedule
+##' from a loan contract's terms.  It is used within [calculate_apv()] to
+##' determine prepayment amounts, but it may be used as a standalone function.
 ##'
-##' @param time Vector of months
-##' @param orig_bal Original loan balance
-##' @param int_rate Monthly interest rate
-##' @param payment Monthly payment
-##' @return Outstanding balance at each month
+##' @param time A complete vector of payment periods (e.g., for a 60-month loan,
+##'   input `c(1:60)`).
+##' @param orig_bal The original loan balance.
+##' @param int_rate The effective interest rate that compounds at the same
+##'   frequency of the payment periods.
+##' @param payment The payment due at each payment period (e.g., the monthly
+##'   payment for a 60-month auto loan).
+##' @return The outstanding balance at each month over the life of the loan
+##'   assuming no payment uncertainty (i.e., the full amortization schedule).
+##' 
+##' @details
+##' For a 12% annual percentage rate (APR) on a loan with monthly payments,
+##' `int_rate` should be `(1.12)^(1/12) - 1`.
+##' 
 ##' @export
 amort_bal <- function(time, orig_bal, int_rate, payment) {
   aux_rate <- (1 + int_rate)^time
@@ -13,11 +26,23 @@ amort_bal <- function(time, orig_bal, int_rate, payment) {
   return(pmax(0, calc1 - calc2))
 }
 
-##' Calculate Discount Factors
+##' Calculate discount factors for an effective interest rate
+##' 
+##' @description This function produces a vector of discount factors from a
+##' timeline and effective interest rate.  It is used within
+##' [calculate_apv()] to discount future payments, but it may be used as a
+##' standalone function.
 ##'
-##' @param time Vector of months
-##' @param int_rate Monthly discount rate
-##' @return Discount factor for each month
+##' @param time A complete vector of payment periods (e.g., for a 60-month loan,
+##'   input `c(1:60)`).
+##' @param int_rate The effective interest rate that compounds at the same
+##'   frequency of the payment periods.
+##' @return A vector of discount factors corresponding to `time`.
+##' 
+##' @details
+##' For a 12% annual percentage rate (APR) on a loan with monthly payments,
+##' `int_rate` should be `(1.12)^(1/12) - 1`.
+##' 
 ##' @export
 disc_fac <- function(time, int_rate) {
   return(1 / (1 + int_rate)^time)
@@ -146,18 +171,21 @@ disc_fac <- function(time, int_rate) {
   )
 }
 
-##' Calculate Actuarial Present Value (APV) of a Loan
+##' Calculates the actuarial present value (APV) of a loan
 ##'
-##' Calculates the APV of a loan under competing risks (default vs. prepayment)
-##' and left-truncated survival data.
+##' @description This function calculates the APV of a loan under competing
+##' risks (default vs. prepayment).  It combines an estimated lifetime
+##' distribution (payment uncertainty) with discounting.  It is designed to
+##' be used with an [estimate_hazard()] object.  The method follows the
+##' design in Lautier et al. (2026).
 ##'
 ##' @details `x` must contain exactly two event types, and the default event
-##'   must be labeled either `"Default"` or `"1"`; the other event type is
-##'   treated as prepayment. If the observed lifetime support does not reach
-##'   `orig_term`, the hazards are extrapolated up to `orig_term` with
-##'   [extend_hazard()] (with a warning). After that, hazard estimates must be
-##'   available for every lifetime from `cur_age + 1` to `orig_term`;
-##'   otherwise, an error is thrown.
+##'   must be labeled either `Default` or `1`; the other event type will be
+##'   treated as a prepayment. If the observed lifetime support does not reach
+##'   `orig_term`, the hazard rates are extrapolated up to `orig_term` with
+##'   [extend_hazard()].  If this occurs, a `warning` message will be thrown.
+##'   Hazard rate estimates must be available for every lifetime from
+##'   `cur_age + 1` to `orig_term`; otherwise, an `error` will be thrown.
 ##'
 ##' @param x An object of class `alife_multi`. Typically the output of the
 ##'   `estimate_hazard` function with two event types.
@@ -169,14 +197,21 @@ disc_fac <- function(time, int_rate) {
 ##' @param recov_curve Recovery curve `data.frame` with columns `month` and
 ##'   `recovery` (the recovery rate as a proportion of `orig_loan_amt`). It must
 ##'   contain every month from `cur_age` to `orig_term - 1`.
-##' @param orig_apy Internal loan APY for amortization. Defaults to 0.15.
+##' @param orig_apy Internal loan annual percentage yield (APY) for
+##' amortization. Defaults to 0.15.
 ##' @param type A character string specifying the extrapolation type passed to
-##'   [extend_hazard()]: either `"constant"` (default), `"geometric"` or
-##'   `"linear"`.
+##'   [extend_hazard()]: `constant` (default), `geometric` or `linear`.
+##' 
+##' @references  
+##' {Lautier, J. P., Pozdnyakov, V., Yan, J. (2026). On the convergence of
+##' credit risk in current consumer automobile loans.  *Journal of the Royal
+##' Statistical Society Series A: Statistics in Society*, 189 (1), 196-221.
+##' \url{https://doi.org/10.1093/jrsssa/qnae137}}
 ##'
 ##' @return An object of class `apv`: a one-row `data.frame` with the APV
-##'   (`APV`), and its standard deviation (`SD`).  [rbind()] stacks several
-##'   `apv` objects into a `data.frame`; named arguments become row names.
+##'   (`APV`), and its standard deviation (`SD`).  Note that [rbind()] can stack
+##'   several `apv` objects into a `data.frame`, and the named arguments become
+##'   its row names.
 ##'
 ##' @export
 calculate_apv <- function(x,
@@ -193,26 +228,36 @@ calculate_apv <- function(x,
   return(new_apv(as.data.frame(out)))
 }
 
-##' Solve for Risk-Adjusted Internal Rate of Return (IRR)
+##' Solves for the risk-adjusted internal rate of return (IRR)
 ##'
-##' Finds the monthly discount rate at which the APV of the loan (see
-##' [calculate_apv()]) matches `abs0_bal`. The rate is found with
-##' [stats::uniroot()] over monthly rates between -0.9999 and 1; an error is
-##' thrown if no rate in this range matches `abs0_bal`. If
-##' [stats::uniroot()] does not reach a tolerance of `1e-10` within 1000
-##' iterations, [stats::uniroot()] gives a warning and the `converged`
-##' column is `FALSE`.
+##' @description Finds the monthly discount rate such that the actuarial
+##' present value (APV) of the loan (see [calculate_apv()]) matches `abs0_bal`.
+##' For theoretical details, see Lautier et al. (2026).  Because this
+##' calculation must solve a polynomial of high-degree, the rate is found by
+##' using [stats::uniroot()] and searching over monthly effective rates between
+##' -0.9999 and 1.  If no solution can be found, an `error` will be thrown. If
+##' [stats::uniroot()] does not reach a tolerance of `1e-10` within 1,000
+##' iterations, [stats::uniroot()] will produce a warning and the `converged`
+##' column of the resulting `irr` object will be `FALSE`.
 ##'
 ##' @inherit calculate_apv details
 ##' @inheritParams calculate_apv
-##' @param abs0_bal Current loan balance (to match the APV against).
+##' @param abs0_bal Current loan balance, interpreted as the price of the
+##' loan (i.e., we find the risk-adjusted rate such that the current loan
+##' balance matches the calculated APV).
+##' 
+##' @references  
+##' {Lautier, J. P., Pozdnyakov, V., Yan, J. (2026). On the convergence of
+##' credit risk in current consumer automobile loans.  *Journal of the Royal
+##' Statistical Society Series A: Statistics in Society*, 189 (1), 196-221.
+##' \url{https://doi.org/10.1093/jrsssa/qnae137}}
 ##'
 ##' @return An object of class `irr`: a one-row `data.frame` with the
 ##'   risk-adjusted monthly rate (`monthly_rate`), the annualized rate
 ##'   (`annualized_rate`), the squared difference between `abs0_bal` and the
-##'   APV at the solution (`objective`), and a flag that tells if the root
-##'   finder converged (`converged`). [rbind()] stacks several `irr` objects
-##'   into a `data.frame`; named arguments become row names.
+##'   APV at the solution (`objective`), and a flag indicating if the root
+##'   finder converged (`converged`). Note that [rbind()] stacks several `irr`
+##'   objects into a `data.frame`, and its named arguments become its row names.
 ##' @export
 solve_irr <- function(x,
                       abs0_bal,

@@ -2,22 +2,32 @@
 % Please edit documentation in R/apv.R
 \name{amort_bal}
 \alias{amort_bal}
-\title{Calculate Loan Amortization Schedule}
+\title{Calculates a full loan amortization schedule}
 \usage{
 amort_bal(time, orig_bal, int_rate, payment)
 }
 \arguments{
-\item{time}{Vector of months}
+\item{time}{A complete vector of payment periods (e.g., for a 60-month loan,
+input \code{c(1:60)}).}
 
-\item{orig_bal}{Original loan balance}
+\item{orig_bal}{The original loan balance.}
 
-\item{int_rate}{Monthly interest rate}
+\item{int_rate}{The effective interest rate that compounds at the same
+frequency of the payment periods.}
 
-\item{payment}{Monthly payment}
+\item{payment}{The payment due at each payment period (e.g., the monthly
+payment for a 60-month auto loan).}
 }
 \value{
-Outstanding balance at each month
+The outstanding balance at each month over the life of the loan
+assuming no payment uncertainty (i.e., the full amortization schedule).
 }
 \description{
-Calculate Loan Amortization Schedule
+This function produces a complete amortization schedule
+from a loan contract's terms.  It is used within \code{\link[=calculate_apv]{calculate_apv()}} to
+determine prepayment amounts, but it may be used as a standalone function.
+}
+\details{
+For a 12\% annual percentage rate (APR) on a loan with monthly payments,
+\code{int_rate} should be \code{(1.12)^(1/12) - 1}.
 }

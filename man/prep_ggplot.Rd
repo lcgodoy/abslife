@@ -2,21 +2,23 @@
 % Please edit documentation in R/gg-methods.R
 \name{prep_ggplot}
 \alias{prep_ggplot}
-\title{Prepare alife object for ggplot}
+\title{Prepares an \code{alife} or \code{alife_multi} object for \code{ggauto}}
 \usage{
 prep_ggplot(x, ci_level = 0.95)
 }
 \arguments{
-\item{x}{An object of class \code{alife} or \code{alife_multi}.}
+\item{x}{An object of class \code{alife} or \code{alife_multi} produced by
+\code{\link[=estimate_hazard]{estimate_hazard()}}.}
 
 \item{ci_level}{A numeric vector of confidence levels (e.g.,
 \code{c(0.80, 0.95)}).}
 }
 \value{
-A long-form \code{data.frame} with CI columns.
+A long-form \code{data.frame} with confidence interval columns.
 }
 \description{
-Helper (used by \code{\link[=ggauto]{ggauto()}}) to create a long-form data frame
-with multiple confidence intervals for plotting. As in
-\code{\link[=estimate_hazard]{estimate_hazard()}}, the intervals are computed at the logit scale.
+This is a helper function that is used by \code{\link[=ggauto]{ggauto()}}) to create
+a long-form data frame with multiple confidence intervals suitable for
+plotting.  To be consistent with \code{\link[=estimate_hazard]{estimate_hazard()}}, the confidence
+intervals are computed on the logit scale.
 }

@@ -23,15 +23,22 @@ fix_0haz <- function(haz_est) {
   return(haz_est)
 }
 
-##' @title Samples from an `acdf` (or `acdf_multi`) object
-##' @param n number of samples
+##' @title Generates a random sample from an estimated lifetime distribution
+##' 
+##' @description
+##' For an estimated lifetime distribution (i.e., an `acdf`, `acdf_multi`, or
+##' `acif` object) generated from [calc_cdf()] or [calc_cif()], this function
+##' will generate `n` random samples. 
+##' 
+##' @param n number of observations.
 ##' @param x the output of a [calc_cdf()] call (an `acdf` or `acdf_multi`
-##'   object).
+##'   object) or a [calc_cif()] cal (an `acif` object).
 ##'
 ##' @return a vector of "time to event" samples or, if `x` is an `acdf_multi`
-##'   object, a `data.frame` with the sampled `event_type` and `lifetime`.
-##' @author lcgodoy
+##'   or `acif` object, a `data.frame` with the sampled `event_type` and
+##'   `lifetime`.
 ##' @export
+##' @rdname ralife
 ralife_cdf <- function(n, x) {
   if ("event_type" %in% names(x)) {
     lookup <- seq_len(NROW(x))
@@ -47,13 +54,8 @@ ralife_cdf <- function(n, x) {
   return(out)
 }
 
-##' @title Samples from an `acif` object
-##' @param n number of samples
-##' @param x the output of a [calc_cif()] call (an `acif` object).
-##'
-##' @return a `data.frame` with the sampled `event_type` and `lifetime`.
-##' @author lcgodoy
 ##' @export
+##' @rdname ralife
 ralife_cif <- function(n, x) {
   if ("event_type" %in% names(x)) {
     lookup <- seq_len(NROW(x))
@@ -196,15 +198,15 @@ build_cdfvar <- function(pmfvar) {
   gamma_dens / sum(gamma_dens)
 }
 
-##' @title PMF of the left-truncation random variable
+##' @title Returns the estimated density of the left-truncation random variable
 ##'
 ##' @description Estimates the probability mass function of the
-##'   left-truncation random variable.
+##'   left-truncation random variable from an `alife` or `acdf` object.
 ##'
 ##' @inheritParams estimate_hazard
-##' @param x the output of an [estimate_hazard()] call (an `alife` object) or of
-##'   a [calc_cdf()] call (an `acdf` object). Competing risks are not supported.
-##' @param rc a \code{logical} indicating whether right-censoring is to be
+##' @param x An [estimate_hazard()] (i.e., `alife`) object or a [calc_cdf()]
+##' (i.e., `acdf`) object.
+##' @param rc A \code{logical} indicating whether right-censoring is to be
 ##'   considered.
 ##' @return A \code{numeric} vector of estimates of the PMF for the
 ##'   left-truncation random variable.

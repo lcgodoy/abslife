@@ -2,19 +2,19 @@
 % Please edit documentation in R/utils.R
 \name{lt_pmf}
 \alias{lt_pmf}
-\title{PMF of the left-truncation random variable}
+\title{Returns the estimated density of the left-truncation random variable}
 \usage{
 lt_pmf(x, trunc_time, rc = TRUE)
 }
 \arguments{
-\item{x}{the output of an \code{\link[=estimate_hazard]{estimate_hazard()}} call (an \code{alife} object) or of
-a \code{\link[=calc_cdf]{calc_cdf()}} call (an \code{acdf} object). Competing risks are not supported.}
+\item{x}{An \code{\link[=estimate_hazard]{estimate_hazard()}} (i.e., \code{alife}) object or a \code{\link[=calc_cdf]{calc_cdf()}}
+(i.e., \code{acdf}) object.}
 
 \item{trunc_time}{A numeric vector representing the observed
 left-truncation time. If \code{NULL} (the default), this becomes a zero vector
 (i.e., there is no left-truncation).}
 
-\item{rc}{a \code{logical} indicating whether right-censoring is to be
+\item{rc}{A \code{logical} indicating whether right-censoring is to be
 considered.}
 }
 \value{
@@ -23,5 +23,5 @@ left-truncation random variable.
 }
 \description{
 Estimates the probability mass function of the
-left-truncation random variable.
+left-truncation random variable from an \code{alife} or \code{acdf} object.
 }
