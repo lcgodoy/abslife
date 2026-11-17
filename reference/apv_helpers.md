@@ -56,13 +56,14 @@ rate.
 
 - orig_apy:
 
-  Internal loan APY for amortization. Defaults to 0.15.
+  Internal loan annual percentage yield (APY) for amortization. Defaults
+  to 0.15.
 
 - type:
 
   A character string specifying the extrapolation type passed to
   [`extend_hazard()`](http://lcgodoy.me/abslife/reference/extend_hazard.md):
-  either `"constant"` (default), `"geometric"` or `"linear"`.
+  `constant` (default), `geometric` or `linear`.
 
 - setup:
 

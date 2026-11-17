@@ -1,7 +1,11 @@
-# Calculate Actuarial Present Value (APV) of a Loan
+# Calculates the actuarial present value (APV) of a loan
 
-Calculates the APV of a loan under competing risks (default vs.
-prepayment) and left-truncated survival data.
+This function calculates the APV of a loan under competing risks
+(default vs. prepayment). It combines an estimated lifetime distribution
+(payment uncertainty) with discounting. It is designed to be used with
+an
+[`estimate_hazard()`](http://lcgodoy.me/abslife/reference/estimate_hazard.md)
+object. The method follows the design in Lautier et al. (2026).
 
 ## Usage
 
@@ -54,28 +58,37 @@ calculate_apv(
 
 - orig_apy:
 
-  Internal loan APY for amortization. Defaults to 0.15.
+  Internal loan annual percentage yield (APY) for amortization. Defaults
+  to 0.15.
 
 - type:
 
   A character string specifying the extrapolation type passed to
   [`extend_hazard()`](http://lcgodoy.me/abslife/reference/extend_hazard.md):
-  either `"constant"` (default), `"geometric"` or `"linear"`.
+  `constant` (default), `geometric` or `linear`.
 
 ## Value
 
 An object of class `apv`: a one-row `data.frame` with the APV (`APV`),
-and its standard deviation (`SD`).
-[`rbind()`](https://rdrr.io/r/base/cbind.html) stacks several `apv`
-objects into a `data.frame`; named arguments become row names.
+and its standard deviation (`SD`). Note that
+[`rbind()`](https://rdrr.io/r/base/cbind.html) can stack several `apv`
+objects into a `data.frame`, and the named arguments become its row
+names.
 
 ## Details
 
 `x` must contain exactly two event types, and the default event must be
-labeled either `"Default"` or `"1"`; the other event type is treated as
-prepayment. If the observed lifetime support does not reach `orig_term`,
-the hazards are extrapolated up to `orig_term` with
-[`extend_hazard()`](http://lcgodoy.me/abslife/reference/extend_hazard.md)
-(with a warning). After that, hazard estimates must be available for
-every lifetime from `cur_age + 1` to `orig_term`; otherwise, an error is
-thrown.
+labeled either `Default` or `1`; the other event type will be treated as
+a prepayment. If the observed lifetime support does not reach
+`orig_term`, the hazard rates are extrapolated up to `orig_term` with
+[`extend_hazard()`](http://lcgodoy.me/abslife/reference/extend_hazard.md).
+If this occurs, a `warning` message will be thrown. Hazard rate
+estimates must be available for every lifetime from `cur_age + 1` to
+`orig_term`; otherwise, an `error` will be thrown.
+
+## References
+
+Lautier, J. P., Pozdnyakov, V., Yan, J. (2026). On the convergence of
+credit risk in current consumer automobile loans. *Journal of the Royal
+Statistical Society Series A: Statistics in Society*, 189 (1), 196-221.
+<https://doi.org/10.1093/jrsssa/qnae137>

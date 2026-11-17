@@ -59,7 +59,7 @@ summary(aloans)
   : Consumer automobile loans recovery curves
 
 - [`amort_bal()`](http://lcgodoy.me/abslife/reference/amort_bal.md) :
-  Calculate Loan Amortization Schedule
+  Calculates a full loan amortization schedule
 
 - [`calc_cdf()`](http://lcgodoy.me/abslife/reference/calc_cdf.md) :
   Calculates the cumulative distribution function (CDF) from estimated
@@ -73,10 +73,10 @@ summary(aloans)
   Calculate Observed Support
 
 - [`calculate_apv()`](http://lcgodoy.me/abslife/reference/calculate_apv.md)
-  : Calculate Actuarial Present Value (APV) of a Loan
+  : Calculates the actuarial present value (APV) of a loan
 
 - [`disc_fac()`](http://lcgodoy.me/abslife/reference/disc_fac.md) :
-  Calculate Discount Factors
+  Calculate discount factors for an effective interest rate
 
 - [`estimate_hazard()`](http://lcgodoy.me/abslife/reference/estimate_hazard.md)
   : Estimating the discrete time, hazard rate subject to left-truncation
@@ -85,24 +85,14 @@ summary(aloans)
   expected value from an estimated lifetime distribution
 
 - [`extend_hazard()`](http://lcgodoy.me/abslife/reference/extend_hazard.md)
-  : Extend Hazard Rates
+  : Extrapolate hazard rates beyond observable region
 
 - [`ggauto()`](http://lcgodoy.me/abslife/reference/ggauto.md) :
 
-  Plot an `alife` (or `alife_multi`) Object using `ggplot2`
+  Plots an `alife` (or `alife_multi`) object with `ggplot2`
 
-- [`ggauto(`*`<alife>`*`)`](http://lcgodoy.me/abslife/reference/ggauto.alife.md)
-  :
-
-  Plot an `alife` Object using `ggplot2`
-
-- [`ggauto(`*`<alife_multi>`*`)`](http://lcgodoy.me/abslife/reference/ggauto.alife_multi.md)
-  :
-
-  Plot an `alife_multi` Object using `ggplot2`
-
-- [`lt_pmf()`](http://lcgodoy.me/abslife/reference/lt_pmf.md) : PMF of
-  the left-truncation random variable
+- [`lt_pmf()`](http://lcgodoy.me/abslife/reference/lt_pmf.md) : Returns
+  the estimated density of the left-truncation random variable
 
 - [`mbalt`](http://lcgodoy.me/abslife/reference/mbalt.md) : Consumer
   automobile leases from Mercedes-Benz Auto Lease Trust 2017-A
@@ -110,7 +100,9 @@ summary(aloans)
 - [`plot(`*`<acdf>`*`)`](http://lcgodoy.me/abslife/reference/plot_cdf.md)
   [`plot(`*`<acif>`*`)`](http://lcgodoy.me/abslife/reference/plot_cdf.md)
   [`plot(`*`<acdf_multi>`*`)`](http://lcgodoy.me/abslife/reference/plot_cdf.md)
-  : Plot Method for an 'acdf' Object
+  :
+
+  Plot method for an `acdf`, `acdf_multi`, or `acif` object
 
 - [`plot(`*`<alife>`*`)`](http://lcgodoy.me/abslife/reference/plots.md)
   [`plot(`*`<alife_multi>`*`)`](http://lcgodoy.me/abslife/reference/plots.md)
@@ -119,21 +111,19 @@ summary(aloans)
   Plot method for an `alife` or `alife_multi` object
 
 - [`prep_ggplot()`](http://lcgodoy.me/abslife/reference/prep_ggplot.md)
-  : Prepare alife object for ggplot
+  :
 
-- [`ralife_cdf()`](http://lcgodoy.me/abslife/reference/ralife_cdf.md) :
+  Prepares an `alife` or `alife_multi` object for `ggauto`
 
-  Samples from an `acdf` (or `acdf_multi`) object
-
-- [`ralife_cif()`](http://lcgodoy.me/abslife/reference/ralife_cif.md) :
-
-  Samples from an `acif` object
+- [`ralife_cdf()`](http://lcgodoy.me/abslife/reference/ralife.md)
+  [`ralife_cif()`](http://lcgodoy.me/abslife/reference/ralife.md) :
+  Generates a random sample from an estimated lifetime distribution
 
 - [`retrieve_support()`](http://lcgodoy.me/abslife/reference/retrieve_support.md)
   : Dimensions of Observable Support
 
 - [`solve_irr()`](http://lcgodoy.me/abslife/reference/solve_irr.md) :
-  Solve for Risk-Adjusted Internal Rate of Return (IRR)
+  Solves for the risk-adjusted internal rate of return (IRR)
 
 # Articles
 

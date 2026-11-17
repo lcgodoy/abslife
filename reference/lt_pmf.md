@@ -1,7 +1,7 @@
-# PMF of the left-truncation random variable
+# Returns the estimated density of the left-truncation random variable
 
 Estimates the probability mass function of the left-truncation random
-variable.
+variable from an `alife` or `acdf` object.
 
 ## Usage
 
@@ -13,11 +13,11 @@ lt_pmf(x, trunc_time, rc = TRUE)
 
 - x:
 
-  the output of an
+  An
   [`estimate_hazard()`](http://lcgodoy.me/abslife/reference/estimate_hazard.md)
-  call (an `alife` object) or of a
-  [`calc_cdf()`](http://lcgodoy.me/abslife/reference/calc_cdf.md) call
-  (an `acdf` object). Competing risks are not supported.
+  (i.e., `alife`) object or a
+  [`calc_cdf()`](http://lcgodoy.me/abslife/reference/calc_cdf.md) (i.e.,
+  `acdf`) object.
 
 - trunc_time:
 
@@ -27,7 +27,7 @@ lt_pmf(x, trunc_time, rc = TRUE)
 
 - rc:
 
-  a `logical` indicating whether right-censoring is to be considered.
+  A `logical` indicating whether right-censoring is to be considered.
 
 ## Value
 

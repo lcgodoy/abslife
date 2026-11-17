@@ -1,11 +1,11 @@
-# Prepare alife object for ggplot
+# Prepares an `alife` or `alife_multi` object for `ggauto`
 
-Helper (used by
+This is a helper function that is used by
 [`ggauto()`](http://lcgodoy.me/abslife/reference/ggauto.md)) to create a
-long-form data frame with multiple confidence intervals for plotting. As
-in
+long-form data frame with multiple confidence intervals suitable for
+plotting. To be consistent with
 [`estimate_hazard()`](http://lcgodoy.me/abslife/reference/estimate_hazard.md),
-the intervals are computed at the logit scale.
+the confidence intervals are computed on the logit scale.
 
 ## Usage
 
@@ -17,7 +17,8 @@ prep_ggplot(x, ci_level = 0.95)
 
 - x:
 
-  An object of class `alife` or `alife_multi`.
+  An object of class `alife` or `alife_multi` produced by
+  [`estimate_hazard()`](http://lcgodoy.me/abslife/reference/estimate_hazard.md).
 
 - ci_level:
 
@@ -25,4 +26,4 @@ prep_ggplot(x, ci_level = 0.95)
 
 ## Value
 
-A long-form `data.frame` with CI columns.
+A long-form `data.frame` with confidence interval columns.

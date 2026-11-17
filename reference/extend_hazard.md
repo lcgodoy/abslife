@@ -1,12 +1,15 @@
-# Extend Hazard Rates
+# Extrapolate hazard rates beyond observable region
 
-Extends the estimated hazard rates up to a specified end time using
-constant, geometric, or linear extrapolation, with the (all-cause)
-hazard at `end` set to 1. It is used by
+This function will extrapolate an estimated hazard rate object from
+[`estimate_hazard()`](http://lcgodoy.me/abslife/reference/estimate_hazard.md)
+(i.e., an `alife` or `alife_multi` object) up to a specified `end` time
+using a constant, geometric, or linear extrapolation. Also sets the
+(all-cause) hazard at the specified `end` time to 1. This function is
+used by
 [`calculate_apv()`](http://lcgodoy.me/abslife/reference/calculate_apv.md)
 and [`solve_irr()`](http://lcgodoy.me/abslife/reference/solve_irr.md)
-when the observed lifetime support does not reach the original loan
-term.
+when the observed lifetime support does not reach the original loan term
+and an assumption is needed.
 
 ## Usage
 
@@ -61,9 +64,12 @@ extend_hazard(
 
 ## Value
 
-An object of the same class as `x` with the extended lifetime support.
+An object of the same class as `x` with the extrapolated lifetime
+support.
 
 ## Details
 
 The last observed time point is replaced: the extrapolation starts from
-the hazard at the second-to-last observed time point.
+the hazard at the second-to-last observed time point. In a discrete
+setting, a `geometric` extrapolation is a constant hazard rate, similar
+to an expontential extrapolation in a continuous setting.

@@ -1,6 +1,10 @@
-# Calculate Discount Factors
+# Calculate discount factors for an effective interest rate
 
-Calculate Discount Factors
+This function produces a vector of discount factors from a timeline and
+effective interest rate. It is used within
+[`calculate_apv()`](http://lcgodoy.me/abslife/reference/calculate_apv.md)
+to discount future payments, but it may be used as a standalone
+function.
 
 ## Usage
 
@@ -12,12 +16,19 @@ disc_fac(time, int_rate)
 
 - time:
 
-  Vector of months
+  A complete vector of payment periods (e.g., for a 60-month loan, input
+  `c(1:60)`).
 
 - int_rate:
 
-  Monthly discount rate
+  The effective interest rate that compounds at the same frequency of
+  the payment periods.
 
 ## Value
 
-Discount factor for each month
+A vector of discount factors corresponding to `time`.
+
+## Details
+
+For a 12% annual percentage rate (APR) on a loan with monthly payments,
+`int_rate` should be `(1.12)^(1/12) - 1`.
