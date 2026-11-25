@@ -23,55 +23,6 @@ fix_0haz <- function(haz_est) {
   return(haz_est)
 }
 
-##' @title Generates a random sample from an estimated lifetime distribution
-##' 
-##' @description
-##' For an estimated lifetime distribution (i.e., an `acdf`, `acdf_multi`, or
-##' `acif` object) generated from [calc_cdf()] or [calc_cif()], this function
-##' will generate `n` random samples. 
-##' 
-##' @param n number of observations.
-##' @param x the output of a [calc_cdf()] call (an `acdf` or `acdf_multi`
-##'   object) or a [calc_cif()] cal (an `acif` object).
-##'
-##' @return a vector of "time to event" samples or, if `x` is an `acdf_multi`
-##'   or `acif` object, a `data.frame` with the sampled `event_type` and
-##'   `lifetime`.
-##' @export
-##' @rdname ralife
-ralife_cdf <- function(n, x) {
-  if ("event_type" %in% names(x)) {
-    lookup <- seq_len(NROW(x))
-    id_samples <- sample(x = lookup, size = n, prob = x$density,
-                         replace = TRUE)
-    out <- data.frame(event_type = x$event_type[id_samples],
-                      lifetime   = x$lifetime[id_samples])
-  } else {
-    u <- stats::runif(n)
-    indices <- pmin(findInterval(u, x$cdf) + 1, NROW(x))
-    out <- x$lifetime[indices]
-  }
-  return(out)
-}
-
-##' @export
-##' @rdname ralife
-ralife_cif <- function(n, x) {
-  if ("event_type" %in% names(x)) {
-    lookup <- seq_len(NROW(x))
-    id_samples <- sample(x = lookup, size = n, prob = x$pr_zx,
-                         replace = TRUE)
-    out <- data.frame(event_type = x$event_type[id_samples],
-                      lifetime   = x$lifetime[id_samples])
-  } else {
-    u <- stats::runif(n)
-    indices <- pmin(findInterval(u, x$cdf) + 1, NROW(x))
-    out <- x$lifetime[indices]
-  }
-  return(out)
-}
-
-
 ##' @rdname rmat
 aux_kmat <-
   function(hazard, rephaz, support_length) {
@@ -210,7 +161,7 @@ build_cdfvar <- function(pmfvar) {
 ##'   considered.
 ##' @return A \code{numeric} vector of estimates of the PMF for the
 ##'   left-truncation random variable.
-##' @export
+##' @keywords internal
 lt_pmf <- function(x, trunc_time, rc = TRUE) {
   if (inherits(x, c("alife_multi", "acdf_multi")))
     stop("'lt_pmf' does not support competing risks.")

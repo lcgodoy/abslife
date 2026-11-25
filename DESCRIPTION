@@ -1,7 +1,7 @@
 Package: abslife
 Title: Estimating the Lifetime Distribution for Left-Truncated, Discrete-Time Data with Applications to Asset-Backed Securities
-Version: 0.2.2
-Date: 2026-09-01
+Version: 0.3.0
+Date: 2026-11-25
 Authors@R:
   c(
     person(given = "Lucas",
@@ -29,7 +29,8 @@ Suggests:
     testthat (>= 3.0.0),
     ggplot2,
     knitr,
-    rmarkdown
+    rmarkdown,
+    R.rsp
 Imports: rlang
 Config/testthat/edition: 3
 Encoding: UTF-8
@@ -39,5 +40,5 @@ Depends:
     graphics
 LazyData: true
 URL: http://lcgodoy.me/abslife/
-VignetteBuilder: knitr
+VignetteBuilder: knitr, R.rsp
 Config/roxygen2/version: 8.1.1

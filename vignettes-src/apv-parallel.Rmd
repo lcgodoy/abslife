@@ -1,0 +1,209 @@
+---
+title: "Calculating APV and IRR for a Loan Portfolio in Parallel"
+output: rmarkdown::pdf_document
+bibliography: ../vignettes/refs.bib
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## Introduction
+
+The vignette *Actuarial Present Value and IRR Analysis*
+(`vignette("apv-analysis", package = "abslife")`) shows how to calculate the
+actuarial present value (APV) and the risk-adjusted internal rate of return
+(IRR) of one loan. It can also be useful to calculate them for every loan in a
+portfolio. For example, the sum of the loan APVs estimates the price of the
+portfolio, which investors can compare with its market price. The IRRs of the
+loans also show how the risk-adjusted return changes from one risk category to
+another [@lautier2024convergence].
+
+The `aloans` data set has `r format(nrow(aloans), big.mark = ",")` loans, so
+calculating them one after another can take several minutes. The calculation for
+one loan does not depend on the other loans. Thus, the computer can calculate
+several loans at the same time. This vignette shows how to do that to save time.
+
+
+## Data preparation
+
+We label the event types and treat the loans that are censored at the largest
+observed lifetime as prepaid. We also list the risk categories, from the
+riskiest to the least risky.
+
+```{r data}
+library(abslife)
+library(parallel) ## for parallel computations
+library(ggplot2)  ## for plots
+
+data(aloans)
+data(aloans_recov)
+
+aloans <- transform(aloans,
+                    event_type = ifelse(D == 1, "Default", "Prepayment"))
+at_end <- which(aloans$Z == max(aloans$Z) & aloans$C == 1)
+aloans$C[at_end] <- 0
+aloans$R[at_end] <- 1
+
+categories <- c("deep_subprime", "subprime", "near_prime",
+                "prime", "super_prime")
+```
+
+The function `detectCores()` returns the number of processor cores, that is, the
+number of calculations that the computer can do at the same time. We use all
+cores but one, so that the computer stays responsive.
+
+```{r cores}
+num_cores <- max(1L, detectCores() - 1L, na.rm = TRUE)
+```
+
+## The calculation for one loan
+
+The function `loan_metrics()` calculates the APV and the IRR of loan `i` in the
+data frame `loans`. Its arguments `hazard` and `recov` are the hazard estimates
+and the recovery curve of the risk category of the loan. The largest observed
+lifetime in `aloans` is `r max(aloans$Z)` months, but some loans have longer
+terms. For these loans, `calculate_apv()` and `solve_irr()` extrapolate the
+hazards and give a warning. The function hides these warnings, because they
+repeat for many loans.
+
+```{r loan-metrics}
+loan_metrics <- function(i, loans, hazard, recov) {
+  apv <- suppressWarnings(
+    calculate_apv(x = hazard,
+                  cur_age = loans$Z[i],
+                  orig_term = loans$orig.term[i],
+                  orig_loan_amt = loans$orig.loan.amt[i],
+                  mon_pmt = loans$calc.pmt[i],
+                  ref_rate = 0.05,
+                  recov_curve = recov,
+                  orig_apy = loans$orig.apr[i])
+  )
+  irr <- suppressWarnings(
+    solve_irr(x = hazard,
+              abs0_bal = loans$abs0.balance[i],
+              cur_age = max(min(hazard$lifetime), loans$abs0.age[i]),
+              orig_term = loans$orig.term[i],
+              orig_loan_amt = loans$orig.loan.amt[i],
+              mon_pmt = loans$calc.pmt[i],
+              recov_curve = recov,
+              orig_apy = loans$orig.apr[i])
+  )
+  c(apv = apv$APV, irr = irr$annualized_rate)
+}
+```
+
+Each risk category has its own hazard estimates and recovery curve. We split the
+loans and the recovery curves by risk category, and we estimate the hazards for
+each category.
+
+```{r hazards, warning = FALSE}
+loans_by_cat <- split(aloans, aloans$risk.cat)[categories]
+recov_by_cat <- split(aloans_recov, aloans_recov$risk.cat)[categories]
+hazard_by_cat <- lapply(loans_by_cat, function(loans) {
+  estimate_hazard(lifetime = loans$Z,
+                  trunc_time = loans$Y,
+                  censoring_indicator = loans$C,
+                  event_type = loans$event_type,
+                  ci_level = 0.95,
+                  carry_hazard = FALSE)
+})
+```
+
+## Running the calculations in parallel
+
+The code depends on the operating system. Both versions give the same result: a
+list, `results_list`, with one data frame for each risk category.
+
+### macOS and Linux
+
+The function `mclapply()` works like `lapply()`, but it runs the calculations
+for several loans at the same time. Its argument `mc.cores` sets the number of
+calculations that run at the same time.
+
+```{r unix, eval = .Platform$OS.type == "unix"}
+results_list <- lapply(categories, function(rc) {
+  loans <- loans_by_cat[[rc]]
+  metrics <- mclapply(seq_len(nrow(loans)), loan_metrics,
+                      loans = loans,
+                      hazard = hazard_by_cat[[rc]],
+                      recov = recov_by_cat[[rc]],
+                      mc.cores = num_cores)
+  cbind(loans, do.call(rbind, metrics))
+})
+```
+
+### Windows
+
+On Windows, `mclapply()` can run only one calculation at a time. Instead,
+`makeCluster()` starts several R sessions in the background, and `parLapply()`
+divides the loans among them. Each session must load `abslife` before it can
+calculate. At the end, `stopCluster()` closes the sessions.
+
+```{r windows, eval = .Platform$OS.type == "windows"}
+cl <- makeCluster(num_cores)
+## loading abslife at each session
+invisible(clusterEvalQ(cl, library(abslife)))
+results_list <- lapply(categories, function(rc) {
+  loans <- loans_by_cat[[rc]]
+  metrics <- parLapply(cl, seq_len(nrow(loans)), loan_metrics,
+                       loans = loans,
+                       hazard = hazard_by_cat[[rc]],
+                       recov = recov_by_cat[[rc]])
+  cbind(loans, do.call(rbind, metrics))
+})
+stopCluster(cl)
+```
+
+## Results
+
+We combine the results and give the risk categories readable labels.
+
+```{r results}
+results <- do.call(rbind, results_list)
+results$risk.cat <- factor(results$risk.cat,
+                           levels = categories,
+                           labels = c("deep subprime", "subprime",
+                                      "near-prime", "prime", "super-prime"))
+```
+
+The sum of the loan APVs, \$`r format(round(sum(results$apv)), big.mark = ",")`,
+estimates the price of the portfolio. The plot below shows the APVs by risk
+category.
+
+```{r apv-plot, fig.cap = "APV of the loans by risk category."}
+ggplot(results,
+       aes(x = risk.cat,
+           y = apv)) +
+  geom_boxplot(fill = "gray70",
+               outlier.alpha = .5) +
+  theme_bw() +
+  labs(x = "Risk Category",
+       y = "APV")
+```
+
+The next plot shows the annualized IRRs by risk category. To make the boxes
+easier to read, it leaves out the `r sum(results$irr >= 0.4)` loans with an IRR
+of 40% or more. For a financial analysis of these results, see
+@lautier2024convergence.
+
+```{r irr-plot, fig.cap = "Annualized IRR of the loans by risk category."}
+percent <- function(x) paste0(round(100 * x), "%")
+ggplot(subset(results, irr < 0.4),
+       aes(x = irr,
+           y = risk.cat)) +
+  geom_boxplot(fill = "gray70",
+               outlier.alpha = .5) +
+  geom_vline(xintercept = 0,
+             colour = 2, linetype = 2, linewidth = 1) +
+  scale_x_continuous(transform = "log1p",
+                     labels = percent) +
+  coord_flip() +
+  theme_bw() +
+  labs(y = "Risk Category", x = "IRR (annualized)")
+```
+
+## References

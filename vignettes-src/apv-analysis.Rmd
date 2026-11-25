@@ -1,10 +1,6 @@
 ---
 title: "Actuarial Present Value and IRR Analysis"
 output: rmarkdown::pdf_document
-vignette: >
-  %\VignetteIndexEntry{Actuarial Present Value and IRR Analysis}
-  %\VignetteEngine{knitr::asis}
-  %\VignetteEncoding{UTF-8}
 ---
 
 ```{r, include = FALSE}
@@ -111,3 +107,7 @@ irr_res <- solve_irr(
 * Calculated monthly rate: `r sprintf("%.6f (%.4f%%)", irr_res$monthly_rate,
   irr_res$monthly_rate * 100)`
 * Calculated annualized rate: `r sprintf("%.6f (%.4f%%)", irr_res$annualized_rate, irr_res$annualized_rate * 100)`
+
+To calculate the APV and IRR of every loan in a portfolio, see the vignette
+*Calculating APV and IRR for a Loan Portfolio in Parallel*
+(`vignette("apv-parallel", package = "abslife")`).
