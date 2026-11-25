@@ -18,8 +18,8 @@ usethis::use_test("class_check")
 usethis::use_news_md()
 
 ## logo
-usethis::use_logo("man/figures/logo.pdf")
-pkgdown::build_favicons()
+usethis::use_logo("man/figures/logo.png")
+pkgdown::build_favicons(overwrite = TRUE)
 
 ## vignette
 usethis::use_vignette("get-started", "Get Started")

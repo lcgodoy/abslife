@@ -208,7 +208,7 @@ build_cdfvar <- function(pmfvar) {
 ##'   considered.
 ##' @return A \code{numeric} vector of estimates of the PMF for the
 ##'   left-truncation random variable.
-##' @export
+##' @keywords internal
 lt_pmf <- function(x, trunc_time, rc = TRUE) {
   if (inherits(x, c("alife_multi", "acdf_multi")))
     stop("'lt_pmf' does not support competing risks.")

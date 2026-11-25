@@ -1,3 +1,11 @@
+# abslife 0.3.0
+
+- The logo has been updated
+
+- `ralife_cdf` and `ralife_cif` become a method: `ralife`.
+
+- The function `lt_pmf` is dropped from the package.
+
 # abslife 0.2.2
 
 - `calculate_apv()` and `solve_irr()` now return objects of class `apv` and

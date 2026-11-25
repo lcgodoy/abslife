@@ -7,7 +7,9 @@
 ##'   element of \code{ci_level}.
 ##' @name mci
 ##' @keywords internal
-multiple_cis <- function(x, ci_level = .95) UseMethod("multiple_cis", x)
+multiple_cis <- function(x, ci_level = .95) {
+  UseMethod("multiple_cis", x)
+}
 
 ##' @rdname mci
 ##' @export
