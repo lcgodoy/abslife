@@ -14,3 +14,5 @@ navbar:
         href: articles/get-started.html
       - text: Actuarial Present Value and IRR Analysis (PDF)
         href: articles/apv-analysis.pdf
+      - text: Calculating APV and IRR for a Loan Portfolio in Parallel (PDF)
+        href: articles/apv-parallel.pdf

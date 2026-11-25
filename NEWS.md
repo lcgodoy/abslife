@@ -8,6 +8,14 @@
 
 - The function `lt_pmf` is dropped from the package.
 
+- New vignette for calculating APV and IRR over a whole portfolio in parallel is
+  included to the package.
+
+- The time consuming vignettes are now pre-built with the help of
+  [R.rsp](https://cran.r-project.org/web/packages/R.rsp/index.html).
+
+- "Under construction" removed from startup message.
+
 # abslife 0.2.2
 
 - `calculate_apv()` and `solve_irr()` now return objects of class `apv` and
