@@ -25,3 +25,4 @@ left-truncation random variable.
 Estimates the probability mass function of the
 left-truncation random variable.
 }
+\keyword{internal}

@@ -2,7 +2,9 @@
 
 - The logo has been updated
 
-- `ralife_cdf` and `ralife_cif` become a method: `ralife`.
+- `ralife()` replaces `ralife_cdf()` and `ralife_cif()`, which are removed.
+  `ralife()` is an S3 generic with methods for the outputs of
+  `estimate_hazard()`, `calc_cdf()`, and `calc_cif()`.
 
 - The function `lt_pmf` is dropped from the package.
 
