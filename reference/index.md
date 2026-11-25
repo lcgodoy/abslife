@@ -44,9 +44,6 @@
 
   Plots an `alife` (or `alife_multi`) object with `ggplot2`
 
-- [`lt_pmf()`](http://lcgodoy.me/abslife/reference/lt_pmf.md) : Returns
-  the estimated density of the left-truncation random variable
-
 - [`mbalt`](http://lcgodoy.me/abslife/reference/mbalt.md) : Consumer
   automobile leases from Mercedes-Benz Auto Lease Trust 2017-A
 
@@ -68,8 +65,7 @@
 
   Prepares an `alife` or `alife_multi` object for `ggauto`
 
-- [`ralife_cdf()`](http://lcgodoy.me/abslife/reference/ralife.md)
-  [`ralife_cif()`](http://lcgodoy.me/abslife/reference/ralife.md) :
+- [`ralife()`](http://lcgodoy.me/abslife/reference/ralife.md) :
   Generates a random sample from an estimated lifetime distribution
 
 - [`retrieve_support()`](http://lcgodoy.me/abslife/reference/retrieve_support.md)

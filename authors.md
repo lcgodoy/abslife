@@ -11,13 +11,13 @@
 
 da Cunha Godoy L, Lautier J (2026). *abslife: Estimating the Lifetime
 Distribution for Left-Truncated, Discrete-Time Data with Applications to
-Asset-Backed Securities*. R package version 0.2.2,
+Asset-Backed Securities*. R package version 0.3.0,
 <http://lcgodoy.me/abslife/>.
 
     @Manual{,
       title = {abslife: Estimating the Lifetime Distribution for Left-Truncated, Discrete-Time Data with Applications to Asset-Backed Securities},
       author = {Lucas {da Cunha Godoy} and Jackson Lautier},
       year = {2026},
-      note = {R package version 0.2.2},
+      note = {R package version 0.3.0},
       url = {http://lcgodoy.me/abslife/},
     }

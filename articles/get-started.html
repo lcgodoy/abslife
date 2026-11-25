@@ -30,7 +30,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">abslife</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -43,8 +43,9 @@
 <li class="active nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
-<li><a class="dropdown-item" href="../articles/apv-analysis.html">Actuarial Present Value and IRR Analysis</a></li>
-    <li><a class="dropdown-item" href="../articles/get-started.html">Get Started</a></li>
+<li><a class="dropdown-item" href="../articles/get-started.html">Get Started</a></li>
+    <li><a class="dropdown-item" href="../articles/apv-analysis.pdf">Actuarial Present Value and IRR Analysis (PDF)</a></li>
+    <li><a class="dropdown-item" href="../articles/apv-parallel.pdf">Calculating APV and IRR for a Loan Portfolio in Parallel (PDF)</a></li>
   </ul>
 </li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
@@ -65,8 +66,7 @@
 
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
-
-      <h1>Get Started</h1>
+      <img src="../logo.png" class="logo" alt=""><h1>Get Started</h1>
             
       
 
@@ -78,7 +78,6 @@
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://lcgodoy.me/abslife/">abslife</a></span><span class="op">)</span></span>
 <span><span class="co">#&gt; Welcome to the abslife package!</span></span>
-<span><span class="co">#&gt; WARNING: Under construction.</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span> <span class="co">## optional</span></span></code></pre></div>
 <blockquote>
 <p>This package is currently under construction!</p>
@@ -288,7 +287,7 @@ represents pre-payment)</p></li>
 make the results more interpretable, we create a descriptive event_type
 column.</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">aloans</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/transform.html" class="external-link">transform</a></span><span class="op">(</span><span class="va">aloans</span>, event_type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">D</span> <span class="op">==</span> <span class="fl">1</span>, <span class="st">"Defaut"</span>, <span class="st">"Pre-payment"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">aloans</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/transform.html" class="external-link">transform</a></span><span class="op">(</span><span class="va">aloans</span>, event_type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">D</span> <span class="op">==</span> <span class="fl">1</span>, <span class="st">"Default"</span>, <span class="st">"Pre-payment"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>The package is designed so the workflow is identical as the previous
 two examples. The only change here is passing the column discriminating
 the event types to the <code>event_type argument</code> in
@@ -309,20 +308,20 @@ hazard estimate.</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">aloans_hazard</span><span class="op">)</span></span>
 <span><span class="co">#&gt;     event_type lifetime      hazard se_log_hazard    lower_ci    upper_ci</span></span>
-<span><span class="co">#&gt; 1       Defaut        3 0.011520293    0.06506047 0.010155080 0.013066617</span></span>
-<span><span class="co">#&gt; 2       Defaut        8 0.012729470    0.03876609 0.011809112 0.013720562</span></span>
-<span><span class="co">#&gt; 3       Defaut       13 0.010477761    0.04486786 0.009604176 0.011429888</span></span>
-<span><span class="co">#&gt; 4       Defaut       18 0.013350256    0.04224199 0.012302520 0.014485913</span></span>
-<span><span class="co">#&gt; 5       Defaut       23 0.012722853    0.04637351 0.011630319 0.013916572</span></span>
-<span><span class="co">#&gt; 6       Defaut       28 0.013859145    0.04731310 0.012647271 0.015185355</span></span>
-<span><span class="co">#&gt; 7       Defaut       33 0.013032176    0.05225905 0.011778374 0.014417499</span></span>
-<span><span class="co">#&gt; 8       Defaut       38 0.018664205    0.04681281 0.017055857 0.020421067</span></span>
-<span><span class="co">#&gt; 9       Defaut       43 0.011084154    0.06587830 0.009754619 0.012592597</span></span>
-<span><span class="co">#&gt; 10      Defaut       48 0.007673623    0.08514621 0.006501842 0.009054661</span></span>
-<span><span class="co">#&gt; 11      Defaut       53 0.006133755    0.10401466 0.005008188 0.007510380</span></span>
-<span><span class="co">#&gt; 12      Defaut       58 0.006600660    0.50165838 0.002479550 0.017451386</span></span>
-<span><span class="co">#&gt; 13      Defaut       63 0.000000000    0.00000000 0.000000000 0.000000000</span></span>
-<span><span class="co">#&gt; 14      Defaut       68 0.000000000    0.00000000 0.000000000 0.000000000</span></span>
+<span><span class="co">#&gt; 1      Default        3 0.011520293    0.06506047 0.010155080 0.013066617</span></span>
+<span><span class="co">#&gt; 2      Default        8 0.012729470    0.03876609 0.011809112 0.013720562</span></span>
+<span><span class="co">#&gt; 3      Default       13 0.010477761    0.04486786 0.009604176 0.011429888</span></span>
+<span><span class="co">#&gt; 4      Default       18 0.013350256    0.04224199 0.012302520 0.014485913</span></span>
+<span><span class="co">#&gt; 5      Default       23 0.012722853    0.04637351 0.011630319 0.013916572</span></span>
+<span><span class="co">#&gt; 6      Default       28 0.013859145    0.04731310 0.012647271 0.015185355</span></span>
+<span><span class="co">#&gt; 7      Default       33 0.013032176    0.05225905 0.011778374 0.014417499</span></span>
+<span><span class="co">#&gt; 8      Default       38 0.018664205    0.04681281 0.017055857 0.020421067</span></span>
+<span><span class="co">#&gt; 9      Default       43 0.011084154    0.06587830 0.009754619 0.012592597</span></span>
+<span><span class="co">#&gt; 10     Default       48 0.007673623    0.08514621 0.006501842 0.009054661</span></span>
+<span><span class="co">#&gt; 11     Default       53 0.006133755    0.10401466 0.005008188 0.007510380</span></span>
+<span><span class="co">#&gt; 12     Default       58 0.006600660    0.50165838 0.002479550 0.017451386</span></span>
+<span><span class="co">#&gt; 13     Default       63 0.000000000    0.00000000 0.000000000 0.000000000</span></span>
+<span><span class="co">#&gt; 14     Default       68 0.000000000    0.00000000 0.000000000 0.000000000</span></span>
 <span><span class="co">#&gt; 15 Pre-payment        3 0.000000000    0.00000000 0.000000000 0.000000000</span></span>
 <span><span class="co">#&gt; 16 Pre-payment        8 0.007686787    0.04975978 0.006977496 0.008467566</span></span>
 <span><span class="co">#&gt; 17 Pre-payment       13 0.011646595    0.04258207 0.010724035 0.012647505</span></span>

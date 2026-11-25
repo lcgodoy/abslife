@@ -23,6 +23,7 @@
 <script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Estimating the Lifetime Distribution for Left-Truncated, Discrete-Time Data with Applications to Asset-Backed Securities">
 <meta name="description" content="Estimation of the lifetime distribution of discrete-time data subject to random left-truncation and right-censoring, including competing risks, with applications to loan-level data from asset-backed securities (ABS). Provides hazard rate, distribution, and cumulative incidence function estimates with asymptotic confidence intervals, plotting methods, and tools for computing the actuarial present value and risk-adjusted internal rate of return of a loan, following Lautier, Pozdnyakov, and Yan (2023) &lt;doi:10.1016/j.ecosta.2023.05.005&gt; and Lautier, Pozdnyakov, and Yan (2025) &lt;doi:10.1214/25-AOAS2103&gt;.">
 <meta property="og:description" content="Estimation of the lifetime distribution of discrete-time data subject to random left-truncation and right-censoring, including competing risks, with applications to loan-level data from asset-backed securities (ABS). Provides hazard rate, distribution, and cumulative incidence function estimates with asymptotic confidence intervals, plotting methods, and tools for computing the actuarial present value and risk-adjusted internal rate of return of a loan, following Lautier, Pozdnyakov, and Yan (2023) &lt;doi:10.1016/j.ecosta.2023.05.005&gt; and Lautier, Pozdnyakov, and Yan (2025) &lt;doi:10.1214/25-AOAS2103&gt;.">
+<meta property="og:image" content="http://lcgodoy.me/abslife/logo.png">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -32,7 +33,7 @@
 
     <a class="navbar-brand me-2" href="index.html">abslife</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -45,8 +46,9 @@
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
-<li><a class="dropdown-item" href="articles/apv-analysis.html">Actuarial Present Value and IRR Analysis</a></li>
-    <li><a class="dropdown-item" href="articles/get-started.html">Get Started</a></li>
+<li><a class="dropdown-item" href="articles/get-started.html">Get Started</a></li>
+    <li><a class="dropdown-item" href="articles/apv-analysis.pdf">Actuarial Present Value and IRR Analysis (PDF)</a></li>
+    <li><a class="dropdown-item" href="articles/apv-parallel.pdf">Calculating APV and IRR for a Loan Portfolio in Parallel (PDF)</a></li>
   </ul>
 </li>
 <li class="nav-item"><a class="nav-link" href="news/index.html">Changelog</a></li>
@@ -63,9 +65,11 @@
 </nav><div class="container template-home">
 <div class="row">
   <main id="main" class="col-md-9"><div class="section level1">
-<div class="page-header"><h1 id="abslife--">abslife <a href="http://lcgodoy.me/abslife/"> <img src="reference/figures/logo.pdf" align="right" height="139" alt="abslife website"></a>
+<div class="page-header">
+<img src="logo.png" class="logo" alt=""><h1 id="abslife--">abslife 
 <a class="anchor" aria-label="anchor" href="#abslife--"></a>
-</h1></div>
+</h1>
+</div>
 <!-- badges: start -->
 
 <blockquote>
@@ -84,26 +88,39 @@
 </h2>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://lcgodoy.me/abslife/">abslife</a></span><span class="op">)</span></span>
-<span><span class="co">#&gt; Welcome to the abslife package!</span></span>
-<span><span class="co">#&gt; WARNING: Under construction.</span></span></code></pre></div>
+<span><span class="co">#&gt; Welcome to the abslife package!</span></span></code></pre></div>
 <p>What is special about using <code>README.Rmd</code> instead of just <code>README.md</code>? You can include R chunks like so:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">aloans</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">aloans</span><span class="op">)</span></span>
-<span><span class="co">#&gt;    risk_cat               Z               Y               C         </span></span>
-<span><span class="co">#&gt;  Length:58118       Min.   : 3.00   Min.   : 2.00   Min.   :0.0000  </span></span>
-<span><span class="co">#&gt;  Class :character   1st Qu.:17.00   1st Qu.: 3.00   1st Qu.:0.0000  </span></span>
-<span><span class="co">#&gt;  Mode  :character   Median :32.00   Median : 4.00   Median :0.0000  </span></span>
-<span><span class="co">#&gt;                     Mean   :32.82   Mean   : 4.44   Mean   :0.2348  </span></span>
-<span><span class="co">#&gt;                     3rd Qu.:53.00   3rd Qu.: 5.00   3rd Qu.:0.0000  </span></span>
-<span><span class="co">#&gt;                     Max.   :70.00   Max.   :19.00   Max.   :1.0000  </span></span>
-<span><span class="co">#&gt;        D                R              bond          </span></span>
-<span><span class="co">#&gt;  Min.   :0.0000   Min.   :0.0000   Length:58118      </span></span>
-<span><span class="co">#&gt;  1st Qu.:0.0000   1st Qu.:0.0000   Class :character  </span></span>
-<span><span class="co">#&gt;  Median :0.0000   Median :0.0000   Mode  :character  </span></span>
-<span><span class="co">#&gt;  Mean   :0.3656   Mean   :0.3996                     </span></span>
-<span><span class="co">#&gt;  3rd Qu.:1.0000   3rd Qu.:1.0000                     </span></span>
-<span><span class="co">#&gt;  Max.   :1.0000   Max.   :1.0000</span></span></code></pre></div>
+<span><span class="co">#&gt;       risk.cat           Z               Y               C         </span></span>
+<span><span class="co">#&gt;  Length   :58118   Min.   : 3.00   Min.   : 2.00   Min.   :0.0000  </span></span>
+<span><span class="co">#&gt;  N.unique :    5   1st Qu.:17.00   1st Qu.: 3.00   1st Qu.:0.0000  </span></span>
+<span><span class="co">#&gt;  N.blank  :    0   Median :32.00   Median : 4.00   Median :0.0000  </span></span>
+<span><span class="co">#&gt;  Min.nchar:    5   Mean   :32.82   Mean   : 4.44   Mean   :0.2348  </span></span>
+<span><span class="co">#&gt;  Max.nchar:   13   3rd Qu.:53.00   3rd Qu.: 5.00   3rd Qu.:0.0000  </span></span>
+<span><span class="co">#&gt;                    Max.   :70.00   Max.   :19.00   Max.   :1.0000  </span></span>
+<span><span class="co">#&gt;        D                R                 bond          orig.apr     </span></span>
+<span><span class="co">#&gt;  Min.   :0.0000   Min.   :0.0000   Length   :58118   Min.   :0.0249  </span></span>
+<span><span class="co">#&gt;  1st Qu.:0.0000   1st Qu.:0.0000   N.unique :    4   1st Qu.:0.1470  </span></span>
+<span><span class="co">#&gt;  Median :0.0000   Median :0.0000   N.blank  :    0   Median :0.1834  </span></span>
+<span><span class="co">#&gt;  Mean   :0.3656   Mean   :0.3996   Min.nchar:    4   Mean   :0.1747  </span></span>
+<span><span class="co">#&gt;  3rd Qu.:1.0000   3rd Qu.:1.0000   Max.nchar:    6   3rd Qu.:0.2100  </span></span>
+<span><span class="co">#&gt;  Max.   :1.0000   Max.   :1.0000                     Max.   :0.2799  </span></span>
+<span><span class="co">#&gt;    orig.term     orig.loan.amt      abs0.age      abs0.balance    </span></span>
+<span><span class="co">#&gt;  Min.   :72.00   Min.   : 3068   Min.   : 1.00   Min.   :  686.8  </span></span>
+<span><span class="co">#&gt;  1st Qu.:72.00   1st Qu.:13052   1st Qu.: 2.00   1st Qu.:12925.5  </span></span>
+<span><span class="co">#&gt;  Median :72.00   Median :16181   Median : 3.00   Median :16014.2  </span></span>
+<span><span class="co">#&gt;  Mean   :72.12   Mean   :17751   Mean   : 3.44   Mean   :17569.8  </span></span>
+<span><span class="co">#&gt;  3rd Qu.:72.00   3rd Qu.:21006   3rd Qu.: 4.00   3rd Qu.:20786.2  </span></span>
+<span><span class="co">#&gt;  Max.   :73.00   Max.   :71121   Max.   :18.00   Max.   :70139.2  </span></span>
+<span><span class="co">#&gt;     calc.pmt      </span></span>
+<span><span class="co">#&gt;  Min.   :  53.42  </span></span>
+<span><span class="co">#&gt;  1st Qu.: 287.85  </span></span>
+<span><span class="co">#&gt;  Median : 353.35  </span></span>
+<span><span class="co">#&gt;  Mean   : 381.20  </span></span>
+<span><span class="co">#&gt;  3rd Qu.: 446.38  </span></span>
+<span><span class="co">#&gt;  Max.   :1285.23</span></span></code></pre></div>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="license">

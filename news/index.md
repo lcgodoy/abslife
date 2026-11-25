@@ -1,5 +1,27 @@
 # Changelog
 
+## abslife 0.3.0
+
+- The logo has been updated
+
+- [`ralife()`](http://lcgodoy.me/abslife/reference/ralife.md) replaces
+  `ralife_cdf()` and `ralife_cif()`, which are removed.
+  [`ralife()`](http://lcgodoy.me/abslife/reference/ralife.md) is an S3
+  generic with methods for the outputs of
+  [`estimate_hazard()`](http://lcgodoy.me/abslife/reference/estimate_hazard.md),
+  [`calc_cdf()`](http://lcgodoy.me/abslife/reference/calc_cdf.md), and
+  [`calc_cif()`](http://lcgodoy.me/abslife/reference/calc_cif.md).
+
+- The function `lt_pmf` is dropped from the package.
+
+- New vignette for calculating APV and IRR over a whole portfolio in
+  parallel is included to the package.
+
+- The time consuming vignettes are now pre-built with the help of
+  [R.rsp](https://cran.r-project.org/web/packages/R.rsp/index.html).
+
+- “Under construction” removed from startup message.
+
 ## abslife 0.2.2
 
 - [`calculate_apv()`](http://lcgodoy.me/abslife/reference/calculate_apv.md)
