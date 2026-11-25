@@ -29,7 +29,8 @@ Suggests:
     testthat (>= 3.0.0),
     ggplot2,
     knitr,
-    rmarkdown
+    rmarkdown,
+    R.rsp
 Imports: rlang
 Config/testthat/edition: 3
 Encoding: UTF-8
@@ -39,5 +40,5 @@ Depends:
     graphics
 LazyData: true
 URL: http://lcgodoy.me/abslife/
-VignetteBuilder: knitr
+VignetteBuilder: knitr, R.rsp
 Config/roxygen2/version: 8.1.1

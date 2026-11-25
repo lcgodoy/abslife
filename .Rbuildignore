@@ -11,3 +11,4 @@ setup.R
 Makefile
 resources_new_functions
 R/old.R
+^vignettes-src$

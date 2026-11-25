@@ -6,3 +6,11 @@ template:
 navbar: 
   structure:
     right: [search, github]
+  components:
+    articles:
+      text: Articles
+      menu:
+      - text: Get Started
+        href: articles/get-started.html
+      - text: Actuarial Present Value and IRR Analysis (PDF)
+        href: articles/apv-analysis.pdf

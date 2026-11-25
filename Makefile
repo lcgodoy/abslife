@@ -4,7 +4,7 @@
 
 PKG_NAME=$(shell grep -i ^package DESCRIPTION | cut -d : -d \  -f 2)
 
-.PHONY: render_md build_site build install clean docs check check_cran
+.PHONY: render_md build_site build install clean docs check check_cran apv_pdf
 
 default: build
 
@@ -18,6 +18,14 @@ check_cran:
 
 render_readme:
 	Rscript -e "devtools::build_readme()"
+
+## Pre-builds the APV vignette PDF, which R.rsp::asis copies at build time,
+## and copies it to pkgdown/assets/ so that the pkgdown site serves the PDF.
+## load_all() makes the vignette use the source tree, not the installed abslife.
+apv_pdf:
+	Rscript -e "devtools::load_all(quiet = TRUE); rmarkdown::render('vignettes-src/apv-analysis.Rmd', output_dir = 'vignettes')"
+	mkdir -p pkgdown/assets/articles
+	cp vignettes/apv-analysis.pdf pkgdown/assets/articles/apv-analysis.pdf
 
 build_site:
 	Rscript -e "pkgdown::build_site()"

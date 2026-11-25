@@ -168,7 +168,7 @@ The relevant columns of the dataset for this example are the following:
 The two competing risks in this case are default and pre-payment. To make the
 results more interpretable, we create a descriptive event_type column.
 ```{r aloans_column}
-aloans <- transform(aloans, event_type = ifelse(D == 1, "Defaut", "Pre-payment"))
+aloans <- transform(aloans, event_type = ifelse(D == 1, "Default", "Pre-payment"))
 ```
 
 
